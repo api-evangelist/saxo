@@ -1,0 +1,77 @@
+name: Saxo Bank OpenAPI Plans
+description: >-
+  Saxo Bank OpenAPI access is provided through two environments: a free
+  simulation environment for development and testing, and a live production
+  environment requiring an approved application. Market data access beyond
+  default forex and bond streams requires separate licensing agreements.
+  Pricing for live API access and premium market data feeds is not publicly
+  disclosed and must be arranged directly with Saxo Bank.
+created: '2026-06-13'
+modified: '2026-06-13'
+
+plans:
+
+  - name: Simulation (SIM)
+    description: >-
+      Free development and testing environment with simulated trading
+      infrastructure. Developers can create a demo account immediately on the
+      developer portal, obtain a 24-hour access token, and begin building
+      against all OpenAPI service groups without production trading risk.
+      The SIM environment mirrors production capabilities but uses simulated
+      funds and positions.
+    url: https://www.developer.saxo/openapi/learn
+    isFree: true
+    sandbox: true
+    rateLimits:
+      - name: Application Daily Limit
+        value: 10000000
+        unit: requests/day
+      - name: Session Rate Limit
+        value: 120
+        unit: requests/minute
+      - name: Order Rate Limit
+        value: 1
+        unit: orders/second
+    features:
+      - All 17 OpenAPI service groups
+      - Full REST and WebSocket streaming access
+      - OAuth 2.0 authentication flows
+      - Simulated portfolio and order management
+      - Reference data access
+      - Market data (delayed)
+
+  - name: Live (Production)
+    description: >-
+      Full production environment connected to real trading infrastructure.
+      Access is granted through self-service application management on the
+      developer portal after account setup. Default market data includes
+      free-of-charge streaming prices for forex pairs and approximately
+      5,000 tradable bonds. Additional exchange data from venues such as
+      BATS Europe and BATS US requires a separate license agreement and
+      incurs market data fees. Institutional and white-label pricing is
+      available on request via Saxo Bank's sales team.
+    url: https://www.developer.saxo/openapi/learn
+    isFree: false
+    sandbox: false
+    rateLimits:
+      - name: Application Daily Limit
+        value: 10000000
+        unit: requests/day
+      - name: Session Rate Limit
+        value: 120
+        unit: requests/minute
+      - name: Order Rate Limit
+        value: 1
+        unit: orders/second
+    features:
+      - All 17 OpenAPI service groups
+      - Full REST and WebSocket streaming access
+      - Real-time forex and bond streaming prices (included)
+      - Premium exchange data (licensed separately)
+      - Live order placement and portfolio management
+      - FIX API access (institutional, on request)
+      - White-label and partner integration support
+    contact:
+      - FN: Saxo Bank OpenAPI Support
+        email: openapisupport@saxobank.com
+        url: https://openapi.help.saxo/hc/en-us

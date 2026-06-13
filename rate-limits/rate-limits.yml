@@ -1,0 +1,87 @@
+name: Saxo Bank OpenAPI Rate Limits
+description: >-
+  The Saxo Bank OpenAPI enforces three independent rate limit tiers:
+  application-level daily quota, session-level per-minute quota, and
+  a per-session order rate. Exceeding any limit returns HTTP 429. The API
+  also rejects duplicate order operations within a 15-second rolling window
+  with HTTP 409 unless each request carries a unique x-request-id header.
+  Batch requests count individually against all quotas.
+created: '2026-06-13'
+modified: '2026-06-13'
+url: https://www.developer.saxo/openapi/learn/rate-limiting
+
+limits:
+
+  - name: Application Daily Limit
+    description: >-
+      Maximum total number of requests per registered application across all
+      users and sessions within a calendar day.
+    header: X-RateLimit-AppDay-Limit
+    value: 10000000
+    unit: requests/day
+    scope: application
+    resetWindow: daily
+
+  - name: Session Rate Limit
+    description: >-
+      Maximum number of requests per active session per service group within
+      a rolling one-minute window. Applies independently to each service
+      group (e.g. Trading, Portfolio, Reference Data).
+    header: X-RateLimit-Session-Limit
+    value: 120
+    unit: requests/minute
+    scope: session
+    resetWindow: rolling-60s
+
+  - name: Session Orders Limit
+    description: >-
+      Maximum number of order placement operations per session per second.
+      Applies to POST and PATCH requests to order endpoints.
+    header: X-RateLimit-SessionOrders-Limit
+    value: 1
+    unit: orders/second
+    scope: session
+
+responseHeaders:
+  - name: X-RateLimit-AppDay-Limit
+    description: Total allowed application-level requests for the day.
+  - name: X-RateLimit-AppDay-Remaining
+    description: Remaining application-level requests in the current day window.
+  - name: X-RateLimit-AppDay-Reset
+    description: Seconds until the application-level daily quota resets.
+  - name: X-RateLimit-Session-Limit
+    description: Total allowed requests for the current session per service group.
+  - name: X-RateLimit-Session-Remaining
+    description: Remaining requests for the current session in the rolling window.
+  - name: X-RateLimit-Session-Reset
+    description: Seconds until the session-level quota refreshes.
+  - name: X-RateLimit-SessionOrders-Limit
+    description: Total allowed order operations per second for the session.
+  - name: X-RateLimit-SessionOrders-Remaining
+    description: Remaining order operations in the current second window.
+  - name: X-RateLimit-SessionOrders-Reset
+    description: Seconds until the order rate limit window resets.
+
+errorCodes:
+  - code: 429
+    description: >-
+      Too Many Requests. Returned when any rate limit threshold is exceeded.
+      Clients should back off and retry after the Reset period indicated
+      in the corresponding response header.
+  - code: 409
+    description: >-
+      Conflict. Returned when an identical POST or PATCH request to an order
+      endpoint is detected within a 15-second rolling window. To bypass
+      duplicate detection, include a unique x-request-id header on each
+      request.
+  - code: 403
+    description: >-
+      Forbidden. May be returned by Akamai network security before the request
+      reaches OpenAPI servers when the originating IP address has a low
+      reputation score. Affects shared or datacenter IP ranges more severely
+      than dedicated IPs.
+
+notes:
+  - Batch requests count as N+1 individual requests (one per item plus the batch envelope).
+  - Rate limits apply independently per service group at the session level.
+  - The duplicate-order 15-second window applies to POST and PATCH methods on trading endpoints only.

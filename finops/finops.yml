@@ -1,0 +1,96 @@
+name: Saxo Bank OpenAPI FinOps
+description: >-
+  Financial operations considerations for teams integrating with the Saxo Bank
+  OpenAPI. The REST API itself has no publicly listed per-call or subscription
+  fees; however, market data licensing, exchange fees, and trading commissions
+  are significant cost drivers that must be budgeted separately. All live
+  commercial terms require direct engagement with Saxo Bank.
+created: '2026-06-13'
+modified: '2026-06-13'
+
+costDrivers:
+
+  - name: API Access — Simulation
+    description: >-
+      The SIM (demo) environment is free. Developers can build and test
+      integrations at no cost using simulated accounts and delayed market data.
+    cost: 0
+    currency: USD
+    unit: free
+    tier: simulation
+
+  - name: API Access — Live Production
+    description: >-
+      Live production API access requires an approved application registered on
+      the developer portal. Pricing is not publicly disclosed. Institutional
+      and white-label partners should contact Saxo Bank's sales team for
+      commercial terms.
+    cost: contact
+    currency: USD
+    unit: negotiated
+    tier: production
+    contact: openapisupport@saxobank.com
+
+  - name: Default Market Data — Forex and Bonds
+    description: >-
+      Streaming real-time prices for all forex pairs and approximately 5,000
+      tradable bonds are included at no additional charge with live API access.
+    cost: 0
+    currency: USD
+    unit: included
+    tier: production
+
+  - name: Premium Market Data — BATS Europe
+    description: >-
+      Real-time equity and ETF data from BATS Europe (Cboe Europe) requires a
+      separate license agreement between the developer/firm and Saxo Bank.
+      Market data fees apply and are passed through from exchange agreements.
+    cost: contact
+    currency: USD
+    unit: licensed
+    tier: production
+    contact: openapisupport@saxobank.com
+
+  - name: Premium Market Data — BATS US
+    description: >-
+      Real-time US equity data from BATS US requires a separate license
+      agreement and associated market data fees payable per the exchange
+      redistribution terms.
+    cost: contact
+    currency: USD
+    unit: licensed
+    tier: production
+    contact: openapisupport@saxobank.com
+
+  - name: FIX API — Institutional
+    description: >-
+      The FIX Trading API for institutional clients with high-volume or
+      algorithmic trading needs is priced separately. Contact Saxo Bank
+      institutional sales for terms.
+    cost: contact
+    currency: USD
+    unit: negotiated
+    tier: institutional
+    contact: https://www.home.saxo/platforms/api
+
+recommendations:
+  - Use the SIM environment during all development and QA cycles to avoid
+    incurring any real trading costs or market data fees.
+  - Scope market data requirements early; forex and bond streams are included
+    but equity exchange data adds licensing overhead.
+  - Batch API requests where possible to stay within the 10M/day application
+    quota and minimise session-level pressure.
+  - Monitor X-RateLimit-* response headers in production to detect quota
+    pressure before hitting HTTP 429 throttling.
+  - Request a dedicated IP address or range for production integrations to
+    avoid Akamai IP-reputation-based HTTP 403 blocks common on shared hosts.
+
+urls:
+  - label: Developer Portal
+    url: https://www.developer.saxo/openapi/learn
+  - label: Rate Limiting Documentation
+    url: https://www.developer.saxo/openapi/learn/rate-limiting
+  - label: API Platform Overview
+    url: https://www.home.saxo/platforms/api
+  - label: OpenAPI Support Centre
+    url: https://openapi.help.saxo/hc/en-us
