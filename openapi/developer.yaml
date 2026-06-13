@@ -1,0 +1,2102 @@
+openapi: 3.0.1
+info:
+  title: Services.Developer
+  description: 'Developer provide end points related to apps.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''> <strong>NOTE: </strong> This is an early developer preview. At this point, all data may not be correct, complete or available in the live environment.</div>'
+  version: 1.1.124+9dcc268efa
+  x-framework-version: 43.0.9+b005aba300
+  x-machine: SIMOAWEB11-DK1
+servers:
+  - url: https://gateway.saxobank.com/sim/openapi
+paths:
+  '/developer/apps/resource/{AppKey}':
+    get:
+      tags:
+        - Apps
+      description: Returns requested resource by appKey
+      operationId: DeveloperAppGetResourceByAppKey
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 75767c64-1452-4fcf-b858-958c1e33678d
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppResourceDto'
+              example:
+                AppKey: stringValue
+                Branding:
+                  - Description: stringValue
+                    Id: 99
+                    Name: stringValue
+                CreatedBy:
+                  Name: stringValue
+                  UserKey: stringValue
+                Description: stringValue
+                Endpoints:
+                  AuthorizationEndpoint: stringValue
+                  TokenEndpoint: stringValue
+                Flow: stringValue
+                IsActive: false
+                IsTradingEnabled: true
+                Name: stringValue
+                RedirectUris:
+                  - Branding:
+                      Description: stringValue
+                      Id: 99
+                      Name: stringValue
+                    Description: stringValue
+                    RedirectUriId: 99
+                    Uri: stringValue
+                Secrets:
+                  - Secret: stringValue
+                    SecretId: 99
+                    ValidFrom: '0001-01-01T00:00:00Z'
+                    ValidUntil: '0001-01-01T00:00:00Z'
+                Status: Requested
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Read
+  '/developer/apps/{AppKey}':
+    get:
+      tags:
+        - Apps
+      summary: Get app by appKey
+      description: Returns requested app by appKey
+      operationId: DeveloperAppGetAppByAppKey
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 76caa3a4-5eb5-45d3-88cf-bb74847a1d0e
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppResourceDto'
+              example:
+                AppKey: stringValue
+                Branding:
+                  - Description: stringValue
+                    Id: 99
+                    Name: stringValue
+                CreatedBy:
+                  Name: stringValue
+                  UserKey: stringValue
+                Description: stringValue
+                Endpoints:
+                  AuthorizationEndpoint: stringValue
+                  TokenEndpoint: stringValue
+                Flow: stringValue
+                IsActive: false
+                IsTradingEnabled: true
+                Name: stringValue
+                RedirectUris:
+                  - Branding:
+                      Description: stringValue
+                      Id: 99
+                      Name: stringValue
+                    Description: stringValue
+                    RedirectUriId: 99
+                    Uri: stringValue
+                Secrets:
+                  - Secret: stringValue
+                    SecretId: 99
+                    ValidFrom: '0001-01-01T00:00:00Z'
+                    ValidUntil: '0001-01-01T00:00:00Z'
+                Status: Requested
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Read
+    delete:
+      tags:
+        - Apps
+      summary: Deletes an app
+      description: Deactivate an existing application
+      operationId: DeveloperAppDeactivateApp
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Write
+    patch:
+      tags:
+        - Apps
+      summary: Updates an app
+      description: "Updates an existing application\n            Inactive app cannot be updated\n            App can be updated if (1) app is active or (2) user requests to activate the app and app can be made active"
+      operationId: DeveloperAppUpdateApp
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppUpdateRequest'
+            example:
+              Description: some description
+              Name: App Name1
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - UnableToActivateApp
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      UnableToActivateApp: Unable to activate an app
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Write
+  /developer/apps:
+    get:
+      tags:
+        - Apps
+      description: Gets the apps owned by the client of the user
+      operationId: DeveloperAppGetApps
+      parameters:
+        - name: $inlinecount
+          in: query
+          description: Specifies that the response to the request should include a count of the number of entries in the collection
+          style: form
+          explode: false
+          schema:
+            enum:
+              - AllPages
+              - None
+            type: string
+            x-enum-descriptions:
+              None: The result will not contain an inline count
+              AllPages: The result will contain a total count of items in the queried collection
+          example: AllPages
+        - name: $skip
+          in: query
+          description: The number of entries to skip from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+          example: 1
+        - name: $top
+          in: query
+          description: The number of entries to return from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+            default: 20
+          example: 1
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppDtoListResult'
+              example:
+                Data:
+                  - AppKey: stringValue
+                    Brandings:
+                      - Description: stringValue
+                        Id: 99
+                        Name: stringValue
+                    CreatedBy:
+                      Name: stringValue
+                      UserKey: stringValue
+                    Description: stringValue
+                    Endpoints:
+                      AuthorizationEndpoint: stringValue
+                      TokenEndpoint: stringValue
+                    Flow: stringValue
+                    IsActive: true
+                    IsTradingEnabled: false
+                    ManualOrderIndicationDefault: stringValue
+                    ManualOrderIndicator: stringValue
+                    Name: stringValue
+                    Status: Approved
+                MaxRows: 99
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Read
+    post:
+      tags:
+        - Apps
+      description: Create a app
+      operationId: DeveloperAppCreateApp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppCreationRequest'
+            example:
+              Description: New App Description
+              Flow: Code
+              IsTradingEnabled: true
+              Name: New App Name
+              RedirectUri: http://my.domain/myApp
+      responses:
+        '201':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppDto'
+              example:
+                AppKey: stringValue
+                Brandings:
+                  - Description: stringValue
+                    Id: 99
+                    Name: stringValue
+                CreatedBy:
+                  Name: stringValue
+                  UserKey: stringValue
+                Description: stringValue
+                Endpoints:
+                  AuthorizationEndpoint: stringValue
+                  TokenEndpoint: stringValue
+                Flow: stringValue
+                IsActive: true
+                IsTradingEnabled: false
+                ManualOrderIndicationDefault: stringValue
+                ManualOrderIndicator: stringValue
+                Name: stringValue
+                Status: Requested
+        '400':
+          description: Indicates that the request is not correct.
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        confidential: Write
+  /developer/featureflags:
+    get:
+      tags:
+        - Feature Flags
+      description: Get all feature flags
+      operationId: FeatureFlagsGetFlags
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StringBooleanKeyValuePair'
+                example:
+                  stringValue: false
+              example:
+                stringValue: false
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  '/developer/apps/{AppKey}/redirecturis/{RedirectUriId}':
+    get:
+      tags:
+        - Apps
+      description: Gets a redirect uri by id
+      operationId: DeveloperRedirectGetRedirectUriFromId
+      parameters:
+        - name: $inlinecount
+          in: query
+          description: Specifies that the response to the request should include a count of the number of entries in the collection
+          style: form
+          explode: false
+          schema:
+            enum:
+              - AllPages
+              - None
+            type: string
+            x-enum-descriptions:
+              None: The result will not contain an inline count
+              AllPages: The result will contain a total count of items in the queried collection
+          example: AllPages
+        - name: $skip
+          in: query
+          description: The number of entries to skip from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+          example: 1
+        - name: $skiptoken
+          in: query
+          description: Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks.
+          style: form
+          explode: false
+          schema:
+            type: string
+          example: B17D8890-3C7A-4A47-A9AA-01B022ED03A5
+        - name: $top
+          in: query
+          description: The number of entries to return from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+            default: 0
+          example: 1
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+        - name: RedirectUriId
+          in: path
+          description: Unique key for each app redirect uri
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppRedirectDto'
+              example:
+                Branding:
+                  Description: stringValue
+                  Id: 99
+                  Name: stringValue
+                Description: stringValue
+                RedirectUriId: 99
+                Uri: stringValue
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NoResultFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoResultFound: Record cannot be found based on input crieterias
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    delete:
+      tags:
+        - Apps
+      description: Deletes a redirect uri
+      operationId: DeveloperRedirectDeleteRedirectUri
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+        - name: RedirectUriId
+          in: path
+          description: Unique key for each app redirect uri
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      responses:
+        '204':
+          description: Indicates that the delete request was performed correctly.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NoResultFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoResultFound: Record cannot be found based on input crieterias
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    patch:
+      tags:
+        - Apps
+      description: Updates a redirect uri
+      operationId: DeveloperRedirectUpdateRedirectUri
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+        - name: RedirectUriId
+          in: path
+          description: Unique key for each redirect uri
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedirectUriUpdateRequest'
+            example:
+              Description: some description
+              Uri: http://mycompany.com/myapp
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppRedirectDto'
+              example:
+                Branding:
+                  Description: stringValue
+                  Id: 99
+                  Name: stringValue
+                Description: stringValue
+                RedirectUriId: 99
+                Uri: stringValue
+        '200':
+          description: Indicates that the request was performed correctly.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NoResultFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoResultFound: Record cannot be found based on input crieterias
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+  '/developer/apps/{AppKey}/redirecturis':
+    get:
+      tags:
+        - Apps
+      description: Gets redirect uris for a given app
+      operationId: DeveloperRedirectGetRedirectUris
+      parameters:
+        - name: $inlinecount
+          in: query
+          description: Specifies that the response to the request should include a count of the number of entries in the collection
+          style: form
+          explode: false
+          schema:
+            enum:
+              - AllPages
+              - None
+            type: string
+            x-enum-descriptions:
+              None: The result will not contain an inline count
+              AllPages: The result will contain a total count of items in the queried collection
+          example: AllPages
+        - name: $skip
+          in: query
+          description: The number of entries to skip from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+          example: 1
+        - name: $top
+          in: query
+          description: The number of entries to return from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            maximum: 1000
+            minimum: 0
+            type: integer
+            format: int32
+            default: 20
+          example: 1
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppRedirectDtoListResult'
+              example:
+                Data:
+                  - Branding:
+                      Description: stringValue
+                      Id: 99
+                      Name: stringValue
+                    Description: stringValue
+                    RedirectUriId: 99
+                    Uri: stringValue
+                MaxRows: 99
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NoResultFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoResultFound: Record cannot be found based on input crieterias
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    post:
+      tags:
+        - Apps
+      description: Creates a redirect uri
+      operationId: DeveloperRedirectCreateRedirectUri
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: f0232f57-9d4a-40a7-adeb-82d347536d35
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppRedirectUriCreationRequest'
+            example:
+              Description: New App Description
+              Uri: http://my.com/myapp
+      responses:
+        '201':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppRedirectUriResponse'
+              example:
+                Data:
+                  Branding:
+                    Description: stringValue
+                    Id: 99
+                    Name: stringValue
+                  Description: stringValue
+                  RedirectUriId: 99
+                  Uri: stringValue
+                FoundAndUpdated: false
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+  '/developer/apps/{AppKey}/secrets/{SecretId}':
+    get:
+      tags:
+        - Apps
+      description: Gets a secret by id
+      operationId: DeveloperSecretGetSecretById
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 49beae3b-211c-4cec-bf28-a0673436779b
+        - name: SecretId
+          in: path
+          description: Unique key for each secret
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 240
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: Indicates that the get request was performed correctly.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyUserId: Not able to identify user id
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - UnavailableSecretId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      UnavailableSecretId: Could not find any app secret with the provided Id.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    delete:
+      tags:
+        - Apps
+      description: Deletes a secret
+      operationId: DeveloperSecretDeleteSecret
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: ac8302f7-5fb8-495d-97d6-f1f8f6ec6c0f
+        - name: SecretId
+          in: path
+          description: Unique key for each secret
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 99
+      responses:
+        '204':
+          description: Indicates that the delete request was performed correctly.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NoResultFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoResultFound: Record cannot be found based on input crieterias
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    patch:
+      tags:
+        - Apps
+      description: Update an app secret
+      operationId: DeveloperSecretUpdateSecret
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 49beae3b-211c-4cec-bf28-a0673436779b
+        - name: SecretId
+          in: path
+          description: Unique key for each secret
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+          example: 240
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecretUpdateRequest'
+            example:
+              Regenerate: false
+              ValidFrom: '2019-06-20T07:27:42Z'
+              ValidUntil: '2021-06-20T07:27:42Z'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecretDto'
+              example:
+                Secret: stringValue
+                SecretId: 99
+                ValidFrom: '0001-01-01T00:00:00Z'
+                ValidUntil: '0001-01-01T00:00:00Z'
+        '200':
+          description: Indicates that the request was performed correctly.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+  '/developer/apps/{AppKey}/secrets':
+    get:
+      tags:
+        - Apps
+      description: Gets secrets for a given app
+      operationId: DeveloperSecretGetSecrets
+      parameters:
+        - name: $inlinecount
+          in: query
+          description: Specifies that the response to the request should include a count of the number of entries in the collection
+          style: form
+          explode: false
+          schema:
+            enum:
+              - AllPages
+              - None
+            type: string
+            x-enum-descriptions:
+              None: The result will not contain an inline count
+              AllPages: The result will contain a total count of items in the queried collection
+          example: AllPages
+        - name: $skip
+          in: query
+          description: The number of entries to skip from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+          example: 1
+        - name: $top
+          in: query
+          description: The number of entries to return from the beginning of the collection
+          style: form
+          explode: false
+          schema:
+            maximum: 1000
+            minimum: 0
+            type: integer
+            format: int32
+            default: 20
+          example: 1
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: 50fb26e9b4bc4e7ba78dc19f46bc84bf
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecretDtoListResult'
+              example:
+                Data:
+                  - Secret: stringValue
+                    SecretId: 99
+                    ValidFrom: '0001-01-01T00:00:00Z'
+                    ValidUntil: '0001-01-01T00:00:00Z'
+                MaxRows: 99
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - UnavailableAppKey
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      UnavailableAppKey: Could not find any app secret with the provided appKey.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+    post:
+      tags:
+        - Apps
+      description: Create an app secret
+      operationId: DeveloperSecretCreateSecret
+      parameters:
+        - name: AppKey
+          in: path
+          description: Unique key for each application
+          required: true
+          style: simple
+          schema:
+            type: string
+          example: fad18b00-c651-4bb4-ace6-5028f26f6b12
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecretCreationRequest'
+            example:
+              ValidFrom: '2019-06-20T07:27:42Z'
+              ValidUntil: '2021-06-20T07:27:42Z'
+      responses:
+        '201':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecretDto'
+              example:
+                Secret: stringValue
+                SecretId: 99
+                ValidFrom: '0001-01-01T00:00:00Z'
+                ValidUntil: '0001-01-01T00:00:00Z'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - NotAbleToIdentifyClientInfo
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotAbleToIdentifyClientInfo: Not able to identify required client info
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+components:
+  schemas:
+    AppCreationRequest:
+      title: Application create request parameters
+      required:
+        - Name
+        - Description
+        - Flow
+      type: object
+      properties:
+        Description:
+          title: App Description
+          type: string
+          example: stringValue
+        Flow:
+          title: App Grant Type
+          type: string
+          example: stringValue
+        IsTradingEnabled:
+          title: 'Enable trading capability for OAuth2App, default is false. Optional field.'
+          type: boolean
+          example: false
+        Name:
+          title: App Name
+          pattern: '[a-zA-Z0-9\@\-\]\[\''\!\ ]+$'
+          type: string
+          example: stringValue
+        RedirectUri:
+          title: Optional input param to specify redirect uri during app creation
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: New App Description
+        Flow: Code
+        IsTradingEnabled: true
+        Name: New App Name
+        RedirectUri: http://my.domain/myApp
+    AppDto:
+      title: Represents an app as mapped from fields in the database
+      type: object
+      properties:
+        AppKey:
+          title: Unique app key - exposed to end users
+          type: string
+          example: stringValue
+        Brandings:
+          title: Service providers
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandingDto'
+          example:
+            - Description: stringValue
+              Id: 99
+              Name: stringValue
+        CreatedBy:
+          title: Created by user reference default
+          allOf:
+            - $ref: '#/components/schemas/UserDto'
+        Description:
+          title: Description
+          type: string
+          example: stringValue
+        Endpoints:
+          title: Endpoint list for OAuth app
+          allOf:
+            - $ref: '#/components/schemas/EndpointDto'
+        Flow:
+          title: SSO Authentication flow
+          type: string
+          example: stringValue
+        IsActive:
+          title: App is active
+          type: boolean
+          example: false
+        IsTradingEnabled:
+          title: Derived field from 'OnlineAuthzLevels' and 'OfflineAuthzLevels'
+          type: boolean
+          example: false
+        ManualOrderIndicationDefault:
+          title: Manual order indication default
+          type: string
+          example: stringValue
+        ManualOrderIndicator:
+          title: Manual order indication default
+          type: string
+          example: stringValue
+        Name:
+          title: The name of the app
+          type: string
+          example: stringValue
+        Status:
+          title: App status
+          allOf:
+            - $ref: '#/components/schemas/AppStatus'
+      additionalProperties: false
+      example:
+        AppKey: stringValue
+        Brandings:
+          - Description: stringValue
+            Id: 99
+            Name: stringValue
+        CreatedBy:
+          Name: stringValue
+          UserKey: stringValue
+        Description: stringValue
+        Endpoints:
+          AuthorizationEndpoint: stringValue
+          TokenEndpoint: stringValue
+        Flow: stringValue
+        IsActive: true
+        IsTradingEnabled: false
+        ManualOrderIndicationDefault: stringValue
+        ManualOrderIndicator: stringValue
+        Name: stringValue
+        Status: Requested
+    AppDtoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppDto'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+          - AppKey: stringValue
+            Brandings:
+              - Description: stringValue
+                Id: 99
+                Name: stringValue
+            CreatedBy:
+              Name: stringValue
+              UserKey: stringValue
+            Description: stringValue
+            Endpoints:
+              AuthorizationEndpoint: stringValue
+              TokenEndpoint: stringValue
+            Flow: stringValue
+            IsActive: true
+            IsTradingEnabled: false
+            ManualOrderIndicationDefault: stringValue
+            ManualOrderIndicator: stringValue
+            Name: stringValue
+            Status: Approved
+        MaxRows: 99
+    AppRedirectDto:
+      title: App redirect data transfer object
+      type: object
+      properties:
+        Branding:
+          title: Service Provider
+          allOf:
+            - $ref: '#/components/schemas/BrandingDto'
+        Description:
+          title: Description of OAuth app
+          type: string
+          example: stringValue
+        RedirectUriId:
+          title: Redirect Uri Id
+          type: integer
+          format: int32
+          example: 99
+        Uri:
+          title: Redirect Uri of OAuth app
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Branding:
+          Description: stringValue
+          Id: 99
+          Name: stringValue
+        Description: stringValue
+        RedirectUriId: 99
+        Uri: stringValue
+    AppRedirectDtoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppRedirectDto'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+          - Branding:
+              Description: stringValue
+              Id: 99
+              Name: stringValue
+            Description: stringValue
+            RedirectUriId: 99
+            Uri: stringValue
+        MaxRows: 99
+    AppRedirectUriCreationRequest:
+      title: Redirect Uri create request parameters
+      required:
+        - Uri
+      type: object
+      properties:
+        BrandingId:
+          title: App branding id
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: App description
+          type: string
+          example: stringValue
+        Uri:
+          title: App redirect uri
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: New App Description
+        Uri: http://my.com/myapp
+    AppRedirectUriResponse:
+      title: New redirectUri creation response
+      type: object
+      properties:
+        Data:
+          title: The app data
+          allOf:
+            - $ref: '#/components/schemas/AppRedirectDto'
+        FoundAndUpdated:
+          title: Was the redirect uri found and was some properties updated
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        Data:
+          Branding:
+            Description: stringValue
+            Id: 99
+            Name: stringValue
+          Description: stringValue
+          RedirectUriId: 99
+          Uri: stringValue
+        FoundAndUpdated: false
+    AppResourceDto:
+      title: App resource
+      type: object
+      properties:
+        AppKey:
+          title: Unique app key - exposed to end users
+          type: string
+          example: stringValue
+        Branding:
+          title: Branding info
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandingDto'
+          example:
+            - Description: stringValue
+              Id: 99
+              Name: stringValue
+        CreatedBy:
+          title: Created by user hash key and name
+          allOf:
+            - $ref: '#/components/schemas/UserDto'
+        Description:
+          title: Description
+          type: string
+          example: stringValue
+        Endpoints:
+          title: Endpoints
+          allOf:
+            - $ref: '#/components/schemas/EndpointDto'
+        Flow:
+          title: SSO Authentication flow
+          type: string
+          example: stringValue
+        IsActive:
+          title: Is app active
+          type: boolean
+          example: false
+        IsTradingEnabled:
+          title: Derived field from 'OnlineAuthzLevels' and 'OfflineAuthzLevels'
+          type: boolean
+          example: false
+        Name:
+          title: The name of the app
+          type: string
+          example: stringValue
+        RedirectUris:
+          title: Redirect uris
+          type: array
+          items:
+            $ref: '#/components/schemas/AppRedirectDto'
+          example:
+            - Branding:
+                Description: stringValue
+                Id: 99
+                Name: stringValue
+              Description: stringValue
+              RedirectUriId: 99
+              Uri: stringValue
+        Secrets:
+          title: Secrets
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSecretDto'
+          example:
+            - Secret: stringValue
+              SecretId: 99
+              ValidFrom: '0001-01-01T00:00:00Z'
+              ValidUntil: '0001-01-01T00:00:00Z'
+        Status:
+          title: 'App status, OK or Pending'
+          allOf:
+            - $ref: '#/components/schemas/AppStatus'
+      additionalProperties: false
+      example:
+        AppKey: stringValue
+        Branding:
+          - Description: stringValue
+            Id: 99
+            Name: stringValue
+        CreatedBy:
+          Name: stringValue
+          UserKey: stringValue
+        Description: stringValue
+        Endpoints:
+          AuthorizationEndpoint: stringValue
+          TokenEndpoint: stringValue
+        Flow: stringValue
+        IsActive: false
+        IsTradingEnabled: true
+        Name: stringValue
+        RedirectUris:
+          - Branding:
+              Description: stringValue
+              Id: 99
+              Name: stringValue
+            Description: stringValue
+            RedirectUriId: 99
+            Uri: stringValue
+        Secrets:
+          - Secret: stringValue
+            SecretId: 99
+            ValidFrom: '0001-01-01T00:00:00Z'
+            ValidUntil: '0001-01-01T00:00:00Z'
+        Status: Requested
+    AppSecretDto:
+      title: App secret data transfer object
+      type: object
+      properties:
+        Secret:
+          title: Add secret
+          type: string
+          example: stringValue
+        SecretId:
+          title: Add secret id
+          type: integer
+          format: int32
+          example: 99
+        ValidFrom:
+          title: Add valid date from
+          type: string
+          example: stringValue
+        ValidUntil:
+          title: Add valid date until
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Secret: stringValue
+        SecretId: 99
+        ValidFrom: '0001-01-01T00:00:00Z'
+        ValidUntil: '0001-01-01T00:00:00Z'
+    AppSecretDtoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSecretDto'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+          - Secret: stringValue
+            SecretId: 99
+            ValidFrom: '0001-01-01T00:00:00Z'
+            ValidUntil: '0001-01-01T00:00:00Z'
+        MaxRows: 99
+    AppStatus:
+      title: Enum class representing OAuth app status
+      enum:
+        - Approved
+        - PendingUserApprovalCheck
+        - Rejected
+        - Requestable
+        - Requested
+      type: string
+      example: Rejected
+      x-enum-descriptions:
+        Approved: Active status
+        PendingUserApprovalCheck: 'Inactive status, pending user approval status check'
+        Requestable: 'Inactive status, access requestable'
+        Requested: 'Inactive status, access request submitted'
+        Rejected: 'Inactive status, access request rejected'
+    AppUpdateRequest:
+      title: Update app request
+      type: object
+      properties:
+        Description:
+          title: App description
+          type: string
+          example: stringValue
+        Name:
+          title: App name
+          pattern: '[a-zA-Z0-9\@\-\]\[\''\!\ ]+$'
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: some description
+        Name: App Name1
+    BrandingDto:
+      title: Branding details
+      type: object
+      properties:
+        Description:
+          title: Service Provider Description
+          type: string
+          example: stringValue
+        Id:
+          title: Id
+          type: integer
+          format: int32
+          example: 99
+        Name:
+          title: Service Provider Name
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: stringValue
+        Id: 99
+        Name: stringValue
+    EndpointDto:
+      title: Represents endpoints associated with OAuth application
+      type: object
+      properties:
+        AuthorizationEndpoint:
+          title: 'SSO auth endpoint, e.g. https://idp.blue.sso.sys.dom/authorize'
+          type: string
+          example: stringValue
+        TokenEndpoint:
+          title: 'SSO token endpoint, e.g. https://idp.blue.sso.sys.dom/token'
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AuthorizationEndpoint: stringValue
+        TokenEndpoint: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    RedirectUriUpdateRequest:
+      title: The request to update redirect uri
+      type: object
+      properties:
+        BrandingId:
+          title: Branding id
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: Description is mapped to Label field
+          type: string
+          example: stringValue
+        Uri:
+          title: Redirect uri
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: some description
+        Uri: http://mycompany.com/myapp
+    SecretCreationRequest:
+      title: Create secret contract
+      required:
+        - ValidFrom
+        - ValidUntil
+      type: object
+      properties:
+        ValidFrom:
+          title: Secret valid from date
+          type: string
+          example: stringValue
+        ValidUntil:
+          title: Secret valid until date
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ValidFrom: '2019-06-20T07:27:42Z'
+        ValidUntil: '2021-06-20T07:27:42Z'
+    SecretUpdateRequest:
+      title: 'Request to update app secret, ValidFrom or ValidUntil is required.'
+      type: object
+      properties:
+        Regenerate:
+          title: Regenerate secret or not
+          type: boolean
+          example: false
+        ValidFrom:
+          title: Secret valid from date
+          type: string
+          example: stringValue
+        ValidUntil:
+          title: Secret valid until date
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Regenerate: false
+        ValidFrom: '2019-06-20T07:27:42Z'
+        ValidUntil: '2021-06-20T07:27:42Z'
+    StringBooleanKeyValuePair:
+      type: object
+      properties:
+        Key:
+          type: string
+          example: stringValue
+        Value:
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        Key: stringValue
+        Value: false
+    UserDto:
+      title: The user data transfer object
+      type: object
+      properties:
+        Name:
+          title: Name
+          type: string
+          example: stringValue
+        UserKey:
+          title: User key
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Name: stringValue
+        UserKey: stringValue
+  responses:
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+              - ErrorCode
+              - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                  - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: { }
+tags:
+  - name: Apps
+    description: Provides OAuth app secrets related endpoints
+  - name: Feature Flags
+    description: Provide feature flags related endpoints.
