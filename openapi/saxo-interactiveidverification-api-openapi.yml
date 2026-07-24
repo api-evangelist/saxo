@@ -1,0 +1,357 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values InteractiveIdVerification API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: InteractiveIdVerification
+  description: InteractiveIdVerificationV1Controller
+paths:
+  /partnerintegration/v1/InteractiveIdVerification/trustdock/complete:
+    post:
+      tags:
+      - InteractiveIdVerification
+      description: Webhook to get response from TrustDock after verification completed.
+      operationId: InteractiveIdVerificationV1TrustDockInteractiveVerificationComplete
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /partnerintegration/v1/InteractiveIdVerification/myinfo/ib/complete:
+    get:
+      tags:
+      - InteractiveIdVerification
+      description: MyInfo redirect endpoint to update verification status. MyInfo redirects on this endpoint once the interactive verification is complete.
+      operationId: InteractiveIdVerificationV1MyInfoInteractiveVerificationComplete
+      parameters:
+      - name: Code
+        in: query
+        description: Verification code that will be used to fetch result from MyInfo
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: string
+      - name: State
+        in: query
+        description: State returned by MyInfo. It is the same state which was sent in the start verification request to MyInfo
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /partnerintegration/v1/InteractiveIdVerification/verify/{Method}:
+    get:
+      tags:
+      - InteractiveIdVerification
+      description: "Redirect endpoint to update verification status, signcat redirects on this endpoint once Oidc interactive verification get completed.\n            This will be used for verification via MITID"
+      operationId: InteractiveIdVerificationV1VerifyInteractiveVerificationOidc
+      parameters:
+      - name: Code
+        in: query
+        description: "This is OIDC authorisation code send after verification is completed. \n            This will be used to get auth token to fetch client information"
+        style: form
+        explode: false
+        schema:
+          title: "This is OIDC authorisation code send after verification is completed. \n            This will be used to get auth token to fetch client information"
+          type: string
+        example: stringValue
+      - name: Error
+        in: query
+        description: Error code returned from Signicat
+        style: form
+        explode: false
+        schema:
+          title: Error code returned from Signicat
+          type: string
+        example: stringValue
+      - name: Error_Description
+        in: query
+        description: Error description returned from Signicat
+        style: form
+        explode: false
+        schema:
+          title: Error description returned from Signicat
+          type: string
+        example: stringValue
+      - name: Method
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: State
+        in: query
+        description: "State sent in redirect URL. \n            This will be used to validate authenticity of redirecton"
+        style: form
+        explode: false
+        schema:
+          title: "State sent in redirect URL. \n            This will be used to validate authenticity of redirecton"
+          type: string
+        example: stringValue
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /partnerintegration/v1/InteractiveIdVerification/secureme/verification:
+    post:
+      tags:
+      - InteractiveIdVerification
+      description: Webhook to update verification status, it will get called by secureMe once interactive poi-verification get completed.
+      operationId: InteractiveIdVerificationV1SecureMeInteractiveVerificationComplete
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /partnerintegration/v1/InteractiveIdVerification/verify/{Correlationid}:
+    post:
+      tags:
+      - InteractiveIdVerification
+      description: Callback endpoint to update verification status, signcat redirects on this endpoint once interactive verification get completed.
+      operationId: InteractiveIdVerificationV1VerifyInteractiveVerification
+      parameters:
+      - name: Correlationid
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/StringStringKeyValuePair'
+              example:
+              - Key: stringValue
+                Value: stringValue
+            example:
+            - Key: stringValue
+              Value: stringValue
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /partnerintegration/v1/InteractiveIdVerification/idnow/complete:
+    post:
+      tags:
+      - InteractiveIdVerification
+      description: Webhook to update verification status, it will get called by IdNow once interactive id-verification get completed.
+      operationId: InteractiveIdVerificationV1IdNowInteractiveVerificationComplete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Object'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Object:
+      type: object
+      additionalProperties: false
+    StringStringKeyValuePair:
+      type: object
+      properties:
+        Key:
+          type: string
+          example: stringValue
+        Value:
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Key: stringValue
+        Value: stringValue
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

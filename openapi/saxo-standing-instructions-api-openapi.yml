@@ -1,0 +1,640 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Standing Instructions API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Standing Instructions
+  description: "A Standing instruction is a rule that defines how an election should be applied automatically.\r\n            Standing instructions only applicable to event types Dividend Reinvestment (DRIP) and \r\n            Dividend Option (DVOP) and option types Cash or Securities.\r\n            A standing instruction specifies that whenever voluntary event of type DRIP or DVOP occurs, \r\n            an election should be made automatically for either Cash or Securities option for account(s) \r\n            and instrument(s) specified in the instruction."
+paths:
+  /ca/v2/standinginstructions:
+    get:
+      tags:
+      - Standing Instructions
+      summary: Get standing instructions.
+      description: Fetches a list of standing instructions configured by client or partner.
+      operationId: StandingInstructionGet
+      parameters:
+      - name: ClientKey
+        in: query
+        description: Client Key to fetch standing instructions for.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 7m4I|vtYLUnEGg77o9uQhw==
+      - name: IncludeSubAccounts
+        in: query
+        description: Indicates whether to include standing instructions from sub-clients.
+        schema:
+          type: boolean
+        example: false
+      responses:
+        '200':
+          description: Indicates that instructions were retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandingInstructionListResult'
+              example:
+                Data:
+                - AccountDisplayName: Derivatives
+                  AccountId: '12642445'
+                  AssetType: Stock
+                  ClientId: '9971842'
+                  CreatedDate: '0001-01-01'
+                  DisplayAndFormat:
+                    Description: ABB Ltd
+                    IsinCode: CH0012221716
+                    Symbol: ABB:xome
+                  OptionType: SECU
+                  StandingInstructionId: '31272'
+                  Uic: 101
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+    post:
+      tags:
+      - Standing Instructions
+      summary: Create new standing instruction.
+      description: "Creates new standing instructions - configured for given account and instrument. \r\n            Standing instructions will be used to perform auto elections by the Election Robot."
+      operationId: StandingInstructionPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StandingInstructionRequest'
+            example:
+              ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+              StandingInstructions:
+              - AccountKey: dIm75edbgnW6aBK3CIc-sw==
+                AssetType: Stock
+                OptionType: SECU
+                Uic: 101
+      responses:
+        '201':
+          description: Indicates that the election was performed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandingInstructionResponseListResult'
+              example:
+                __count: 2
+                Data:
+                - AccountId: '12642445'
+                  AssetType: Stock
+                  CreatedDate: '0001-01-01'
+                  OptionType: SECU
+                  StandingInstructionId: '31272'
+                  Uic: 101
+                - AccountId: '12642445'
+                  AssetType: Stock
+                  CreatedDate: '0001-01-01'
+                  ErrorCode: InvalidInstrumentDetail
+                  OptionType: CASH
+                  StandingInstructionId: '21272'
+                  Uic: 2103
+        '403':
+          description: Logged in client doesn't have necessary permissions to create standing instruction.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TradeFollowersCannotElectStandingInstructions
+                    type: string
+                    x-enum-descriptions:
+                      TradeFollowersCannotElectStandingInstructions: TradeFollowers are not allowed to Elect Standing Instructions.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+    delete:
+      tags:
+      - Standing Instructions
+      summary: Delete standing instructions
+      description: Removes standing instructions, which disables configured auto election.
+      operationId: StandingInstructionDelete
+      parameters:
+      - name: ClientKey
+        in: query
+        description: Client Identifier Key
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: W-CgwnsUEpETkiR8MPJalA==
+      - name: StandingInstructionIds
+        in: query
+        description: Standing instruction ids to delete.
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        example: '111112'
+      responses:
+        '204':
+          description: No Content
+        '200':
+          description: Standing Instructions successfully deleted.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstructionIdNotFound
+                    type: string
+                    x-enum-descriptions:
+                      InstructionIdNotFound: Instruction Id's not found
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Logged in client doesn't have necessary permissions to delete standing instruction.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TradeFollowersCannotElectStandingInstructions
+                    type: string
+                    x-enum-descriptions:
+                      TradeFollowersCannotElectStandingInstructions: TradeFollowers are not allowed to Elect Standing Instructions.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstructionIdNotSpecified
+                    type: string
+                    x-enum-descriptions:
+                      InstructionIdNotSpecified: Instruction Id's not specified by user.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    Model.AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    StandingInstructionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandingInstructionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: Allowed asset types for corporate actions.
+      enum:
+      - Bond
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CompanyWarrant
+      - MiniFuture
+      - MutualFund
+      - Stock
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      x-enum-descriptions:
+        Stock: Stock.
+        Bond: Bond.
+        MutualFund: Mutual Fund.
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: "Guarantees a percentage increase of the underlying asset's value above the issue\r\n            price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection\r\n            percentage."
+        CertificateCappedCapitalProtected: "Guarantees a capped percentage increase of the underlying asset's value above\r\n            the issue price at expiry/maturity. Max loss is the amount invested multiplied\r\n            by the CapitalProtection percentage."
+        CertificateDiscount: "Yields a capped return if the underlying asset's value is above the specified\r\n            cap level at expiry. If the underlying's value is below the strike at expiry,\r\n            the investor received the underlying or equivalent value. Offers direct exposure\r\n            in underlying at a lower price (discount) with a capped potential profit and\r\n            limited loss."
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: "A certificate that mirrors the price movement of the underlying instrument. Often\r\n            used to trade movements in indicies. Movements can be a fixed ratio of the underlying\r\n            and can be inverted for bearish/short speculation. Risk is equivalent to owning\r\n            the underlying."
+        CertificateUncappedOutperformance: "Provides leveraged returns when the underlying price exceeds the threshold strike\r\n            price. The amount leverage is defined by the Participation %. When the underlying\r\n            is below the strike price, the certificate mirrors the underlying price 1:1."
+        CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\r\n            price exceeds the defined barrier. If the certificate expires below the barrier,\r\n            it offers partial protection/return of investment."
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+    StandingInstructionListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandingInstruction'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    StandingInstructionRequest:
+      title: Standing Instruction Request
+      required:
+      - ClientKey
+      - StandingInstructions
+      type: object
+      properties:
+        ClientKey:
+          title: Client identifier
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        StandingInstructions:
+          title: Standing Instructions
+          type: array
+          items:
+            $ref: '#/components/schemas/Instruction'
+      additionalProperties: false
+    InstrumentDisplayAndFormat:
+      title: Instrument additional properties
+      type: object
+      properties:
+        Description:
+          title: Instrument description
+          type: string
+        IsinCode:
+          title: Instrument isin code
+          type: string
+        Symbol:
+          title: Instrument symbol
+          type: string
+      additionalProperties: false
+    OptionType:
+      title: Option type indicator
+      enum:
+      - CASH
+      - SECU
+      type: string
+      x-enum-descriptions:
+        CASH: Cash
+        SECU: Security
+    SIErrorCode:
+      title: Error Codes
+      enum:
+      - ConflictingInstruction
+      - InvalidInstrumentDetail
+      - TradeFollowersCannotElect
+      type: string
+      x-enum-descriptions:
+        InvalidInstrumentDetail: Instruments details are invalid. Check UIC and Asset combination
+        ConflictingInstruction: Standing Instruction already exists.
+        TradeFollowersCannotElect: TradeFollowers are not allowed to Elect Standing Instructions.
+    StandingInstructionResponse:
+      title: "A Standing instruction is a rule that defines how an election should be automatically performed.\r\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\r\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
+      type: object
+      properties:
+        AccountId:
+          title: The attain key of the account that this standing instruction applies to.
+          type: string
+        AssetType:
+          title: Asset Type
+          allOf:
+          - $ref: '#/components/schemas/Model.AssetType'
+        CreatedDate:
+          title: Creation Date for Standing Instruction
+          type: string
+          format: date
+          x-type-name: Date
+        ErrorCode:
+          title: Error Code
+          allOf:
+          - $ref: '#/components/schemas/SIErrorCode'
+        ErrorMessage:
+          title: Error Message
+          type: string
+        OptionType:
+          title: The type of option to automatically elect. Must be either SECU or CASH.
+          allOf:
+          - $ref: '#/components/schemas/OptionType'
+        StandingInstructionId:
+          title: Standing instruction Id
+          type: string
+        Uic:
+          title: The instrument that this standing instruction applies to.
+          type: integer
+          format: int32
+      additionalProperties: false
+    Instruction:
+      title: "A Standing instruction is a rule that defines how an election should be automatically performed.\r\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\r\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
+      required:
+      - OptionType
+      type: object
+      properties:
+        AccountKey:
+          title: Account Identifier
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        AssetType:
+          title: Asset Type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        OptionType:
+          title: The type of option to automatically elect. Must be either SECU or CASH.
+          allOf:
+          - $ref: '#/components/schemas/OptionType'
+        Uic:
+          title: The instrument that this standing instruction applies to.
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+          format: int32
+      additionalProperties: false
+    StandingInstruction:
+      title: "A Standing instruction is a rule that defines how an election should be automatically performed.\r\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\r\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
+      type: object
+      properties:
+        AccountDisplayName:
+          title: Account display name
+          type: string
+        AccountId:
+          title: The attain key of the account that this standing instruction applies to.
+          type: string
+        AssetType:
+          title: Asset Type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ClientId:
+          title: Client Identifier
+          type: string
+        CreatedDate:
+          title: Creation Date for Standing Instruction
+          type: string
+          format: date
+          x-type-name: Date
+        DisplayAndFormat:
+          title: Instrument Details
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        OptionType:
+          title: The type of option to automatically elect. Must be either SECU or CASH.
+          allOf:
+          - $ref: '#/components/schemas/OptionType'
+        StandingInstructionId:
+          title: Standing instruction Id
+          type: string
+        Uic:
+          title: The instrument that this standing instruction applies to.
+          type: integer
+          format: int32
+      additionalProperties: false
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

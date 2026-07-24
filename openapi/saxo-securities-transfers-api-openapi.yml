@@ -1,0 +1,862 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Securities Transfers API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Securities Transfers
+  description: Allows a user to provide a list of securities to be transfereed into or out of Saxo Bank
+paths:
+  /atr/v1/securitiestransfers/brokers:
+    get:
+      tags:
+      - Securities Transfers
+      description: Get list of brokers for the given ISO Country Code
+      operationId: SecuritiesTransferGetBrokers
+      parameters:
+      - name: CountryCode
+        in: query
+        description: ISO Country Code
+        required: true
+        schema:
+          pattern: ^[A-Z]{2}$
+          type: string
+          x-type-name: CountryCode
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrokerListResult'
+              example:
+                Data:
+                - Contact: Broker Contact 1
+                  CountryCode: DK
+                  Email: BrokerEmail1@email.com
+                  Name: ABC Investment Bank
+                  Phone: +45 12345678
+                - Contact: Broker Contact 2
+                  CountryCode: DK
+                  Email: BrokerEmail2@email.com
+                  Name: Alps Investment Bank
+                  Phone: 555 212-639-9675
+        '503':
+          description: Service Unavailable
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidCountry
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidCountry: 'Requested Country '
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+  /atr/v1/securitiestransfers/transfers:
+    get:
+      tags:
+      - Securities Transfers
+      description: Get list of Security Transfers executed by client based on list of comma separated transfer ids.
+      operationId: SecuritiesTransferGetTransferDetails
+      parameters:
+      - name: ClientKey
+        in: query
+        description: The client identifier in key format
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      - name: TransferIds
+        in: query
+        description: Comma separate list of Transfer IDs
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            example: stringValue
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferListResult'
+              example:
+                __count: 1
+                Data:
+                - AccountId: '3495867632'
+                  AccountManager: ABC Investment Bank
+                  AssetType: Stock
+                  Broker:
+                    Contact: Broker Contact 1
+                    CountryCode: DK
+                    Email: BrokerEmail1@email.com
+                    Name: ABC Investment Bank
+                    Phone: +45 12345678
+                  ClientAccountAtBroker: 0539633313
+                  Securities:
+                  - Currency: EUR
+                    Description: Apple Inc.
+                    Exchange: NASDAQ
+                    InstrumentSymbolCode: AAPL:xnas
+                    IsinCode: US0378331005
+                    Price: 194.82
+                    PurchaseDate: '2020-06-20'
+                    Quantity: 24
+                    Uic: 211
+                  - Currency: GBP
+                    Description: ABB Ltd
+                    Exchange: SSE
+                    InstrumentSymbolCode: ABB:xome
+                    IsinCode: CH0012221716
+                    Price: 32.82
+                    PurchaseDate: '2020-09-10'
+                    Quantity: 7
+                    Uic: 101
+                  TradeDate: '2022-10-30'
+                  TransferDirection: TransferIn
+                  TransferId: '414'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidTransferId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidTransferId: Requested Transfer Ids are not valid
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '503':
+          description: Service Unavailable
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+    post:
+      tags:
+      - Securities Transfers
+      summary: Submit Securities Transfer Request
+      description: "Submit the list of securities, which the client wants transferred in or out of Saxo Bank.\n             \nIf list of securities in the transfer are accepted the service will return \"201 Created\" and the response will contain the actual transfer result for the transaction\n\nIf one or more securities in the list are not accepted, the service will return bad request and fail complete transaction"
+      operationId: SecuritiesTransferTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+            example:
+              AccountKey: dIm75edbgnW6aBK3CIc-sw==
+              AssetType: Stock
+              Broker:
+                Contact: Broker Contact 1
+                CountryCode: DK
+                Email: BrokerEmail1@email.com
+                Name: ABC Investment Bank
+                Phone: +45 12345678
+              ClientAccountAtBroker: 0539633313
+              ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
+              Securities:
+              - Currency: EUR
+                Description: Apple Inc.
+                Exchange: NASDAQ
+                InstrumentSymbolCode: AAPL:xnas
+                IsinCode: US0378331005
+                Price: 194.82
+                PurchaseDate: '2020-06-20'
+                Quantity: 24
+                Uic: 211
+              - Currency: GBP
+                Description: ABB Ltd
+                Exchange: SSE
+                InstrumentSymbolCode: ABB:xome
+                IsinCode: CH0012221716
+                Price: 32.82
+                PurchaseDate: '2020-09-10'
+                Quantity: 7
+                Uic: 101
+              SettlementInstruction:
+                AccountAtClearingAgent: 0539633313
+                AgentLocalAccount: '6300772196'
+                BuyerSellerCode: B
+                BuyerSellerCodeType: Bic
+                ClearingAgentCode: '9200'
+                ClearingAgentCodeType: Bic
+                FreeText: NOTLXNO
+                SettlementAgentAccount: 1011248400G
+              TradeDate: '2022-10-30'
+              TransferDirection: TransferIn
+      responses:
+        '201':
+          description: Resource was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResponse'
+              example:
+                TransferId: 63HGCDS3E89DS
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AccountValidationFail
+                    - AssetTypeNotSupported
+                    - BadRequest
+                    - UicNotValidAssetType
+                    - ValidationFail
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      BadRequest: Bad Request
+                      UicNotValidAssetType: The UIC does not match a transferable asset type
+                      AssetTypeNotSupported: Requested Asset Type is not supported
+                      AccountValidationFail: Account Validation Failed
+                      ValidationFail: General Validation Failed
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SecurityValidationFail
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SecurityValidationFail: Security Validation Failed
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '503':
+          description: Service Unavailable
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    BuyerSellerCodeType:
+      title: The possible BuyerSellerCodeTypes.
+      enum:
+      - Bic
+      - Cdident
+      - Local
+      - None
+      - Text
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: None
+        Bic: Bic
+        Local: Local
+        Text: Text
+        Cdident: Cdident
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Security:
+      title: Details for one security to get transferred.
+      required:
+      - Price
+      - Quantity
+      - Uic
+      type: object
+      properties:
+        Currency:
+          title: The Currency of the security to be transferred.
+          type: string
+          example: stringValue
+        Description:
+          title: The Description of the security
+          type: string
+          example: stringValue
+        Exchange:
+          title: The Exchange where the security gets transferred.
+          type: string
+          example: stringValue
+        ExchangeText:
+          title: ExchangeText of the security.
+          type: string
+          example: stringValue
+        InstrumentSymbolCode:
+          title: The InstrumentSymbolCode of the security.
+          type: string
+          example: stringValue
+        IsinCode:
+          title: IsinCode of the security.
+          type: string
+          example: stringValue
+        Price:
+          title: The price per security
+          type: number
+          example: 10
+        PurchaseDate:
+          title: Purchase date of instrument
+          type: string
+          format: date
+          x-type-name: Date
+        Quantity:
+          title: Quantity of security to transfer
+          type: number
+          example: 10
+        Uic:
+          title: Uic of the security
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Currency: EUR
+        Description: Apple Inc.
+        Exchange: NASDAQ
+        InstrumentSymbolCode: AAPL:xnas
+        IsinCode: US0378331005
+        Price: 194.82
+        PurchaseDate: '2020-06-20'
+        Quantity: 24
+        Uic: 211
+    SettlementInstruction:
+      title: Security Transfer Settlement Instructions
+      type: object
+      properties:
+        AccountAtClearingAgent:
+          title: The safekeeping / Security account at the custody of the client
+          type: string
+          example: stringValue
+        AgentLocalAccount:
+          title: The agent local account
+          type: string
+          example: stringValue
+        BuyerSellerCode:
+          title: The buyer seller code
+          type: string
+          example: stringValue
+        BuyerSellerCodeType:
+          title: The BIC Code / Local Code of the custody of the client with their counterpart
+          allOf:
+          - $ref: '#/components/schemas/BuyerSellerCodeType'
+        ClearingAgentCode:
+          title: The clearing agent code
+          type: string
+          example: stringValue
+        ClearingAgentCodeType:
+          title: The BIC / Local Code of the Exchange of the instrument. For example if client is trading in UK Share then the Clearing Agent would be the BIC / Local Code from UK
+          allOf:
+          - $ref: '#/components/schemas/ClearingAgentCodeType'
+        FreeText:
+          title: The information / remarks
+          type: string
+          example: stringValue
+        SettlementAgentAccount:
+          title: The settlement agent account
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountAtClearingAgent: 0539633313
+        AgentLocalAccount: '6300772196'
+        BuyerSellerCode: B
+        BuyerSellerCodeType: Bic
+        ClearingAgentCode: '9200'
+        ClearingAgentCodeType: Bic
+        FreeText: NOTLXNO
+        SettlementAgentAccount: 1011248400G
+    TransferListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transfer'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __count: 1
+        Data:
+        - AccountId: '3495867632'
+          AccountManager: ABC Investment Bank
+          AssetType: Stock
+          Broker:
+            Contact: Broker Contact 1
+            CountryCode: DK
+            Email: BrokerEmail1@email.com
+            Name: ABC Investment Bank
+            Phone: +45 12345678
+          ClientAccountAtBroker: 0539633313
+          Securities:
+          - Currency: EUR
+            Description: Apple Inc.
+            Exchange: NASDAQ
+            InstrumentSymbolCode: AAPL:xnas
+            IsinCode: US0378331005
+            Price: 194.82
+            PurchaseDate: '2020-06-20'
+            Quantity: 24
+            Uic: 211
+          - Currency: GBP
+            Description: ABB Ltd
+            Exchange: SSE
+            InstrumentSymbolCode: ABB:xome
+            IsinCode: CH0012221716
+            Price: 32.82
+            PurchaseDate: '2020-09-10'
+            Quantity: 7
+            Uic: 101
+          TradeDate: '2022-10-30'
+          TransferDirection: TransferIn
+          TransferId: '414'
+    TransferRequest:
+      required:
+      - ClientKey
+      - AccountKey
+      - Securities
+      - ClientAccountAtBroker
+      - Broker
+      - TransferDirection
+      - AssetType
+      type: object
+      properties:
+        AccountKey:
+          title: The account identifier in key format from which securities transfer is executed
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        AssetType:
+          title: The asset type to be transferred
+          allOf:
+          - $ref: '#/components/schemas/TransferableAssetType'
+        Broker:
+          title: The client's broker details
+          allOf:
+          - $ref: '#/components/schemas/Broker'
+        ClientAccountAtBroker:
+          title: Identifier of the client's account at the broker
+          type: string
+          example: stringValue
+        ClientKey:
+          title: The client identifier in key format for which system will execute securities transfer
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Securities:
+          title: The securities details
+          type: array
+          items:
+            $ref: '#/components/schemas/Security'
+          example:
+          - Currency: EUR
+            Description: Apple Inc.
+            Exchange: NASDAQ
+            InstrumentSymbolCode: AAPL:xnas
+            IsinCode: US0378331005
+            Price: 194.82
+            PurchaseDate: '2020-06-20'
+            Quantity: 24
+            Uic: 211
+          - Currency: GBP
+            Description: ABB Ltd
+            Exchange: SSE
+            InstrumentSymbolCode: ABB:xome
+            IsinCode: CH0012221716
+            Price: 32.82
+            PurchaseDate: '2020-09-10'
+            Quantity: 7
+            Uic: 101
+        SettlementDate:
+          title: The settlement date
+          type: string
+          format: date
+          x-type-name: Date
+        SettlementInstruction:
+          title: Settlement Instruction
+          allOf:
+          - $ref: '#/components/schemas/SettlementInstruction'
+        TradeDate:
+          title: The agreed trade date
+          type: string
+          format: date
+          x-type-name: Date
+        TransferDirection:
+          title: Transfer type, in or out of Bank
+          allOf:
+          - $ref: '#/components/schemas/TransferDirection'
+      additionalProperties: false
+      example:
+        AccountKey: dIm75edbgnW6aBK3CIc-sw==
+        AssetType: Stock
+        Broker:
+          Contact: Broker Contact 1
+          CountryCode: DK
+          Email: BrokerEmail1@email.com
+          Name: ABC Investment Bank
+          Phone: +45 12345678
+        ClientAccountAtBroker: 0539633313
+        ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
+        Securities:
+        - Currency: EUR
+          Description: Apple Inc.
+          Exchange: NASDAQ
+          InstrumentSymbolCode: AAPL:xnas
+          IsinCode: US0378331005
+          Price: 194.82
+          PurchaseDate: '2020-06-20'
+          Quantity: 24
+          Uic: 211
+        - Currency: GBP
+          Description: ABB Ltd
+          Exchange: SSE
+          InstrumentSymbolCode: ABB:xome
+          IsinCode: CH0012221716
+          Price: 32.82
+          PurchaseDate: '2020-09-10'
+          Quantity: 7
+          Uic: 101
+        SettlementInstruction:
+          AccountAtClearingAgent: 0539633313
+          AgentLocalAccount: '6300772196'
+          BuyerSellerCode: B
+          BuyerSellerCodeType: Bic
+          ClearingAgentCode: '9200'
+          ClearingAgentCodeType: Bic
+          FreeText: NOTLXNO
+          SettlementAgentAccount: 1011248400G
+        TradeDate: '2022-10-30'
+        TransferDirection: TransferIn
+    Transfer:
+      required:
+      - Securities
+      - ClientAccountAtBroker
+      - Broker
+      - TransferDirection
+      - AssetType
+      type: object
+      properties:
+        AccountId:
+          title: Account Id
+          type: string
+          example: stringValue
+        AccountManager:
+          title: Account Manager
+          type: string
+          example: stringValue
+        AssetType:
+          title: The asset type to be transferred
+          allOf:
+          - $ref: '#/components/schemas/TransferableAssetType'
+        Broker:
+          title: The client's broker details
+          allOf:
+          - $ref: '#/components/schemas/Broker'
+        ClientAccountAtBroker:
+          title: Identifier of the client's account at the broker
+          type: string
+          example: stringValue
+        Securities:
+          title: The securities details
+          type: array
+          items:
+            $ref: '#/components/schemas/Security'
+          example:
+          - Currency: EUR
+            Description: Apple Inc.
+            Exchange: NASDAQ
+            InstrumentSymbolCode: AAPL:xnas
+            IsinCode: US0378331005
+            Price: 194.82
+            PurchaseDate: '2020-06-20'
+            Quantity: 24
+            Uic: 211
+          - Currency: GBP
+            Description: ABB Ltd
+            Exchange: SSE
+            InstrumentSymbolCode: ABB:xome
+            IsinCode: CH0012221716
+            Price: 32.82
+            PurchaseDate: '2020-09-10'
+            Quantity: 7
+            Uic: 101
+        SettlementDate:
+          title: The settlement date
+          type: string
+          format: date
+          x-type-name: Date
+        TradeDate:
+          title: The agreed trade date
+          type: string
+          format: date
+          x-type-name: Date
+        TransferDirection:
+          title: Transfer type, in or out of Bank
+          allOf:
+          - $ref: '#/components/schemas/TransferDirection'
+        TransferId:
+          title: Transfer Id
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: '3495867632'
+        AccountManager: ABC Investment Bank
+        AssetType: Stock
+        Broker:
+          Contact: Broker Contact 1
+          CountryCode: DK
+          Email: BrokerEmail1@email.com
+          Name: ABC Investment Bank
+          Phone: +45 12345678
+        ClientAccountAtBroker: 0539633313
+        Securities:
+        - Currency: EUR
+          Description: Apple Inc.
+          Exchange: NASDAQ
+          InstrumentSymbolCode: AAPL:xnas
+          IsinCode: US0378331005
+          Price: 194.82
+          PurchaseDate: '2020-06-20'
+          Quantity: 24
+          Uic: 211
+        - Currency: GBP
+          Description: ABB Ltd
+          Exchange: SSE
+          InstrumentSymbolCode: ABB:xome
+          IsinCode: CH0012221716
+          Price: 32.82
+          PurchaseDate: '2020-09-10'
+          Quantity: 7
+          Uic: 101
+        TradeDate: '2022-10-30'
+        TransferDirection: TransferIn
+        TransferId: '414'
+    TransferResponse:
+      title: Response for security transfer
+      type: object
+      properties:
+        TransferId:
+          title: Unique transaction id for the transfer
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        TransferId: 63HGCDS3E89DS
+    TransferDirection:
+      title: Which direction should the securites be transferred.
+      enum:
+      - TransferIn
+      - TransferOut
+      type: string
+      example: TransferIn
+      x-enum-descriptions:
+        TransferIn: Transfer securities from external broker to Saxo Bank
+        TransferOut: Transfer securities Saxo Bank to external broker
+    BrokerListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Broker'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Contact: Broker Contact 1
+          CountryCode: DK
+          Email: BrokerEmail1@email.com
+          Name: ABC Investment Bank
+          Phone: +45 12345678
+        - Contact: Broker Contact 2
+          CountryCode: DK
+          Email: BrokerEmail2@email.com
+          Name: Alps Investment Bank
+          Phone: 555 212-639-9675
+    TransferableAssetType:
+      title: The possible AssetTypes for which you can transfer in or out.
+      enum:
+      - Bond
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - MiniFuture
+      - Stock
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: Fund
+      x-enum-descriptions:
+        Stock: Stock
+        Bond: Bond
+        Warrant: Warrant
+        MiniFuture: MiniFuture
+        WarrantKnockOut: WarrantKnockOut
+        WarrantOpenEndKnockOut: WarrantOpenEndKnockOut
+        CertificateUncappedCapitalProtection: CertificateUncappedCapitalProtection
+        CertificateCappedCapitalProtected: CertificateCappedCapitalProtected
+        CertificateDiscount: CertificateDiscount
+        CertificateCappedOutperformance: CertificateCappedOutperformance
+        CertificateCappedBonus: CertificateCappedBonus
+        CertificateExpress: CertificateExpress
+        CertificateTracker: CertificateTracker
+        CertificateUncappedOutperformance: CertificateUncappedOutperformance
+        CertificateBonus: CertificateBonus
+        CertificateConstantLeverage: CertificateConstantLeverage
+    ClearingAgentCodeType:
+      title: The possible ClearingAgentCodeTypes.
+      enum:
+      - Bic
+      - Local
+      - None
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: None
+        Bic: Bic
+        Local: Local
+    Broker:
+      title: Broker Information
+      required:
+      - CountryCode
+      - Name
+      - Contact
+      - Phone
+      - Email
+      type: object
+      properties:
+        Contact:
+          title: Broker Contact
+          type: string
+          example: stringValue
+        CountryCode:
+          title: Broker's Country Id
+          pattern: ^[A-Z]{2}$
+          type: string
+          x-type-name: CountryCode
+        Email:
+          title: Broker Email
+          type: string
+          example: stringValue
+        Name:
+          title: Broker Name
+          type: string
+          example: stringValue
+        Phone:
+          title: Broker Phone Number
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Contact: Broker Contact 1
+        CountryCode: DK
+        Email: BrokerEmail1@email.com
+        Name: ABC Investment Bank
+        Phone: +45 12345678
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

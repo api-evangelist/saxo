@@ -1,0 +1,2431 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Historical Report Data - Bookings API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Historical Report Data - Bookings
+  description: Bookings Report Data.
+paths:
+  /cs/v1/reports/bookings/{ClientKey}:
+    get:
+      tags:
+      - Historical Report Data - Bookings
+      description: Get all bookings for ClientKey between two dates or by specifying a combination of FilterType and FilterValue.
+      operationId: BookingGet
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $skiptoken
+        in: query
+        description: Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks.
+        schema:
+          type: string
+        example: B17D8890-3C7A-4A47-A9AA-01B022ED03A5
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          title: The key of the account group to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account to which the resource belongs.
+        schema:
+          title: The key of the account to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: path
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          title: The key of the client to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      - name: FilterType
+        in: query
+        description: Type, basis on which bookings are reterived. If specified you must also specify a FilterValue
+        schema:
+          $ref: '#/components/schemas/BookingRequestType'
+      - name: FilterValue
+        in: query
+        description: Id for the specified filter type.
+        schema:
+          type: string
+      - name: FromDate
+        in: query
+        description: From date, ignored when filterType and filterValue are not null
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      - name: MockDataId
+        in: query
+        description: Optional Mock Data Parameter
+        schema:
+          type: string
+      - name: ToDate
+        in: query
+        description: To date, ignored when filterType and filterValue are not null
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingListResult'
+              example:
+                __next: /openapi/....../?$top=1&$skip=1
+                Data:
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1.03999996185303
+                  AmountAccountCurrency: 6.62
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: 6.62
+                  AmountSubClass: NotAssigned
+                  AmountUSD: 1.03602616670318
+                  AssetType: StockIndexOption
+                  BkAmountId: '3042746175'
+                  BkAmountType: Exchange Fee
+                  BkAmountTypeId: '30'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-01-15'
+                  InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F15C15:xcbf
+                  RelatedPositionId: '773603907'
+                  RelatedTradeId: '773603907'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1012706
+                  UnderlyingInstrumentDescription: CBOE Vloatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-01-15'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: 1260
+                  AmountAccountCurrency: 8010.89
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: 8010.89
+                  AmountSubClass: NotAssigned
+                  AmountUSD: 1253.69964631131
+                  AssetType: StockIndexOption
+                  BkAmountId: '3042746174'
+                  BkAmountType: Premium
+                  BkAmountTypeId: '12'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-01-15'
+                  InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F15C15:xcbf
+                  RelatedPositionId: '773603907'
+                  RelatedTradeId: '773603907'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1012706
+                  UnderlyingInstrumentDescription: CBOE Vloatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-01-15'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -6
+                  AmountAccountCurrency: -38.15
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -38.15
+                  AmountSubClass: NotAssigned
+                  AmountUSD: 5.97045290932424
+                  AssetType: StockIndexOption
+                  BkAmountId: '3042742814'
+                  BkAmountType: Commission
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-01-15'
+                  InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F15C15:xcbf
+                  RelatedPositionId: '773603907'
+                  RelatedTradeId: '773603907'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1012706
+                  UnderlyingInstrumentDescription: CBOE Vloatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-01-15'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1186.5
+                  AmountAccountCurrency: -7654.42
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -7654.42
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -1189.20237392412
+                  AssetType: Stock
+                  BkAmountId: '3052212830'
+                  BkAmountType: Share Amount
+                  BkAmountTypeId: '2'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-01-20'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT:xnas
+                  RelatedPositionId: '775130723'
+                  RelatedTradeId: '775130723'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT:xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-01-23'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -12
+                  AmountAccountCurrency: -77.42
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -77.42
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -12.0280893639499
+                  AssetType: Stock
+                  BkAmountId: '3051745520'
+                  BkAmountType: Commisison
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-01-20'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT:xnas
+                  RelatedPositionId: '775130723'
+                  RelatedTradeId: '775130723'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT:xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-01-23'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -10
+                  AmountAccountCurrency: -66.79
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -66.79
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -10.0261198510868
+                  AssetType: CfdOnStock
+                  BkAmountId: '3126672978'
+                  BkAmountType: Commisison
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-03-02'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT:xnas
+                  RelatedPositionId: '787515963'
+                  RelatedTradeId: '787515963'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT:xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-03-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -10
+                  AmountAccountCurrency: -66.79
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -66.79
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -10.0261198510868
+                  AssetType: CfdOnStock
+                  BkAmountId: '3126672978'
+                  BkAmountType: Commisison
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-03-02'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT:xnas
+                  RelatedPositionId: '787515963'
+                  RelatedTradeId: '787515963'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT:xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-03-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -2.96
+                  AmountAccountCurrency: -20.61
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -20.61
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -2.96031369845305
+                  AssetType: CfdOnStock
+                  BkAmountId: '3185111269'
+                  BkAmountType: CFD Finance
+                  BkAmountTypeId: '10'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-03-31'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT:xnas
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT:xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-04-01'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -0.3
+                  AmountAccountCurrency: -2.24
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -2.24
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -0.334595535240827
+                  AssetType: CfdOnStock
+                  BkAmountId: '3360198216'
+                  BkAmountType: CFD Finance
+                  BkAmountTypeId: '10'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: EUR
+                  Date: '2015-06-30'
+                  InstrumentDescription: National Bank of Greece SA
+                  InstrumentSectorName: Banks
+                  InstrumentSectorTypeId: 656
+                  InstrumentSubType: None
+                  InstrumentSymbol: ETE=xath
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: Financials
+                  RootInstrumentSectorTypeId: 509
+                  Uic: 20690
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: National Bank of Greece SA
+                  UnderlyingInstrumentSectorName: Banks
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: ETE=xath
+                  UnderlyingInstrumentUic: 20690
+                  ValueDate: '2015-07-01'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -6.41
+                  AmountAccountCurrency: -6.41
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -6.41
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -0.949643698425162
+                  BkAmountId: '3360618999'
+                  BkAmountType: Interest
+                  BkAmountTypeId: '45'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-07-01'
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 0
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentUic: 0
+                  ValueDate: '2015-07-01'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -3.06
+                  AmountAccountCurrency: -20.79
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -20.79
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -3.06030073085104
+                  AssetType: CfdOnStock
+                  BkAmountId: '3420534529'
+                  BkAmountType: CFD Finance
+                  BkAmountTypeId: '10'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-07-31'
+                  InstrumentDescription: Ubiquiti Networks Inc.
+                  InstrumentSectorName: Telecommunications Equipment
+                  InstrumentSectorTypeId: 684
+                  InstrumentSubType: None
+                  InstrumentSymbol: UBNT=xnas
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: Technology
+                  RootInstrumentSectorTypeId: 510
+                  Uic: 85485
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+                  UnderlyingInstrumentSectorName: Telecommunications Equipment
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: UBNT=xnas
+                  UnderlyingInstrumentUic: 85485
+                  ValueDate: '2015-08-03'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -0.31
+                  AmountAccountCurrency: -2.31
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -2.31
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -0.340033414539004
+                  AssetType: CfdOnStock
+                  BkAmountId: '3420454836'
+                  BkAmountType: CFD Finance
+                  BkAmountTypeId: '10'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: EUR
+                  Date: '2015-07-31'
+                  InstrumentDescription: National Bank of Greece SA
+                  InstrumentSectorName: Banks
+                  InstrumentSectorTypeId: 656
+                  InstrumentSubType: None
+                  InstrumentSymbol: ETE=xath
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: Financials
+                  RootInstrumentSectorTypeId: 509
+                  Uic: 20690
+                  UnderlyingInstrumentAssetType: CfdOnStock
+                  UnderlyingInstrumentDescription: National Bank of Greece SA
+                  UnderlyingInstrumentSectorName: Banks
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: ETE=xath
+                  UnderlyingInstrumentUic: 20690
+                  ValueDate: '2015-08-03'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -4.6
+                  AmountAccountCurrency: -4.6
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -4.6
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -0.675050995700219
+                  BkAmountId: '3420990244'
+                  BkAmountType: Interest
+                  BkAmountTypeId: '45'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-08-03'
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  RelatedPositionId: '0'
+                  RelatedTradeId: '0'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 0
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentUic: 0
+                  ValueDate: '2015-08-03'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -325
+                  AmountAccountCurrency: -2182.26
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -2182.26
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -326.285099129811
+                  AssetType: StockIndexOption
+                  BkAmountId: '3440442853'
+                  BkAmountType: Premium
+                  BkAmountTypeId: '12'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-08-12'
+                  InstrumentDescription: Volatility Index (VIX) Aug2015 15 C
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/Q15C15=xcbf
+                  RelatedPositionId: '840409122'
+                  RelatedTradeId: '840409122'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1561206
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-08-12'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1.03999996185303
+                  AmountAccountCurrency: -6.96
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -6.96
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -1.04063873687988
+                  AssetType: StockIndexOption
+                  BkAmountId: '3440445011'
+                  BkAmountType: Exchange Fee
+                  BkAmountTypeId: '30'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-08-12'
+                  InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/Q15P16=xcbf
+                  RelatedPositionId: '840305316'
+                  RelatedTradeId: '840305316'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1561245
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-08-12'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1.03999996185303
+                  AmountAccountCurrency: -6.91
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -6.91
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -1.03316288388505
+                  AssetType: StockIndexOption
+                  BkAmountId: '3440445585'
+                  BkAmountType: Exchange Fee
+                  BkAmountTypeId: '30'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-08-12'
+                  InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/Q15P16=xcbf
+                  RelatedPositionId: '840407407'
+                  RelatedTradeId: '840407407'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1561245
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-08-12'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -260
+                  AmountAccountCurrency: -1741.21
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -1741.21
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -260.340599862444
+                  AssetType: StockIndexOption
+                  BkAmountId: '3440441397'
+                  BkAmountType: Premium
+                  BkAmountTypeId: '12'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-08-12'
+                  InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/Q15P16=xcbf
+                  RelatedPositionId: '840305316'
+                  RelatedTradeId: '840305316'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 1561245
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-08-12'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -19
+                  AmountAccountCurrency: -19
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -19
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -2.85383841266503
+                  AssetType: Stock
+                  BkAmountId: '3479817118'
+                  BkAmountType: Commission
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-08-31'
+                  InstrumentDescription: Wealth Invest Sirius Balance
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 400
+                  InstrumentSubType: Etf
+                  InstrumentSymbol: WEISIB=xcse
+                  RelatedPositionId: '847585758'
+                  RelatedTradeId: '847585758'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 400
+                  Uic: 343053
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Wealth Invest Sirius Balance
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: Etf
+                  UnderlyingInstrumentSymbol: WEISIB=xcse
+                  UnderlyingInstrumentUic: 343053
+                  ValueDate: '2015-09-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1072.8
+                  AmountAccountCurrency: -1072.8
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -1072.8
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -161.136728900371
+                  AssetType: Stock
+                  BkAmountId: '3480224792'
+                  BkAmountType: Share Amount
+                  BkAmountTypeId: '2'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-08-31'
+                  InstrumentDescription: Wealth Invest Sirius Balance
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 400
+                  InstrumentSubType: Etf
+                  InstrumentSymbol: WEISIB=xcse
+                  RelatedPositionId: '847585758'
+                  RelatedTradeId: '847585758'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 400
+                  Uic: 343053
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Wealth Invest Sirius Balance
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: Etf
+                  UnderlyingInstrumentSymbol: WEISIB=xcse
+                  UnderlyingInstrumentUic: 343053
+                  ValueDate: '2015-09-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1103
+                  AmountAccountCurrency: -1103
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -1103
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -165.672829956291
+                  AssetType: Stock
+                  BkAmountId: '3480224810'
+                  BkAmountType: Share Amount
+                  BkAmountTypeId: '2'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-08-31'
+                  InstrumentDescription: Wealth Invest - Saxo Global Equities
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 400
+                  InstrumentSubType: None
+                  InstrumentSymbol: WEISGE=xcse
+                  RelatedPositionId: '847585836'
+                  RelatedTradeId: '847585836'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 400
+                  Uic: 1307373
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Wealth Invest - Saxo Global Equities
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: WEISGE=xcse
+                  UnderlyingInstrumentUic: 1307373
+                  ValueDate: '2015-09-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -19
+                  AmountAccountCurrency: -19
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -19
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -2.85383841266503
+                  AssetType: Stock
+                  BkAmountId: '3479817136'
+                  BkAmountType: Commission
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: DKK
+                  Date: '2015-08-31'
+                  InstrumentDescription: Wealth Invest - Saxo Global Equities
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 400
+                  InstrumentSubType: None
+                  InstrumentSymbol: WEISGE=xcse
+                  RelatedPositionId: '847585836'
+                  RelatedTradeId: '847585836'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 400
+                  Uic: 1307373
+                  UnderlyingInstrumentAssetType: Stock
+                  UnderlyingInstrumentDescription: Wealth Invest - Saxo Global Equities
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: WEISGE=xcse
+                  UnderlyingInstrumentUic: 1307373
+                  ValueDate: '2015-09-02'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -1.03999996185303
+                  AmountAccountCurrency: -7.12
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -7.12
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -1.04404184965504
+                  AssetType: StockIndexOption
+                  BkAmountId: '3679054443'
+                  BkAmountType: Exchange Fee
+                  BkAmountTypeId: '30'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-12-10'
+                  InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F16P20=xcbf
+                  RelatedPositionId: '883010450'
+                  RelatedTradeId: '883010450'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 2206610
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-12-10'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -680
+                  AmountAccountCurrency: -4653.05
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -4653.05
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -682.300411311431
+                  AssetType: StockIndexOption
+                  BkAmountId: '3679054441'
+                  BkAmountType: Premium
+                  BkAmountTypeId: '12'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-12-10'
+                  InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F16P20=xcbf
+                  RelatedPositionId: '883010450'
+                  RelatedTradeId: '883010450'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 2206610
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-12-10'
+                - AccountCurrency: DKK
+                  AccountId: 179643INET
+                  Amount: -12
+                  AmountAccountCurrency: -82.11
+                  AmountClass: NotAssigned
+                  AmountClientCurrency: -82.11
+                  AmountSubClass: NotAssigned
+                  AmountUSD: -12.040207342019
+                  AssetType: StockIndexOption
+                  BkAmountId: '3679054442'
+                  BkAmountType: Commission
+                  BkAmountTypeId: '4'
+                  CaMasterRecordId: '0'
+                  ClientCurrency: DKK
+                  ConversionRate: 0
+                  ConversionRateAccountCurrency: 0
+                  ConversionRateClientCurrency: 0
+                  ConversionRateUSD: 0
+                  CostClass: NotAssigned
+                  CostSubClass: NotAssigned
+                  Currency: USD
+                  Date: '2015-12-10'
+                  InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+                  InstrumentSectorName: <Unknown>
+                  InstrumentSectorTypeId: 0
+                  InstrumentSubType: None
+                  InstrumentSymbol: VIX/F16P20=xcbf
+                  RelatedPositionId: '883010450'
+                  RelatedTradeId: '883010450'
+                  RootInstrumentSectorName: <Unknown>
+                  RootInstrumentSectorTypeId: 0
+                  Uic: 2206610
+                  UnderlyingInstrumentDescription: CBOE Volatility Index
+                  UnderlyingInstrumentSectorName: <Unknown>
+                  UnderlyingInstrumentSubType: None
+                  UnderlyingInstrumentSymbol: VIX.I
+                  UnderlyingInstrumentUic: 10606
+                  ValueDate: '2015-12-10'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    BookingListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1.03999996185303
+          AmountAccountCurrency: 6.62
+          AmountClass: NotAssigned
+          AmountClientCurrency: 6.62
+          AmountSubClass: NotAssigned
+          AmountUSD: 1.03602616670318
+          AssetType: StockIndexOption
+          BkAmountId: '3042746175'
+          BkAmountType: Exchange Fee
+          BkAmountTypeId: '30'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-01-15'
+          InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F15C15:xcbf
+          RelatedPositionId: '773603907'
+          RelatedTradeId: '773603907'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1012706
+          UnderlyingInstrumentDescription: CBOE Vloatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-01-15'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: 1260
+          AmountAccountCurrency: 8010.89
+          AmountClass: NotAssigned
+          AmountClientCurrency: 8010.89
+          AmountSubClass: NotAssigned
+          AmountUSD: 1253.69964631131
+          AssetType: StockIndexOption
+          BkAmountId: '3042746174'
+          BkAmountType: Premium
+          BkAmountTypeId: '12'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-01-15'
+          InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F15C15:xcbf
+          RelatedPositionId: '773603907'
+          RelatedTradeId: '773603907'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1012706
+          UnderlyingInstrumentDescription: CBOE Vloatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-01-15'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -6
+          AmountAccountCurrency: -38.15
+          AmountClass: NotAssigned
+          AmountClientCurrency: -38.15
+          AmountSubClass: NotAssigned
+          AmountUSD: 5.97045290932424
+          AssetType: StockIndexOption
+          BkAmountId: '3042742814'
+          BkAmountType: Commission
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-01-15'
+          InstrumentDescription: Volatility Index (VIX) Jan2015 15.000 C
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F15C15:xcbf
+          RelatedPositionId: '773603907'
+          RelatedTradeId: '773603907'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1012706
+          UnderlyingInstrumentDescription: CBOE Vloatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-01-15'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1186.5
+          AmountAccountCurrency: -7654.42
+          AmountClass: NotAssigned
+          AmountClientCurrency: -7654.42
+          AmountSubClass: NotAssigned
+          AmountUSD: -1189.20237392412
+          AssetType: Stock
+          BkAmountId: '3052212830'
+          BkAmountType: Share Amount
+          BkAmountTypeId: '2'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-01-20'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT:xnas
+          RelatedPositionId: '775130723'
+          RelatedTradeId: '775130723'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT:xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-01-23'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -12
+          AmountAccountCurrency: -77.42
+          AmountClass: NotAssigned
+          AmountClientCurrency: -77.42
+          AmountSubClass: NotAssigned
+          AmountUSD: -12.0280893639499
+          AssetType: Stock
+          BkAmountId: '3051745520'
+          BkAmountType: Commisison
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-01-20'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT:xnas
+          RelatedPositionId: '775130723'
+          RelatedTradeId: '775130723'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT:xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-01-23'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -10
+          AmountAccountCurrency: -66.79
+          AmountClass: NotAssigned
+          AmountClientCurrency: -66.79
+          AmountSubClass: NotAssigned
+          AmountUSD: -10.0261198510868
+          AssetType: CfdOnStock
+          BkAmountId: '3126672978'
+          BkAmountType: Commisison
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-03-02'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT:xnas
+          RelatedPositionId: '787515963'
+          RelatedTradeId: '787515963'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT:xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-03-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -10
+          AmountAccountCurrency: -66.79
+          AmountClass: NotAssigned
+          AmountClientCurrency: -66.79
+          AmountSubClass: NotAssigned
+          AmountUSD: -10.0261198510868
+          AssetType: CfdOnStock
+          BkAmountId: '3126672978'
+          BkAmountType: Commisison
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-03-02'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT:xnas
+          RelatedPositionId: '787515963'
+          RelatedTradeId: '787515963'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT:xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-03-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -2.96
+          AmountAccountCurrency: -20.61
+          AmountClass: NotAssigned
+          AmountClientCurrency: -20.61
+          AmountSubClass: NotAssigned
+          AmountUSD: -2.96031369845305
+          AssetType: CfdOnStock
+          BkAmountId: '3185111269'
+          BkAmountType: CFD Finance
+          BkAmountTypeId: '10'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-03-31'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT:xnas
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT:xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-04-01'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -0.3
+          AmountAccountCurrency: -2.24
+          AmountClass: NotAssigned
+          AmountClientCurrency: -2.24
+          AmountSubClass: NotAssigned
+          AmountUSD: -0.334595535240827
+          AssetType: CfdOnStock
+          BkAmountId: '3360198216'
+          BkAmountType: CFD Finance
+          BkAmountTypeId: '10'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: EUR
+          Date: '2015-06-30'
+          InstrumentDescription: National Bank of Greece SA
+          InstrumentSectorName: Banks
+          InstrumentSectorTypeId: 656
+          InstrumentSubType: None
+          InstrumentSymbol: ETE=xath
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: Financials
+          RootInstrumentSectorTypeId: 509
+          Uic: 20690
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: National Bank of Greece SA
+          UnderlyingInstrumentSectorName: Banks
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: ETE=xath
+          UnderlyingInstrumentUic: 20690
+          ValueDate: '2015-07-01'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -6.41
+          AmountAccountCurrency: -6.41
+          AmountClass: NotAssigned
+          AmountClientCurrency: -6.41
+          AmountSubClass: NotAssigned
+          AmountUSD: -0.949643698425162
+          BkAmountId: '3360618999'
+          BkAmountType: Interest
+          BkAmountTypeId: '45'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-07-01'
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 0
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentUic: 0
+          ValueDate: '2015-07-01'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -3.06
+          AmountAccountCurrency: -20.79
+          AmountClass: NotAssigned
+          AmountClientCurrency: -20.79
+          AmountSubClass: NotAssigned
+          AmountUSD: -3.06030073085104
+          AssetType: CfdOnStock
+          BkAmountId: '3420534529'
+          BkAmountType: CFD Finance
+          BkAmountTypeId: '10'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-07-31'
+          InstrumentDescription: Ubiquiti Networks Inc.
+          InstrumentSectorName: Telecommunications Equipment
+          InstrumentSectorTypeId: 684
+          InstrumentSubType: None
+          InstrumentSymbol: UBNT=xnas
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: Technology
+          RootInstrumentSectorTypeId: 510
+          Uic: 85485
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: Ubiquiti Networks Inc.
+          UnderlyingInstrumentSectorName: Telecommunications Equipment
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: UBNT=xnas
+          UnderlyingInstrumentUic: 85485
+          ValueDate: '2015-08-03'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -0.31
+          AmountAccountCurrency: -2.31
+          AmountClass: NotAssigned
+          AmountClientCurrency: -2.31
+          AmountSubClass: NotAssigned
+          AmountUSD: -0.340033414539004
+          AssetType: CfdOnStock
+          BkAmountId: '3420454836'
+          BkAmountType: CFD Finance
+          BkAmountTypeId: '10'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: EUR
+          Date: '2015-07-31'
+          InstrumentDescription: National Bank of Greece SA
+          InstrumentSectorName: Banks
+          InstrumentSectorTypeId: 656
+          InstrumentSubType: None
+          InstrumentSymbol: ETE=xath
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: Financials
+          RootInstrumentSectorTypeId: 509
+          Uic: 20690
+          UnderlyingInstrumentAssetType: CfdOnStock
+          UnderlyingInstrumentDescription: National Bank of Greece SA
+          UnderlyingInstrumentSectorName: Banks
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: ETE=xath
+          UnderlyingInstrumentUic: 20690
+          ValueDate: '2015-08-03'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -4.6
+          AmountAccountCurrency: -4.6
+          AmountClass: NotAssigned
+          AmountClientCurrency: -4.6
+          AmountSubClass: NotAssigned
+          AmountUSD: -0.675050995700219
+          BkAmountId: '3420990244'
+          BkAmountType: Interest
+          BkAmountTypeId: '45'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-08-03'
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          RelatedPositionId: '0'
+          RelatedTradeId: '0'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 0
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentUic: 0
+          ValueDate: '2015-08-03'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -325
+          AmountAccountCurrency: -2182.26
+          AmountClass: NotAssigned
+          AmountClientCurrency: -2182.26
+          AmountSubClass: NotAssigned
+          AmountUSD: -326.285099129811
+          AssetType: StockIndexOption
+          BkAmountId: '3440442853'
+          BkAmountType: Premium
+          BkAmountTypeId: '12'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-08-12'
+          InstrumentDescription: Volatility Index (VIX) Aug2015 15 C
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/Q15C15=xcbf
+          RelatedPositionId: '840409122'
+          RelatedTradeId: '840409122'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1561206
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-08-12'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1.03999996185303
+          AmountAccountCurrency: -6.96
+          AmountClass: NotAssigned
+          AmountClientCurrency: -6.96
+          AmountSubClass: NotAssigned
+          AmountUSD: -1.04063873687988
+          AssetType: StockIndexOption
+          BkAmountId: '3440445011'
+          BkAmountType: Exchange Fee
+          BkAmountTypeId: '30'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-08-12'
+          InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/Q15P16=xcbf
+          RelatedPositionId: '840305316'
+          RelatedTradeId: '840305316'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1561245
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-08-12'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1.03999996185303
+          AmountAccountCurrency: -6.91
+          AmountClass: NotAssigned
+          AmountClientCurrency: -6.91
+          AmountSubClass: NotAssigned
+          AmountUSD: -1.03316288388505
+          AssetType: StockIndexOption
+          BkAmountId: '3440445585'
+          BkAmountType: Exchange Fee
+          BkAmountTypeId: '30'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-08-12'
+          InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/Q15P16=xcbf
+          RelatedPositionId: '840407407'
+          RelatedTradeId: '840407407'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1561245
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-08-12'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -260
+          AmountAccountCurrency: -1741.21
+          AmountClass: NotAssigned
+          AmountClientCurrency: -1741.21
+          AmountSubClass: NotAssigned
+          AmountUSD: -260.340599862444
+          AssetType: StockIndexOption
+          BkAmountId: '3440441397'
+          BkAmountType: Premium
+          BkAmountTypeId: '12'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-08-12'
+          InstrumentDescription: Volatility Index (VIX) Aug2015 16 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/Q15P16=xcbf
+          RelatedPositionId: '840305316'
+          RelatedTradeId: '840305316'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 1561245
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-08-12'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -19
+          AmountAccountCurrency: -19
+          AmountClass: NotAssigned
+          AmountClientCurrency: -19
+          AmountSubClass: NotAssigned
+          AmountUSD: -2.85383841266503
+          AssetType: Stock
+          BkAmountId: '3479817118'
+          BkAmountType: Commission
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-08-31'
+          InstrumentDescription: Wealth Invest Sirius Balance
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 400
+          InstrumentSubType: Etf
+          InstrumentSymbol: WEISIB=xcse
+          RelatedPositionId: '847585758'
+          RelatedTradeId: '847585758'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 400
+          Uic: 343053
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Wealth Invest Sirius Balance
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: Etf
+          UnderlyingInstrumentSymbol: WEISIB=xcse
+          UnderlyingInstrumentUic: 343053
+          ValueDate: '2015-09-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1072.8
+          AmountAccountCurrency: -1072.8
+          AmountClass: NotAssigned
+          AmountClientCurrency: -1072.8
+          AmountSubClass: NotAssigned
+          AmountUSD: -161.136728900371
+          AssetType: Stock
+          BkAmountId: '3480224792'
+          BkAmountType: Share Amount
+          BkAmountTypeId: '2'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-08-31'
+          InstrumentDescription: Wealth Invest Sirius Balance
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 400
+          InstrumentSubType: Etf
+          InstrumentSymbol: WEISIB=xcse
+          RelatedPositionId: '847585758'
+          RelatedTradeId: '847585758'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 400
+          Uic: 343053
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Wealth Invest Sirius Balance
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: Etf
+          UnderlyingInstrumentSymbol: WEISIB=xcse
+          UnderlyingInstrumentUic: 343053
+          ValueDate: '2015-09-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1103
+          AmountAccountCurrency: -1103
+          AmountClass: NotAssigned
+          AmountClientCurrency: -1103
+          AmountSubClass: NotAssigned
+          AmountUSD: -165.672829956291
+          AssetType: Stock
+          BkAmountId: '3480224810'
+          BkAmountType: Share Amount
+          BkAmountTypeId: '2'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-08-31'
+          InstrumentDescription: Wealth Invest - Saxo Global Equities
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 400
+          InstrumentSubType: None
+          InstrumentSymbol: WEISGE=xcse
+          RelatedPositionId: '847585836'
+          RelatedTradeId: '847585836'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 400
+          Uic: 1307373
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Wealth Invest - Saxo Global Equities
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: WEISGE=xcse
+          UnderlyingInstrumentUic: 1307373
+          ValueDate: '2015-09-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -19
+          AmountAccountCurrency: -19
+          AmountClass: NotAssigned
+          AmountClientCurrency: -19
+          AmountSubClass: NotAssigned
+          AmountUSD: -2.85383841266503
+          AssetType: Stock
+          BkAmountId: '3479817136'
+          BkAmountType: Commission
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: DKK
+          Date: '2015-08-31'
+          InstrumentDescription: Wealth Invest - Saxo Global Equities
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 400
+          InstrumentSubType: None
+          InstrumentSymbol: WEISGE=xcse
+          RelatedPositionId: '847585836'
+          RelatedTradeId: '847585836'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 400
+          Uic: 1307373
+          UnderlyingInstrumentAssetType: Stock
+          UnderlyingInstrumentDescription: Wealth Invest - Saxo Global Equities
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: WEISGE=xcse
+          UnderlyingInstrumentUic: 1307373
+          ValueDate: '2015-09-02'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -1.03999996185303
+          AmountAccountCurrency: -7.12
+          AmountClass: NotAssigned
+          AmountClientCurrency: -7.12
+          AmountSubClass: NotAssigned
+          AmountUSD: -1.04404184965504
+          AssetType: StockIndexOption
+          BkAmountId: '3679054443'
+          BkAmountType: Exchange Fee
+          BkAmountTypeId: '30'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-12-10'
+          InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F16P20=xcbf
+          RelatedPositionId: '883010450'
+          RelatedTradeId: '883010450'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 2206610
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-12-10'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -680
+          AmountAccountCurrency: -4653.05
+          AmountClass: NotAssigned
+          AmountClientCurrency: -4653.05
+          AmountSubClass: NotAssigned
+          AmountUSD: -682.300411311431
+          AssetType: StockIndexOption
+          BkAmountId: '3679054441'
+          BkAmountType: Premium
+          BkAmountTypeId: '12'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-12-10'
+          InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F16P20=xcbf
+          RelatedPositionId: '883010450'
+          RelatedTradeId: '883010450'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 2206610
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-12-10'
+        - AccountCurrency: DKK
+          AccountId: 179643INET
+          Amount: -12
+          AmountAccountCurrency: -82.11
+          AmountClass: NotAssigned
+          AmountClientCurrency: -82.11
+          AmountSubClass: NotAssigned
+          AmountUSD: -12.040207342019
+          AssetType: StockIndexOption
+          BkAmountId: '3679054442'
+          BkAmountType: Commission
+          BkAmountTypeId: '4'
+          CaMasterRecordId: '0'
+          ClientCurrency: DKK
+          ConversionRate: 0
+          ConversionRateAccountCurrency: 0
+          ConversionRateClientCurrency: 0
+          ConversionRateUSD: 0
+          CostClass: NotAssigned
+          CostSubClass: NotAssigned
+          Currency: USD
+          Date: '2015-12-10'
+          InstrumentDescription: Volatility Index (VIX) Jan2016 20 P
+          InstrumentSectorName: <Unknown>
+          InstrumentSectorTypeId: 0
+          InstrumentSubType: None
+          InstrumentSymbol: VIX/F16P20=xcbf
+          RelatedPositionId: '883010450'
+          RelatedTradeId: '883010450'
+          RootInstrumentSectorName: <Unknown>
+          RootInstrumentSectorTypeId: 0
+          Uic: 2206610
+          UnderlyingInstrumentDescription: CBOE Volatility Index
+          UnderlyingInstrumentSectorName: <Unknown>
+          UnderlyingInstrumentSubType: None
+          UnderlyingInstrumentSymbol: VIX.I
+          UnderlyingInstrumentUic: 10606
+          ValueDate: '2015-12-10'
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AmountSubClass:
+      title: The amount sub class.
+      enum:
+      - ExternalCosts
+      - InstrumentRelated
+      - ManagementFee
+      - NonBookedCosts
+      - NonInstrumentRelated
+      - NotAssigned
+      type: string
+      example: NonInstrumentRelated
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    CostSubClass:
+      title: The cost sub class.
+      enum:
+      - NotAssigned
+      - ProductCosts
+      - ServiceCosts
+      - ThirdpartyPayments
+      type: string
+      example: ProductCosts
+    Booking:
+      title: The booking.
+      type: object
+      properties:
+        AccountCurrency:
+          title: Booking account amount currency
+          type: string
+          example: stringValue
+        AccountId:
+          title: AccountId
+          type: string
+          example: stringValue
+        Amount:
+          title: Booked Amount in Instrument currency
+          type: number
+          example: 10
+        AmountAccountCurrency:
+          title: Booked Amount in account currency
+          type: number
+          example: 10
+        AmountClass:
+          title: Cost Category
+          allOf:
+          - $ref: '#/components/schemas/AmountClass'
+        AmountClientCurrency:
+          title: Booked Amount in Client currency
+          type: number
+          example: 10
+        AmountSubClass:
+          title: Cost Sub Category
+          allOf:
+          - $ref: '#/components/schemas/AmountSubClass'
+        AmountUSD:
+          title: Booked Amount USD
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BkAmountId:
+          title: Id of booked amount
+          type: string
+          example: stringValue
+        BkAmountType:
+          title: Denotes the amount type for the booking
+          type: string
+          example: stringValue
+        BkAmountTypeId:
+          title: ID of the booked amount type
+          type: string
+          example: stringValue
+        CaEventName:
+          title: if booking is related to a corporate action, denotes the name of the event
+          type: string
+          example: stringValue
+        CaMasterRecordId:
+          title: if booking is related to a corporate action, denotes the ID of the corporate action event
+          type: string
+          example: stringValue
+        ClientCurrency:
+          title: Booking client amount currency
+          type: string
+          example: stringValue
+        ConversionRate:
+          title: Conversion rate
+          type: number
+          example: 10
+        ConversionRateAccountCurrency:
+          title: the currency conversion cost in account currency when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        ConversionRateClientCurrency:
+          title: the currency conversion cost in client currency when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        ConversionRateUSD:
+          title: the currency conversion cost in USD when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        CostClass:
+          title: Cost Category
+          allOf:
+          - $ref: '#/components/schemas/CostClass'
+        CostSubClass:
+          title: Cost Sub Category
+          allOf:
+          - $ref: '#/components/schemas/CostSubClass'
+        Currency:
+          title: Booking amount currency
+          type: string
+          example: stringValue
+        Date:
+          title: Date
+          type: string
+          format: date
+          x-type-name: Date
+        InstrumentDescription:
+          title: Instrument
+          type: string
+          example: stringValue
+        InstrumentSectorName:
+          title: Sector name of the instrument
+          type: string
+          example: stringValue
+        InstrumentSectorTypeId:
+          title: Sector type Id of instrument
+          type: integer
+          format: int32
+          example: 99
+        InstrumentSubType:
+          title: sub type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        InstrumentSymbol:
+          title: The instrument code
+          type: string
+          example: stringValue
+        RelatedPositionId:
+          title: Related Position Id
+          type: string
+          example: stringValue
+        RelatedTradeId:
+          title: Related trade Id
+          type: string
+          example: stringValue
+        RootInstrumentSectorName:
+          title: Top Level Sector name of the instrument
+          type: string
+          example: stringValue
+        RootInstrumentSectorTypeId:
+          title: Top Level Sector Id of the instrument
+          type: integer
+          format: int32
+          example: 99
+        Uic:
+          title: Uic of instrument
+          type: integer
+          format: int32
+          example: 99
+        UnderlyingInstrumentAssetType:
+          title: Asset type of underlying instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        UnderlyingInstrumentDescription:
+          title: Description of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentSectorName:
+          title: Sector name of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentSubType:
+          title: sub type of underlying instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        UnderlyingInstrumentSymbol:
+          title: Symbol of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentUic:
+          title: Uic of underlying instrument
+          type: integer
+          format: int32
+          example: 99
+        ValueDate:
+          title: Booking value date
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        AccountCurrency: stringValue
+        AccountId: stringValue
+        Amount: 10
+        AmountAccountCurrency: 10
+        AmountClass: OngoingPayment
+        AmountClientCurrency: 10
+        AmountSubClass: ManagementFee
+        AmountUSD: 10
+        AssetType: WarrantOpenEndKnockOut
+        BkAmountId: stringValue
+        BkAmountType: stringValue
+        BkAmountTypeId: stringValue
+        CaEventName: stringValue
+        CaMasterRecordId: stringValue
+        ClientCurrency: stringValue
+        ConversionRate: 10
+        ConversionRateAccountCurrency: 10
+        ConversionRateClientCurrency: 10
+        ConversionRateUSD: 10
+        CostClass: TransactionCosts
+        CostSubClass: ServiceCosts
+        Currency: stringValue
+        Date: '0001-01-01'
+        InstrumentDescription: stringValue
+        InstrumentSectorName: stringValue
+        InstrumentSectorTypeId: 99
+        InstrumentSubType: Etn
+        InstrumentSymbol: stringValue
+        RelatedPositionId: stringValue
+        RelatedTradeId: stringValue
+        RootInstrumentSectorName: stringValue
+        RootInstrumentSectorTypeId: 99
+        Uic: 99
+        UnderlyingInstrumentAssetType: WarrantDoubleKnockOut
+        UnderlyingInstrumentDescription: stringValue
+        UnderlyingInstrumentSectorName: stringValue
+        UnderlyingInstrumentSubType: Etc
+        UnderlyingInstrumentSymbol: stringValue
+        UnderlyingInstrumentUic: 99
+        ValueDate: '0001-01-01'
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    AmountClass:
+      title: The amount class.
+      enum:
+      - NotAssigned
+      - OngoingCharges
+      - OngoingPayment
+      - TransactionCosts
+      type: string
+      example: TransactionCosts
+    BookingRequestType:
+      title: Request type, basis on which bookings are reterived
+      enum:
+      - BkAmountId
+      - BkAmountTypeId
+      - CaMasterRecordId
+      - RelatedTradeId
+      type: string
+      example: BkAmountId
+      x-enum-descriptions:
+        BkAmountId: Booking amount Id
+        CaMasterRecordId: Corporate action Id
+        RelatedTradeId: Related trade Id
+        BkAmountTypeId: SaxoInternal- Booking Amount type Id
+    CostClass:
+      title: The cost class.
+      enum:
+      - AncillaryCosts
+      - IncidentalCosts
+      - NotAssigned
+      - OneOffCosts
+      - OngoingCosts
+      - ThirdPartyPayments
+      - TransactionCosts
+      type: string
+      example: OngoingCosts
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

@@ -1,0 +1,797 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Historical Report Data - Trades API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Historical Report Data - Trades
+  description: Trades Report Data.
+paths:
+  /cs/v1/reports/trades/{ClientKey}:
+    get:
+      tags:
+      - Historical Report Data - Trades
+      description: Gets all trades for dates or tradeId.
+      operationId: TradesGetDetailsAsync
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $skiptoken
+        in: query
+        description: Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks.
+        schema:
+          type: string
+        example: B17D8890-3C7A-4A47-A9AA-01B022ED03A5
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          title: The key of the account group to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account to which the resource belongs.
+        schema:
+          title: The key of the account to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: path
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          title: The key of the client to which the resource belongs.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      - name: FromDate
+        in: query
+        description: from date in UTC, ignored when tradeId is given
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2016-10-10'
+      - name: MockDataId
+        in: query
+        description: Optional Mock Data Parameter
+        schema:
+          type: string
+      - name: ToDate
+        in: query
+        description: to date in UTC, ignored when tradeId is given
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2017-10-10'
+      - name: TradeId
+        in: query
+        description: trade id, accountkey is mandatory with tradeId
+        schema:
+          type: string
+        example: '293832'
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeListResult'
+              example:
+                __next: /openapi/....../?$top=1&$skip=1
+                Data:
+                - AccountCurrency: AUD
+                  AccountCurrencyDecimals: 0
+                  AccountId: 148455INET
+                  AdjustedTradeDate: '2010-10-10'
+                  Amount: -100000
+                  AssetType: FxSpot
+                  ClientCurrency: AUD
+                  Direction: None
+                  ExchangeDescription: Inter Bank
+                  InitialMargin: 0
+                  InstrumentCurrencyDecimal: 2
+                  InstrumentDescription: Australian Dollar/US Dollar
+                  InstrumentSectorName: Major
+                  InstrumentSectorTypeId: 2
+                  InstrumentSymbol: AUDUSD
+                  MaintenanceMargin: 0
+                  OrderId: '735126300'
+                  Price: 0.73356
+                  RootInstrumentSectorName: FX
+                  RootInstrumentSectorTypeId: 1
+                  Strike: 0
+                  ToOpenOrClose: ToClose
+                  TradeBarrierEventStatus: false
+                  TradeDate: '2015-10-12'
+                  TradedValue: 73356
+                  TradeEventType: Sold
+                  TradeExecutionTime: '2015-10-12T04:26:47Z'
+                  TradeId: '861198960'
+                  TradeType: Market
+                  Uic: 4
+                  UnderlyingInstrumentDescription: Australian Dollar/US Dollar
+                  UnderlyingInstrumentSymbol: AUDUSD
+                  ValueDate: '2015-10-14'
+                  Venue: OTC
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    Trade:
+      title: The trade.
+      type: object
+      properties:
+        AccountCurrency:
+          title: The account currency
+          type: string
+          example: stringValue
+        AccountCurrencyDecimals:
+          title: The amount of decimals used by the account currency
+          type: integer
+          format: int32
+          example: 99
+        AccountId:
+          title: AccountId
+          type: string
+          example: stringValue
+        AdjustedTradeDate:
+          title: The ActualTradeDate is the intended trade date of a trade. E.g. In the case of corrections this date will refer back to the TradeDate of the original trade being corrected, else it defaults to TradeDate.
+          type: string
+          format: date
+          x-type-name: Date
+        Amount:
+          title: The amount bought or sold
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Barrier1:
+          title: Lower barrier
+          type: number
+          example: 10
+        Barrier2:
+          title: Upper barrier
+          type: number
+          example: 10
+        BookedAmountAccountCurrency:
+          title: Booked amount in account currency
+          type: number
+          example: 10
+        BookedAmountClientCurrency:
+          title: Booked amount in client currency
+          type: number
+          example: 10
+        BookedAmountUSD:
+          title: Booked amount in USD
+          type: number
+          example: 10
+        CaEventId:
+          title: Id of the corporate action event giving rise to the trade.
+          type: string
+          example: stringValue
+        CaEventTypeId:
+          title: Id of the corporate action type.
+          type: string
+          example: stringValue
+        CaEventTypeName:
+          title: The name of the corporate action type.
+          type: string
+          example: stringValue
+        ClientCurrency:
+          title: The client currency
+          type: string
+          example: stringValue
+        Direction:
+          title: Direction
+          allOf:
+          - $ref: '#/components/schemas/TradePerspective'
+        ExchangeDescription:
+          title: Description of exchange
+          type: string
+          example: stringValue
+        ExpiryDate:
+          title: ExpiryDate
+          type: string
+          format: date
+          x-type-name: Date
+        FinancingLevel:
+          title: Financing Level
+          type: number
+          example: 10
+        IndexRatio:
+          title: Index Ratio
+          type: number
+          example: 10
+        InitialMargin:
+          title: Initial Margin
+          type: number
+          example: 10
+        InstrumentCategoryCode:
+          title: Category Code of the Instrument
+          type: string
+          example: stringValue
+        InstrumentCurrencyDecimal:
+          title: The amount of decimals used by the instrument currency
+          type: integer
+          format: int32
+          example: 99
+        InstrumentDescription:
+          title: Instrument
+          type: string
+          example: stringValue
+        InstrumentSectorName:
+          title: Sector name of the instrument
+          type: string
+          example: stringValue
+        InstrumentSectorTypeId:
+          title: Sector type Id of instrument
+          type: integer
+          format: int32
+          example: 99
+        InstrumentSymbol:
+          title: The instrument code
+          type: string
+          example: stringValue
+        IssuerName:
+          title: Issuer Name
+          type: string
+          example: stringValue
+        MaintenanceMargin:
+          title: Margin for maintenance
+          type: number
+          example: 10
+        Mnemonic:
+          title: Mnemonic
+          type: string
+          example: stringValue
+        OptionEventType:
+          title: Option type event, e.g call, put etc.
+          allOf:
+          - $ref: '#/components/schemas/OptionEventType'
+        OrderId:
+          title: OrderID
+          type: string
+          example: stringValue
+        Price:
+          title: The price in instrument currency
+          type: number
+          example: 10
+        ResidualValue:
+          title: Residual Value
+          type: number
+          example: 10
+        RootInstrumentSectorName:
+          title: Top Level Sector name of the instrument
+          type: string
+          example: stringValue
+        RootInstrumentSectorTypeId:
+          title: Top Level Sector Id of the instrument
+          type: integer
+          format: int32
+          example: 99
+        SpreadCostAccountCurrency:
+          title: Spread added by counterpart in Account Currency
+          type: number
+          example: 10
+        SpreadCostClientCurrency:
+          title: Spread added by counterpart in Client Currency
+          type: number
+          example: 10
+        SpreadCostUSD:
+          title: Spread added by counterpart in USD
+          type: number
+          example: 10
+        StopLoss:
+          title: Knockout value for MiniFuture turbo instruments
+          type: number
+          example: 10
+        Strike:
+          title: 'Strike price for options: StockOptions, StockIndexOptions, FuturesOptions and FxVanillaOptions'
+          type: number
+          example: 10
+        Strike2:
+          title: Strike2
+          type: number
+          example: 10
+        ToOpenOrClose:
+          title: 'ToOpenOrClose: Relevant for StockOptions, StockIndexOptions and FuturesOptions'
+          allOf:
+          - $ref: '#/components/schemas/ToOpenOrClose'
+        ToolId:
+          title: Id of the system creating this trade.
+          type: string
+          example: stringValue
+        TradeBarrierEventStatus:
+          title: Trade barrier event status
+          type: boolean
+          example: true
+        TradeDate:
+          title: Date of Trade
+          type: string
+          format: date
+          x-type-name: Date
+        TradeEventType:
+          title: Trade type event,e.g bought, sold etc.
+          allOf:
+          - $ref: '#/components/schemas/TradeEventType'
+        TradeExecutionTime:
+          title: Time the trade was executed
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TradeId:
+          title: TradeID
+          type: string
+          example: stringValue
+        TradeType:
+          title: The type of the trade.
+          allOf:
+          - $ref: '#/components/schemas/TradeType'
+        TradedValue:
+          title: The traded value ((price * amount*unitsize)*-1) in instrument currency
+          type: number
+          example: 10
+        Uic:
+          title: Uic of instrument
+          type: integer
+          format: int32
+          example: 99
+        UnderlyingInstrumentDescription:
+          title: Description of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentSymbol:
+          title: Symbol of underlying instrument
+          type: string
+          example: stringValue
+        ValueDate:
+          title: Trade value date
+          type: string
+          format: date
+          x-type-name: Date
+        Venue:
+          title: Venue
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountCurrency: stringValue
+        AccountCurrencyDecimals: 99
+        AccountId: stringValue
+        AdjustedTradeDate: '0001-01-01'
+        Amount: 10
+        AssetType: CertificateUncappedCapitalProtection
+        Barrier1: 10
+        Barrier2: 10
+        BookedAmountAccountCurrency: 10
+        BookedAmountClientCurrency: 10
+        BookedAmountUSD: 10
+        CaEventId: stringValue
+        CaEventTypeId: stringValue
+        CaEventTypeName: stringValue
+        ClientCurrency: stringValue
+        Direction: Put
+        ExchangeDescription: stringValue
+        ExpiryDate: '0001-01-01'
+        FinancingLevel: 10
+        IndexRatio: 10
+        InitialMargin: 10
+        InstrumentCategoryCode: stringValue
+        InstrumentCurrencyDecimal: 99
+        InstrumentDescription: stringValue
+        InstrumentSectorName: stringValue
+        InstrumentSectorTypeId: 99
+        InstrumentSymbol: stringValue
+        IssuerName: stringValue
+        MaintenanceMargin: 10
+        Mnemonic: stringValue
+        OptionEventType: Call
+        OrderId: stringValue
+        Price: 10
+        ResidualValue: 10
+        RootInstrumentSectorName: stringValue
+        RootInstrumentSectorTypeId: 99
+        SpreadCostAccountCurrency: 10
+        SpreadCostClientCurrency: 10
+        SpreadCostUSD: 10
+        StopLoss: 10
+        Strike: 10
+        Strike2: 10
+        ToolId: stringValue
+        ToOpenOrClose: ToOpen
+        TradeBarrierEventStatus: false
+        TradeDate: '0001-01-01'
+        TradedValue: 10
+        TradeEventType: TransferOut
+        TradeExecutionTime: '9999-12-31T23:59:59.9999990+00:00'
+        TradeId: stringValue
+        TradeType: NotAvailable
+        Uic: 99
+        UnderlyingInstrumentDescription: stringValue
+        UnderlyingInstrumentSymbol: stringValue
+        ValueDate: '0001-01-01'
+        Venue: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    TradeType:
+      title: Specifies under what conditions an order should be triggered.
+      enum:
+      - Assignment
+      - AutoAssignment
+      - AutoExcercise
+      - Expiry
+      - GuaranteedStop
+      - Limit
+      - LimitNotice
+      - Market
+      - MarketRollover
+      - MarketStopOut
+      - NotAvailable
+      - Stop
+      - StopBid
+      - StopLimit
+      - StopNotice
+      - StopOffer
+      - StopTraded
+      - Switch
+      - Traspaso
+      - TraspasoIn
+      - TraspasoOut
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      type: string
+      example: Market
+      x-enum-descriptions:
+        Market: Market Order
+        Limit: Limit Order
+        StopBid: Stop Bid Order
+        StopOffer: Stop Offer Order
+        StopTraded: Stop Traded Order
+        Stop: Stop Order
+        StopLimit: Stop Limit Order
+        MarketStopOut: Market (Stop Out)
+        LimitNotice: The limit notice
+        StopNotice: The stop notice
+        Assignment: The assignment
+        AutoAssignment: The automatic assignment
+        AutoExcercise: The automatic excercise
+        Expiry: The expiry
+        Switch: The switch
+        Traspaso: The traspaso
+        TraspasoOut: The traspaso out
+        MarketRollover: The market rollover
+        TraspasoIn: The traspaso in
+        GuaranteedStop: The guaranteed stop
+        TriggerLimit: The trigger limit
+        TriggerStop: The trigger stop
+        TriggerBreakout: The trigger breakout
+    TradeEventType:
+      title: The trade event type.
+      enum:
+      - Bought
+      - Sold
+      - TransferIn
+      - TransferOut
+      - Unknown
+      type: string
+      example: TransferIn
+      x-enum-descriptions:
+        TransferOut: Position transferred out
+        TransferIn: Position transferred in
+        Bought: Position bought
+        Sold: Position sold
+        Unknown: Unknown trade event type
+    ToOpenOrClose:
+      title: ToOpenOrClose
+      enum:
+      - ToClose
+      - ToOpen
+      type: string
+      example: ToClose
+      x-enum-descriptions:
+        ToOpen: Order/Position is ToOpen
+        ToClose: Order/Position is ToClose
+    TradePerspective:
+      title: TradePerspective (Long/Short/Put/Call/Long/Bull/Bear) of the instrument
+      enum:
+      - Bear
+      - Bull
+      - Call
+      - Long
+      - None
+      - Put
+      - Short
+      type: string
+      example: Call
+      x-enum-descriptions:
+        None: Not specified.
+        Call: Put.
+        Put: Call.
+        Long: Long.
+        Short: Short.
+        Bull: Bull.
+        Bear: Bear.
+    TradeListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trade'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - AccountCurrency: AUD
+          AccountCurrencyDecimals: 0
+          AccountId: 148455INET
+          AdjustedTradeDate: '2010-10-10'
+          Amount: -100000
+          AssetType: FxSpot
+          ClientCurrency: AUD
+          Direction: None
+          ExchangeDescription: Inter Bank
+          InitialMargin: 0
+          InstrumentCurrencyDecimal: 2
+          InstrumentDescription: Australian Dollar/US Dollar
+          InstrumentSectorName: Major
+          InstrumentSectorTypeId: 2
+          InstrumentSymbol: AUDUSD
+          MaintenanceMargin: 0
+          OrderId: '735126300'
+          Price: 0.73356
+          RootInstrumentSectorName: FX
+          RootInstrumentSectorTypeId: 1
+          Strike: 0
+          ToOpenOrClose: ToClose
+          TradeBarrierEventStatus: false
+          TradeDate: '2015-10-12'
+          TradedValue: 73356
+          TradeEventType: Sold
+          TradeExecutionTime: '2015-10-12T04:26:47Z'
+          TradeId: '861198960'
+          TradeType: Market
+          Uic: 4
+          UnderlyingInstrumentDescription: Australian Dollar/US Dollar
+          UnderlyingInstrumentSymbol: AUDUSD
+          ValueDate: '2015-10-14'
+          Venue: OTC
+    OptionEventType:
+      title: The option event type.
+      enum:
+      - BinaryCall
+      - BinaryPut
+      - Call
+      - KnockInCall
+      - KnockInPut
+      - KnockOutCall
+      - KnockOutPut
+      - NoTouch
+      - OneTouch
+      - Put
+      - Unknown
+      type: string
+      example: Put
+      x-enum-descriptions:
+        Call: Call option exercised
+        Put: Put option exercised
+        KnockInCall: Fx Knock-In call option exercised
+        KnockInPut: Fx Knok-in put option exercies
+        KnockOutCall: Fx Knock-Out call option exercised
+        KnockOutPut: Fx Knock-Out call option exercised
+        BinaryCall: Fx Binary call option exercised
+        BinaryPut: Fx Binary put option exercised
+        OneTouch: Fx One touch option exercised
+        NoTouch: Fx No touch option exercised
+        Unknown: Unknown option event type
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

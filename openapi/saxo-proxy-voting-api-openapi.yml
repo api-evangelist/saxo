@@ -1,0 +1,309 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Proxy Voting API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Proxy Voting
+  description: Get proxy voting events or subscribe for proxy voting
+paths:
+  /ca/v1/proxyvoting/events:
+    get:
+      tags:
+      - Proxy Voting
+      description: Get proxy voting events for client. Requires separate license.
+      operationId: ProxyVotingGetProxyVotingEventsAsync
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 50
+        example: 1
+      - name: ClientKey
+        in: query
+        description: Client identifier to get events for
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: W-CgwnsUEpETkiR8MPJalA==
+      - name: SortColumn
+        in: query
+        description: Specify a column to sort on. Default sorting on records is descending by ReceivedDate and ascending by IssuerName.
+        schema:
+          $ref: '#/components/schemas/SortColumn'
+      - name: SortType
+        in: query
+        description: Specify ascending or descending sort. Default sort type will be Ascending.
+        schema:
+          $ref: '#/components/schemas/SortType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyVotingEventListResult'
+              example:
+                __count: 1
+                Data:
+                - AccountId: '384930295'
+                  ActionUrl: http://....
+                  Cins: A08010AA5
+                  Cusip: '123456789'
+                  CutoffDate: '2020-06-30'
+                  DeliveryType:
+                    Code: ED
+                    Description: Sent via email
+                  IsinCode: US0978731104
+                  IssuerName: American International Group, Inc.
+                  JobNumber: S75596
+                  Materials:
+                  - MaterialType:
+                      Code: 10K
+                      Description: 10-K Report
+                    Url: http://....
+                  ReceivedDate: '2020-06-15'
+                  Status:
+                    Code: VW
+                    Description: Viewed
+                  StatusDate: '2020-06-30'
+                  Subtype:
+                    Code: S
+                    Description: Special meeting
+                  Type:
+                    Code: PX
+                    Description: Proxy
+        '403':
+          description: User is not authorized to access the requested data.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    ProxyVotingEventListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProxyVotingEvent'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ProxyVotingMaterial:
+      title: Material\document pertaining to a distribution
+      type: object
+      properties:
+        MaterialType:
+          title: Short description of what the material/document represents
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        Url:
+          title: Material/document url
+          type: string
+      additionalProperties: false
+    SortColumn:
+      title: Sort columns for distribution api
+      enum:
+      - AccountId
+      - Cins
+      - Cusip
+      - CutoffDate
+      - DeliveryType
+      - DeliveryTypeDescription
+      - Isin
+      - IssuerName
+      - JobNumber
+      - RecievedDate
+      - Status
+      - StatusDate
+      - SubType
+      - SubTypeDescription
+      - Ticker
+      - Type
+      - TypeDescription
+      type: string
+      x-enum-descriptions:
+        Type: Type
+        TypeDescription: Type description
+        SubType: Sub type
+        SubTypeDescription: Sub type description
+        IssuerName: Issuer name
+        Cusip: Cusip
+        Cins: Cins
+        Isin: Isin
+        Ticker: Ticker
+        AccountId: Account id
+        JobNumber: Job number
+        DeliveryType: DeliveryType
+        DeliveryTypeDescription: Delivery type description
+        RecievedDate: Recieved date
+        CutoffDate: Cutoff date
+        Status: Status
+        StatusDate: Status date
+    Models.CodeDescription:
+      title: Code/Description
+      type: object
+      properties:
+        Code:
+          title: Code
+          type: string
+        Description:
+          title: Description
+          type: string
+      additionalProperties: false
+    ProxyVotingEvent:
+      title: Proxy voting event
+      type: object
+      properties:
+        AccountId:
+          title: Account id
+          type: string
+        ActionUrl:
+          title: The URL to launch ProxyVote.com or ReorgAction.com, depending on the event type
+          type: string
+        Cins:
+          title: 9-character CINS. Only provided if applicable to the security
+          type: string
+        Cusip:
+          title: 9-character CUSIP. Only provided if applicable to the security.
+          type: string
+        CutoffDate:
+          title: The last date by when an action on the event will be accepted
+          type: string
+          format: date
+          x-type-name: Date
+        DeliveryType:
+          title: Delivery type
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        IsinCode:
+          title: 12-character ISIN. Only provided if applicable to the security
+          type: string
+        IssuerName:
+          title: "Issuer/Security name up to 80 characters in length. \r\n            For US securities, the name is on the 6-digit CUSIP level. \r\n            When the CUSIP is a fund, the 9-character CUSIP description will be displayed."
+          type: string
+        JobNumber:
+          title: "6-character Broadridge generated internal identifier used to track the event. \r\n            Not applicable to distribution types PostSale and Class Action."
+          type: string
+        Materials:
+          title: Materials/documents for event
+          type: array
+          items:
+            $ref: '#/components/schemas/ProxyVotingMaterial'
+        ReceivedDate:
+          title: Date when event was first made available
+          type: string
+          format: date
+          x-type-name: Date
+        Status:
+          title: Status of event
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        StatusDate:
+          title: "Date of when the status last changed. \r\n            Only applies to “status” with a code of either VW, VT, or EL."
+          type: string
+          format: date
+          x-type-name: Date
+        Subtype:
+          title: Distribution subtype
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        Ticker:
+          title: "Ticker symbol of the issuer/security up to 8 characters in length.\r\n            Optional and only available for certain markets."
+          type: string
+        Type:
+          title: Distribution type
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+      additionalProperties: false
+    SortType:
+      title: Sort type
+      enum:
+      - Asc
+      - Desc
+      type: string
+      x-enum-descriptions:
+        Asc: Ascending sort
+        Desc: Descending sort
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

@@ -1,0 +1,362 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Holdings API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Holdings
+  description: Endpoints for client holdings
+paths:
+  /ca/v2/holdings:
+    get:
+      tags:
+      - Holdings
+      summary: Get client holdings
+      description: Get client holdings based on client/account/event
+      operationId: HoldingsGetHoldingsAsync
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      - name: AccountGroupKey
+        in: query
+        description: Account group identifier
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: BxS0VWLta8lJ3SBpjGBQjw==
+      - name: AccountKey
+        in: query
+        description: Account identifier
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 2y0tX0m9ZH7MH8HK38qM9g==
+      - name: ClientKey
+        in: query
+        description: Client identifier
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 7m4I|vtYLUnEGg77o9uQhw==
+      - name: EventId
+        in: query
+        description: Event id
+        schema:
+          type: string
+        example: '987468'
+      - name: IncludeSubAccounts
+        in: query
+        description: Indicate whether to include events from sub-clients.
+        schema:
+          type: boolean
+        example: false
+      - name: ManagementTypes
+        in: query
+        description: SaxoInternal - Management type filter for holdings.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagementType'
+        example: Client,TradeAdvisory
+      - name: ModelIds
+        in: query
+        description: SaxoInternal - Model filter for holdings. Accepts comma separated model ids for filtering.
+        schema:
+          type: array
+          items:
+            type: string
+        example: '1226'
+      responses:
+        '200':
+          description: Request completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HoldingListResult'
+              example:
+                __count: 1
+                Data:
+                - AccountId: 123INET
+                  Amount: 100
+                  CashReserved:
+                    Currency: USD
+                    Value: 2583.62
+                  ClientId: '906869'
+                  ClientName: John
+                  ElectedAmount: 20
+                  EventId: '9652429'
+                  Options:
+                  - ElectedAmount: 20
+                    ElectionType: Manual
+                    Instruction:
+                      Status: Accepted
+                    OptionId: '1'
+                    Remarks: Remarks by client...
+                  OwnerId: '532'
+        '404':
+          description: Requested resource not found.
+        '400':
+          description: Request contains invalid parameters.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidPagingParameters
+                    type: string
+                    x-enum-descriptions:
+                      InvalidPagingParameters: Invalid paging parameters
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+components:
+  schemas:
+    HoldingOption:
+      title: Indicates previous elections made on a corporate action event for positions in an account
+      type: object
+      properties:
+        ElectedAmount:
+          title: The amount elected
+          type: number
+        ElectionType:
+          title: Indicates if election was auto or manual
+          allOf:
+          - $ref: '#/components/schemas/ElectionType'
+        Instruction:
+          title: Instruction status
+          allOf:
+          - $ref: '#/components/schemas/Event.Instruction'
+        OptionId:
+          title: The event option id instructed on
+          type: string
+        Remarks:
+          title: Remarks by client
+          type: string
+      additionalProperties: false
+    InstructionStatus:
+      title: Instruction status
+      enum:
+      - Accepted
+      - InProgress
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Election instruction accepted
+        InProgress: Election instruction in progress
+        Rejected: Election instruction rejected
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    StandingInstructionStatus:
+      title: Standing instruction status
+      enum:
+      - Created
+      - NotCreated
+      type: string
+      x-enum-descriptions:
+        Created: Indicates that standing instruction is created
+        NotCreated: Indicates that standing instruction is not created
+    Holding:
+      title: Event Holding
+      type: object
+      properties:
+        AccountDisplayName:
+          title: Account display name
+          type: string
+        AccountId:
+          title: Account id
+          type: string
+        AccountKey:
+          title: Account key
+          type: string
+        Amount:
+          title: Eligible holding
+          type: number
+        CashReserved:
+          title: Cash reserved after electing on corresponding option
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        ClientId:
+          title: Client Id
+          type: string
+        ClientKey:
+          title: Client key
+          type: string
+        ClientName:
+          title: Client name
+          type: string
+        ElectedAmount:
+          title: The amount of positions that have already been elected on
+          type: number
+        ElectionStatus:
+          title: Election status
+          allOf:
+          - $ref: '#/components/schemas/ElectionStatus'
+        EventId:
+          title: Corporate action event Id
+          type: string
+        Options:
+          title: List of previously instructed options and their status
+          type: array
+          items:
+            $ref: '#/components/schemas/HoldingOption'
+        OwnerId:
+          title: Owner Id
+          type: string
+        StandingInstructionStatus:
+          title: Indicates if there is a standing instruction created for this holding
+          allOf:
+          - $ref: '#/components/schemas/StandingInstructionStatus'
+      additionalProperties: false
+    ValueType:
+      title: Price type
+      enum:
+      - Actual
+      - Percentage
+      type: string
+      x-enum-descriptions:
+        Actual: Actual value
+        Percentage: Percentage
+    Event.Instruction:
+      title: Instruction
+      type: object
+      properties:
+        Reason:
+          title: "Election instruction status's reason\r\n            A detailed reason code for any errors related to the election.\r\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+          type: string
+        Status:
+          title: "Election instruction status\r\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+          allOf:
+          - $ref: '#/components/schemas/InstructionStatus'
+      additionalProperties: false
+    PriceAndRate:
+      title: Price and rate
+      type: object
+      properties:
+        Currency:
+          title: Price/Rate currency
+          type: string
+        Type:
+          title: Price/Rate action type
+          allOf:
+          - $ref: '#/components/schemas/ValueType'
+        Value:
+          title: Price
+          type: number
+      additionalProperties: false
+    HoldingListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Holding'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    ManagementType:
+      title: Account Management Type
+      enum:
+      - Client
+      - ExternallyManaged
+      - ModelAdvisory
+      - ModelManaged
+      - SelfPeriodicInvestment
+      - TradeAdvisory
+      type: string
+      x-enum-descriptions:
+        Client: The account is managed by the client. (Default).
+        TradeAdvisory: Advisors can call clients with trade suggestions across products, but trades are accepted by the client.
+        ModelAdvisory: The account is managed by a model, but client has to accept changes to the model.
+        ModelManaged: The account is managed by a model. Client cannot trade on the account.
+        ExternallyManaged: The account is managed externally (not in a saxo bank system). Client cannot trade on the account, but authorized dealers can.
+        SelfPeriodicInvestment: Client can schedule periodic investments on one or multiple Instruments
+    ElectionStatus:
+      title: Election status
+      enum:
+      - Elected
+      - NotElected
+      - PartialElected
+      type: string
+      x-enum-descriptions:
+        Elected: Elected
+        PartialElected: Partially elected
+        NotElected: Not elected
+    ElectionType:
+      title: Election type
+      enum:
+      - Auto
+      - Manual
+      type: string
+      x-enum-descriptions:
+        Auto: Auto elections made through standing instructions
+        Manual: Manual elections
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

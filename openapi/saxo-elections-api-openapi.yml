@@ -1,0 +1,437 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Elections API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Elections
+  description: Endpoints for election instructions
+paths:
+  /ca/v2/elections/bulk:
+    put:
+      tags:
+      - Elections
+      summary: Send bulk election instructions
+      description: "Sends instructions about elections to make for given accounts and event.\r\n            When posting these instructions to elect, all previous elections for the specified accounts/event are overwritten."
+      operationId: ElectionBulkElectAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkElectionRequest'
+            example:
+              Accounts:
+              - AccountKey: 2y0tX0m9ZH7MH8HK38qM9g==
+              EventId: '9652429'
+              Options:
+              - AmountPct: 75
+                OptionId: '1'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkElectionResponseListResult'
+              example:
+                Data:
+                - AccountId: '845935'
+                  Status: Accepted
+        '202':
+          description: Election instructions have been accepted.
+        '403':
+          description: Logged in client doesn't have necessary accesses to make election.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BulkBuyUpNotAllowed
+                    - BulkOverSubscriptionNotAllowed
+                    - DeadlineDatePassed
+                    - EventNotElectable
+                    - InvalidBulkElectionAmount
+                    - InvalidEvent
+                    - InvalidEventStatusToElectOn
+                    - InvalidEventTypeForElection
+                    - InvalidOptionInElectionInstruction
+                    - InvalidTotalBulkElectionAmount
+                    - NoSubAccountHasHoldingOnEvent
+                    - OptionNotAvailableForElection
+                    - SplitElectionsNotAllowedOnEvent
+                    - TotalElectionAmountShouldNotBeZero
+                    type: string
+                    x-enum-descriptions:
+                      NoSubAccountHasHoldingOnEvent: No sub-account in the request has holding for event in the request.
+                      InvalidEventStatusToElectOn: Invalid election instruction if status of elected event is other than Approved.
+                      InvalidOptionInElectionInstruction: Invalid election instruction if election is made on the option which is not available in event.
+                      InvalidBulkElectionAmount: Invalid bulk election instruction if election percentage is less than 0 or greater than 100.
+                      InvalidTotalBulkElectionAmount: Total percentage across options cannot exceed 100%.
+                      OptionNotAvailableForElection: Invalid election instruction if election is made on Inactive or Cancelled option.
+                      SplitElectionsNotAllowedOnEvent: Invalid election instruction if election are made on more than one option for events where it is specified that split elections can't be done.
+                      BulkOverSubscriptionNotAllowed: Over subscription is not allowed in bulk elections.
+                      BulkBuyUpNotAllowed: BuyUp is not allowed in bulk elections.
+                      InvalidEvent: Invalid election instruction if elected event doesn't exist.
+                      InvalidEventTypeForElection: Invalid event type for election.
+                      EventNotElectable: Event is not electable.
+                      DeadlineDatePassed: Deadline date for option has passed.
+                      TotalElectionAmountShouldNotBeZero: Total election amount, across options, should be greater than zero.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+  /ca/v2/elections:
+    put:
+      tags:
+      - Elections
+      summary: Send election instruction
+      description: "Sends an instruction about elections to make for a given account and event.\r\n            When posting an instruction to elect, all previous elections for the specified account/event are overwritten."
+      operationId: ElectionElectAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ElectionRequest'
+            example:
+              AccountKey: 2y0tX0m9ZH7MH8HK38qM9g==
+              EventId: '9652429'
+              Options:
+              - Amount: 100
+                OptionId: '1'
+                Remarks: Electing on 100 holdings for option 1.
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Election instructions have been accepted.
+        '403':
+          description: Logged in client doesn't have necessary accesses to make election.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AccountNotActive
+                    - BlocksExistForOwnedContracts
+                    - ClientFxDslLimitation
+                    - ClientFxNopLimitation
+                    - ClientNotActive
+                    - ClientSingleCurrencyExposureLimitation
+                    - ContactExposureLimitation
+                    - CurrencyConversionRateOutOfToleranceRange
+                    - DeadlineDatePassed
+                    - ElectionAmountExceedsEligibleHolding
+                    - ElectionAmountGreaterThanMaxExercisableQuantity
+                    - ElectionAmountLessThanMinExercisableQuantity
+                    - ElectionAmountNotMultipleOfMinExercisableMultipleQuantity
+                    - EventNotElectable
+                    - ForcedExposureReductionViolation
+                    - HasSystemOrders
+                    - IllegalInstrumentTypeForAccount
+                    - InstrumentForcedExposureReductionViolation
+                    - InsufficientCash
+                    - InvalidElectionAmount
+                    - InvalidEvent
+                    - InvalidEventForHolding
+                    - InvalidEventStatusToElectOn
+                    - InvalidEventTypeForElection
+                    - InvalidOptionInElectionInstruction
+                    - InvestmentValueLessThanMinimumLimit
+                    - MarginBorderLine
+                    - OnlySidedReductionAllowed
+                    - OptionNotAvailableForElection
+                    - OrderPlacementWouldExceedMargin
+                    - OrdersAlreadyExistForOwnedContracts
+                    - OverSubscriptionNotAllowed
+                    - OwnerRejection
+                    - PostingModeViolation
+                    - RelatedPositionAlreadyClosed
+                    - RelatedPositionLockedUntilSettlement
+                    - SaxoExposureError
+                    - SaxoMarginRequirementError
+                    - SaxoSymbolError
+                    - SellExceedsSettledExposure
+                    - SplitElectionsNotAllowedOnEvent
+                    - TotalElectionAmountShouldNotBeZero
+                    - TradeCannotCloseRelatedPosition
+                    - TradeFollowerCannotElect
+                    - TradeLeaderCanElectOnlyOneOption
+                    - TradingDisabled
+                    - TradingProfileViolation
+                    - UnknownPosition
+                    - WouldComeTooCloseToAccountValueProtectionLimit
+                    - WouldExceedAccountValueProtectionLimit
+                    - WouldExceedCreditLine
+                    - WouldExceedEquityConcentrationLimit
+                    - WouldExceedMargin
+                    - WouldExceedMarginCeiling
+                    - WouldExceedMaxCreditLine
+                    - WouldExceedMaxCreditLineLimit
+                    - WouldExceedPrecheckMarginUtilizationLimit
+                    - WouldExceedSettlementLine
+                    - WouldExceedTradingLine
+                    type: string
+                    x-enum-descriptions:
+                      ElectionAmountLessThanMinExercisableQuantity: Invalid election instruction if elected amount in option is more than minimum exercisable quantity as specified in corresponding option.
+                      ElectionAmountGreaterThanMaxExercisableQuantity: Invalid election instruction if elected amount in option is more than maximum exercisable quantity as specified in corresponding option.
+                      ElectionAmountNotMultipleOfMinExercisableMultipleQuantity: Invalid election instruction if elected amount in option is not in multiple as specified in corresponding option.
+                      InvalidEventForHolding: Invalid election instruction if event is not applicable for client's holding account.
+                      ElectionAmountExceedsEligibleHolding: Invalid election instruction if total election amount is more than eligible holding, excluding over subscription.
+                      InvalidOptionInElectionInstruction: Invalid election instruction if election is made on the option which is not available in event.
+                      InvalidEvent: Invalid election instruction if elected event doesn't exist.
+                      InvalidElectionAmount: Invalid election instruction if election amount is less than 0.
+                      InvalidEventStatusToElectOn: Invalid election instruction if status of elected event is other than Approved.
+                      OptionNotAvailableForElection: Invalid election instruction if election is made on Inactive or Cancelled option.
+                      OverSubscriptionNotAllowed: Invalid election instruction if instruction contains over subscribed without fully electing holdings under exercise.
+                      SplitElectionsNotAllowedOnEvent: Invalid election instruction if election are made on more than one option for events where it is specified that split elections can't be done.
+                      TradeLeaderCanElectOnlyOneOption: Trade leader can elect only one option.
+                      TradeFollowerCannotElect: Trade follower is not allowed to elect.
+                      InvalidEventTypeForElection: Invalid event type for election.
+                      EventNotElectable: Event is not electable.
+                      DeadlineDatePassed: Deadline date for option has passed.
+                      TotalElectionAmountShouldNotBeZero: Total election amount, across options, should be greater than zero.
+                      OwnerRejection: The owner of the client rejected the clients pre check.
+                      WouldExceedMaxCreditLine: Client tries to buy stocks, while he doesn’t have enough collateral available.
+                      WouldExceedMaxCreditLineLimit: Client tries to buy stocks, and as a result of the trade, he will breach his loan limit.
+                      ContactExposureLimitation: Client is part of a contact. The aggregated exposure of the contact is not within the bounderies set for any of the clients which are a member of the contact.
+                      InsufficientCash: Client does not have sufficient cash.
+                      MarginBorderLine: Client is on borderline margin.
+                      OrdersAlreadyExistForOwnedContracts: There are already orders for all owned contracts.
+                      SaxoExposureError: Exposure would be exceeded.
+                      SaxoMarginRequirementError: Client does not have enough margin.
+                      SaxoSymbolError: System couldn't find the security for which election was made.
+                      WouldExceedMargin: Continuing the trade would seriously exceed margin.
+                      AccountNotActive: The account is not active.
+                      ClientNotActive: The client is not active.
+                      UnknownPosition: Related position not found.
+                      IllegalInstrumentTypeForAccount: Illegal instrument type for account.
+                      ForcedExposureReductionViolation: Only exposure reduction is allowed for the traded instrument.
+                      PostingModeViolation: Either insufficient position to close or opening in wrong direction.
+                      TradingProfileViolation: Trade would violate conditions set by client trading profile.
+                      OrderPlacementWouldExceedMargin: Placing the order would exceed margin.
+                      WouldExceedMarginCeiling: Would exceed margin ceiling.
+                      OnlySidedReductionAllowed: Only exposure reduction is allowed for the traded instrument.
+                      WouldExceedEquityConcentrationLimit: Execution of an operation would exceed equity concentration limit.
+                      WouldExceedTradingLine: Continuing the action would exceed trading line utilization.
+                      WouldExceedCreditLine: Continuing the action would exceed credit line utilization.
+                      RelatedPositionAlreadyClosed: The position that this trade was intended to close is already closed.
+                      TradeCannotCloseRelatedPosition: Trade cannot close related position as they do not match.
+                      WouldExceedSettlementLine: Continuing the action would exceed settlement line utilization.
+                      WouldExceedAccountValueProtectionLimit: The equity value would go below the configured limit on the account.
+                      InstrumentForcedExposureReductionViolation: Only exposure reduction is allowed for the traded instrument.
+                      ClientFxNopLimitation: Order causes client to exceed FX NOP limit.
+                      ClientSingleCurrencyExposureLimitation: Order causes client to exceed.
+                      WouldExceedPrecheckMarginUtilizationLimit: Would exceed the clients own risk aversion limit.
+                      TradingDisabled: Trading is disabled for the client. Any and all prechecks will be rejected for the client.
+                      RelatedPositionLockedUntilSettlement: Trade cannot close related position as related position is locked until settlement.
+                      SellExceedsSettledExposure: Instructions cannot be placed for quantity more than held.
+                      InvestmentValueLessThanMinimumLimit: Order/trade value is less than the minimum allowed.
+                      WouldComeTooCloseToAccountValueProtectionLimit: The equity value would get too close to the configured limit on the account. But still above.
+                      CurrencyConversionRateOutOfToleranceRange: Election would result in breach of currency conversion tolerance range.
+                      BlocksExistForOwnedContracts: Block already exists for the security election made for.
+                      ClientFxDslLimitation: Order causes client to exceed FX DSL Limit.
+                      HasSystemOrders: Pre check condition does not support client having any system orders.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    ElectionRequest:
+      title: Election instruction
+      required:
+      - AccountKey
+      - EventId
+      - Options
+      type: object
+      properties:
+        AccountKey:
+          title: Account on which elections are to be made
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        EventId:
+          title: Event on which election is to be made
+          pattern: ^\d*$
+          type: string
+        Options:
+          title: Instruction per option
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionInstruction'
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OptionInstruction:
+      title: Election instruction on option
+      required:
+      - OptionId
+      - Amount
+      type: object
+      properties:
+        Amount:
+          title: Quantity to be elected
+          type: number
+        OptionId:
+          title: Option on which election is to be made
+          pattern: ^\d*$
+          type: string
+        Remarks:
+          title: Remarks by client
+          type: string
+      additionalProperties: false
+    BulkElectionResponse:
+      title: Bulk election response
+      type: object
+      properties:
+        AccountId:
+          title: Account id
+          type: string
+        Message:
+          title: Message
+          type: string
+        Status:
+          title: Status
+          allOf:
+          - $ref: '#/components/schemas/StatusCode'
+      additionalProperties: false
+    BulkElectionRequest:
+      title: Bulk election instruction
+      required:
+      - Accounts
+      - EventId
+      - Options
+      type: object
+      properties:
+        Accounts:
+          title: Accounts on which elections are to be made
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        EventId:
+          title: Event on which election is to be made
+          pattern: ^\d*$
+          type: string
+        Options:
+          title: Instruction per option for bulk election
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkOptionInstruction'
+      additionalProperties: false
+    StatusCode:
+      title: Status
+      enum:
+      - Accepted
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Accepted
+        Rejected: Rejected
+    Account:
+      title: Account key wrapper
+      required:
+      - AccountKey
+      type: object
+      properties:
+        AccountKey:
+          title: Account key
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      additionalProperties: false
+    BulkElectionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkElectionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    BulkOptionInstruction:
+      title: Election instruction on option for bulk election
+      required:
+      - OptionId
+      - AmountPct
+      type: object
+      properties:
+        AmountPct:
+          title: Quantity to be elected, in percentage
+          type: number
+        OptionId:
+          title: Option on which election is to be made
+          pattern: ^\d*$
+          type: string
+      additionalProperties: false
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

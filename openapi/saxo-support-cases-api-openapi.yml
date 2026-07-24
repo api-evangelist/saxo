@@ -1,0 +1,1431 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Support - Cases API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Support - Cases
+  description: Endpoints to support upload and retrieval of client support cases
+paths:
+  /cs/v1/partner/support/cases/{CaseId}/note:
+    post:
+      tags:
+      - Support - Cases
+      summary: Create note under a case
+      description: Creates a note under a particular case that matches the case id
+      operationId: PartnerSupportCasesCreateNote
+      parameters:
+      - name: CaseId
+        in: path
+        description: The case ID
+        required: true
+        schema:
+          type: string
+        example: SAX-567846-K5W7Q6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+            example:
+              Attachment:
+                FileName: Support_Issue.jpg
+                MimeType: image/jpeg
+              Note: This is a note
+              Title: Note title
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: Request successful, no content to return.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - CaseAlreadyClosed
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      CaseAlreadyClosed: Case cannot be updated since it's in closed status
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: ''
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /cs/v1/partner/support/cases/{CaseId}/internalcomment:
+    post:
+      tags:
+      - Support - Cases
+      summary: Create internal comment under a case
+      description: Creates an internal comment under a particular case that matches the case id
+      operationId: PartnerSupportCasesCreateInternalComment
+      parameters:
+      - name: CaseId
+        in: path
+        description: The case ID
+        required: true
+        schema:
+          type: string
+        example: SAX-567846-K5W7Q6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInternalCommentRequest'
+            example:
+              Comment: Please follow up on this
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: Request successful, no content to return.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - CaseAlreadyClosed
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      CaseAlreadyClosed: Case cannot be updated since it's in closed status
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: ''
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /cs/v1/partner/support/cases/{CaseId}/caseclose:
+    put:
+      tags:
+      - Support - Cases
+      summary: Close a specific support case
+      description: Request to close a particular case that matches the case id
+      operationId: PartnerSupportCasesCloseCase
+      parameters:
+      - name: CaseId
+        in: path
+        description: The case ID
+        required: true
+        schema:
+          type: string
+        example: SAX-567846-K5W7Q6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloseCaseRequest'
+            example:
+              Status: InformationProvided
+      responses:
+        '204':
+          description: Request successful, no content to return.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - CaseAlreadyClosed
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      CaseAlreadyClosed: Case cannot be updated since it's in closed status
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: ''
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /cs/v1/partner/support/cases/{CaseId}:
+    get:
+      tags:
+      - Support - Cases
+      summary: Get a specific support case
+      description: Gets a particular case that matches the case id
+      operationId: PartnerSupportCasesGetCase
+      parameters:
+      - name: CaseId
+        in: path
+        description: The case ID
+        required: true
+        schema:
+          type: string
+        example: SAX-567846-K5W7Q6
+      responses:
+        '200':
+          description: Action was executed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCaseResponse'
+              example:
+                Case:
+                  Activities:
+                  - ActivityPriority: Low
+                    ActivityTime: '2019-04-04T10:07:46Z'
+                    ActivityType: Email
+                    From:
+                      EmailAddress: johndoe@email.com
+                      Name: John Doe
+                    PhoneNumber: '+457372863'
+                    Status: Open
+                  CaseId: 5464-XSDD-434-3DDS
+                  CaseLatestActivityTime: '2019-04-04T10:07:46Z'
+                  CaseStatus: InProgress
+                  CaseType: Problem
+                  ClientId: '3748352'
+                  ClientName: John Doe
+                  ClientSegment: Vip
+                  ContactPersonId: '3748352'
+                  ContactPersonName: John Doe
+                  CreatedOn: '2019-04-04T10:07:46Z'
+                  Description: Requesting instrument details
+                  FirstResponseSent: false
+                  FollowUpDateTime: '2019-04-15T10:07:46Z'
+                  HandledByPartner: true
+                  InternalComments:
+                  - Comment: This is a comment
+                    CreatedOn: '2019-04-04T10:07:46Z'
+                  IsEscalated: false
+                  Notes:
+                  - Attachment:
+                      FileName: Support_Issue.jpg
+                      MimeType: image/jpeg
+                    CreatedOn: '2019-04-04T10:07:46Z'
+                    NoteOrigin: Other
+                    NoteText: This is a note
+                    NoteTitle: Note title
+                  Origin: Web
+                  ReassignmentCount: 0
+                  ServiceLanguage: EN
+                  ShowInPortal: true
+                  Subject: Viewing Instruments
+                  Title: Instrument Details
+        '404':
+          description: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+    patch:
+      tags:
+      - Support - Cases
+      summary: Update support case
+      description: Updates a particular case that matches with the case id
+      operationId: PartnerSupportCasesUpdateNote
+      parameters:
+      - name: CaseId
+        in: path
+        description: The case ID
+        required: true
+        schema:
+          type: string
+        example: SAX-567846-K5W7Q6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCaseRequest'
+            example:
+              CaseStatus: InProgress
+              CaseType: Problem
+              Description: Case description
+              FollowUpDueDate: '2019-04-15T10:07:46Z'
+              HandledByPartner: true
+              IsEscalated: true
+              ShowInPortal: true
+              Title: Case Title
+      responses:
+        '204':
+          description: Request successful, no content to return.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - CaseAlreadyClosed
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      CaseAlreadyClosed: Case cannot be updated since it's in closed status
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: ''
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /cs/v1/partner/support/cases:
+    get:
+      tags:
+      - Support - Cases
+      summary: Get a list of all support cases
+      description: Get a list of support cases of clients under the logged-in IB
+      operationId: PartnerSupportCasesGetCases
+      parameters:
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          maximum: 1000
+          minimum: 0
+          type: integer
+          format: int32
+          default: 100
+        example: 1
+      - name: FromDateTime
+        in: query
+        description: Includes cases with latest activity time greater than or equal to FromDateTime
+        schema:
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '2019-01-01T00:00:00.0000000+00:00'
+      - name: Status
+        in: query
+        description: 'Status: If specified will only return entries with the specified case status'
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaseStatus'
+        example: InProgress
+      - name: ToDateTime
+        in: query
+        description: Includes cases with latest activity time less than or equal to ToDateTime
+        schema:
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '2019-04-04T00:00:00.0000000+00:00'
+      responses:
+        '200':
+          description: Action was executed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseSummaryListResult'
+              example:
+                __count: 1
+                Data:
+                - CaseId: 5464-XSDD-434-3DDS
+                  CaseLatestActivityTime: '2019-04-04T10:07:46Z'
+                  CaseStatus: InProgress
+                  ClientId: '4334435'
+                  CreatedOn: '2019-04-04T10:07:46Z'
+                  CustomerName: John Doe
+                  FollowUpDateTime: '2019-04-15T10:07:46Z'
+                  HandledByPartner: false
+                  IsEscalated: true
+                  Title: Instrument request
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: One or more properties of the request are invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: ''
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+    post:
+      tags:
+      - Support - Cases
+      summary: Facilitates an IB to create a new case on behalf of its client
+      description: Facilitates an IB to create a new case on behalf of its client
+      operationId: PartnerSupportCasesCreateCase
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCaseRequest'
+            example:
+              CaseTitle: Account opening request case
+              ClientKey: W-CgwnsUEpETkiR8MPJalA==
+              Description: Case created by IBs on behalf of their clients
+              NotifyClient: true
+              ShowInPortal: false
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCaseResponse'
+              example:
+                CaseId: SAX-002612-W5S4S6
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    Activity:
+      title: Activity in a case
+      type: object
+      properties:
+        ActivityPriority:
+          title: Activity priority
+          allOf:
+          - $ref: '#/components/schemas/ActivityPriority'
+        ActivityTime:
+          title: Activity time
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ActivityType:
+          title: Activity type
+          allOf:
+          - $ref: '#/components/schemas/ActivityType'
+        Attachments:
+          title: List of attachments
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          example:
+          - FileName: Support_Issue.jpg
+            MimeType: image/jpeg
+        Direction:
+          title: Direction of activity
+          type: string
+          example: stringValue
+        EmailBcc:
+          title: People in Bcc
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityContact'
+          example:
+          - EmailAddress: johndoe@email.com
+            Name: John Doe
+        EmailCc:
+          title: People in Cc
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityContact'
+          example:
+          - EmailAddress: johndoe@email.com
+            Name: John Doe
+        From:
+          title: Person who initiated the activity
+          allOf:
+          - $ref: '#/components/schemas/ActivityContact'
+        PhoneNumber:
+          title: Phone number
+          type: string
+          example: stringValue
+        Status:
+          title: Activity status
+          allOf:
+          - $ref: '#/components/schemas/ActivityStatus'
+        Subject:
+          title: Subject of activity
+          type: string
+          example: stringValue
+        To:
+          title: People to whom the activity was initiated
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityContact'
+          example:
+          - EmailAddress: johndoe@email.com
+            Name: John Doe
+      additionalProperties: false
+      example:
+        ActivityPriority: Low
+        ActivityTime: '9999-12-31T23:59:59.9999990+00:00'
+        ActivityType: Email
+        Attachments:
+        - FileName: Support_Issue.jpg
+          MimeType: image/jpeg
+        Direction: stringValue
+        EmailBcc:
+        - EmailAddress: johndoe@email.com
+          Name: John Doe
+        EmailCc:
+        - EmailAddress: johndoe@email.com
+          Name: John Doe
+        From:
+          EmailAddress: johndoe@email.com
+          Name: John Doe
+        PhoneNumber: stringValue
+        Status: Open
+        Subject: stringValue
+        To:
+        - EmailAddress: johndoe@email.com
+          Name: John Doe
+    ActivityType:
+      title: Type of activity
+      enum:
+      - Email
+      - PhoneCall
+      type: string
+      example: PhoneCall
+      x-enum-descriptions:
+        Email: Email
+        PhoneCall: Phone call
+    ActivityPriority:
+      title: Activity priority
+      enum:
+      - High
+      - Low
+      - Normal
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Low: Low priority
+        Normal: Normal priority
+        High: High priority
+    Origin:
+      title: Case origin
+      enum:
+      - Email
+      - Phone
+      - System
+      - Web
+      type: string
+      example: Phone
+      x-enum-descriptions:
+        Phone: Phone
+        Email: Email
+        Web: Web
+        System: Saxo System
+    CloseCaseStatus:
+      title: Valid case status to close a case
+      enum:
+      - Canceled
+      - InformationProvided
+      - ProblemSolved
+      type: string
+      example: ProblemSolved
+      x-enum-descriptions:
+        ProblemSolved: Problem solved
+        InformationProvided: Information is provided for the case
+        Canceled: Case is cancelled
+    CaseStatus:
+      title: Case status
+      enum:
+      - Canceled
+      - ExternallyPending
+      - InProgress
+      - InformationProvided
+      - InternallyPending
+      - InternallyPendingEscalated
+      - Merged
+      - ProblemSolved
+      type: string
+      example: InProgress
+      x-enum-descriptions:
+        InProgress: Case is in progress
+        ExternallyPending: Case is externally pending
+        InternallyPending: Case is internally pending
+        InternallyPendingEscalated: Case is internally pending and is escalated
+        ProblemSolved: Problem solved
+        InformationProvided: Information is provided for the case
+        Canceled: Case is cancelled
+        Merged: Case is merged
+    Segment:
+      title: Segment of client
+      enum:
+      - Classic
+      - Platinum
+      - Premium
+      - Vip
+      type: string
+      example: Classic
+      x-enum-descriptions:
+        Classic: Classic
+        Premium: Premium
+        Platinum: Platinum
+        Vip: Vip
+    CreateNoteRequest:
+      title: Request to create a note in a support case
+      type: object
+      properties:
+        Attachment:
+          title: Attachment of note
+          allOf:
+          - $ref: '#/components/schemas/File'
+        Note:
+          title: Note
+          type: string
+          example: stringValue
+        Title:
+          title: Title of note
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Attachment:
+          FileName: Support_Issue.jpg
+          MimeType: image/jpeg
+        Note: This is a note
+        Title: Note title
+    CaseSummaryListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaseSummary'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __count: 1
+        Data:
+        - CaseId: 5464-XSDD-434-3DDS
+          CaseLatestActivityTime: '2019-04-04T10:07:46Z'
+          CaseStatus: InProgress
+          ClientId: '4334435'
+          CreatedOn: '2019-04-04T10:07:46Z'
+          CustomerName: John Doe
+          FollowUpDateTime: '2019-04-15T10:07:46Z'
+          HandledByPartner: false
+          IsEscalated: true
+          Title: Instrument request
+    File:
+      title: Attachment of note
+      required:
+      - FileName
+      - MimeType
+      - Data
+      type: object
+      properties:
+        Data:
+          title: Content or data of document in base64 format.
+          type: string
+          example: stringValue
+        FileName:
+          title: "File name\n            poa.pdf"
+          type: string
+          example: stringValue
+        MimeType:
+          title: Mime type
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        FileName: Support_Issue.jpg
+        MimeType: image/jpeg
+    CreateCaseRequest:
+      title: Request contract to create a new case
+      required:
+      - ClientKey
+      - CaseTitle
+      type: object
+      properties:
+        CaseTitle:
+          title: Title of the case
+          type: string
+          example: stringValue
+        ClientKey:
+          title: Identifies the client for whom case has to be created
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Description:
+          title: Description of case
+          type: string
+          example: stringValue
+        NotifyClient:
+          title: Whether to notify client
+          type: boolean
+          example: true
+        ShowInPortal:
+          title: Indicates if this case is available in portal
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        CaseTitle: Account opening request case
+        ClientKey: W-CgwnsUEpETkiR8MPJalA==
+        Description: Case created by IBs on behalf of their clients
+        NotifyClient: true
+        ShowInPortal: false
+    UpdateCaseStatus:
+      title: Valid case status to update a case
+      enum:
+      - ExternallyPending
+      - InProgress
+      - InternallyPending
+      type: string
+      example: InProgress
+      x-enum-descriptions:
+        InProgress: Case is in progress
+        ExternallyPending: Case is externally pending
+        InternallyPending: Case is internally pending
+    InternalComment:
+      title: Internal comment in a case
+      type: object
+      properties:
+        Comment:
+          title: Internal comment
+          type: string
+          example: stringValue
+        CreatedOn:
+          title: DateTime of when the comment is created
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        Comment: stringValue
+        CreatedOn: '9999-12-31T23:59:59.9999990+00:00'
+    CaseType:
+      title: Case type
+      enum:
+      - Faq
+      - Problem
+      - Question
+      - Request
+      type: string
+      example: Question
+      x-enum-descriptions:
+        Question: Case is a question
+        Problem: Case is a problem
+        Request: Case is a request
+        Faq: Case is a faq
+    CaseSummary:
+      title: Case summary
+      type: object
+      properties:
+        CaseId:
+          title: Case id
+          type: string
+          example: stringValue
+        CaseLatestActivityTime:
+          title: DateTime of case latest activity
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        CaseStatus:
+          title: Case status
+          allOf:
+          - $ref: '#/components/schemas/CaseStatus'
+        ClientId:
+          title: Customer Id
+          type: string
+          example: stringValue
+        CreatedOn:
+          title: DateTime when the case was created
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        CustomerName:
+          title: Customer Name
+          type: string
+          example: stringValue
+        Deadline:
+          title: Case deadline
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        FollowUpDateTime:
+          title: Date time of when the case is due to follow up
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        HandledByPartner:
+          title: Is handled by Partner
+          type: boolean
+          example: true
+        IsEscalated:
+          title: Represents if the case has been escalated
+          type: boolean
+          example: true
+        Title:
+          title: Title of case
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CaseId: stringValue
+        CaseLatestActivityTime: '9999-12-31T23:59:59.9999990+00:00'
+        CaseStatus: InternallyPending
+        ClientId: stringValue
+        CreatedOn: '9999-12-31T23:59:59.9999990+00:00'
+        CustomerName: stringValue
+        Deadline: '9999-12-31T23:59:59.9999990+00:00'
+        FollowUpDateTime: '9999-12-31T23:59:59.9999990+00:00'
+        HandledByPartner: false
+        IsEscalated: true
+        Title: stringValue
+    CreateInternalCommentRequest:
+      title: Create internal comment request
+      required:
+      - Comment
+      type: object
+      properties:
+        Comment:
+          title: Internal Comment
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Comment: Please follow up on this
+    ActivityContact:
+      title: Activity contact
+      type: object
+      properties:
+        EmailAddress:
+          title: Email address
+          type: string
+          example: stringValue
+        Name:
+          title: Name
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        EmailAddress: johndoe@email.com
+        Name: John Doe
+    ActivityStatus:
+      title: Activity status
+      enum:
+      - Canceled
+      - Completed
+      - Open
+      type: string
+      example: Completed
+      x-enum-descriptions:
+        Open: The activity is open
+        Completed: The activity is completed
+        Canceled: The activity is cancelled
+    CaseDetails:
+      title: Case details
+      type: object
+      properties:
+        Activities:
+          title: Activities in a case
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+          example:
+          - ActivityPriority: High
+            ActivityTime: '9999-12-31T23:59:59.999999Z'
+            ActivityType: Email
+            Attachments:
+            - FileName: Support_Issue.jpg
+              MimeType: image/jpeg
+            Direction: stringValue
+            EmailBcc:
+            - EmailAddress: johndoe@email.com
+              Name: John Doe
+            EmailCc:
+            - EmailAddress: johndoe@email.com
+              Name: John Doe
+            From:
+              EmailAddress: johndoe@email.com
+              Name: John Doe
+            PhoneNumber: stringValue
+            Status: Canceled
+            Subject: stringValue
+            To:
+            - EmailAddress: johndoe@email.com
+              Name: John Doe
+        CaseId:
+          title: Case id
+          type: string
+          example: stringValue
+        CaseLatestActivityTime:
+          title: DateTime of case latest activity
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        CaseStatus:
+          title: Case status
+          allOf:
+          - $ref: '#/components/schemas/CaseStatus'
+        CaseType:
+          title: Case type
+          allOf:
+          - $ref: '#/components/schemas/CaseType'
+        ClientId:
+          title: Unique ID of the client
+          type: string
+          example: stringValue
+        ClientName:
+          title: Name of the client
+          type: string
+          example: stringValue
+        ClientSegment:
+          title: Segment of client
+          allOf:
+          - $ref: '#/components/schemas/Segment'
+        ContactPersonId:
+          title: Unique ID of the contact person
+          type: string
+          example: stringValue
+        ContactPersonName:
+          title: Name of the contact person
+          type: string
+          example: stringValue
+        CreatedOn:
+          title: DateTime when the case was created
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Deadline:
+          title: Deadline of case
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Description:
+          title: Description of case
+          type: string
+          example: stringValue
+        EscalatedOn:
+          title: DateTime when the case was escalated
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        FirstResponseSent:
+          title: Represents if the first response is sent for the case
+          type: boolean
+          example: true
+        FollowUpDateTime:
+          title: Followup due date of case
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        HandledByPartner:
+          title: Represents if the case is handled by partner
+          type: boolean
+          example: true
+        InternalComments:
+          title: Internal comments in a case
+          type: array
+          items:
+            $ref: '#/components/schemas/InternalComment'
+          example:
+          - Comment: stringValue
+            CreatedOn: '9999-12-31T23:59:59.999999Z'
+        IsEscalated:
+          title: Represents if the case is escalated
+          type: boolean
+          example: true
+        Notes:
+          title: Notes of a case
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'
+          example:
+          - Attachment:
+              FileName: Support_Issue.jpg
+              MimeType: image/jpeg
+            CreatedOn: '9999-12-31T23:59:59.999999Z'
+            NoteOrigin: Partner
+            NoteText: stringValue
+            NoteTitle: stringValue
+        Origin:
+          title: Case origin
+          allOf:
+          - $ref: '#/components/schemas/Origin'
+        ReassignmentCount:
+          title: Number of times the case has been reassigned
+          type: integer
+          format: int32
+          example: 99
+        ServiceLanguage:
+          title: Service language
+          type: string
+          example: stringValue
+        ShowInPortal:
+          title: Represents if the case should be shown in portal
+          type: boolean
+          example: true
+        Subject:
+          title: Subject of case
+          type: string
+          example: stringValue
+        Title:
+          title: Title of case
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Activities:
+        - ActivityPriority: Low
+          ActivityTime: '2019-04-04T10:07:46Z'
+          ActivityType: Email
+          From:
+            EmailAddress: johndoe@email.com
+            Name: John Doe
+          PhoneNumber: '+457372863'
+          Status: Open
+        CaseId: 5464-XSDD-434-3DDS
+        CaseLatestActivityTime: '2019-04-04T10:07:46.0000000+00:00'
+        CaseStatus: InProgress
+        CaseType: Problem
+        ClientId: '3748352'
+        ClientName: John Doe
+        ClientSegment: Vip
+        ContactPersonId: '3748352'
+        ContactPersonName: John Doe
+        CreatedOn: '2019-04-04T10:07:46.0000000+00:00'
+        Description: Requesting instrument details
+        FirstResponseSent: false
+        FollowUpDateTime: '2019-04-15T10:07:46.0000000+00:00'
+        HandledByPartner: true
+        InternalComments:
+        - Comment: This is a comment
+          CreatedOn: '2019-04-04T10:07:46Z'
+        IsEscalated: false
+        Notes:
+        - Attachment:
+            FileName: Support_Issue.jpg
+            MimeType: image/jpeg
+          CreatedOn: '2019-04-04T10:07:46Z'
+          NoteOrigin: Other
+          NoteText: This is a note
+          NoteTitle: Note title
+        Origin: Web
+        ReassignmentCount: 0
+        ServiceLanguage: EN
+        ShowInPortal: true
+        Subject: Viewing Instruments
+        Title: Instrument Details
+    Note:
+      title: Note in a case
+      type: object
+      properties:
+        Attachment:
+          title: Attachment
+          allOf:
+          - $ref: '#/components/schemas/File'
+        CreatedOn:
+          title: DateTime when the note was created
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        NoteOrigin:
+          title: Note Origin
+          allOf:
+          - $ref: '#/components/schemas/NoteOrigin'
+        NoteText:
+          title: Note text
+          type: string
+          example: stringValue
+        NoteTitle:
+          title: Title of note
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Attachment:
+          FileName: Support_Issue.jpg
+          MimeType: image/jpeg
+        CreatedOn: '9999-12-31T23:59:59.9999990+00:00'
+        NoteOrigin: Other
+        NoteText: stringValue
+        NoteTitle: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UpdateCaseRequest:
+      title: Request to update a case
+      type: object
+      properties:
+        CaseStatus:
+          title: Status of case
+          allOf:
+          - $ref: '#/components/schemas/UpdateCaseStatus'
+        CaseType:
+          title: Type of case
+          allOf:
+          - $ref: '#/components/schemas/CaseType'
+        Description:
+          title: Description of case
+          type: string
+          example: stringValue
+        FollowUpDueDate:
+          title: Follow up due date of case
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        HandledByPartner:
+          title: Represents if the case is handled by partner
+          type: boolean
+          example: true
+        IsEscalated:
+          title: Represents if the case is escalated
+          type: boolean
+          example: true
+        ShowInPortal:
+          title: Represents if the case should be shown in portal
+          type: boolean
+          example: true
+        Title:
+          title: Title of case
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CaseStatus: InProgress
+        CaseType: Problem
+        Description: Case description
+        FollowUpDueDate: '2019-04-15T10:07:46.0000000+00:00'
+        HandledByPartner: true
+        IsEscalated: true
+        ShowInPortal: true
+        Title: Case Title
+    CloseCaseRequest:
+      title: Request to close a case
+      required:
+      - Status
+      type: object
+      properties:
+        Status:
+          title: Case Status
+          allOf:
+          - $ref: '#/components/schemas/CloseCaseStatus'
+      additionalProperties: false
+      example:
+        Status: InformationProvided
+    GetCaseResponse:
+      title: Get case response
+      type: object
+      properties:
+        Case:
+          title: Case details
+          allOf:
+          - $ref: '#/components/schemas/CaseDetails'
+      additionalProperties: false
+      example:
+        Case:
+          Activities:
+          - ActivityPriority: Low
+            ActivityTime: '2019-04-04T10:07:46Z'
+            ActivityType: Email
+            From:
+              EmailAddress: johndoe@email.com
+              Name: John Doe
+            PhoneNumber: '+457372863'
+            Status: Open
+          CaseId: 5464-XSDD-434-3DDS
+          CaseLatestActivityTime: '2019-04-04T10:07:46Z'
+          CaseStatus: InProgress
+          CaseType: Problem
+          ClientId: '3748352'
+          ClientName: John Doe
+          ClientSegment: Vip
+          ContactPersonId: '3748352'
+          ContactPersonName: John Doe
+          CreatedOn: '2019-04-04T10:07:46Z'
+          Description: Requesting instrument details
+          FirstResponseSent: false
+          FollowUpDateTime: '2019-04-15T10:07:46Z'
+          HandledByPartner: true
+          InternalComments:
+          - Comment: This is a comment
+            CreatedOn: '2019-04-04T10:07:46Z'
+          IsEscalated: false
+          Notes:
+          - Attachment:
+              FileName: Support_Issue.jpg
+              MimeType: image/jpeg
+            CreatedOn: '2019-04-04T10:07:46Z'
+            NoteOrigin: Other
+            NoteText: This is a note
+            NoteTitle: Note title
+          Origin: Web
+          ReassignmentCount: 0
+          ServiceLanguage: EN
+          ShowInPortal: true
+          Subject: Viewing Instruments
+          Title: Instrument Details
+    NoteOrigin:
+      enum:
+      - Client
+      - Other
+      - Partner
+      type: string
+      example: Client
+      x-enum-descriptions:
+        Other: Other
+        Client: Client
+        Partner: Partner
+    CreateCaseResponse:
+      title: Create case response
+      type: object
+      properties:
+        CaseId:
+          title: Case Id
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CaseId: SAX-002612-W5S4S6
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

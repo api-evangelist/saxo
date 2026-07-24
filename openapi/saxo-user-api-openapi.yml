@@ -1,0 +1,206 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values User API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: User
+  description: Endpoints for users.
+paths:
+  /root/v1/user:
+    get:
+      tags:
+      - User
+      description: Get information of current user.
+      operationId: UserInfoV1UserInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyUserInfo'
+              example:
+                AccessRights:
+                  CanManageCashTransfers: true
+                  CanTakePriceSession: true
+                  CanTakeTradeSession: true
+                  CanTrade: true
+                  CanViewAnyClient: true
+                AccountAccessMode: All
+                ClientId: 441532926
+                Roles:
+                - OAPI.Roles.RetailClient
+                UserId: 690261150
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AccountAccessMode:
+      title: Account access mode indicating the maximum aggregation level of data for accounts.
+      enum:
+      - All
+      - Restricted
+      - ViewAll
+      type: string
+      example: All
+      x-enum-descriptions:
+        All: "User has no explicit restriction for operating on accounts, which means\n            it may operate on all accounts under its client only depending on its roles and operations."
+        ViewAll: The user can view all accounts under its client, but have limited rights to interact with them.
+        Restricted: Some accounts are not visible to user.
+    AccessRights:
+      title: Defines access rights for a given user.
+      type: object
+      properties:
+        CanManageCashTransfers:
+          title: True when the user is allowed to manage cash transfers.
+          type: boolean
+          example: true
+        CanTakePriceSession:
+          title: True when the user is allowed to take the premium price feed.
+          type: boolean
+          example: true
+        CanTakeTradeSession:
+          title: True when the user is allowed to take the primary trading session.
+          type: boolean
+          example: true
+        CanTrade:
+          title: True when the user is allowed to trade.
+          type: boolean
+          example: true
+        CanViewAnyClient:
+          title: True when the user is allowed to view any client.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        CanManageCashTransfers: true
+        CanTakePriceSession: false
+        CanTakeTradeSession: false
+        CanTrade: true
+        CanViewAnyClient: true
+    MyUserInfo:
+      title: Information about current user.
+      type: object
+      properties:
+        UserId:
+          title: ID of current user.
+          allOf:
+          - $ref: '#/components/schemas/UserId'
+          x-display-order: 1
+        ClientId:
+          title: ID of associated client.
+          minimum: 1
+          type: integer
+          x-display-order: 2
+          x-type-name: ClientId
+        AccessRights:
+          title: Access rights for the current user.
+          allOf:
+          - $ref: '#/components/schemas/AccessRights'
+        AccountAccessMode:
+          title: Account access mode indicating the maximum aggregation level of data for accounts.
+          allOf:
+          - $ref: '#/components/schemas/AccountAccessMode'
+        ElevatedAuthenticationOperations:
+          title: List of operations the user can perform with elevated authentication.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Operations:
+          title: List of operations the user can perform.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Roles:
+          title: List of roles assigned to user.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+      additionalProperties: false
+      example:
+        AccessRights:
+          CanManageCashTransfers: true
+          CanTakePriceSession: true
+          CanTakeTradeSession: true
+          CanTrade: true
+          CanViewAnyClient: true
+        AccountAccessMode: All
+        ClientId: 441532926
+        Roles:
+        - OAPI.Roles.RetailClient
+        UserId: 690261150
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

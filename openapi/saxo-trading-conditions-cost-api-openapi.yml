@@ -1,0 +1,1776 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Trading Conditions - Cost API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Trading Conditions - Cost
+  description: Provides pre-trade cost illustration for regular instruments
+paths:
+  /cs/v1/tradingconditions/cost/{AccountKey}/{Uic}/{AssetType}:
+    get:
+      tags:
+      - Trading Conditions - Cost
+      summary: Get pre-trade cost illustration for regular instruments
+      description: Gets pre-trade cost illustration for regular instruments
+      operationId: CostGetTradingConditionCost
+      parameters:
+      - name: AccountKey
+        in: path
+        description: The account key to lookup the conditions for
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 7m4I|vtYLUnEGg77o9uQhw==
+      - name: Amount
+        in: query
+        description: The number of asset to be traded.
+        required: true
+        schema:
+          type: number
+        example: 10000
+      - name: AssetType
+        in: path
+        description: The assetType of the instrument to lookup
+        required: true
+        schema:
+          $ref: '#/components/schemas/AssetType'
+        example: FxSpot
+      - name: FieldGroups
+        in: query
+        description: The field groups.
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradingConditionFieldGroup'
+        example: DisplayAndFormat
+      - name: HoldingPeriodInDays
+        in: query
+        description: The holding period in days if provided else 1 day.
+        schema:
+          type: integer
+          format: int32
+        example: 5
+      - name: Price
+        in: query
+        description: The instrument price to be used for the calculation. Required for all non-Saxo applications.
+        schema:
+          type: number
+        example: 1.19376
+      - name: Uic
+        in: path
+        description: The uic for the instrument to lookup
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 21
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingConditionCostResponse'
+              example:
+                AccountCurrency: GBP
+                AccountID: 125567INET
+                Amount: 10000
+                AssetType: FxSpot
+                Cost:
+                  Long:
+                    BuySell: Buy
+                    Currency: USD
+                    HoldingCost:
+                      Tax:
+                      - Pct: 0.5
+                        Rule:
+                          BuySell: Sell
+                          CalculationType: ValueFraction
+                          Description: UK Stamp Duty
+                          Value: 0.5
+                        Value: 92.92
+                      - Pct: 0.005
+                        Rule:
+                          BuySell: Sell
+                          CalculationType: FixedAmount
+                          Description: UK PTM Levy
+                          Value: 0.5
+                        Value: 1
+                    ReturnOnInvestment:
+                      Return:
+                        Pct: 0.019
+                        Rule:
+                          Pct: 0.5
+                        Value: 3.507
+                      ReturnIncludingCost:
+                        Pct: 0.019
+                        Rule:
+                          Pct: 0.5
+                        Value: 3.507
+                    TotalCost: 6.672
+                    TotalCostPct: 0.056
+                    TradingCost:
+                      Commissions:
+                      - Pct: 0.05
+                        Rule:
+                          Currency: USD
+                          MinCommission: 3
+                        Value: 6
+                      CurrencyConversionCost:
+                        Pct: 0.05
+                        Rule:
+                          AskRate: 2
+                          BidRate: 1
+                        Value: 5
+                      Spread:
+                        DisplayDecimals: 4
+                        Rule:
+                          Pct: 1E-05
+                        Value: 0.1
+                      VatOnCustodyFeePct:
+                        Pct: 0.002
+                        Rule:
+                          Pct: 0.002
+                          Value: 20
+                        Value: 20
+                    TrailingCommission:
+                      Pct: 0.5
+                      Rule:
+                        Pct: 0.5
+                      Value: 410.959
+                  Short:
+                    BuySell: Sell
+                    Currency: USD
+                    HoldingCost:
+                      Tax:
+                      - Pct: 0.5
+                        Rule:
+                          BuySell: Sell
+                          CalculationType: ValueFraction
+                          Description: UK Stamp Duty
+                          Value: 0.5
+                        Value: 92.92
+                      - Pct: 0.005
+                        Rule:
+                          BuySell: Sell
+                          CalculationType: FixedAmount
+                          Description: UK PTM Levy
+                          Value: 0.5
+                        Value: 1
+                    ReturnOnInvestment:
+                      Return:
+                        Pct: 0.019
+                        Rule:
+                          Pct: 0.5
+                        Value: 3.507
+                      ReturnIncludingCost:
+                        Pct: 0.019
+                        Rule:
+                          Pct: 0.5
+                        Value: 3.507
+                    TotalCost: 6.672
+                    TotalCostPct: 0.056
+                    TradingCost:
+                      Commissions:
+                      - Pct: 0.05
+                        Rule:
+                          Currency: USD
+                          MinCommission: 3
+                        Value: 6
+                      Spread:
+                        DisplayDecimals: 4
+                        Rule:
+                          Pct: 1E-05
+                        Value: 0.1
+                    TrailingCommission:
+                      Pct: 0.5
+                      Rule:
+                        Pct: 0.5
+                      Value: 410.959
+                CostCalculationAssumptions:
+                - IncludesOpenAndCloseCost
+                - EquivalentOpenAndClosePrice
+                DisplayAndFormat:
+                  BarrierFormat: Normal
+                  Currency: USD
+                  Decimals: 4
+                  Description: Euro/US Dollar
+                  Format: Normal
+                  OrderDecimals: 2
+                  StrikeFormat: Normal
+                  Symbol: EURUSD
+                HoldingPeriodInDays: 5
+                Instrument: EURUSD
+                Price: 1.19376
+                Uic: 21
+        '500':
+          description: Internal Server Error
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    CustodyFeeRule:
+      type: object
+      properties:
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        Markup:
+          title: Markup
+          type: number
+          example: 10
+        MaxFee:
+          title: Maximum monthly Custody fee that will be charged.
+          type: number
+          example: 10
+        MinFee:
+          title: Minimum monthly custody fee that will be charged.
+          type: number
+          example: 10
+        Pct:
+          title: Percentage
+          type: number
+          example: 10
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: stringValue
+        Markup: 10
+        MaxFee: 10
+        MinFee: 10
+        Pct: 10
+        Value: 10
+    Commision:
+      title: Commission
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/CommisionRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.05
+        Rule:
+          Currency: USD
+          MinCommission: 3
+        Value: 6
+    HoldingCost:
+      title: Holding Cost.
+      type: object
+      properties:
+        BorrowingCost:
+          title: The borrowing costs as a percentage per year for holding short positions in single-stock CFDs.
+          allOf:
+          - $ref: '#/components/schemas/BorrowingCost'
+        CarryingCost:
+          title: For instruments where carrying costs are applied (futures, exchange traded options) , the percentage markup on the intebank interest rate applied for holding the position.
+          allOf:
+          - $ref: '#/components/schemas/CarryingCost'
+        HoldingFee:
+          title: Holding fee if applied.
+          allOf:
+          - $ref: '#/components/schemas/HoldingFee'
+        InterestFee:
+          title: Interest for SRDs
+          allOf:
+          - $ref: '#/components/schemas/InterestFee'
+        LoanInterestCost:
+          title: Loan interest cost
+          allOf:
+          - $ref: '#/components/schemas/LoanInterestCost'
+        OvernightFinancing:
+          title: Financing charge markup.
+          allOf:
+          - $ref: '#/components/schemas/OvernightFinancing'
+        RolloverFee:
+          title: Rollover fee for SRDs - Charged if position is rolled over
+          allOf:
+          - $ref: '#/components/schemas/RolloverFee'
+        SwapPoints:
+          title: The swap points.
+          allOf:
+          - $ref: '#/components/schemas/SwapPoints'
+        Tax:
+          title: List of taxes applied.
+          type: array
+          items:
+            $ref: '#/components/schemas/Tax'
+          example:
+          - Pct: 0.5
+            Rule:
+              BuySell: Sell
+              CalculationType: ValueFraction
+              Description: UK Stamp Duty
+              Value: 0.5
+            Value: 92.92
+      additionalProperties: false
+      example:
+        OvernightFinancing:
+          Pct: 0.019
+          Rule:
+            Markup: 0.03
+          Value: 3.507
+        SwapPoints:
+          Pct: 0.5
+          Rule:
+            Pct: 0.5
+          Value: 410.959
+    CarryingCost:
+      title: Carrying Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Markup: 1.5
+        Value: 8.836
+    CostAssumption:
+      title: Enum CostAssumption
+      enum:
+      - AtmStrikePrice
+      - BasisOnLastClosePrice
+      - BasisOnMidPrice
+      - CarryingCostBasedOnMarginOtmDiscount
+      - ConversionCostNotIncluded
+      - DefaultCallOption
+      - EquivalentOpenAndClosePrice
+      - ImplicitCostsNotChargedOnAccount
+      - IncludesOpenAndCloseCost
+      - InterbankChargesExcluded
+      - InterestEstimationCalculatedOnValueDate
+      - MarginLoanEstimationOnCashAvailable
+      - NearDateSpotFarDateAsSpecified
+      type: string
+      example: IncludesOpenAndCloseCost
+      x-enum-descriptions:
+        IncludesOpenAndCloseCost: Includes open and close cost
+        EquivalentOpenAndClosePrice: Open and Closed price are same
+        BasisOnLastClosePrice: Basis on Last close price
+        BasisOnMidPrice: Basis on Mid price
+        InterbankChargesExcluded: Interbank Interest rate = 0, only the markup is included
+        DefaultCallOption: Default Call option
+        AtmStrikePrice: Atm Strike price is used
+        ConversionCostNotIncluded: Conversion cost not included
+        NearDateSpotFarDateAsSpecified: Near date is spot, far date is as specifie
+        CarryingCostBasedOnMarginOtmDiscount: Carrying cost estimation is based on 'Margin ex. OTM discount'
+        ImplicitCostsNotChargedOnAccount: The implicit costs not charged on account
+        InterestEstimationCalculatedOnValueDate: Interest estimation is calculated from the value date of trade date + 2 days
+        MarginLoanEstimationOnCashAvailable: The margin loan is estimated based on a snapshot based of your current Cash available to partially or fully cover the value of position.
+    FundCost:
+      title: Fund Cost.
+      type: object
+      properties:
+        EntryCost:
+          title: Commission paid for buying a fund.
+          allOf:
+          - $ref: '#/components/schemas/EntryCost'
+        ExitCost:
+          title: Commission paid for selling a fund.
+          allOf:
+          - $ref: '#/components/schemas/ExitCost'
+        OnGoingCost:
+          title: Fee paid for holding a position in a fund.
+          allOf:
+          - $ref: '#/components/schemas/OnGoingCost'
+        SwitchCommission:
+          title: Commission paid for a switch trade between two mutual funds.
+          allOf:
+          - $ref: '#/components/schemas/SwitchCommission'
+      additionalProperties: false
+      example:
+        EntryCost:
+          Pct: 0.5
+          Rule:
+            Pct: 0.5
+          Value: 410.959
+        ExitCost:
+          Pct: 0.019
+          Rule:
+            Markup: 1.5
+          Value: 8.836
+        OnGoingCost:
+          Pct: 0.5
+          Rule:
+            Pct: 0.5
+          Value: 410.959
+        SwitchCommission:
+          Pct: 0.5
+          Rule:
+            Pct: 0.5
+          Value: 410.959
+    HoldingFee:
+      title: Holding Fee
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.001
+        Rule:
+          Value: 1.1
+        Value: 0.2626
+    SwapPoints:
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    ExchangeFee:
+      title: Exchange Fee
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.002
+        Rule:
+          Pct: 0.002
+          Value: 20
+        Value: 20
+    Spread:
+      title: Spread
+      type: object
+      properties:
+        DisplayDecimals:
+          title: The number of decimals used for display.
+          type: integer
+          format: int32
+          example: 99
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        DisplayDecimals: 4
+        Rule:
+          Pct: 1E-05
+        Value: 0.1
+    TicketFee:
+      title: Ticket Fee
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.002
+        Rule:
+          Currency: USD
+          Value: 10
+        Value: 20
+    Cost:
+      type: object
+      properties:
+        BuySell:
+          title: The value indicates what side of a trade the cost applies to.
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        Currency:
+          title: Cost currency (also the Price currency of instrument).
+          type: string
+          example: stringValue
+        FundCost:
+          title: "Fund cost are cost charged by a fund, but not booked by Saxo. \n            They are simply running costs at the fund’s end for holding a position in the fund."
+          allOf:
+          - $ref: '#/components/schemas/FundCost'
+        HoldingCost:
+          title: Holding cost
+          allOf:
+          - $ref: '#/components/schemas/HoldingCost'
+        TotalCost:
+          title: Total cost
+          type: number
+          example: 10
+        TotalCostPct:
+          title: Total cost in percentage.
+          type: number
+          example: 10
+        TradingCost:
+          title: Trading cost
+          allOf:
+          - $ref: '#/components/schemas/TradingCost'
+        TrailingCommission:
+          title: Commission paid from the fund to Saxo.
+          allOf:
+          - $ref: '#/components/schemas/TrailingCommission'
+      additionalProperties: false
+      example:
+        BuySell: Sell
+        Currency: USD
+        HoldingCost:
+          Tax:
+          - Pct: 0.5
+            Rule:
+              BuySell: Sell
+              CalculationType: ValueFraction
+              Description: UK Stamp Duty
+              Value: 0.5
+            Value: 92.92
+          - Pct: 0.005
+            Rule:
+              BuySell: Sell
+              CalculationType: FixedAmount
+              Description: UK PTM Levy
+              Value: 0.5
+            Value: 1
+        TotalCost: 6.672
+        TotalCostPct: 0.056
+        TradingCost:
+          Commissions:
+          - Pct: 0.05
+            Rule:
+              Currency: USD
+              MinCommission: 3
+            Value: 6
+          Spread:
+            DisplayDecimals: 4
+            Rule:
+              Pct: 1E-05
+            Value: 0.1
+        TrailingCommission:
+          Pct: 0.5
+          Rule:
+            Pct: 0.5
+          Value: 410.959
+    TradingCost:
+      title: Trading Cost.
+      type: object
+      properties:
+        Commissions:
+          title: The commission structure for the selected instrument.
+          type: array
+          items:
+            $ref: '#/components/schemas/Commision'
+          example:
+          - Pct: 0.05
+            Rule:
+              Currency: USD
+              MinCommission: 3
+            Value: 6
+        ConversionCost:
+          title: Currency Conversion Cost
+          allOf:
+          - $ref: '#/components/schemas/ConversionCost'
+        CustodyFee:
+          title: Custody fee per year for holding cash positions.
+          allOf:
+          - $ref: '#/components/schemas/CustodyFee'
+        ExchangeFee:
+          title: Exchange fee if applied separately.
+          allOf:
+          - $ref: '#/components/schemas/ExchangeFee'
+        ServiceFee:
+          title: Service fee per year for holding cash positions.
+          allOf:
+          - $ref: '#/components/schemas/ServiceFee'
+        Spread:
+          title: "The spread used for fx forwards is indicative and depends on how far in the future the value date of the forward is. \n            The different time horizon is called tenors and this collection shows a current snapshot of the spreads for the different tenors."
+          allOf:
+          - $ref: '#/components/schemas/Spread'
+        TicketFee:
+          title: "A ticket fee is a charge for doing a trade. \n            Ticket fees are for fx (both spot and options). \n            A ticket fee is applied if below the TicketFeeThreshold."
+          allOf:
+          - $ref: '#/components/schemas/TicketFee'
+      additionalProperties: false
+      example:
+        Commissions:
+        - Pct: 0.05
+          Rule:
+            Currency: USD
+            MinCommission: 3
+          Value: 6
+        ExchangeFee:
+          Pct: 0.002
+          Rule:
+            Pct: 0.002
+            Value: 20
+          Value: 20
+        Spread:
+          DisplayDecimals: 4
+          Rule:
+            Pct: 1E-05
+          Value: 0.1
+        TicketFee:
+          Pct: 0.002
+          Rule:
+            Currency: USD
+            Value: 10
+          Value: 20
+    InterestFee:
+      title: Interest fee (CRD)
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Markup: 0.03
+        Value: 3.507
+    OvernightFinancing:
+      title: Overnight Financing
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Markup: 0.03
+        Value: 3.507
+    LoanInterestCost:
+      title: Loan interest cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Pct: 0.5
+        Value: 3.507
+    SwitchCommission:
+      title: Switch Commission
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    Enums.BuySell:
+      title: Used to describe the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Tax rule is applied on a buy.
+        Sell: Tax rule is applied on a sell.
+    RolloverFee:
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/RolloverFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.001
+        Rule:
+          NumberOfRollovers: 1
+          Value: 1.1
+        Value: 0.2626
+    EntryCost:
+      title: Entry Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    CustodyFee:
+      title: Custody Fee
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Custody Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/CustodyFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.237
+        Rule:
+          Currency: EUR
+          MinFee: 5
+        Value: 4.406
+    TradingConditionFieldGroup:
+      title: Enum TradingConditionFieldGroup
+      enum:
+      - DisplayAndFormat
+      type: string
+      example: DisplayAndFormat
+      x-enum-descriptions:
+        DisplayAndFormat: Display and Format.
+      x-type-warning: FlaggableEnum
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    TradingConditionCostResponse:
+      type: object
+      properties:
+        AccountCurrency:
+          title: Currency of the selected account, used when listing currency conversion fees for the selected instrument back to the account currency.
+          type: string
+          example: stringValue
+        AccountID:
+          title: Unique ID of the account.
+          type: string
+          example: stringValue
+        Amount:
+          title: Number of instrument.
+          type: number
+          example: 10
+        AssetType:
+          title: Asset Type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Cost:
+          title: Trade Cost for the instrument.
+          allOf:
+          - $ref: '#/components/schemas/TradeCost'
+        CostCalculationAssumptions:
+          title: Calculation Assumptions
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAssumption'
+          example:
+          - EquivalentOpenAndClosePrice
+        DisplayAndFormat:
+          title: Includes Symbol and formatting info. (standard object also used in most other service groups)
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        HoldingPeriodInDays:
+          title: Holding period in days.
+          type: integer
+          format: int32
+          example: 99
+        Instrument:
+          title: Description of instrument.
+          type: string
+          example: stringValue
+        Price:
+          title: Price of instrument.
+          type: number
+          example: 10
+        Uic:
+          title: Instrument UIC.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AccountCurrency: GBP
+        AccountID: 125567INET
+        Amount: 10000
+        AssetType: FxSpot
+        Cost:
+          Long:
+            BuySell: Buy
+            Currency: USD
+            HoldingCost:
+              Tax:
+              - Pct: 0.5
+                Rule:
+                  BuySell: Sell
+                  CalculationType: ValueFraction
+                  Description: UK Stamp Duty
+                  Value: 0.5
+                Value: 92.92
+              - Pct: 0.005
+                Rule:
+                  BuySell: Sell
+                  CalculationType: FixedAmount
+                  Description: UK PTM Levy
+                  Value: 0.5
+                Value: 1
+            ReturnOnInvestment:
+              Return:
+                Pct: 0.019
+                Rule:
+                  Pct: 0.5
+                Value: 3.507
+              ReturnIncludingCost:
+                Pct: 0.019
+                Rule:
+                  Pct: 0.5
+                Value: 3.507
+            TotalCost: 6.672
+            TotalCostPct: 0.056
+            TradingCost:
+              Commissions:
+              - Pct: 0.05
+                Rule:
+                  Currency: USD
+                  MinCommission: 3
+                Value: 6
+              CurrencyConversionCost:
+                Pct: 0.05
+                Rule:
+                  AskRate: 2
+                  BidRate: 1
+                Value: 5
+              Spread:
+                DisplayDecimals: 4
+                Rule:
+                  Pct: 1E-05
+                Value: 0.1
+              VatOnCustodyFeePct:
+                Pct: 0.002
+                Rule:
+                  Pct: 0.002
+                  Value: 20
+                Value: 20
+            TrailingCommission:
+              Pct: 0.5
+              Rule:
+                Pct: 0.5
+              Value: 410.959
+          Short:
+            BuySell: Sell
+            Currency: USD
+            HoldingCost:
+              Tax:
+              - Pct: 0.5
+                Rule:
+                  BuySell: Sell
+                  CalculationType: ValueFraction
+                  Description: UK Stamp Duty
+                  Value: 0.5
+                Value: 92.92
+              - Pct: 0.005
+                Rule:
+                  BuySell: Sell
+                  CalculationType: FixedAmount
+                  Description: UK PTM Levy
+                  Value: 0.5
+                Value: 1
+            ReturnOnInvestment:
+              Return:
+                Pct: 0.019
+                Rule:
+                  Pct: 0.5
+                Value: 3.507
+              ReturnIncludingCost:
+                Pct: 0.019
+                Rule:
+                  Pct: 0.5
+                Value: 3.507
+            TotalCost: 6.672
+            TotalCostPct: 0.056
+            TradingCost:
+              Commissions:
+              - Pct: 0.05
+                Rule:
+                  Currency: USD
+                  MinCommission: 3
+                Value: 6
+              Spread:
+                DisplayDecimals: 4
+                Rule:
+                  Pct: 1E-05
+                Value: 0.1
+            TrailingCommission:
+              Pct: 0.5
+              Rule:
+                Pct: 0.5
+              Value: 410.959
+        CostCalculationAssumptions:
+        - IncludesOpenAndCloseCost
+        - EquivalentOpenAndClosePrice
+        DisplayAndFormat:
+          BarrierFormat: Normal
+          Currency: USD
+          Decimals: 4
+          Description: Euro/US Dollar
+          Format: Normal
+          OrderDecimals: 2
+          StrikeFormat: Normal
+          Symbol: EURUSD
+        HoldingPeriodInDays: 5
+        Instrument: EURUSD
+        Price: 1.19376
+        Uic: 21
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: Optional separate display information for option barrier prices
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: Optional separate display information for option barrier prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
+          type: integer
+          description: Decimals and DisplayDecimals have the same value. Moving forward, DisplayDecimals will be removed.
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: Optional separate display information for option strike prices
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: Optional separate display information for option strike prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BarrierFormat: Normal
+        Currency: USD
+        Decimals: 4
+        Description: Euro/US Dollar
+        Format: Normal
+        OrderDecimals: 2
+        StrikeFormat: Normal
+        Symbol: EURUSD
+    CalculationType:
+      title: Calculation type.
+      enum:
+      - CommissionFraction
+      - FixedAmount
+      - TradeAmountFraction
+      - ValueFraction
+      type: string
+      example: FixedAmount
+      x-enum-descriptions:
+        FixedAmount: Tax is charged as fixed amount.
+        CommissionFraction: Tax is calculated as percentage of commission.
+        TradeAmountFraction: Tax is calculated as percentage of traded amount.
+        ValueFraction: Tax is calculated as percentage of total value.
+    TaxRule:
+      type: object
+      properties:
+        BuySell:
+          title: To identify if tax is buy or sell.
+          allOf:
+          - $ref: '#/components/schemas/Enums.BuySell'
+        CalculationType:
+          title: Calculation type of applied tax.
+          allOf:
+          - $ref: '#/components/schemas/CalculationType'
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        Description:
+          title: Type of applicable tax.
+          type: string
+          example: stringValue
+        Markup:
+          title: Markup
+          type: number
+          example: 10
+        Pct:
+          title: Percentage
+          type: number
+          example: 10
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        BuySell: Sell
+        CalculationType: ValueFraction
+        Description: UK Stamp Duty
+        Value: 0.5
+    BorrowingCost:
+      title: Borrowing Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Markup: 0.03
+        Value: 3.507
+    OnGoingCost:
+      title: Ongoing Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    CommisionRule:
+      type: object
+      properties:
+        BaseCommission:
+          title: Fixed commmission that if present, will always be charged.
+          type: number
+          example: 10
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        Markup:
+          title: Markup
+          type: number
+          example: 10
+        MaxCommission:
+          title: Maximum commission applied if other commissions are above than this value.
+          type: number
+          example: 10
+        MinCommission:
+          title: Minimum commission applied if other commissions are lower than this value.
+          type: number
+          example: 10
+        Pct:
+          title: Percentage
+          type: number
+          example: 10
+        PerUnitRate:
+          title: Commission per share (or lot).
+          type: number
+          example: 10
+        RateOnAmount:
+          title: Commission as a percentage of the amount traded.
+          type: number
+          example: 10
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: USD
+        MinCommission: 3
+    RolloverFeeRule:
+      type: object
+      properties:
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        Markup:
+          title: Markup
+          type: number
+          example: 10
+        NumberOfRollovers:
+          title: The number of rollovers.
+          type: integer
+          format: int32
+          example: 99
+        Pct:
+          title: Percentage
+          type: number
+          example: 10
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: stringValue
+        Markup: 10
+        NumberOfRollovers: 99
+        Pct: 10
+        Value: 10
+    BuySell:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy
+        Sell: Sell
+    ExitCost:
+      title: Exit Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.019
+        Rule:
+          Markup: 1.5
+        Value: 8.836
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Tax:
+      title: Tax
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/TaxRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          BuySell: Sell
+          CalculationType: ValueFraction
+          Description: UK Stamp Duty
+          Value: 0.5
+        Value: 92.92
+    ConversionCost:
+      title: Conversion Cost
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: No special display format for this price.
+        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    BaseFeeRule:
+      title: Base Fee Rule
+      type: object
+      properties:
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        Markup:
+          title: Markup
+          type: number
+          example: 10
+        Pct:
+          title: Percentage
+          type: number
+          example: 10
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+    TradeCost:
+      title: Trade cost
+      type: object
+      properties:
+        Long:
+          title: Cost if long trade
+          allOf:
+          - $ref: '#/components/schemas/Cost'
+        Short:
+          title: Cost if short trade
+          allOf:
+          - $ref: '#/components/schemas/Cost'
+      additionalProperties: false
+      example:
+        Long:
+          BuySell: Buy
+          Currency: USD
+          HoldingCost:
+            Tax:
+            - Pct: 0.5
+              Rule:
+                BuySell: Sell
+                CalculationType: ValueFraction
+                Description: UK Stamp Duty
+                Value: 0.5
+              Value: 92.92
+            - Pct: 0.005
+              Rule:
+                BuySell: Sell
+                CalculationType: FixedAmount
+                Description: UK PTM Levy
+                Value: 0.5
+              Value: 1
+          ReturnOnInvestment:
+            Return:
+              Pct: 0.019
+              Rule:
+                Pct: 0.5
+              Value: 3.507
+            ReturnIncludingCost:
+              Pct: 0.019
+              Rule:
+                Pct: 0.5
+              Value: 3.507
+          TotalCost: 6.672
+          TotalCostPct: 0.056
+          TradingCost:
+            Commissions:
+            - Pct: 0.05
+              Rule:
+                Currency: USD
+                MinCommission: 3
+              Value: 6
+            CurrencyConversionCost:
+              Pct: 0.05
+              Rule:
+                AskRate: 2
+                BidRate: 1
+              Value: 5
+            Spread:
+              DisplayDecimals: 4
+              Rule:
+                Pct: 1E-05
+              Value: 0.1
+            VatOnCustodyFeePct:
+              Pct: 0.002
+              Rule:
+                Pct: 0.002
+                Value: 20
+              Value: 20
+          TrailingCommission:
+            Pct: 0.5
+            Rule:
+              Pct: 0.5
+            Value: 410.959
+        Short:
+          BuySell: Sell
+          Currency: USD
+          HoldingCost:
+            Tax:
+            - Pct: 0.5
+              Rule:
+                BuySell: Sell
+                CalculationType: ValueFraction
+                Description: UK Stamp Duty
+                Value: 0.5
+              Value: 92.92
+            - Pct: 0.005
+              Rule:
+                BuySell: Sell
+                CalculationType: FixedAmount
+                Description: UK PTM Levy
+                Value: 0.5
+              Value: 1
+          ReturnOnInvestment:
+            Return:
+              Pct: 0.019
+              Rule:
+                Pct: 0.5
+              Value: 3.507
+            ReturnIncludingCost:
+              Pct: 0.019
+              Rule:
+                Pct: 0.5
+              Value: 3.507
+          TotalCost: 6.672
+          TotalCostPct: 0.056
+          TradingCost:
+            Commissions:
+            - Pct: 0.05
+              Rule:
+                Currency: USD
+                MinCommission: 3
+              Value: 6
+            Spread:
+              DisplayDecimals: 4
+              Rule:
+                Pct: 1E-05
+              Value: 0.1
+          TrailingCommission:
+            Pct: 0.5
+            Rule:
+              Pct: 0.5
+            Value: 410.959
+    TrailingCommission:
+      title: Trailing Commission
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.5
+        Rule:
+          Pct: 0.5
+        Value: 410.959
+    ServiceFee:
+      title: ServiceFee
+      type: object
+      properties:
+        Pct:
+          title: Fee in Percentage.
+          type: number
+          example: 10
+        Rule:
+          title: Fee Rule
+          allOf:
+          - $ref: '#/components/schemas/BaseFeeRule'
+        Value:
+          title: Fee Value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Pct: 0.15
+        Rule: {}
+        Value: 4.406
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

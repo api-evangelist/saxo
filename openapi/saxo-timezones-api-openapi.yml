@@ -1,0 +1,188 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values TimeZones API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: TimeZones
+  description: Provides information about time zones supported by Saxo Bank.
+paths:
+  /ref/v1/timezones:
+    get:
+      tags:
+      - TimeZones
+      summary: Get a list of all timezones
+      description: Use this GET operation to retrieve a list all the time zones supported by Saxo Bank.
+      operationId: TimeZonesGetTimeZones
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeZoneDetailsListResult'
+              example:
+                Data:
+                - DisplayName: GMT a.k.a. UTC
+                  TimeZoneId: '0'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: Etc/UTC
+                - DisplayName: British Time
+                  TimeZoneId: '1'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: Europe/London
+                - DisplayName: Singapore Time
+                  TimeZoneId: '2'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: Asia/Singapore
+                - DisplayName: US Eastern Time
+                  TimeZoneId: '3'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: America/New_York
+                - DisplayName: Central European Time
+                  TimeZoneId: '4'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: Europe/Paris
+                - DisplayName: US Central Time
+                  TimeZoneId: '5'
+                  TimeZoneOffset: 00:00:00
+                  ZoneName: America/Chicago
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    TimeZoneDetails:
+      title: Represents a single time zone.
+      type: object
+      properties:
+        DisplayName:
+          title: Full name/description of the time zone.
+          type: string
+          example: stringValue
+        TimeZoneAbbreviation:
+          title: Time Zone Abbreviation for UTC standard time
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Internal unique time zone identifier.
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: Time Zone Offset
+          type: string
+          example: stringValue
+        ZoneName:
+          title: The IANA/tz database time zone identifier.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        DisplayName: US Eastern Time
+        TimeZoneId: '3'
+        TimeZoneOffset: 00:00:00
+        ZoneName: America/New_York
+    TimeZoneDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeZoneDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DisplayName: GMT a.k.a. UTC
+          TimeZoneId: '0'
+          TimeZoneOffset: 00:00:00
+          ZoneName: Etc/UTC
+        - DisplayName: British Time
+          TimeZoneId: '1'
+          TimeZoneOffset: 00:00:00
+          ZoneName: Europe/London
+        - DisplayName: Singapore Time
+          TimeZoneId: '2'
+          TimeZoneOffset: 00:00:00
+          ZoneName: Asia/Singapore
+        - DisplayName: US Eastern Time
+          TimeZoneId: '3'
+          TimeZoneOffset: 00:00:00
+          ZoneName: America/New_York
+        - DisplayName: Central European Time
+          TimeZoneId: '4'
+          TimeZoneOffset: 00:00:00
+          ZoneName: Europe/Paris
+        - DisplayName: US Central Time
+          TimeZoneId: '5'
+          TimeZoneOffset: 00:00:00
+          ZoneName: America/Chicago
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

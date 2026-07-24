@@ -1,0 +1,323 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Partner Bulk Bookings API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Partner Bulk Bookings
+  description: Provides partner bulk booking related endpoints.
+paths:
+  /partnerintegration/v1/bulkbookings/{RequestReferenceNumber}/status:
+    get:
+      tags:
+      - Partner Bulk Bookings
+      summary: Get the overall status of bookings uploaded via CSV file
+      description: Get the overall status of the uploaded CSV file after its published successfully.
+      operationId: BulkBookingsBulkBookingPublishStatus
+      parameters:
+      - name: RequestReferenceNumber
+        in: path
+        description: Booking request reference number.
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Indicates that the request processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingPublishStatus'
+              example:
+                Errors:
+                - Error info
+                RequestReferenceNumber: 123456
+                Status: Pending
+        '404':
+          description: Indicates that the record is not found for given reference number.
+        '401':
+          description: Indicates that the request is not authorize to perform operation.
+        '500':
+          description: Indicates that the internal error occurred due to unhandled exception while processing request.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /partnerintegration/v1/bulkbookings/{RequestReferenceNumber}/validations:
+    get:
+      tags:
+      - Partner Bulk Bookings
+      summary: Get details/validation status for booking using RequestReferenceNumber
+      description: "Get the bulk booking validation status for all records in CSV file :\n            \n1. Validation Status : Working, Failed and Success.\n\nOR\n\n2. Validation error code and description with row numbers."
+      operationId: BulkBookingsBulkBookingValidationStatus
+      parameters:
+      - name: RequestReferenceNumber
+        in: path
+        description: Booking request reference number.
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Indicates that the request processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingValidationStatus'
+              example:
+                Errors:
+                - Errors:
+                  - Error info
+                  Id: 1
+                RequestReferenceNumber: 123456
+                Status: Failed
+        '404':
+          description: Indicates that the record is not found for given reference number.
+        '401':
+          description: Indicates that the request is not authorize to perform operation.
+        '500':
+          description: Indicates that the internal error occurred due to unhandled exception while processing request.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /partnerintegration/v1/bulkbookings:
+    post:
+      tags:
+      - Partner Bulk Bookings
+      summary: CSV File Upload For BulkBookings
+      description: "This endpoint would allow WLCs to book trades using external Instruments via uploading a CSV File. The given endpoint asynchronously uploads the file and the booking's status can be retrieved later through other Get endpoints.\n\n\n\n  Note : \n\n\n\n1. Please upload single bulk booking file with.csv extension and max file size should not be greater than 15MB or max 200,000 record in single file.\n\n\n2. Refer the below column headers Name and Type and their order, Also please ensure to align the column and records in the specified order.\n\n\n3. Data/headers column should exactly match with the specified columns list.\n\n\n4. Each file upload to be tagged with a Booking Reference ID for future use.\n\n\n5. File name should be unique and multiple file uploads are not supported.\n\n\n6. Only WLC/WLP/Partner/IB allowed to upload file on its client's behalf.\n\n\n\n  Details for CSV File Headers/Columns:\n\n\n\n\n  BookingDate (Utcdatetime) - BookingDate cannot be in the past, must be today or in the future.\n\n\n\n  UIC (Integer) - Unique Id of the instrument.\n\n\n\n  AssetType (Enum) - Supported Asset Types: Portfolio Note, Guarantee Note.\n\n\n\n  PartnerBookingType (String) - Supported Booking Types: Cash Posting Positive, Cash Posting Negative, Provider Cost, Administration, Correction, Other Fees, Return, Accrued Provider Cost, Accrued Administrative Cost, Accrued Return, Accrued Return in PCT, Accrued Provided Cost in PCT, Accrued Administration Cost in PCT, Total PNL in PCT.\n\n\n\n  BookingText (String) - Allowed max up to 200 characters.\n\n\n\n  Amount (Decimal) - Any amount (negative, positive or zero).\n\n\n\n  AccountId (String) - Account for clients of the logged in WLC/IB.\n\n\n\n  PartnerAccountId (String) - Account for the logged in WLC/IB."
+      operationId: BulkBookingsUploadMultiParts
+      responses:
+        '201':
+          description: Indicates that the request is added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisteredBulkBooking'
+              example:
+                BookingReference: 12345
+        '401':
+          description: Indicates that the request is not authorize to perform operation.
+        '400':
+          description: Indicates that uploaded file with extension other than CSV(supported format).
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '415':
+          description: Indicates that the request is an unsupported type.
+        '500':
+          description: Indicates that the internal error occurred due to unhandled exception while processing request.
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+components:
+  schemas:
+    Enumerations.BookingPublishStatus:
+      title: Bulk booking file publish status from backoffice
+      enum:
+      - Active
+      - Cancelled
+      - Error
+      - Hold
+      - Pending
+      - Processed
+      type: string
+      example: Pending
+      x-enum-descriptions:
+        Pending: Receive the signal from Signal Topic
+        Hold: If any validation failed
+        Active: When all validation passed/succeeded
+        Processed: This status will be marked when all requests processed.
+        Error: This will be set once processing has been done with some errors.
+        Cancelled: Cancel the batch
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    RegisteredBulkBooking:
+      type: object
+      properties:
+        BookingReference:
+          title: Request reference id generated for the uploaded file to get the booking status.
+          type: integer
+          format: int64
+          example: 37
+      additionalProperties: false
+      example:
+        BookingReference: 12345
+    BookingPublishStatus:
+      title: Model class for booking publish status from backoffice.
+      type: object
+      properties:
+        Errors:
+          title: List of error info
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        RequestReferenceNumber:
+          title: RequestReferenceNo
+          type: integer
+          format: int64
+          example: 37
+        Status:
+          title: File processing status
+          allOf:
+          - $ref: '#/components/schemas/Enumerations.BookingPublishStatus'
+      additionalProperties: false
+      example:
+        Errors:
+        - Error info
+        RequestReferenceNumber: 123456
+        Status: Pending
+    BookingError:
+      title: Booking error class.
+      type: object
+      properties:
+        Errors:
+          title: List of errors.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Id:
+          title: Record Id.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Errors:
+        - stringValue
+        Id: 99
+    BookingStatus:
+      title: Bulk booking file validation status
+      enum:
+      - Failed
+      - Success
+      - Working
+      type: string
+      example: Working
+      x-enum-descriptions:
+        Working: Initial status
+        Failed: If any validation failed
+        Success: When all validation passed/succeeded
+    BookingValidationStatus:
+      title: Model class for booking validation status.
+      type: object
+      properties:
+        Errors:
+          title: List of error info
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingError'
+          example:
+          - Errors:
+            - stringValue
+            Id: 99
+        RequestReferenceNumber:
+          title: RequestReferenceNo
+          type: integer
+          format: int64
+          example: 37
+        Status:
+          title: File processing status
+          allOf:
+          - $ref: '#/components/schemas/BookingStatus'
+      additionalProperties: false
+      example:
+        Errors:
+        - Errors:
+          - Error info
+          Id: 1
+        RequestReferenceNumber: 123456
+        Status: Failed
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

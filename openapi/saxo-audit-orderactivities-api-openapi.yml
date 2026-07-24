@@ -1,0 +1,1033 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Audit - OrderActivities API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Audit - OrderActivities
+  description: End point for querying order activities
+paths:
+  /cs/v1/audit/orderactivities:
+    get:
+      tags:
+      - Audit - OrderActivities
+      summary: Query Order activities history
+      description: 'Query Order activities history
+
+
+
+        The __nextPoll link is present when relevant and MUST be used for continuously polling
+
+
+
+        Our preferred option for continuously fetching order activities is to stream it out of ENS'
+      operationId: OrderActivitiesGetOrderStatesAsync
+      parameters:
+      - name: $skiptoken
+        in: query
+        description: Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks.
+        schema:
+          type: string
+        example: B17D8890-3C7A-4A47-A9AA-01B022ED03A5
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      - name: AccountKey
+        in: query
+        description: 'Account key: If specified will only return entries pertaining to specified Account.'
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: uLDoIiVA30y8uj4kFKp7Og ==
+      - name: ClientKey
+        in: query
+        description: 'Client key: If specified will only return entries pertaining to specified client and its sub clients depending upon includeSubAccounts.'
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 2y0tX0m9ZH7MH8HK38qM9g==
+      - name: CorrelationKey
+        in: query
+        description: 'CorrelationKey: If specified, will only return entries with the specified CorrelationKey'
+        schema:
+          type: string
+        example: bb6bfb96-606d-45d6-95f5-efa443192f5c
+      - name: EntryType
+        in: query
+        description: 'EntryType: optional. Defaults to ''All'': Return all entries pertaining to any order. ''Last'': Only return the latest state of an order ignoring ToDateTime (if any).'
+        schema:
+          $ref: '#/components/schemas/Models.OrderEntryType'
+        example: All
+      - name: FieldGroups
+        in: query
+        description: 'FieldGroups: DisplayAndFormat'
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Models.OrderActivityFieldGroup'
+        example: DisplayAndFormat
+      - name: FromDateTime
+        in: query
+        description: Only include entries, with a ActivityDateTime greater than or equal to FromDateTime
+        schema:
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '2017-12-01T00:00:00.0000000+00:00'
+      - name: IncludeSubAccounts
+        in: query
+        description: 'IncludeSubAccounts: If specified true will return entries for all clients under specified ClientId in a hierarchy.'
+        schema:
+          type: boolean
+        example: false
+      - name: OrderId
+        in: query
+        description: 'OrderId: Will only return entries pertaining to specified OrderId'
+        schema:
+          type: string
+        example: '234728341'
+      - name: Status
+        in: query
+        description: 'Status: If specified will only return entries with the specified OrderStatus'
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderLogStatus'
+        example: Placed
+      - name: ToDateTime
+        in: query
+        description: Only include entries, with a ActivityDateTime less than or equal to ToDateTime. Cannot be used with EntryType="Last"
+        schema:
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '2017-12-31T00:00:00.0000000+00:00'
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Models.OrderActivitiesResponseListResult'
+              example:
+                __next: /openapi/....../?$top=1&$skiptoken=1
+                Data:
+                - AccountId: 120602INET
+                  ActivityTime: '2017-12-28T08:20:19Z'
+                  Amount: 300
+                  AssetType: CfdOnStock
+                  BuySell: Buy
+                  ClientId: '3031269'
+                  CorrelationKey: bb6bfb96-606d-45d6-95f5-efa443192f5c
+                  DisplayAndFormat:
+                    BarrierFormat: Normal
+                    Currency: DKK
+                    Decimals: 3
+                    Description: Genmab A/S
+                    Format: Normal
+                    OrderDecimals: 2
+                    StrikeFormat: Normal
+                    Symbol: GEN:xcse
+                  Duration:
+                    DurationType: DayOrder
+                  HandledBy: '3031269'
+                  LogId: '260971'
+                  OrderId: '234728341'
+                  OrderRelation: StandAlone
+                  OrderType: Market
+                  Price: 1048.2
+                  SleepingOrderCondition:
+                    BreakoutTriggerDownPrice: 150.1
+                    BreakoutTriggerUpPrice: 160.6
+                    BuySell: Buy
+                    ConditionId: '114485191'
+                    Duration:
+                      DurationType: DayOrder
+                    OrderType: LimitTrigger
+                    Price: 16000.01
+                    Status: Placed
+                    SubStatus: Confirmed
+                    Symbol: NAS100.I
+                    TrailingStopDistanceToMarket: 10.1
+                    TriggerPriceType: Ask
+                    Uic: 1909050
+                  Status: Placed
+                  SubStatus: Requested
+                  Uic: 2090
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFoundError
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotFoundError: Not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '500':
+          description: Internal Server Error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    OpenOrderRelation:
+      title: Description of the order relation
+      enum:
+      - IfDoneMaster
+      - IfDoneSlave
+      - IfDoneSlaveOco
+      - Oco
+      - StandAlone
+      type: string
+      example: Oco
+      x-enum-descriptions:
+        StandAlone: '0: Standalone. No relations to other orders.'
+        Oco: '1: One cancels other. Relation between two orders. When one is filled, the other is cancelled.'
+        IfDoneMaster: "2: If done master. Relation between two or three orders.\n            The slave orders are released only if the master order is filled."
+        IfDoneSlave: '3: If done slave. Relation between two orders. The other is always IfDoneMaster.'
+        IfDoneSlaveOco: "4: If done slave OCO. Relation between three orders. \n            One is always IfDoneMaster and the other is always also IfDoneSlaveOCO. \n            The OCO relation is between the two slave orders."
+    OrderLogStatus:
+      enum:
+      - Cancelled
+      - Changed
+      - DoneForDay
+      - Expired
+      - Fill
+      - FinalFill
+      - Placed
+      - Working
+      type: string
+      example: Placed
+      x-enum-descriptions:
+        Placed: New order placement.
+        Working: System or dealer initiated order placement in external OMS of existing order.
+        Changed: Order change.
+        Cancelled: Order cancel initiated by client or dealer.
+        Fill: Order fill - (Also used for trade on quote in OrderLog)
+        FinalFill: Order fill - final fill of an open order.
+        DoneForDay: Order is done for day in external OMS.
+        Expired: Order has expired.
+    OrderCondition:
+      type: object
+      properties:
+        BreakoutTriggerDownPrice:
+          title: Breakout Trigger Down Price
+          type: number
+          example: 10
+        BreakoutTriggerUpPrice:
+          title: Breakout Trigger Up Price
+          type: number
+          example: 10
+        BuySell:
+          title: Buy or Sell
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        ConditionId:
+          title: Order condition Id
+          type: string
+          example: stringValue
+        Duration:
+          title: Order duration
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderDuration'
+        OrderType:
+          title: The OrderType (enum)
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderType'
+        Price:
+          title: Order price.
+          type: number
+          example: 10
+        Status:
+          title: OrderStatusType example Placed/Working/Fill/Cancelled
+          allOf:
+          - $ref: '#/components/schemas/OrderLogStatus'
+        SubStatus:
+          title: The OrderSubStatus identifies the sub status of an order.
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderSubStatus'
+        Symbol:
+          title: Symbol
+          type: string
+          example: stringValue
+        TrailingStopDistanceToMarket:
+          title: Trailing Stop Distance To Market
+          type: number
+          example: 10
+        TriggerPriceType:
+          title: Trigger Price Type
+          allOf:
+          - $ref: '#/components/schemas/TriggerPriceType'
+        Uic:
+          title: Uic of instrument traded
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        BreakoutTriggerDownPrice: 150.1
+        BreakoutTriggerUpPrice: 160.6
+        BuySell: Buy
+        ConditionId: '114485191'
+        Duration:
+          DurationType: DayOrder
+        OrderType: LimitTrigger
+        Price: 16000.01
+        Status: Placed
+        SubStatus: Confirmed
+        Symbol: NAS100.I
+        TrailingStopDistanceToMarket: 10.1
+        TriggerPriceType: Ask
+        Uic: 1909050
+    OpenOrderDuration:
+      title: Order durations
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      - Unknown
+      type: string
+      example: Unknown
+      x-enum-descriptions:
+        Unknown: Unspecified duration
+        GoodTillCancel: Good Till Cancel - working until explicitly cancelled
+        DayOrder: Day order - working in all session until trade date roll
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Fill or fill partially and cancel remaining
+        AtTheOpening: Working at the opening auction only
+        AtTheClose: Working at the closing auction only
+        GoodTillDate: Working untill specified date
+        GoodForPeriod: Working for specified period
+    Models.OrderActivitiesResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Models.OrderActivitiesResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skiptoken=1
+        Data:
+        - AccountId: 120602INET
+          ActivityTime: '2017-12-28T08:20:19Z'
+          Amount: 300
+          AssetType: CfdOnStock
+          BuySell: Buy
+          ClientId: '3031269'
+          CorrelationKey: bb6bfb96-606d-45d6-95f5-efa443192f5c
+          DisplayAndFormat:
+            BarrierFormat: Normal
+            Currency: DKK
+            Decimals: 3
+            Description: Genmab A/S
+            Format: Normal
+            OrderDecimals: 2
+            StrikeFormat: Normal
+            Symbol: GEN:xcse
+          Duration:
+            DurationType: DayOrder
+          HandledBy: '3031269'
+          LogId: '260971'
+          OrderId: '234728341'
+          OrderRelation: StandAlone
+          OrderType: Market
+          Price: 1048.2
+          SleepingOrderCondition:
+            BreakoutTriggerDownPrice: 150.1
+            BreakoutTriggerUpPrice: 160.6
+            BuySell: Buy
+            ConditionId: '114485191'
+            Duration:
+              DurationType: DayOrder
+            OrderType: LimitTrigger
+            Price: 16000.01
+            Status: Placed
+            SubStatus: Confirmed
+            Symbol: NAS100.I
+            TrailingStopDistanceToMarket: 10.1
+            TriggerPriceType: Ask
+            Uic: 1909050
+          Status: Placed
+          SubStatus: Requested
+          Uic: 2090
+    Models.OrderActivityFieldGroup:
+      enum:
+      - DisplayAndFormat
+      type: string
+      example: DisplayAndFormat
+      x-enum-descriptions:
+        DisplayAndFormat: Display and Format.
+      x-type-warning: FlaggableEnum
+    Models.OrderActivitiesResponse:
+      type: object
+      properties:
+        AccountId:
+          title: Account Id
+          type: string
+          example: stringValue
+        ActivityTime:
+          title: Time of the activity.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Amount:
+          title: Order amount
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType of instrument traded (enum)
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        AveragePrice:
+          title: The average price of the
+          type: number
+          example: 10
+        BuySell:
+          title: Buy or Sell
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        CashAmount:
+          title: Order cash amount
+          type: number
+          example: 10
+        ClientId:
+          title: Client Id
+          type: string
+          example: stringValue
+        CorrelationKey:
+          title: Correlationkey, relating orders for better visual correlation)
+          type: string
+          example: stringValue
+        DisplayAndFormat:
+          title: Includes Symbol and formatting info. (standard object also used in most other service groups)
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        Duration:
+          title: Order duration
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderDuration'
+        ExecutionPrice:
+          title: Execution price of this particular fill (if multiple fills)
+          type: number
+          example: 10
+        ExternalReference:
+          title: The Client order reference id.
+          type: string
+          example: stringValue
+        FillAmount:
+          title: The amount of the current fill
+          type: number
+          example: 10
+        FilledAmount:
+          title: Amount currently filled
+          type: number
+          example: 10
+        HandledBy:
+          title: Would be either UserId if initiated by a known user or System if handled by the system.
+          type: string
+          example: stringValue
+        LogId:
+          title: Order log id. The caller can expect that LogIds will be in time sequence so that an entry with LogId=x+1 will be entered into the log after an entry with LogId=x.
+          type: string
+          example: stringValue
+        MultilegOrderId:
+          title: Multileg Order Id
+          type: string
+          example: stringValue
+        OrderId:
+          title: Order Id
+          type: string
+          example: stringValue
+        OrderRelation:
+          title: Relation to other active orders.
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderRelation'
+        OrderType:
+          title: The OrderType (enum)
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderType'
+        PositionId:
+          title: Id of position created, if order is filled (partially filled)
+          type: string
+          example: stringValue
+        Price:
+          title: Order price.
+          type: number
+          example: 10
+        PutCall:
+          title: Put/Call (if order on option)
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        RelatedOrders:
+          title: Id's of one or more related orders.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        RelatedPositionId:
+          title: Id of position to which this order is related.
+          type: string
+          example: stringValue
+        SleepingOrderCondition:
+          title: Order condition
+          allOf:
+          - $ref: '#/components/schemas/OrderCondition'
+        Status:
+          title: OrderStatusType example Placed/Working/Fill/Cancelled
+          allOf:
+          - $ref: '#/components/schemas/OrderLogStatus'
+        StopLimitPrice:
+          title: Secondary price level for StopLimit orders.
+          type: number
+          example: 10
+        SubStatus:
+          title: The OrderSubStatus identifies the sub status of an order.
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderSubStatus'
+        Uic:
+          title: Uic of instrument traded
+          type: integer
+          format: int32
+          example: 99
+        UserId:
+          title: User Id
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: stringValue
+        ActivityTime: '9999-12-31T23:59:59.9999990+00:00'
+        Amount: 10
+        AssetType: CfdFutureOption
+        AveragePrice: 10
+        BuySell: Buy
+        CashAmount: 10
+        ClientId: stringValue
+        CorrelationKey: stringValue
+        DisplayAndFormat:
+          BarrierFormat: Normal
+          Currency: USD
+          Decimals: 4
+          Description: Euro/US Dollar
+          Format: Normal
+          OrderDecimals: 2
+          StrikeFormat: Normal
+          Symbol: EURUSD
+        Duration:
+          DurationType: ImmediateOrCancel
+          ExpirationDate: '9999-12-31T23:59:59.999999Z'
+          ExpirationDateContainsTime: false
+        ExecutionPrice: 10
+        ExternalReference: stringValue
+        FillAmount: 10
+        FilledAmount: 10
+        HandledBy: stringValue
+        LogId: stringValue
+        MultilegOrderId: stringValue
+        OrderId: stringValue
+        OrderRelation: IfDoneMaster
+        OrderType: Unknown
+        PositionId: stringValue
+        Price: 10
+        PutCall: Call
+        RelatedOrders:
+        - stringValue
+        RelatedPositionId: stringValue
+        SleepingOrderCondition:
+          BreakoutTriggerDownPrice: 150.1
+          BreakoutTriggerUpPrice: 160.6
+          BuySell: Buy
+          ConditionId: '114485191'
+          Duration:
+            DurationType: DayOrder
+          OrderType: LimitTrigger
+          Price: 16000.01
+          Status: Placed
+          SubStatus: Confirmed
+          Symbol: NAS100.I
+          TrailingStopDistanceToMarket: 10.1
+          TriggerPriceType: Ask
+          Uic: 1909050
+        Status: Changed
+        StopLimitPrice: 10
+        SubStatus: Requested
+        Uic: 99
+        UserId: stringValue
+    OpenOrderType:
+      title: Open order type enum
+      enum:
+      - Algorithmic
+      - BreakoutTrigger
+      - CallLimit
+      - CallStop
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - MarketDefault
+      - MarketExpiry
+      - MarketRollover
+      - MarketStopOut
+      - PeggedToMid
+      - PreviouslyQuoted
+      - Stop
+      - StopIfBid
+      - StopIfOffered
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - Traspaso
+      - TraspasoIn
+      - TraspasoOut
+      - Unknown
+      type: string
+      example: Market
+      x-enum-deprecated:
+      - StopIfBid
+      - StopIfOffered
+      x-enum-descriptions:
+        Unknown: '0: Unspecified'
+        Market: '1: Market order'
+        Limit: '2: Limit order'
+        StopIfBid: '3: Stop if bid price = stop price'
+        StopIfOffered: '4: Stop if ask price = stop price'
+        StopIfTraded: '5: Stop if actually traded at stop price'
+        Stop: "6: Stop at price\n            Stop If Offered for buy orders\n            Stop If Bid for sell orders"
+        StopLimit: '7: Stop Limit'
+        MarketStopOut: '8: Market order that is placed by Bank in respons to a stop-out margin call.'
+        CallLimit: "12: This order type is monitored by the OOM as a regular limit order.\n            Hittime is assigned but order is never executed."
+        CallStop: "13: This order type is monitored by the OOM as a regular stop order.\n            Hittime is assigned but order is never executed."
+        MarketExpiry: "14: This order type is placed by the Cfd Future Expiry Service. It can be placed\n            even after instrument expiry and the order monitor will execute it even after\n            instrument expiry."
+        Algorithmic: "15: Algorithmic order. \n            Only applies to external orders, when the broker supports various algorithmic strategies."
+        PreviouslyQuoted: "16: Order on Previous Quote.\n            Only applies for B2BExecutionReports for Fx DMA Clients"
+        MarketDefault: "17: Market order that is placed by Bank in response to close out stock options \n            for the clients who can default."
+        PeggedToMid: '18: Pegged To Mid order'
+        Switch: '19: Switch order, Sell X and Buy Y with one order.'
+        Traspaso: '20: A special type of switch order.'
+        TraspasoOut: '21: A Traspaso order initiated from an external trading system.'
+        TraspasoIn: '22: A Traspaso In order initiated from an external trading system.'
+        MarketRollover: '23: Market Rollover order that is placed by Bank to automate the process of closing out open positions in soon to expire contracts in favour of contracts with later expiration dates'
+        GuaranteedStop: '24: Stop at price - no slippage'
+        LimitTrigger: '25: Similar to Limit order type but used only with Trigger orders'
+        StopTrigger: '26: Similar to Stop order type but used only with Trigger orders'
+        BreakoutTrigger: '27: A Breakout Order (Trigger order with up and down prices)'
+        DealCapture: Order Contains Deal capture
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PutCall:
+      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Put
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: Optional separate display information for option barrier prices
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: Optional separate display information for option barrier prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
+          type: integer
+          description: Decimals and DisplayDecimals have the same value. Moving forward, DisplayDecimals will be removed.
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: Optional separate display information for option strike prices
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: Optional separate display information for option strike prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BarrierFormat: Normal
+        Currency: USD
+        Decimals: 4
+        Description: Euro/US Dollar
+        Format: Normal
+        OrderDecimals: 2
+        StrikeFormat: Normal
+        Symbol: EURUSD
+    Domain.OrderDuration:
+      type: object
+      properties:
+        DurationType:
+          title: The Order Type.
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderDuration'
+        ExpirationDate:
+          title: The ExpirationDate, if the Order Type is GTD.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: In some instance, GTD orders are allowed to include an expiration time. This field indicates if the ExpirationDate can contain a time component.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        DurationType: AtTheClose
+        ExpirationDate: '9999-12-31T23:59:59.9999990+00:00'
+        ExpirationDateContainsTime: true
+    Models.OrderEntryType:
+      enum:
+      - All
+      - Last
+      type: string
+      example: Last
+      x-enum-descriptions:
+        Last: 'EntryType:- Last: Only return the latest state of an order.'
+        All: 'EntryType:- All: Return all entries pertaining to any order.'
+    BuySell:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy
+        Sell: Sell
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Domain.OrderSubStatus:
+      title: The OrderSubStatus identifies the sub status of an order.
+      enum:
+      - Confirmed
+      - Rejected
+      - Requested
+      - RouteRequestPending
+      - RouteRequested
+      - WaitCondition
+      type: string
+      example: RouteRequested
+      x-enum-descriptions:
+        Requested: Order request received by a client or dealer facing service.
+        RouteRequested: Order request is routed to exchange/broker interface (a.k.a. STP server).
+        RouteRequestPending: Order request is pending at exchange/broker.
+        Confirmed: Order request is confirmed by the order manager, exchange or broker.
+        Rejected: Order request is rejected by client facing service, order manager or externally by exchange or broker.
+        WaitCondition: Order request is waiting to meet conditon
+    TriggerPriceType:
+      enum:
+      - Ask
+      - Bid
+      - Close
+      - LastTraded
+      - Open
+      type: string
+      example: LastTraded
+      x-enum-descriptions:
+        LastTraded: Last traded price.
+        Open: Open price.
+        Close: Closing price.
+        Bid: Bid price.
+        Ask: Ask price.
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: No special display format for this price.
+        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

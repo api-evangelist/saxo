@@ -1,0 +1,3213 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Performance API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Performance
+  description: Provides performance metrics for historical positions.
+paths:
+  /hist/v4/performance/summary:
+    get:
+      tags:
+      - Performance
+      summary: Performance Summary
+      description: "Returns a summary containing aggregated trade results and related performance metrics of the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics."
+      operationId: PerformanceV4GetAccountSummary
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The account group key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+      - name: AccountKey
+        in: query
+        description: The account key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      - name: ClientKey
+        in: query
+        description: The client key.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      - name: FieldGroups
+        in: query
+        description: The field groups.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountSummaryFieldGroup'
+      - name: FromDate
+        in: query
+        description: From date.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      - name: MockDataId
+        in: query
+        description: The mock data identifier.
+        schema:
+          type: string
+      - name: StandardPeriod
+        in: query
+        description: The standard period.
+        schema:
+          $ref: '#/components/schemas/Application.v4.AccountPerformanceStandardPeriod'
+      - name: ToDate
+        in: query
+        description: To date.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts.AccountSummary'
+              example:
+                AccumulatedProfitLoss: 100
+                BenchMarks:
+                - Allocations:
+                  - AllocationPCT: 100
+                    AssetType: Cash
+                    Description: ''
+                    DisplayHintType: None
+                    Uic: 211
+                  CurrencyCode: USD
+                  Description: Description1
+                  Name: Bench Mark Name 1
+                - Allocations:
+                  - AllocationPCT: 100
+                    AssetType: Bond
+                    Description: ''
+                    DisplayHintType: None
+                    Uic: 210
+                  - AllocationPCT: 100
+                    AssetType: CertificateBonus
+                    Description: ''
+                    DisplayHintType: None
+                    Uic: 211
+                  CurrencyCode: EUR
+                  Description: Description2
+                  Name: Bench Mark Name 2
+                From: '2022-10-30'
+                InceptionDay: '2022-10-30'
+                LastTradeDay: '2022-10-30'
+                Thru: '2022-10-30'
+                TotalCashBalance: 5000
+                TotalCashBalancePerCurrency:
+                - StringValue: CAD
+                  Value: -491.707122366824
+                TotalOpenPositionsValue: 6000
+                TotalPositionsValuePerCurrency:
+                - StringValue: CAD
+                  Value: -491.707122366824
+                TotalPositionsValuePerProductPerSecurity:
+                - Description: Position On Security And Product
+                  ProductName: Product Name
+                  Symbol: Symbol
+                  Value: 200
+                TradeSummary:
+                  Allocation:
+                    TradesPerAssetType:
+                      ClosedTradesAllocations:
+                      - AssetClassType: Equity
+                        ReturnAttribution: 1
+                        TradeCount: 168
+                        TradePercent: 0.38009049773755654
+                      - AssetClassType: Commodity
+                        ReturnAttribution: 0.5628789450009563
+                        TradeCount: 105
+                        TradePercent: 0.23755656108597284
+                      - AssetClassType: Currency
+                        ReturnAttribution: 0.249937016456527
+                        TradeCount: 112
+                        TradePercent: 0.25339366515837103
+                      - AssetClassType: Fixed Income
+                        ReturnAttribution: -0.013150856136249162
+                        TradeCount: 57
+                        TradePercent: 0.12895927601809956
+                    TradesPerInstrument:
+                      ClosedTradesAllocations:
+                      - AssetType: ContractFutures
+                        InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                        InstrumentSymbol: ZBU6
+                        InstrumentUic: 3626018
+                        ReturnAttribution: -0.15987101005684304
+                        TradeCount: 40
+                        TradePercent: 0.09049773755656108
+                      - AssetType: FxSpot
+                        InstrumentDescription: British Pound/US Dollar
+                        InstrumentSymbol: GBPUSD
+                        InstrumentUic: 31
+                        ReturnAttribution: 0.14685155225185834
+                        TradeCount: 37
+                        TradePercent: 0.083710407239819
+                  AverageTradeDurationInMinutes: 34260
+                  AverageTradesPerWeek: 48.2325728770595
+                  NumberOfDaysTraded: 1589
+                  NumberOfLongTrades: 5434
+                  NumberOfShortTrades: 5263
+                  TopTradedInstruments:
+                  - DAX.I
+                  - DJI.I
+                  - EURUSD
+                  - GBPUSD
+                  - NAS100.I
+                  - NOKSEK
+                  - EURNOK
+                  - SP500.I
+                  TradeActivity:
+                    TradesPerDay:
+                    - Date: '2022-10-30'
+                      TradeCount: 100
+                  TradedInstruments:
+                  - FxSpot
+                  - Stock
+                  - FxVanillaOption
+                  - ContractFutures
+                  TradesTotalCount: 10697
+                  TradesWonCount: 6499
+                WinFraction: 5
+        '404':
+          description: Summary not found.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /hist/v4/performance/timeseries:
+    get:
+      tags:
+      - Performance
+      summary: Performance Timeseries
+      description: "Returns timeseries containing performance metrics for the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics."
+      operationId: PerformanceV4GetAccountPerformance
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The account group key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+      - name: AccountKey
+        in: query
+        description: The account key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      - name: ClientKey
+        in: query
+        description: The client key.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      - name: FieldGroups
+        in: query
+        description: The field groups.
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractsV4.AccountPerformanceFieldGroup'
+      - name: FromDate
+        in: query
+        description: From date.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      - name: MockDataId
+        in: query
+        description: The mock data identifier.
+        schema:
+          type: string
+      - name: StandardPeriod
+        in: query
+        description: The standard period.
+        schema:
+          $ref: '#/components/schemas/Application.v4.AccountPerformanceStandardPeriod'
+      - name: ToDate
+        in: query
+        description: To date.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts.AccountPerformance'
+              example:
+                Balance:
+                  AccountBalance:
+                  - Date: '2021-03-16'
+                    Value: 2713951
+                  - Date: '2021-03-17'
+                    Value: 2697389
+                  - Date: '2021-03-18'
+                    Value: 2697389
+                  - Date: '2021-03-19'
+                    Value: 2697389
+                  - Date: '2021-03-22'
+                    Value: 2697389
+                  AccountValue:
+                  - Date: '2021-03-16'
+                    Value: 2713951
+                  - Date: '2021-03-17'
+                    Value: 2697389
+                  - Date: '2021-03-18'
+                    Value: 2697389
+                  - Date: '2021-03-19'
+                    Value: 2697389
+                  - Date: '2021-03-22'
+                    Value: 2697389
+                  CashTransfer:
+                  - Date: '2021-03-16'
+                    Value: 700000
+                  - Date: '2021-03-17'
+                    Value: 693217
+                  - Date: '2021-03-18'
+                    Value: 693217
+                  - Date: '2021-03-19'
+                    Value: 693217
+                  - Date: '2021-03-22'
+                    Value: 693217
+                  - Date: '2021-03-23'
+                    Value: 693217
+                  - Date: '2021-03-24'
+                    Value: 693217
+                  - Date: '2021-03-25'
+                    Value: 693217
+                  - Date: '2021-03-26'
+                    Value: 693217
+                  - Date: '2021-03-30'
+                    Value: 693217
+                  - Date: '2021-03-31'
+                    Value: 693217
+                  - Date: '2021-03-01'
+                    Value: 693217
+                  - Date: '2021-03-02'
+                    Value: 693217
+                  MonthlyProfitLoss:
+                  - Date: '2021-03-31'
+                    Value: 476960.78492
+                  - Date: '2021-04-30'
+                    Value: 0.00151689069285646
+                  SecurityTransfer:
+                  - Date: '2016-03-28'
+                    Value: 0
+                  - Date: '2016-03-29'
+                    Value: 0
+                  YearlyProfitLoss:
+                  - Date: '2021-12-31'
+                    Value: 473580.71199
+                Benchmark:
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  Date: '2021-05-11'
+                  Value: 0.02
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Bond
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 210
+                    - AllocationPCT: 100
+                      AssetType: CertificateBonus
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: EUR
+                    Description: Description2
+                    Name: Bench Mark Name 2
+                  Date: '2021-05-12'
+                  Value: 0.03
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Bond
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 210
+                    - AllocationPCT: 100
+                      AssetType: CertificateBonus
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: EUR
+                    Description: Description2
+                    Name: Bench Mark Name 2
+                  Date: '2021-05-13'
+                  Value: 0.04
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Bond
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 210
+                    - AllocationPCT: 100
+                      AssetType: CertificateBonus
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: EUR
+                    Description: Description2
+                    Name: Bench Mark Name 2
+                  Date: '2021-05-14'
+                  Value: 0.065
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  Date: '2021-05-15'
+                  Value: -0.01
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Bond
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 210
+                    - AllocationPCT: 100
+                      AssetType: CertificateBonus
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: EUR
+                    Description: Description2
+                    Name: Bench Mark Name 2
+                  Date: '2021-05-16'
+                  Value: 0.03
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Bond
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 210
+                    - AllocationPCT: 100
+                      AssetType: CertificateBonus
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: EUR
+                    Description: Description2
+                    Name: Bench Mark Name 2
+                  Date: '2021-05-17'
+                  Value: 0.025
+                - Allocations:
+                  - Allocations:
+                    - AllocationPCT: 100
+                      AssetType: Cash
+                      Description: ''
+                      DisplayHintType: None
+                      Uic: 211
+                    CurrencyCode: USD
+                    Description: Description1
+                    Name: Bench Mark Name 1
+                  Date: '2021-05-18'
+                  Value: 0.03
+                KeyFigures:
+                  ClosedTradesCount: 0
+                  DrawdownReport:
+                    Drawdowns:
+                    - DaysCount: 3
+                      DepthInPercent: 1
+                      FromDate: '2016-08-05T00:00:00'
+                      RecoveryDaysCount: 1
+                      ThruDate: '2016-08-08T00:00:00'
+                    MaxDaysInDrawdownFromTop10Drawdowns: 3
+                  LosingDaysFraction: 0.03
+                  MaxDrawDownFraction: 1
+                  PerformanceFraction: 0
+                  ReturnFraction: -1
+                  SampledStandardDeviation: 0.0618018874919214
+                  SharpeRatio: -0.952069751000777
+                  SortinoRatio: -0.0591710418985739
+                TimeWeighted:
+                  Accumulated:
+                  - Date: '2021-03-16'
+                    Value: 0.000707311584857981
+                  - Date: '2021-03-17'
+                    Value: 0.00289876077113995
+                  - Date: '2021-03-18'
+                    Value: 0.0030873830953917
+                  - Date: '2021-03-19'
+                    Value: 0.000729201756574284
+                  - Date: '2021-03-22'
+                    Value: 0.0016413754184318
+                  - Date: '2021-03-23'
+                    Value: 0.00615470900076945
+                  - Date: '2021-03-24'
+                    Value: 0.0145762714416127
+                  - Date: '2021-03-25'
+                    Value: 0.0130120799919019
+                  - Date: '2021-03-26'
+                    Value: 0.0109777093144279
+                  - Date: '2021-03-29'
+                    Value: 0.109105521823687
+                  - Date: '2021-03-30'
+                    Value: 0.109105521823687
+                  - Date: '2021-03-31'
+                    Value: 0.174356723940404
+                  - Date: '2021-03-01'
+                    Value: 0.176303239558097
+                  - Date: '2021-03-02'
+                    Value: 0.175826866623672
+                  MonthlyReturn:
+                  - Date: '2021-03-31'
+                    Value: 0.176303239558097
+                  - Date: '2021-04-30'
+                    Value: 0.00151689069285646
+                  YearlyReturn:
+                  - Date: '2021-03-31'
+                    Value: 0.175053781608446
+        '404':
+          description: Performance not found.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /hist/v3/perf/{ClientKey}:
+    get:
+      tags:
+      - Performance
+      summary: Get account performance.
+      description: "Returns a collection of performance metrics for a specific account. The account performance returns \n            confidencial information that is only allowed to be viewed by the account owner / owners.\n            The required fields are ClientKey and either StandardPeriod or FromDate/ToDate."
+      operationId: PerformanceV3GetPerformance
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: Id of the account containing the historical positions.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+      - name: AccountKey
+        in: query
+        description: Id of the account containing the historical positions.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      - name: ClientKey
+        in: path
+        description: Id of the client owning the account
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      - name: FieldGroups
+        in: query
+        description: Specifies which data to return. Default is
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPerformanceFieldGroup'
+      - name: FromDate
+        in: query
+        description: From date from which the historical positions are requested.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      - name: MockDataId
+        in: query
+        description: Optional Mock Data Parameter
+        schema:
+          type: string
+      - name: StandardPeriod
+        in: query
+        description: Standard period for account performance.
+        schema:
+          $ref: '#/components/schemas/Application.AccountPerformanceStandardPeriod'
+      - name: ToDate
+        in: query
+        description: To date till which the historical positions are requested.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountPerformance'
+              example:
+                AccountSummary:
+                  AverageTradeDurationInMinutes: 34260
+                  AverageTradesPerWeek: 48.2325728770595
+                  NumberOfDaysTraded: 1589
+                  NumberOfLongTrades: 5434
+                  NumberOfShortTrades: 5263
+                  TopTradedInstruments:
+                  - DAX.I
+                  - DJI.I
+                  - EURUSD
+                  - GBPUSD
+                  - NAS100.I
+                  - NOKSEK
+                  - EURNOK
+                  - SP500.I
+                  TotalReturnFraction: -0.9999963956455
+                  TradedInstruments:
+                  - FxSpot
+                  - Stock
+                  - FxVanillaOption
+                  - ContractFutures
+                  TradesTotalCount: 10697
+                  TradesWonCount: 6499
+                  WinFraction: 0.61
+                Allocation:
+                  TradesPerAssetType:
+                    ClosedTradesAllocations:
+                    - AssetClassType: Equity
+                      ReturnAttribution: 1
+                      TradeCount: 168
+                      TradePercent: 0.38009049773755654
+                    - AssetClassType: Currency
+                      ReturnAttribution: 0.249937016456527
+                      TradeCount: 112
+                      TradePercent: 0.25339366515837103
+                    - AssetClassType: Commodity
+                      ReturnAttribution: 0.5628789450009563
+                      TradeCount: 105
+                      TradePercent: 0.23755656108597284
+                    - AssetClassType: Fixed Income
+                      ReturnAttribution: -0.013150856136249162
+                      TradeCount: 57
+                      TradePercent: 0.12895927601809956
+                  TradesPerInstrument:
+                    ClosedTradesAllocations:
+                    - AssetType: ContractFutures
+                      InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                      InstrumentSymbol: ZBU6
+                      InstrumentUic: 3626018
+                      ReturnAttribution: -0.15987101005684304
+                      TradeCount: 40
+                      TradePercent: 0.09049773755656108
+                    - AssetType: FxSpot
+                      InstrumentDescription: British Pound/US Dollar
+                      InstrumentSymbol: GBPUSD
+                      InstrumentUic: 31
+                      ReturnAttribution: 0.14685155225185834
+                      TradeCount: 37
+                      TradePercent: 0.083710407239819
+                BalancePerformance:
+                  AccountBalanceTimeSeries:
+                  - Date: '2016-03-28'
+                    Value: 0
+                  - Date: '2016-03-29'
+                    Value: 0
+                  AccountValueTimeSeries:
+                  - Date: '2016-03-28'
+                    Value: 0
+                  - Date: '2016-03-29'
+                    Value: 0
+                  MonthlyProfitLossTimeSeries:
+                  - Date: '2015-11-30'
+                    Value: 0
+                  - Date: '2015-12-31'
+                    Value: 0
+                  SecurityTransferTimeSeries:
+                  - Date: '2016-03-28'
+                    Value: 0
+                  - Date: '2016-03-29'
+                    Value: 0
+                  YearlyProfitLossTimeSeries:
+                  - Date: '2015-12-31'
+                    Value: 0
+                  - Date: '2016-12-31'
+                    Value: 0
+                  - Date: '2017-12-31'
+                    Value: 0
+                From: '2016-03-28'
+                InceptionDay: '2015-11-24'
+                LastTradeDay: '2017-03-27'
+                Thru: '2017-03-27'
+                TimeWeightedPerformance:
+                  AccumulatedTimeWeightedTimeSeries:
+                  - Date: '2016-03-25'
+                    Value: 0
+                  MonthlyReturnTimeSeries:
+                  - Date: '2016-03-25'
+                    Value: 0
+                  PerformanceFraction: -1
+                  PerformanceKeyFigures:
+                    ClosedTradesCount: 0
+                    DrawdownReport:
+                      Drawdowns:
+                      - DaysCount: 3
+                        DepthInPercent: 1
+                        FromDate: '2016-08-05'
+                        ThruDate: '2016-08-08'
+                      MaxDaysInDrawdownFromTop10Drawdowns: 3
+                    LosingDaysFraction: 0.03
+                    MaxDrawDownFraction: 1
+                    ReturnFraction: -1
+                    SampledStandardDeviation: 0.0618018874919214
+                    SharpeRatio: -0.952069751000777
+                    SortinoRatio: -0.0591710418985739
+                  YearlyReturnTimeSeries:
+                  - Date: '2016-03-25'
+                    Value: 0
+                TotalCashBalance: 20226.02
+                TotalCashBalancePerCurrency:
+                - StringValue: CAD
+                  Value: -491.707122366824
+                TotalOpenPositionsValue: 29571.057
+                TotalPositionsValuePerCurrency:
+                - StringValue: CAD
+                  Value: -491.707122366824
+                TotalPositionsValuePerProductPerSecurity:
+                - Description: Abengoa SA - Warrants
+                  ProductName: Shares
+                  Symbol: LOCK - 1496:xxxx
+                  Value: 0
+        '404':
+          description: Performance not found.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    Drawdown:
+      title: Drawdown
+      type: object
+      properties:
+        DaysCount:
+          title: Days Count
+          type: integer
+          format: int32
+          example: 99
+        DepthInPercent:
+          title: Depth in Percnt
+          type: number
+          example: 10
+        FromDate:
+          title: From Date
+          type: string
+          format: date
+          x-type-name: Date
+        RecoveryDaysCount:
+          title: Recovery Days Count
+          type: integer
+          format: int32
+          example: 99
+        ThruDate:
+          title: Thru Date
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        DaysCount: 3
+        DepthInPercent: 1
+        FromDate: '2016-08-05'
+        ThruDate: '2016-08-08'
+    Contracts.TimeValuePair:
+      title: Implementation of a time and value pair.
+      type: object
+      properties:
+        Date:
+          title: Date and time of the occurrence.
+          type: string
+          format: date
+          x-type-name: Date
+        Value:
+          title: The value at the given date and time
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Date: '0001-01-01'
+        Value: 10
+    TradesPerDayItem:
+      title: Defines a data contract for closed trades count on a single day.
+      type: object
+      properties:
+        Date:
+          title: The date.
+          type: string
+          format: date
+          x-type-name: Date
+        TradeCount:
+          title: The trade count.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Date: '0001-01-01'
+        TradeCount: 99
+    Contracts.BenchMark:
+      title: Benchmark and all
+      type: object
+      properties:
+        Allocations:
+          title: List of Benchmark Compositions.
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentAllocation'
+          example:
+          - AllocationPCT: 10
+            AssetType: SrdOnStock
+            Description: stringValue
+            DisplayHintType: Rights
+            Uic: 99
+        CurrencyCode:
+          title: Benchmark currency.
+          type: string
+          example: stringValue
+        Description:
+          title: Benchmark description.
+          type: string
+          example: stringValue
+        Name:
+          title: Benchmark name.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Allocations:
+        - AllocationPCT: 10
+          AssetType: CertificateBonus
+          Description: stringValue
+          DisplayHintType: Etn
+          Uic: 99
+        CurrencyCode: stringValue
+        Description: stringValue
+        Name: stringValue
+    Contracts.Drawdown:
+      title: Drawdown
+      type: object
+      properties:
+        DaysCount:
+          title: Days Count
+          type: integer
+          format: int32
+          example: 99
+        DepthInPercent:
+          title: Depth in Percnt
+          type: number
+          example: 10
+        FromDate:
+          title: From Date
+          type: string
+          example: stringValue
+        RecoveryDaysCount:
+          title: Recovery Days Count
+          type: integer
+          format: int32
+          example: 99
+        ThruDate:
+          title: Thru Date
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        DaysCount: 99
+        DepthInPercent: 10
+        FromDate: '2024-06-26T14:43:10.9555718'
+        RecoveryDaysCount: 99
+        ThruDate: '2023-05-06T08:25:35.0241767'
+    Contracts.AccountPerformance:
+      type: object
+      properties:
+        Balance:
+          title: Balance AccountPerformance metrics.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.BalancePerformance'
+        Benchmark:
+          title: The benchmark performance.
+          type: array
+          items:
+            $ref: '#/components/schemas/BenchMarkPerformance'
+          example:
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            Date: '2021-05-11'
+            Value: 0.02
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Bond
+                Description: ''
+                DisplayHintType: None
+                Uic: 210
+              - AllocationPCT: 100
+                AssetType: CertificateBonus
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: EUR
+              Description: Description2
+              Name: Bench Mark Name 2
+            Date: '2021-05-12'
+            Value: 0.03
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Bond
+                Description: ''
+                DisplayHintType: None
+                Uic: 210
+              - AllocationPCT: 100
+                AssetType: CertificateBonus
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: EUR
+              Description: Description2
+              Name: Bench Mark Name 2
+            Date: '2021-05-13'
+            Value: 0.04
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Bond
+                Description: ''
+                DisplayHintType: None
+                Uic: 210
+              - AllocationPCT: 100
+                AssetType: CertificateBonus
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: EUR
+              Description: Description2
+              Name: Bench Mark Name 2
+            Date: '2021-05-14'
+            Value: 0.065
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            Date: '2021-05-15'
+            Value: -0.01
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Bond
+                Description: ''
+                DisplayHintType: None
+                Uic: 210
+              - AllocationPCT: 100
+                AssetType: CertificateBonus
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: EUR
+              Description: Description2
+              Name: Bench Mark Name 2
+            Date: '2021-05-16'
+            Value: 0.03
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Bond
+                Description: ''
+                DisplayHintType: None
+                Uic: 210
+              - AllocationPCT: 100
+                AssetType: CertificateBonus
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: EUR
+              Description: Description2
+              Name: Bench Mark Name 2
+            Date: '2021-05-17'
+            Value: 0.025
+          - Allocations:
+            - Allocations:
+              - AllocationPCT: 100
+                AssetType: Cash
+                Description: ''
+                DisplayHintType: None
+                Uic: 211
+              CurrencyCode: USD
+              Description: Description1
+              Name: Bench Mark Name 1
+            Date: '2021-05-18'
+            Value: 0.03
+        KeyFigures:
+          title: Key performance figures for the account.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.PerformanceKeyFigures'
+        TimeWeighted:
+          title: Time weighted performance metrics.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.TimeWeightedPerformance'
+      additionalProperties: false
+      example:
+        Balance:
+          AccountBalance:
+          - Date: '2021-03-16'
+            Value: 2713951
+          - Date: '2021-03-17'
+            Value: 2697389
+          - Date: '2021-03-18'
+            Value: 2697389
+          - Date: '2021-03-19'
+            Value: 2697389
+          - Date: '2021-03-22'
+            Value: 2697389
+          AccountValue:
+          - Date: '2021-03-16'
+            Value: 2713951
+          - Date: '2021-03-17'
+            Value: 2697389
+          - Date: '2021-03-18'
+            Value: 2697389
+          - Date: '2021-03-19'
+            Value: 2697389
+          - Date: '2021-03-22'
+            Value: 2697389
+          CashTransfer:
+          - Date: '2021-03-16'
+            Value: 700000
+          - Date: '2021-03-17'
+            Value: 693217
+          - Date: '2021-03-18'
+            Value: 693217
+          - Date: '2021-03-19'
+            Value: 693217
+          - Date: '2021-03-22'
+            Value: 693217
+          - Date: '2021-03-23'
+            Value: 693217
+          - Date: '2021-03-24'
+            Value: 693217
+          - Date: '2021-03-25'
+            Value: 693217
+          - Date: '2021-03-26'
+            Value: 693217
+          - Date: '2021-03-30'
+            Value: 693217
+          - Date: '2021-03-31'
+            Value: 693217
+          - Date: '2021-03-01'
+            Value: 693217
+          - Date: '2021-03-02'
+            Value: 693217
+          MonthlyProfitLoss:
+          - Date: '2021-03-31'
+            Value: 476960.78492
+          - Date: '2021-04-30'
+            Value: 0.00151689069285646
+          SecurityTransfer:
+          - Date: '2016-03-28'
+            Value: 0
+          - Date: '2016-03-29'
+            Value: 0
+          YearlyProfitLoss:
+          - Date: '2021-12-31'
+            Value: 473580.71199
+        Benchmark:
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          Date: '2021-05-11'
+          Value: 0.02
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Bond
+              Description: ''
+              DisplayHintType: None
+              Uic: 210
+            - AllocationPCT: 100
+              AssetType: CertificateBonus
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: EUR
+            Description: Description2
+            Name: Bench Mark Name 2
+          Date: '2021-05-12'
+          Value: 0.03
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Bond
+              Description: ''
+              DisplayHintType: None
+              Uic: 210
+            - AllocationPCT: 100
+              AssetType: CertificateBonus
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: EUR
+            Description: Description2
+            Name: Bench Mark Name 2
+          Date: '2021-05-13'
+          Value: 0.04
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Bond
+              Description: ''
+              DisplayHintType: None
+              Uic: 210
+            - AllocationPCT: 100
+              AssetType: CertificateBonus
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: EUR
+            Description: Description2
+            Name: Bench Mark Name 2
+          Date: '2021-05-14'
+          Value: 0.065
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          Date: '2021-05-15'
+          Value: -0.01
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Bond
+              Description: ''
+              DisplayHintType: None
+              Uic: 210
+            - AllocationPCT: 100
+              AssetType: CertificateBonus
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: EUR
+            Description: Description2
+            Name: Bench Mark Name 2
+          Date: '2021-05-16'
+          Value: 0.03
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Bond
+              Description: ''
+              DisplayHintType: None
+              Uic: 210
+            - AllocationPCT: 100
+              AssetType: CertificateBonus
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: EUR
+            Description: Description2
+            Name: Bench Mark Name 2
+          Date: '2021-05-17'
+          Value: 0.025
+        - Allocations:
+          - Allocations:
+            - AllocationPCT: 100
+              AssetType: Cash
+              Description: ''
+              DisplayHintType: None
+              Uic: 211
+            CurrencyCode: USD
+            Description: Description1
+            Name: Bench Mark Name 1
+          Date: '2021-05-18'
+          Value: 0.03
+        KeyFigures:
+          ClosedTradesCount: 0
+          DrawdownReport:
+            Drawdowns:
+            - DaysCount: 3
+              DepthInPercent: 1
+              FromDate: '2016-08-05T00:00:00'
+              RecoveryDaysCount: 1
+              ThruDate: '2016-08-08T00:00:00'
+            MaxDaysInDrawdownFromTop10Drawdowns: 3
+          LosingDaysFraction: 0.03
+          MaxDrawDownFraction: 1
+          PerformanceFraction: 0
+          ReturnFraction: -1
+          SampledStandardDeviation: 0.0618018874919214
+          SharpeRatio: -0.952069751000777
+          SortinoRatio: -0.0591710418985739
+        TimeWeighted:
+          Accumulated:
+          - Date: '2021-03-16'
+            Value: 0.000707311584857981
+          - Date: '2021-03-17'
+            Value: 0.00289876077113995
+          - Date: '2021-03-18'
+            Value: 0.0030873830953917
+          - Date: '2021-03-19'
+            Value: 0.000729201756574284
+          - Date: '2021-03-22'
+            Value: 0.0016413754184318
+          - Date: '2021-03-23'
+            Value: 0.00615470900076945
+          - Date: '2021-03-24'
+            Value: 0.0145762714416127
+          - Date: '2021-03-25'
+            Value: 0.0130120799919019
+          - Date: '2021-03-26'
+            Value: 0.0109777093144279
+          - Date: '2021-03-29'
+            Value: 0.109105521823687
+          - Date: '2021-03-30'
+            Value: 0.109105521823687
+          - Date: '2021-03-31'
+            Value: 0.174356723940404
+          - Date: '2021-03-01'
+            Value: 0.176303239558097
+          - Date: '2021-03-02'
+            Value: 0.175826866623672
+          MonthlyReturn:
+          - Date: '2021-03-31'
+            Value: 0.176303239558097
+          - Date: '2021-04-30'
+            Value: 0.00151689069285646
+          YearlyReturn:
+          - Date: '2021-03-31'
+            Value: 0.175053781608446
+    Link:
+      title: Represents a link to some web resource.
+      type: object
+      properties:
+        Relation:
+          title: The type of link. This adds semantic meaning to the link.
+          type: string
+          example: stringValue
+        Type:
+          title: Corresponds to media type for HTTP.
+          type: string
+          example: stringValue
+        Uri:
+          title: The URI to the resource.
+          type: string
+          example: http://stringValue
+      additionalProperties: false
+      example:
+        Relation: stringValue
+        Type: stringValue
+        Uri: http://stringValue
+    ContractsV4.AccountPerformanceFieldGroup:
+      enum:
+      - All
+      - Balance
+      - Balance_AccountBalance
+      - Balance_AccountValue
+      - Balance_CashTransfer
+      - Balance_MonthlyProfitLoss
+      - Balance_SecurityTransfer
+      - Balance_YearlyProfitLoss
+      - Benchmark
+      - KeyFigures
+      - TimeWeighted
+      - TimeWeighted_Accumulated
+      - TimeWeighted_MonthlyReturn
+      - TimeWeighted_YearlyReturn
+      type: string
+      example: Benchmark
+      x-type-warning: FlaggableEnum
+    InstrumentAllocation:
+      title: Composition of benchmark per asset type.
+      type: object
+      properties:
+        AllocationPCT:
+          title: Allocation of instrument in benchmark.
+          type: number
+          example: 10
+        AssetType:
+          title: The type of the asset.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Instrument description.
+          type: string
+          example: stringValue
+        DisplayHintType:
+          title: Display hint type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Uic:
+          title: The uic.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AllocationPCT: 10
+        AssetType: CertificateConstantLeverage
+        Description: stringValue
+        DisplayHintType: Etc
+        Uic: 99
+    Contracts.Allocation:
+      title: Provides an overview of how performance is allocated across asset types and instruments.
+      type: object
+      properties:
+        TradesPerAssetType:
+          title: The allocation of trades grouped by trade asset type.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.TradesPerAssetType'
+        TradesPerInstrument:
+          title: The allocation trades grouped by instrument id.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.TradesPerInstrument'
+      additionalProperties: false
+      example:
+        TradesPerAssetType:
+          ClosedTradesAllocations:
+          - AssetClassType: stringValue
+            AssetType: FxSpot
+            InstrumentDescription: stringValue
+            InstrumentSymbol: stringValue
+            InstrumentUic: 99
+            ReturnAttribution: 10
+            TradeCount: 99
+            TradePercent: 10
+        TradesPerInstrument:
+          ClosedTradesAllocations:
+          - AssetClassType: stringValue
+            AssetType: FxForwards
+            InstrumentDescription: stringValue
+            InstrumentSymbol: stringValue
+            InstrumentUic: 99
+            ReturnAttribution: 10
+            TradeCount: 99
+            TradePercent: 10
+    Performance.AccountSummary:
+      title: "OpenApi account summary performance metrics. The summary is the performance metrics\n              that is related to closed positions over the entire lifespan of an account."
+      type: object
+      properties:
+        AverageTradeDurationInMinutes:
+          title: Average trade duration in minutes.
+          type: number
+          example: 10
+        AverageTradesPerWeek:
+          title: The average trades per week.
+          type: number
+          example: 10
+        NumberOfDaysTraded:
+          title: Number of days traded.
+          type: number
+          example: 10
+        NumberOfLongTrades:
+          title: The number of long trades.
+          type: number
+          example: 10
+        NumberOfShortTrades:
+          title: The number of short trades.
+          type: number
+          example: 10
+        TopTradedInstruments:
+          title: "A list of the most traded instrument in an ordered list where the single most\n                traded instruments is located at index 0."
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        TotalReturnFraction:
+          title: The total return fraction.
+          type: number
+          example: 10
+        TradedInstruments:
+          title: A list of instruments traded with this account.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - CertificateCappedBonus
+        TradesTotalCount:
+          title: Total trades.
+          type: number
+          example: 10
+        TradesWonCount:
+          title: The total count of winning trades.
+          type: number
+          example: 10
+        WinFraction:
+          title: The fraction of trades with positive profit/loss.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AverageTradeDurationInMinutes: 34260
+        AverageTradesPerWeek: 48.2325728770595
+        NumberOfDaysTraded: 1589
+        NumberOfLongTrades: 5434
+        NumberOfShortTrades: 5263
+        TopTradedInstruments:
+        - DAX.I
+        - DJI.I
+        - EURUSD
+        - GBPUSD
+        - NAS100.I
+        - NOKSEK
+        - EURNOK
+        - SP500.I
+        TotalReturnFraction: -0.9999963956455
+        TradedInstruments:
+        - FxSpot
+        - Stock
+        - FxVanillaOption
+        - ContractFutures
+        TradesTotalCount: 10697
+        TradesWonCount: 6499
+        WinFraction: 0.61
+    Application.v4.AccountPerformanceStandardPeriod:
+      title: Defines standard periods for account performance.
+      enum:
+      - AllTime
+      - Month
+      - Quarter
+      - Year
+      type: string
+      example: AllTime
+      x-enum-descriptions:
+        AllTime: All time account performance.
+        Year: The year standard account performance.
+        Quarter: The quarter standard account performance.
+        Month: The month standard account performance.
+    AccountPerformance:
+      title: Account performance data model.
+      type: object
+      properties:
+        AccountSummary:
+          title: "The account summary consists performance metrics which is based on closed positions\n            for an account over the entire lifespan of the account."
+          allOf:
+          - $ref: '#/components/schemas/Performance.AccountSummary'
+        Allocation:
+          title: The trades allocation.
+          allOf:
+          - $ref: '#/components/schemas/Allocation'
+        AvailableBenchmarks:
+          title: The list of available benchmarks.
+          type: array
+          items:
+            $ref: '#/components/schemas/BenchMark'
+          example:
+          - AssetType: CertificateTracker
+            Description: stringValue
+            DisplayHintType: Continuous
+            Uic: 99
+        BalancePerformance:
+          title: Balance AccountPerformance metrics.
+          allOf:
+          - $ref: '#/components/schemas/BalancePerformance'
+        BenchMark:
+          title: The bench mark.
+          allOf:
+          - $ref: '#/components/schemas/BenchMark'
+        BenchmarkPerformance:
+          title: The benchmark performance.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        Currency:
+          title: The currency in which the data is calculated on.
+          type: string
+          example: stringValue
+        From:
+          title: "The start date is the offset date for all performance metrics that is a part\n                of the 'AccountPerformance'."
+          type: string
+          format: date
+          x-type-name: Date
+        InceptionDay:
+          title: The date where the first account deposit have been registred.
+          type: string
+          format: date
+          x-type-name: Date
+        LastTradeDay:
+          title: "Performance data that is returned is limited to the be data that lies between\n            the first trade day and the last trade day for the account. The last trade day\n            is the last day that one or more trades have been registred."
+          type: string
+          format: date
+          x-type-name: Date
+        Thru:
+          title: "The end date is the ending date for all returned performance metrics that is\n                a part of the 'AccountPerformance'. The 'ActualThruDate' date is included."
+          type: string
+          format: date
+          x-type-name: Date
+        TimeWeightedPerformance:
+          title: Time weighted performance metrics.
+          allOf:
+          - $ref: '#/components/schemas/TimeWeightedPerformance'
+        TotalCashBalance:
+          title: The total cash balance
+          type: number
+          example: 10
+        TotalCashBalancePerCurrency:
+          title: The total cash balance grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/StringValuePair'
+          example:
+          - StringValue: CAD
+            Value: -491.707122366824
+        TotalOpenPositionsValue:
+          title: The total value of client's open positions
+          type: number
+          example: 10
+        TotalPositionsValuePerCurrency:
+          title: The total position value grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/StringValuePair'
+          example:
+          - StringValue: CAD
+            Value: -491.707122366824
+        TotalPositionsValuePerProductPerSecurity:
+          title: The total position value grouped by product.
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionOnSecurityAndProduct'
+          example:
+          - Description: Abengoa SA - Warrants
+            ProductName: Shares
+            Symbol: LOCK - 1496:xxxx
+            Value: 0
+        TradeActivity:
+          title: The trade activity.
+          allOf:
+          - $ref: '#/components/schemas/TradeActivity'
+      additionalProperties: false
+      example:
+        AccountSummary:
+          AverageTradeDurationInMinutes: 34260
+          AverageTradesPerWeek: 48.2325728770595
+          NumberOfDaysTraded: 1589
+          NumberOfLongTrades: 5434
+          NumberOfShortTrades: 5263
+          TopTradedInstruments:
+          - DAX.I
+          - DJI.I
+          - EURUSD
+          - GBPUSD
+          - NAS100.I
+          - NOKSEK
+          - EURNOK
+          - SP500.I
+          TotalReturnFraction: -0.9999963956455
+          TradedInstruments:
+          - FxSpot
+          - Stock
+          - FxVanillaOption
+          - ContractFutures
+          TradesTotalCount: 10697
+          TradesWonCount: 6499
+          WinFraction: 0.61
+        Allocation:
+          TradesPerAssetType:
+            ClosedTradesAllocations:
+            - AssetClassType: Equity
+              ReturnAttribution: 1
+              TradeCount: 168
+              TradePercent: 0.38009049773755654
+            - AssetClassType: Currency
+              ReturnAttribution: 0.249937016456527
+              TradeCount: 112
+              TradePercent: 0.25339366515837103
+            - AssetClassType: Commodity
+              ReturnAttribution: 0.5628789450009563
+              TradeCount: 105
+              TradePercent: 0.23755656108597284
+            - AssetClassType: Fixed Income
+              ReturnAttribution: -0.013150856136249162
+              TradeCount: 57
+              TradePercent: 0.12895927601809956
+          TradesPerInstrument:
+            ClosedTradesAllocations:
+            - AssetType: ContractFutures
+              InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+              InstrumentSymbol: ZBU6
+              InstrumentUic: 3626018
+              ReturnAttribution: -0.15987101005684304
+              TradeCount: 40
+              TradePercent: 0.09049773755656108
+            - AssetType: FxSpot
+              InstrumentDescription: British Pound/US Dollar
+              InstrumentSymbol: GBPUSD
+              InstrumentUic: 31
+              ReturnAttribution: 0.14685155225185834
+              TradeCount: 37
+              TradePercent: 0.083710407239819
+        BalancePerformance:
+          AccountBalanceTimeSeries:
+          - Date: '2016-03-28'
+            Value: 0
+          - Date: '2016-03-29'
+            Value: 0
+          AccountValueTimeSeries:
+          - Date: '2016-03-28'
+            Value: 0
+          - Date: '2016-03-29'
+            Value: 0
+          MonthlyProfitLossTimeSeries:
+          - Date: '2015-11-30'
+            Value: 0
+          - Date: '2015-12-31'
+            Value: 0
+          SecurityTransferTimeSeries:
+          - Date: '2016-03-28'
+            Value: 0
+          - Date: '2016-03-29'
+            Value: 0
+          YearlyProfitLossTimeSeries:
+          - Date: '2015-12-31'
+            Value: 0
+          - Date: '2016-12-31'
+            Value: 0
+          - Date: '2017-12-31'
+            Value: 0
+        From: '2016-03-28'
+        InceptionDay: '2015-11-24'
+        LastTradeDay: '2017-03-27'
+        Thru: '2017-03-27'
+        TimeWeightedPerformance:
+          AccumulatedTimeWeightedTimeSeries:
+          - Date: '2016-03-25'
+            Value: 0
+          MonthlyReturnTimeSeries:
+          - Date: '2016-03-25'
+            Value: 0
+          PerformanceFraction: -1
+          PerformanceKeyFigures:
+            ClosedTradesCount: 0
+            DrawdownReport:
+              Drawdowns:
+              - DaysCount: 3
+                DepthInPercent: 1
+                FromDate: '2016-08-05'
+                ThruDate: '2016-08-08'
+              MaxDaysInDrawdownFromTop10Drawdowns: 3
+            LosingDaysFraction: 0.03
+            MaxDrawDownFraction: 1
+            ReturnFraction: -1
+            SampledStandardDeviation: 0.0618018874919214
+            SharpeRatio: -0.952069751000777
+            SortinoRatio: -0.0591710418985739
+          YearlyReturnTimeSeries:
+          - Date: '2016-03-25'
+            Value: 0
+        TotalCashBalance: 20226.02
+        TotalCashBalancePerCurrency:
+        - StringValue: CAD
+          Value: -491.707122366824
+        TotalOpenPositionsValue: 29571.057
+        TotalPositionsValuePerCurrency:
+        - StringValue: CAD
+          Value: -491.707122366824
+        TotalPositionsValuePerProductPerSecurity:
+        - Description: Abengoa SA - Warrants
+          ProductName: Shares
+          Symbol: LOCK - 1496:xxxx
+          Value: 0
+    Contracts.StringValuePair:
+      title: Dto used for storing string/decimal value pairs
+      type: object
+      properties:
+        StringValue:
+          title: The string value.
+          type: string
+          example: stringValue
+        Value:
+          title: The decimal value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        StringValue: stringValue
+        Value: 10
+    TradeSummary:
+      type: object
+      properties:
+        Allocation:
+          title: The trades allocation.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.Allocation'
+        AverageTradeDurationInMinutes:
+          title: Average trade duration in minutes.
+          type: number
+          example: 10
+        AverageTradesPerWeek:
+          title: The average trades per week.
+          type: number
+          example: 10
+        NumberOfDaysTraded:
+          title: Number of days traded.
+          type: number
+          example: 10
+        NumberOfLongTrades:
+          title: The number of long trades.
+          type: number
+          example: 10
+        NumberOfShortTrades:
+          title: The number of short trades.
+          type: number
+          example: 10
+        TopTradedInstruments:
+          title: "A list of the most traded instrument in an ordered list where the single most\n                traded instruments is located at index 0."
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        TradeActivity:
+          title: The trade activity.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.TradeActivity'
+        TradedInstruments:
+          title: A list of instruments traded with this account.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - CertificateCappedBonus
+        TradesTotalCount:
+          title: Total trades.
+          type: number
+          example: 10
+        TradesWonCount:
+          title: The total count of winning trades.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Allocation:
+          TradesPerAssetType:
+            ClosedTradesAllocations:
+            - AssetClassType: stringValue
+              AssetType: CompanyWarrant
+              InstrumentDescription: stringValue
+              InstrumentSymbol: stringValue
+              InstrumentUic: 99
+              ReturnAttribution: 10
+              TradeCount: 99
+              TradePercent: 10
+          TradesPerInstrument:
+            ClosedTradesAllocations:
+            - AssetClassType: stringValue
+              AssetType: PortfolioNote
+              InstrumentDescription: stringValue
+              InstrumentSymbol: stringValue
+              InstrumentUic: 99
+              ReturnAttribution: 10
+              TradeCount: 99
+              TradePercent: 10
+        AverageTradeDurationInMinutes: 10
+        AverageTradesPerWeek: 10
+        NumberOfDaysTraded: 10
+        NumberOfLongTrades: 10
+        NumberOfShortTrades: 10
+        TopTradedInstruments:
+        - stringValue
+        TradeActivity:
+          TradesPerDay:
+          - Date: '0001-01-01'
+            TradeCount: 99
+        TradedInstruments:
+        - IpoOnStock
+        TradesTotalCount: 10
+        TradesWonCount: 10
+    Contracts.TimeWeightedPerformance:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        Accumulated:
+          title: The accumulated time weighted time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        MonthlyReturn:
+          title: The monthly return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        YearlyReturn:
+          title: The yearly time weighted return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+      additionalProperties: false
+      example:
+        Accumulated: []
+        MonthlyReturn: []
+        YearlyReturn: []
+    Contracts.AccountSummary:
+      title: "OpenApi account summary performance metrics. The summary is the performance metrics\n              that is related to closed positions over the entire lifespan of an account."
+      type: object
+      properties:
+        AccumulatedProfitLoss:
+          title: The accumulated Profit / Loss for the account over the period as a value.
+          type: number
+          example: 10
+        BenchMarks:
+          title: The bench mark.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.BenchMark'
+          example:
+          - Allocations:
+            - AllocationPCT: 10
+              AssetType: FxNoTouchOption
+              Description: stringValue
+              DisplayHintType: Forex
+              Uic: 99
+            CurrencyCode: stringValue
+            Description: stringValue
+            Name: stringValue
+        From:
+          title: "The start date is the offset date for all performance metrics that is a part\n                of the 'AccountPerformance'."
+          type: string
+          format: date
+          x-type-name: Date
+        InceptionDay:
+          title: The date where the first account deposit have been registred.
+          type: string
+          format: date
+          x-type-name: Date
+        LastTradeDay:
+          title: "Performance data that is returned is limited to the be data that lies between\n            the first trade day and the last trade day for the account. The last trade day\n            is the last day that one or more trades have been registred."
+          type: string
+          format: date
+          x-type-name: Date
+        Thru:
+          title: "The end date is the ending date for all returned performance metrics that is\n                a part of the 'AccountPerformance'. The 'ActualThruDate' date is included."
+          type: string
+          format: date
+          x-type-name: Date
+        TotalCashBalance:
+          title: The total cash balance
+          type: number
+          example: 10
+        TotalCashBalancePerCurrency:
+          title: The total cash balance grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.StringValuePair'
+          example:
+          - StringValue: stringValue
+            Value: 10
+        TotalOpenPositionsValue:
+          title: The total value of client's open positions
+          type: number
+          example: 10
+        TotalPositionsValuePerCurrency:
+          title: The total position value grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.StringValuePair'
+          example:
+          - StringValue: stringValue
+            Value: 10
+        TotalPositionsValuePerProductPerSecurity:
+          title: The total position value grouped by product.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.PositionOnSecurityAndProduct'
+          example:
+          - Description: stringValue
+            ProductName: stringValue
+            Symbol: stringValue
+            Value: 10
+        TradeSummary:
+          title: Summary of all trade activity between start and end date.
+          allOf:
+          - $ref: '#/components/schemas/TradeSummary'
+        WinFraction:
+          title: The fraction of trades with positive profit/loss.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccumulatedProfitLoss: 100
+        BenchMarks:
+        - Allocations:
+          - AllocationPCT: 100
+            AssetType: Cash
+            Description: ''
+            DisplayHintType: None
+            Uic: 211
+          CurrencyCode: USD
+          Description: Description1
+          Name: Bench Mark Name 1
+        - Allocations:
+          - AllocationPCT: 100
+            AssetType: Bond
+            Description: ''
+            DisplayHintType: None
+            Uic: 210
+          - AllocationPCT: 100
+            AssetType: CertificateBonus
+            Description: ''
+            DisplayHintType: None
+            Uic: 211
+          CurrencyCode: EUR
+          Description: Description2
+          Name: Bench Mark Name 2
+        From: '2022-10-30'
+        InceptionDay: '2022-10-30'
+        LastTradeDay: '2022-10-30'
+        Thru: '2022-10-30'
+        TotalCashBalance: 5000
+        TotalCashBalancePerCurrency:
+        - StringValue: CAD
+          Value: -491.707122366824
+        TotalOpenPositionsValue: 6000
+        TotalPositionsValuePerCurrency:
+        - StringValue: CAD
+          Value: -491.707122366824
+        TotalPositionsValuePerProductPerSecurity:
+        - Description: Position On Security And Product
+          ProductName: Product Name
+          Symbol: Symbol
+          Value: 200
+        TradeSummary:
+          Allocation:
+            TradesPerAssetType:
+              ClosedTradesAllocations:
+              - AssetClassType: Equity
+                ReturnAttribution: 1
+                TradeCount: 168
+                TradePercent: 0.38009049773755654
+              - AssetClassType: Commodity
+                ReturnAttribution: 0.5628789450009563
+                TradeCount: 105
+                TradePercent: 0.23755656108597284
+              - AssetClassType: Currency
+                ReturnAttribution: 0.249937016456527
+                TradeCount: 112
+                TradePercent: 0.25339366515837103
+              - AssetClassType: Fixed Income
+                ReturnAttribution: -0.013150856136249162
+                TradeCount: 57
+                TradePercent: 0.12895927601809956
+            TradesPerInstrument:
+              ClosedTradesAllocations:
+              - AssetType: ContractFutures
+                InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                InstrumentSymbol: ZBU6
+                InstrumentUic: 3626018
+                ReturnAttribution: -0.15987101005684304
+                TradeCount: 40
+                TradePercent: 0.09049773755656108
+              - AssetType: FxSpot
+                InstrumentDescription: British Pound/US Dollar
+                InstrumentSymbol: GBPUSD
+                InstrumentUic: 31
+                ReturnAttribution: 0.14685155225185834
+                TradeCount: 37
+                TradePercent: 0.083710407239819
+          AverageTradeDurationInMinutes: 34260
+          AverageTradesPerWeek: 48.2325728770595
+          NumberOfDaysTraded: 1589
+          NumberOfLongTrades: 5434
+          NumberOfShortTrades: 5263
+          TopTradedInstruments:
+          - DAX.I
+          - DJI.I
+          - EURUSD
+          - GBPUSD
+          - NAS100.I
+          - NOKSEK
+          - EURNOK
+          - SP500.I
+          TradeActivity:
+            TradesPerDay:
+            - Date: '2022-10-30'
+              TradeCount: 100
+          TradedInstruments:
+          - FxSpot
+          - Stock
+          - FxVanillaOption
+          - ContractFutures
+          TradesTotalCount: 10697
+          TradesWonCount: 6499
+        WinFraction: 5
+    Contracts.PerformanceKeyFigures:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        ClosedTradesCount:
+          title: The number of closed trades for the period.
+          type: integer
+          format: int32
+          example: 99
+        DrawdownReport:
+          title: The drawdown report for a time weighted time series.
+          allOf:
+          - $ref: '#/components/schemas/Contracts.DrawdownReport'
+        LosingDaysFraction:
+          title: "The losing days fraction is the fraction of days with negative returns where\n              both realized and unrealized profits are taken into account."
+          type: number
+          example: 10
+        MaxDrawDownFraction:
+          title: "The maximum draw down as fraction is the largest drop in the time series as a\n                fraction."
+          type: number
+          example: 10
+        PerformanceFraction:
+          title: The accumulated performance fraction that is associated with the time series.
+          type: number
+          example: 10
+        ReturnFraction:
+          title: The return fraction.
+          type: number
+          example: 10
+        SampledStandardDeviation:
+          title: "The unbiased sampled standard deviation which means that the standard deviation\n                estimator has been corrected by applying the Bessel's correction."
+          type: number
+          example: 10
+        SharpeRatio:
+          title: The sharpe ratio.
+          type: number
+          example: 10
+        SortinoRatio:
+          title: The sortino ratio.
+          type: number
+          example: 10
+        WinningFraction:
+          title: The fraction of closed positions that has been won.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ClosedTradesCount: 99
+        DrawdownReport:
+          CurrentDrawdownDepthInPercent: 10
+          Drawdowns:
+          - DaysCount: 99
+            DepthInPercent: 10
+            FromDate: '2024-04-11T12:24:28.9906073'
+            RecoveryDaysCount: 99
+            ThruDate: '2023-04-17T02:33:41.8618662'
+          MaxDaysInDrawdownFromTop10Drawdowns: 99
+        LosingDaysFraction: 10
+        MaxDrawDownFraction: 10
+        PerformanceFraction: 10
+        ReturnFraction: 10
+        SampledStandardDeviation: 10
+        SharpeRatio: 10
+        SortinoRatio: 10
+        WinningFraction: 10
+    Contracts.PositionOnSecurityAndProduct:
+      title: Details of Position on Securuty and Product
+      type: object
+      properties:
+        Description:
+          title: The product description.
+          type: string
+          example: stringValue
+        ProductName:
+          title: The product name.
+          type: string
+          example: stringValue
+        Symbol:
+          title: The symbol value.
+          type: string
+          example: stringValue
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Description: stringValue
+        ProductName: stringValue
+        Symbol: stringValue
+        Value: 10
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxSpot
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    BalancePerformance:
+      title: OpenApi balance performance data contract.
+      type: object
+      properties:
+        AccountBalanceTimeSeries:
+          title: The account balance time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        AccountValueTimeSeries:
+          title: The account value time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        AccumulatedProfitLoss:
+          title: The accumulated Profit / Loss for the account over the period as a value.
+          type: number
+          example: 10
+        CashTransferTimeSeries:
+          title: The cash transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        MonthlyProfitLossTimeSeries:
+          title: The monthly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        SecurityTransferTimeSeries:
+          title: The security transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        YearlyProfitLossTimeSeries:
+          title: The yearly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+      additionalProperties: false
+      example:
+        AccountBalanceTimeSeries:
+        - Date: '2016-03-28'
+          Value: 0
+        - Date: '2016-03-29'
+          Value: 0
+        AccountValueTimeSeries:
+        - Date: '2016-03-28'
+          Value: 0
+        - Date: '2016-03-29'
+          Value: 0
+        MonthlyProfitLossTimeSeries:
+        - Date: '2015-11-30'
+          Value: 0
+        - Date: '2015-12-31'
+          Value: 0
+        SecurityTransferTimeSeries:
+        - Date: '2016-03-28'
+          Value: 0
+        - Date: '2016-03-29'
+          Value: 0
+        YearlyProfitLossTimeSeries:
+        - Date: '2015-12-31'
+          Value: 0
+        - Date: '2016-12-31'
+          Value: 0
+        - Date: '2017-12-31'
+          Value: 0
+    TimeValuePair:
+      title: Implementation of a time and value pair.
+      type: object
+      properties:
+        Date:
+          title: Date and time of the occurrence.
+          type: string
+          format: date
+          x-type-name: Date
+        Value:
+          title: The value at the given date and time
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Date: '2016-03-25'
+        Value: 0
+    Application.AccountPerformanceStandardPeriod:
+      title: Defines standard periods for account performance.
+      enum:
+      - AllTime
+      - Month
+      - Quarter
+      - Year
+      type: string
+      example: AllTime
+      x-enum-descriptions:
+        AllTime: All time account performance.
+        Year: The year standard account performance.
+        Quarter: The quarter standard account performance.
+        Month: The month standard account performance.
+    AllocationItem:
+      title: Defindes a model for an allocation item.
+      type: object
+      properties:
+        AssetClassType:
+          title: The type of the asset class.
+          type: string
+          example: stringValue
+        AssetType:
+          title: The asset type.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        InstrumentDescription:
+          title: The instrument description.
+          type: string
+          example: stringValue
+        InstrumentSymbol:
+          title: The instrument symbol.
+          type: string
+          example: stringValue
+        InstrumentUic:
+          title: The instrument UIC which is the unique instrument identifier.
+          type: integer
+          format: int32
+          example: 99
+        ReturnAttribution:
+          title: "The return attribution for a collection allocation items.\n            Remarks:\n                The return attribution is a number in the range [-1 ; 1]. The return attribution\n                is a measure of return relative to the allocation item in the collection with\n                the numerical largest value"
+          type: number
+          example: 10
+        TradeCount:
+          title: The count of trades for the instrument asset type.
+          type: integer
+          format: int32
+          example: 99
+        TradePercent:
+          title: The percent for trades for the instrument asset type.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AssetType: ContractFutures
+        InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+        InstrumentSymbol: ZBU6
+        InstrumentUic: 3626018
+        ReturnAttribution: -0.15987101005684304
+        TradeCount: 40
+        TradePercent: 0.09049773755656108
+    AccountSummaryFieldGroup:
+      enum:
+      - All
+      - Allocation
+      - BenchMark
+      - TotalCashBalancePerCurrency
+      - TotalPositionsValuePerCurrency
+      - TotalPositionsValuePerProductPerSecurity
+      - TradeActivity
+      - TradeSummary
+      type: string
+      example: TradeSummary
+      x-type-warning: FlaggableEnum
+    DrawdownReport:
+      title: Drawdown report
+      type: object
+      properties:
+        CurrentDrawdownDepthInPercent:
+          title: CurrentDrawdownDepthInPercent
+          type: number
+          example: 10
+        Drawdowns:
+          title: Drawdowns
+          type: array
+          items:
+            $ref: '#/components/schemas/Drawdown'
+          example:
+          - DaysCount: 3
+            DepthInPercent: 1
+            FromDate: '2016-08-05'
+            ThruDate: '2016-08-08'
+        MaxDaysInDrawdownFromTop10Drawdowns:
+          title: MaxDaysInDrawdownFromTop10Drawdowns
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Drawdowns:
+        - DaysCount: 3
+          DepthInPercent: 1
+          FromDate: '2016-08-05'
+          ThruDate: '2016-08-08'
+        MaxDaysInDrawdownFromTop10Drawdowns: 3
+    Contracts.AllocationItem:
+      title: Defindes a model for an allocation item.
+      type: object
+      properties:
+        AssetClassType:
+          title: The type of the asset class.
+          type: string
+          example: stringValue
+        AssetType:
+          title: The asset type.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        InstrumentDescription:
+          title: The instrument description.
+          type: string
+          example: stringValue
+        InstrumentSymbol:
+          title: The instrument symbol.
+          type: string
+          example: stringValue
+        InstrumentUic:
+          title: The instrument UIC which is the unique instrument identifier.
+          type: integer
+          format: int32
+          example: 99
+        ReturnAttribution:
+          title: "The return attribution for a collection allocation items.\n            Remarks:\n                The return attribution is a number in the range [-1 ; 1]. The return attribution\n                is a measure of return relative to the allocation item in the collection with\n                the numerical largest value"
+          type: number
+          example: 10
+        TradeCount:
+          title: The count of trades for the instrument asset type.
+          type: integer
+          format: int32
+          example: 99
+        TradePercent:
+          title: The percent for trades for the instrument asset type.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AssetClassType: stringValue
+        AssetType: FxKnockInOption
+        InstrumentDescription: stringValue
+        InstrumentSymbol: stringValue
+        InstrumentUic: 99
+        ReturnAttribution: 10
+        TradeCount: 99
+        TradePercent: 10
+    BenchMarkPerformance:
+      title: Performance figures for a day for benchmarks applicable on a day.
+      type: object
+      properties:
+        Allocations:
+          title: List of Benchmark Compositions.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.BenchMark'
+          example:
+          - Allocations:
+            - AllocationPCT: 10
+              AssetType: SrdOnEtf
+              Description: stringValue
+              DisplayHintType: Warrant
+              Uic: 99
+            CurrencyCode: stringValue
+            Description: stringValue
+            Name: stringValue
+        Date:
+          title: Date and time of the occurrence.
+          type: string
+          format: date
+          x-type-name: Date
+        Value:
+          title: The value at the given date and time
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Allocations:
+        - Allocations:
+          - AllocationPCT: 10
+            AssetType: CertificateUncappedOutperformance
+            Description: stringValue
+            DisplayHintType: Etf
+            Uic: 99
+          CurrencyCode: stringValue
+          Description: stringValue
+          Name: stringValue
+        Date: '0001-01-01'
+        Value: 10
+    BenchMark:
+      title: Class BenchMark.
+      type: object
+      properties:
+        AssetType:
+          title: The type of the asset.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Description of instrument.
+          type: string
+          example: stringValue
+        DisplayHintType:
+          title: Display hint type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Uic:
+          title: The uic.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: CertificateExpress
+        Description: stringValue
+        DisplayHintType: PreciousMetal
+        Uic: 99
+    StringValuePair:
+      title: Dto used for storing string/decimal value pairs
+      type: object
+      properties:
+        StringValue:
+          title: The string value.
+          type: string
+          example: stringValue
+        Value:
+          title: The decimal value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        StringValue: CAD
+        Value: -491.707122366824
+    Contracts.TradesPerAssetType:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\n                the asset type of positions."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.AllocationItem'
+          example:
+          - AssetClassType: stringValue
+            AssetType: FxKnockOutOption
+            InstrumentDescription: stringValue
+            InstrumentSymbol: stringValue
+            InstrumentUic: 99
+            ReturnAttribution: 10
+            TradeCount: 99
+            TradePercent: 10
+      additionalProperties: false
+      example:
+        ClosedTradesAllocations:
+        - AssetClassType: stringValue
+          AssetType: FxVanillaOption
+          InstrumentDescription: stringValue
+          InstrumentSymbol: stringValue
+          InstrumentUic: 99
+          ReturnAttribution: 10
+          TradeCount: 99
+          TradePercent: 10
+    Contracts.TradesPerInstrument:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\n               the instrument."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.AllocationItem'
+          example:
+          - AssetClassType: stringValue
+            AssetType: FxKnockOutOption
+            InstrumentDescription: stringValue
+            InstrumentSymbol: stringValue
+            InstrumentUic: 99
+            ReturnAttribution: 10
+            TradeCount: 99
+            TradePercent: 10
+      additionalProperties: false
+      example:
+        ClosedTradesAllocations:
+        - AssetClassType: stringValue
+          AssetType: FxBinaryOption
+          InstrumentDescription: stringValue
+          InstrumentSymbol: stringValue
+          InstrumentUic: 99
+          ReturnAttribution: 10
+          TradeCount: 99
+          TradePercent: 10
+    Contracts.BalancePerformance:
+      title: OpenApi balance performance data contract.
+      type: object
+      properties:
+        AccountBalance:
+          title: The account balance time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        AccountValue:
+          title: The account value time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        CashTransfer:
+          title: The cash transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        MonthlyProfitLoss:
+          title: The monthly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        SecurityTransfer:
+          title: The security transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+        YearlyProfitLoss:
+          title: The yearly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TimeValuePair'
+      additionalProperties: false
+      example:
+        AccountBalance: []
+        AccountValue: []
+        CashTransfer: []
+        MonthlyProfitLoss: []
+        SecurityTransfer: []
+        YearlyProfitLoss: []
+    TradesPerInstrument:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\n               the instrument."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+          example:
+          - AssetType: ContractFutures
+            InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+            InstrumentSymbol: ZBU6
+            InstrumentUic: 3626018
+            ReturnAttribution: -0.15987101005684304
+            TradeCount: 40
+            TradePercent: 0.09049773755656108
+      additionalProperties: false
+      example:
+        ClosedTradesAllocations:
+        - AssetType: ContractFutures
+          InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+          InstrumentSymbol: ZBU6
+          InstrumentUic: 3626018
+          ReturnAttribution: -0.15987101005684304
+          TradeCount: 40
+          TradePercent: 0.09049773755656108
+        - AssetType: FxSpot
+          InstrumentDescription: British Pound/US Dollar
+          InstrumentSymbol: GBPUSD
+          InstrumentUic: 31
+          ReturnAttribution: 0.14685155225185834
+          TradeCount: 37
+          TradePercent: 0.083710407239819
+    AccountPerformanceFieldGroup:
+      enum:
+      - AccountSummary
+      - All
+      - Allocation
+      - AvailableBenchmarks
+      - BalancePerformance
+      - BalancePerformance_AccountValueTimeSeries
+      - BenchMark
+      - BenchmarkPerformance
+      - TimeWeightedPerformance
+      - TimeWeightedPerformance_AccumulatedTimeWeightedTimeSeries
+      - TotalCashBalancePerCurrency
+      - TotalPositionsValuePerCurrency
+      - TotalPositionsValuePerProductPerSecurity
+      - TradeActivity
+      type: string
+      example: AccountSummary
+      x-type-warning: FlaggableEnum
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    TradesPerAssetType:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\n                the asset type of positions."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+          example:
+          - AssetType: ContractFutures
+            InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+            InstrumentSymbol: ZBU6
+            InstrumentUic: 3626018
+            ReturnAttribution: -0.15987101005684304
+            TradeCount: 40
+            TradePercent: 0.09049773755656108
+      additionalProperties: false
+      example:
+        ClosedTradesAllocations:
+        - AssetClassType: Equity
+          ReturnAttribution: 1
+          TradeCount: 168
+          TradePercent: 0.38009049773755654
+        - AssetClassType: Currency
+          ReturnAttribution: 0.249937016456527
+          TradeCount: 112
+          TradePercent: 0.25339366515837103
+        - AssetClassType: Commodity
+          ReturnAttribution: 0.5628789450009563
+          TradeCount: 105
+          TradePercent: 0.23755656108597284
+        - AssetClassType: Fixed Income
+          ReturnAttribution: -0.013150856136249162
+          TradeCount: 57
+          TradePercent: 0.12895927601809956
+    Contracts.TradeActivity:
+      title: Defines a data contract for closed trades activity.
+      type: object
+      properties:
+        TradesPerDay:
+          title: The trades per day.
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.TradesPerDayItem'
+          example:
+          - Date: '0001-01-01'
+            TradeCount: 99
+      additionalProperties: false
+      example:
+        TradesPerDay:
+        - Date: '0001-01-01'
+          TradeCount: 99
+    TradeActivity:
+      title: Defines a data contract for closed trades activity.
+      type: object
+      properties:
+        TradesPerDay:
+          title: The trades per day.
+          type: array
+          items:
+            $ref: '#/components/schemas/TradesPerDayItem'
+          example:
+          - Date: '0001-01-01'
+            TradeCount: 99
+      additionalProperties: false
+      example:
+        TradesPerDay:
+        - Date: '0001-01-01'
+          TradeCount: 99
+    Contracts.TradesPerDayItem:
+      title: Defines a data contract for closed trades count on a single day.
+      type: object
+      properties:
+        Date:
+          title: The date.
+          type: string
+          format: date
+          x-type-name: Date
+        TradeCount:
+          title: The trade count.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Date: '0001-01-01'
+        TradeCount: 99
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PositionOnSecurityAndProduct:
+      title: Details of Position on Securuty and Product
+      type: object
+      properties:
+        Description:
+          title: The product description.
+          type: string
+          example: stringValue
+        ProductName:
+          title: The product name.
+          type: string
+          example: stringValue
+        Symbol:
+          title: The symbol value.
+          type: string
+          example: stringValue
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Description: Abengoa SA - Warrants
+        ProductName: Shares
+        Symbol: LOCK - 1496:xxxx
+        Value: 0
+    Contracts.DrawdownReport:
+      title: Drawdown report
+      type: object
+      properties:
+        CurrentDrawdownDepthInPercent:
+          title: CurrentDrawdownDepthInPercent
+          type: number
+          example: 10
+        Drawdowns:
+          title: Drawdowns
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts.Drawdown'
+          example:
+          - DaysCount: 99
+            DepthInPercent: 10
+            FromDate: '2022-11-24T21:48:32.8905118'
+            RecoveryDaysCount: 99
+            ThruDate: '2021-04-05T22:14:12.6440742'
+        MaxDaysInDrawdownFromTop10Drawdowns:
+          title: MaxDaysInDrawdownFromTop10Drawdowns
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        CurrentDrawdownDepthInPercent: 10
+        Drawdowns:
+        - DaysCount: 99
+          DepthInPercent: 10
+          FromDate: '2022-03-06T04:23:44.5328096'
+          RecoveryDaysCount: 99
+          ThruDate: '2024-05-31T15:36:24.8880393'
+        MaxDaysInDrawdownFromTop10Drawdowns: 99
+    Allocation:
+      title: Provides an overview of how performance is allocated across asset types and instruments.
+      type: object
+      properties:
+        TradesPerAssetType:
+          title: The allocation of trades grouped by trade asset type.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerAssetType'
+        TradesPerInstrument:
+          title: The allocation trades grouped by instrument id.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerInstrument'
+      additionalProperties: false
+      example:
+        TradesPerAssetType:
+          ClosedTradesAllocations:
+          - AssetClassType: Equity
+            ReturnAttribution: 1
+            TradeCount: 168
+            TradePercent: 0.38009049773755654
+          - AssetClassType: Currency
+            ReturnAttribution: 0.249937016456527
+            TradeCount: 112
+            TradePercent: 0.25339366515837103
+          - AssetClassType: Commodity
+            ReturnAttribution: 0.5628789450009563
+            TradeCount: 105
+            TradePercent: 0.23755656108597284
+          - AssetClassType: Fixed Income
+            ReturnAttribution: -0.013150856136249162
+            TradeCount: 57
+            TradePercent: 0.12895927601809956
+        TradesPerInstrument:
+          ClosedTradesAllocations:
+          - AssetType: ContractFutures
+            InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+            InstrumentSymbol: ZBU6
+            InstrumentUic: 3626018
+            ReturnAttribution: -0.15987101005684304
+            TradeCount: 40
+            TradePercent: 0.09049773755656108
+          - AssetType: FxSpot
+            InstrumentDescription: British Pound/US Dollar
+            InstrumentSymbol: GBPUSD
+            InstrumentUic: 31
+            ReturnAttribution: 0.14685155225185834
+            TradeCount: 37
+            TradePercent: 0.083710407239819
+    TimeWeightedPerformance:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        AccumulatedPerformanceSparklineImageLinks:
+          title: A collection of links to sparkline images for this performance calculatin.
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+          - Relation: stringValue
+            Type: stringValue
+            Uri: http://stringValue
+        AccumulatedTimeWeightedTimeSeries:
+          title: The accumulated time weighted time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        MonthlyReturnTimeSeries:
+          title: The monthly return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+        PerformanceFraction:
+          title: The accumulated performance fraction that is associated with the time series.
+          type: number
+          example: 10
+        PerformanceKeyFigures:
+          title: Key performance figures for the account.
+          allOf:
+          - $ref: '#/components/schemas/PerformanceKeyFigures'
+        YearlyReturnTimeSeries:
+          title: The yearly time weighted return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+          example:
+          - Date: '2016-03-25'
+            Value: 0
+      additionalProperties: false
+      example:
+        AccumulatedTimeWeightedTimeSeries:
+        - Date: '2016-03-25'
+          Value: 0
+        MonthlyReturnTimeSeries:
+        - Date: '2016-03-25'
+          Value: 0
+        PerformanceFraction: -1
+        PerformanceKeyFigures:
+          ClosedTradesCount: 0
+          DrawdownReport:
+            Drawdowns:
+            - DaysCount: 3
+              DepthInPercent: 1
+              FromDate: '2016-08-05'
+              ThruDate: '2016-08-08'
+            MaxDaysInDrawdownFromTop10Drawdowns: 3
+          LosingDaysFraction: 0.03
+          MaxDrawDownFraction: 1
+          ReturnFraction: -1
+          SampledStandardDeviation: 0.0618018874919214
+          SharpeRatio: -0.952069751000777
+          SortinoRatio: -0.0591710418985739
+        YearlyReturnTimeSeries:
+        - Date: '2016-03-25'
+          Value: 0
+    PerformanceKeyFigures:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        ClosedTradesCount:
+          title: The number of closed trades for the period.
+          type: integer
+          format: int32
+          example: 99
+        DrawdownReport:
+          title: The drawdown report for a time weighted time series.
+          allOf:
+          - $ref: '#/components/schemas/DrawdownReport'
+        LosingDaysFraction:
+          title: "The losing days fraction is the fraction of days with negative returns where\n              both realized and unrealized profits are taken into account."
+          type: number
+          example: 10
+        MaxDrawDownFraction:
+          title: "The maximum draw down as fraction is the largest drop in the time series as a\n                fraction."
+          type: number
+          example: 10
+        ReturnFraction:
+          title: The return fraction.
+          type: number
+          example: 10
+        SampledStandardDeviation:
+          title: "The unbiased sampled standard deviation which means that the standard deviation\n                estimator has been corrected by applying the Bessel's correction."
+          type: number
+          example: 10
+        SharpeRatio:
+          title: The sharpe ratio.
+          type: number
+          example: 10
+        SortinoRatio:
+          title: The sortino ratio.
+          type: number
+          example: 10
+        WinningFraction:
+          title: The fraction of closed positions that has been won.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ClosedTradesCount: 0
+        DrawdownReport:
+          Drawdowns:
+          - DaysCount: 3
+            DepthInPercent: 1
+            FromDate: '2016-08-05'
+            ThruDate: '2016-08-08'
+          MaxDaysInDrawdownFromTop10Drawdowns: 3
+        LosingDaysFraction: 0.03
+        MaxDrawDownFraction: 1
+        ReturnFraction: -1
+        SampledStandardDeviation: 0.0618018874919214
+        SharpeRatio: -0.952069751000777
+        SortinoRatio: -0.0591710418985739
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

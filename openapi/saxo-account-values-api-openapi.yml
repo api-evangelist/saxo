@@ -1,0 +1,199 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Account Values
+  description: Provides account summary values, on each individual account and rolled up..
+paths:
+  /hist/v3/accountvalues/{ClientKey}:
+    get:
+      tags:
+      - Account Values
+      summary: Get account summary values, on each individual account and rolled up.
+      description: Returns the rolled up performance for the accounts of specified client. All rolled up account values are converted to the client base currency.
+      operationId: AccountValueV3GetStandardPeriodAccountValues
+      parameters:
+      - name: ClientKey
+        in: path
+        description: The client key
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 6Fs62FqtJTLHcQbq4koW2Q==
+      - name: MockDataId
+        in: query
+        description: Optional Mock Data Parameter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardPeriodsAccountValuesListResult'
+              example:
+                Data:
+                - AccountValue: 5028322.26953125
+                  AccountValueMonth: 1510.67004394531
+                  AccountValueYear: 0
+                  Key: WMhrJRysCuCFlMbcGFvPVA==
+                  KeyType: Account
+                - AccountValue: 1000
+                  AccountValueMonth: 0
+                  AccountValueYear: 0
+                  Key: 076n7v5YfRys3|tNojPVcA==
+                  KeyType: Account
+                - AccountValue: 5028469.04129028
+                  AccountValueMonth: 1510.670043945311
+                  AccountValueYear: 0
+                  Key: xwhUCDYh8X|pIwV|og2Qag==
+                  KeyType: Client
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    KeyType:
+      title: Defines the different kinds of account value summary types
+      enum:
+      - Account
+      - AccountGroup
+      - Client
+      type: string
+      example: AccountGroup
+      x-enum-descriptions:
+        Client: Client.
+        AccountGroup: AccountGroup.
+        Account: Account.
+    StandardPeriodsAccountValuesListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandardPeriodsAccountValues'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountValue: 5028322.26953125
+          AccountValueMonth: 1510.67004394531
+          AccountValueYear: 0
+          Key: WMhrJRysCuCFlMbcGFvPVA==
+          KeyType: Account
+        - AccountValue: 1000
+          AccountValueMonth: 0
+          AccountValueYear: 0
+          Key: 076n7v5YfRys3|tNojPVcA==
+          KeyType: Account
+        - AccountValue: 5028469.04129028
+          AccountValueMonth: 1510.670043945311
+          AccountValueYear: 0
+          Key: xwhUCDYh8X|pIwV|og2Qag==
+          KeyType: Client
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    StandardPeriodsAccountValues:
+      title: OpenApi data contract used to get the account values for standard periods.
+      type: object
+      properties:
+        AccountValue:
+          title: The account value on last reported trade date.
+          type: number
+          example: 10
+        AccountValueMonth:
+          title: The account value a calendar month ago.
+          type: number
+          example: 10
+        AccountValueYear:
+          title: The account value a calendar year ago.
+          type: number
+          example: 10
+        Key:
+          title: The key associated with these values (encrypted).
+          type: string
+          example: stringValue
+        KeyType:
+          title: The type of summary key (Client, Group or Account level).
+          allOf:
+          - $ref: '#/components/schemas/KeyType'
+      additionalProperties: false
+      example:
+        AccountValue: 10
+        AccountValueMonth: 10
+        AccountValueYear: 10
+        Key: stringValue
+        KeyType: Client
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

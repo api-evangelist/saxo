@@ -1,0 +1,844 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Users API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Users
+  description: Provides services for resetting user passwords.
+paths:
+  /cm/v1/users/resetpasswordrequest:
+    post:
+      tags:
+      - Users
+      summary: Request a password reset
+      description: Requests a password reset for a user
+      operationId: UsersResetPasswordResetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IBPasswordResetRequest'
+            example:
+              Email: user@domain.com
+              Language: zh-cn
+              UserId: 8235162
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - EmailAddressInvalid
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      EmailAddressInvalid: E-mail address is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotFound: ''
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+  /port/v1/users/me/entitlements:
+    get:
+      tags:
+      - Users
+      summary: Get all entitlements
+      description: This operation retrieves a list of all client specific entitlements per exchanges for market data.
+      operationId: UsersV1GetAllClientEntitlements
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementDetailsListResult'
+              example:
+                Data:
+                - Entitlements:
+                  - Greeks:
+                    - CertificateConstantLeverage
+                    RealTimeFullBook:
+                    - CertificateBonus
+                    RealTimeTopOfBook:
+                    - CertificateUncappedOutperformance
+                  ExchangeId: stringValue
+                MaxRows: 99
+        '204':
+          description: Indicates no information about client entitlement is available with the service.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/users:
+    get:
+      tags:
+      - Users
+      summary: Get all users under a particular owner
+      description: Get all users under a particular owner.
+      operationId: UsersV1GetUsers
+      parameters:
+      - name: $inlinecount
+        in: query
+        description: Specifies that the response to the request should include a count of the number of entries in the collection
+        schema:
+          enum:
+          - AllPages
+          - None
+          type: string
+          x-enum-descriptions:
+            None: The result will not contain an inline count
+            AllPages: The result will contain a total count of items in the queried collection
+        example: AllPages
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 1000
+        example: 1
+      - name: ClientKey
+        in: query
+        description: 'Unique key identifying the owner. This is the ClientKey of the client under which the list of users belongs. Default: Logged-in user''s client.'
+        schema:
+          title: 'Unique key identifying the owner. This is the ClientKey of the client under which the list of users belongs. Default: Logged-in user''s client.'
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      - name: IncludeSubUsers
+        in: query
+        description: Set to true if users of all underlying partners should be included in output.
+        schema:
+          title: Set to true if users of all underlying partners should be included in output.
+          type: boolean
+        example: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseListResult'
+              example:
+                Data:
+                - ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+                  Culture: en-GB
+                  Language: en
+                  LastLoginStatus: Successful
+                  LastLoginTime: '2022-10-28T03:49:04.265885Z'
+                  LegalAssetTypes:
+                  - FxSpot
+                  - Stock
+                  - ContractFutures
+                  MarketDataViaOpenApiTermsAccepted: false
+                  Name: Mr. Anthony Test
+                  TimeZoneId: 28
+                  UserId: '654321'
+                  UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+                MaxRows: 99
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - RequestContainsClientKeyAndEntityRelations
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      RequestContainsClientKeyAndEntityRelations: Request can not contain both ClientKey and EntityRelations.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/users/{UserKey}:
+    get:
+      tags:
+      - Users
+      summary: Get the details about a user
+      description: Get the details about a user
+      operationId: GET_UsersV1GetUser
+      parameters:
+      - name: UserKey
+        in: path
+        description: The unique key for the user's client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: UserKey
+        example: 5DG7K1P5cqYBZ77tl7Af4w==
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              example:
+                ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+                Culture: en-GB
+                Language: en
+                LastLoginStatus: Successful
+                LastLoginTime: '2022-10-28T03:49:04.265885Z'
+                LegalAssetTypes:
+                - FxSpot
+                - Stock
+                - ContractFutures
+                MarketDataViaOpenApiTermsAccepted: false
+                Name: Mr. Anthony Test
+                TimeZoneId: 28
+                UserId: '654321'
+                UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidUserId: The requested user id was invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/users/me:
+    get:
+      tags:
+      - Users
+      summary: Get details about the logged in user
+      description: Get details about the logged in user.
+      operationId: UsersV1GetUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              example:
+                ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+                Culture: en-GB
+                Language: en
+                LastLoginStatus: Successful
+                LastLoginTime: '2022-10-28T03:49:04.265885Z'
+                LegalAssetTypes:
+                - FxSpot
+                - Stock
+                - ContractFutures
+                MarketDataViaOpenApiTermsAccepted: false
+                Name: Mr. Anthony Test
+                TimeZoneId: 28
+                UserId: '654321'
+                UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidUserId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidUserId: The requested user id was invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+    patch:
+      tags:
+      - Users
+      summary: Update user preferences
+      description: Enables the user to update preferred language, culture and timezone.
+      operationId: UsersV1UpdateUserPreferences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidInput
+                    - InvalidUserId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidUserId: The requested user id was invalid.
+                      NoValidInput: No valid input values passed.
+                      InvalidInput: An error was encountered when processing given input parameters.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+components:
+  schemas:
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserUpdateRequest:
+      title: Public contract representing setting a user may change.
+      type: object
+      properties:
+        Culture:
+          title: Selected culture for this user. Five letter language culture name. Fx. en-GB
+          type: string
+          example: stringValue
+        Language:
+          title: Selected language for this user. The two letter ISO 639-1 language code. See Reference Data Languages endpoint for supported languages.
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Selected Time Zone for this user. See Reference Data TimeZones endpoint for supported time zones.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+    UserResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+          Culture: en-GB
+          Language: en
+          LastLoginStatus: Successful
+          LastLoginTime: '2022-10-28T03:49:04.265885Z'
+          LegalAssetTypes:
+          - FxSpot
+          - Stock
+          - ContractFutures
+          MarketDataViaOpenApiTermsAccepted: false
+          Name: Mr. Anthony Test
+          TimeZoneId: 28
+          UserId: '654321'
+          UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        MaxRows: 99
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    IBPasswordResetRequest:
+      title: Properties for requesting a password reset token.
+      required:
+      - Email
+      - UserId
+      type: object
+      properties:
+        Email:
+          title: E-mail address of the user
+          type: string
+          example: stringValue
+        Language:
+          title: Service language code - Default is English
+          type: string
+          example: stringValue
+        UserId:
+          title: User's client ID
+          allOf:
+          - $ref: '#/components/schemas/UserId'
+      additionalProperties: false
+      example:
+        Email: user@domain.com
+        Language: zh-cn
+        UserId: 8235162
+    UserResponse:
+      title: Public data contract representing a user.
+      type: object
+      properties:
+        ClientKey:
+          title: Unique key identifying the client that owns the user.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Culture:
+          title: Selected culture for this user. Five letter language culture name. Fx. en-GB
+          type: string
+          example: stringValue
+        Language:
+          title: Selected language for this user. The two letter ISO 639-1 language code. See Reference Data Languages endpoint for supported languages.
+          type: string
+          example: stringValue
+        LastLoginStatus:
+          title: Status of last login or login attempt
+          allOf:
+          - $ref: '#/components/schemas/LoginStatus'
+        LastLoginTime:
+          title: Time of last login or login attempt
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LegalAssetTypes:
+          title: Asset Types that can be traded on all accounts by this user.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxVanillaOption
+        MarketDataViaOpenApiTermsAccepted:
+          title: True if the user has accepted terms for market data via OpenApi access.
+          type: boolean
+          example: true
+        Name:
+          title: The name of the user.
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Selected Time Zone for this user. See Reference Data TimeZones endpoint for supported time zones.
+          type: integer
+          format: int32
+          example: 99
+        UserId:
+          title: Unique ID of the user.
+          type: string
+          example: stringValue
+        UserKey:
+          title: The unique key for the user.
+          minLength: 1
+          type: string
+          x-type-name: UserKey
+      additionalProperties: false
+      example:
+        ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        Culture: en-GB
+        Language: en
+        LastLoginStatus: Successful
+        LastLoginTime: '2022-10-28T03:49:04.2658850+00:00'
+        LegalAssetTypes:
+        - FxSpot
+        - Stock
+        - ContractFutures
+        MarketDataViaOpenApiTermsAccepted: false
+        Name: Mr. Anthony Test
+        TimeZoneId: 28
+        UserId: '654321'
+        UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+    EntitlementDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Entitlements:
+          - Greeks:
+            - CertificateConstantLeverage
+            RealTimeFullBook:
+            - CertificateBonus
+            RealTimeTopOfBook:
+            - CertificateUncappedOutperformance
+          ExchangeId: stringValue
+        MaxRows: 99
+    Entitlement:
+      title: Contain asset types access information.
+      type: object
+      properties:
+        Greeks:
+          title: AssetTypes where user has real time access on greeks.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - CertificateCappedCapitalProtected
+        RealTimeFullBook:
+          title: AssetTypes where user has real time full book access on prices.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - CertificateCappedCapitalProtected
+        RealTimeTopOfBook:
+          title: AssetTypes where user has real time top of book access on prices.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - CertificateCappedCapitalProtected
+      additionalProperties: false
+      example:
+        Greeks:
+        - CertificateUncappedCapitalProtection
+        RealTimeFullBook:
+        - WarrantDoubleKnockOut
+        RealTimeTopOfBook:
+        - WarrantOpenEndKnockOut
+    EntitlementDetails:
+      title: Public data contract for an entitlement.
+      type: object
+      properties:
+        Entitlements:
+          title: The all client specific entitlements for market data, which the user currently has access to..
+          type: array
+          items:
+            $ref: '#/components/schemas/Entitlement'
+          example:
+          - Greeks:
+            - CertificateTracker
+            RealTimeFullBook:
+            - CertificateExpress
+            RealTimeTopOfBook:
+            - CertificateCappedBonus
+        ExchangeId:
+          title: The unique ID of the exchange.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Entitlements:
+        - Greeks:
+          - WarrantKnockOut
+          RealTimeFullBook:
+          - WarrantSpread
+          RealTimeTopOfBook:
+          - MiniFuture
+        ExchangeId: stringValue
+    LoginStatus:
+      title: Used to describe the state of the last login attempt.
+      enum:
+      - Successful
+      - Unsuccessful
+      type: string
+      example: Successful
+      x-enum-descriptions:
+        Successful: The user logged in
+        Unsuccessful: The user recieved an access denied
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

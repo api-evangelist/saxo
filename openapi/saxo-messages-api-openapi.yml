@@ -1,0 +1,718 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Messages API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Messages
+  description: "Provides end points for polling and subscribing to messages which should be displayed to the user. \n            Only messages, which have not yet been marked as 'seen' will be returned. The structure in this reference documentation represents the base contract for all messages.\n            Additional fields may be available depending on the TradeMessageType. Please refer to the wiki documentation for the Trade service group for further information."
+paths:
+  /trade/v1/messages/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Messages
+      summary: Remove multiple trade message subscriptions
+      description: Removes multiple trade message subscriptions for the current session.
+      operationId: TradeMessagesV1DeleteSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: Tag
+        in: query
+        description: The tag which the subscriptions are grouped under.
+        style: form
+        explode: false
+        schema:
+          type: string
+        example: CORE
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+  /trade/v1/messages/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Messages
+      summary: Remove a trade message subscription
+      description: Removes a trade message subscription for the current session.
+      operationId: TradeMessagesV1DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: ReferenceId
+        in: path
+        description: Unique reference ID of the subscription to remove.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: M452
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /trade/v1/messages/subscriptions/active:
+    post:
+      tags:
+      - Messages
+      summary: OBSOLETE Create an active subscription on trade messages
+      description: Sets up a subscription, and returns an initial snapshot containing a list of trade messages.
+      operationId: TradeMessagesV1AddActiveSubscriptionAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeMessageSubscriptionRequest'
+            example:
+              ContextId: '20221030063404760'
+              Format: application/json
+              ReferenceId: TM42897
+              RefreshRate: 5
+              Tag: PAGE1
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeMessageSubscriptionResponse'
+              example:
+                ContextId: '20221030063404760'
+                Format: application/json
+                InactivityTimeout: 120
+                ReferenceId: TM42897
+                RefreshRate: 800
+                Snapshot:
+                  Data:
+                  - DateTime: '2014-12-12T09:17:12Z'
+                    DisplayType: Default
+                    IsDiscardable: false
+                    MessageBody: Price alert was triggered on EURUSD
+                    MessageHeader: Price Alert
+                    MessageId: '345322'
+                    MessageType: PriceAlert
+                State: Active
+                Tag: PAGE1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    - InvalidRequest
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      deprecated: true
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/TradeMessageResponseDomainEvent'
+  /trade/v1/messages/subscriptions:
+    post:
+      tags:
+      - Messages
+      summary: Create a subscription on trade messages
+      description: Sets up a subscription, and returns an initial snapshot containing a list of trade messages.
+      operationId: TradeMessagesV1AddSubscriptionAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeMessageSubscriptionRequest'
+            example:
+              ContextId: '20221030063404760'
+              Format: application/json
+              ReferenceId: TM42897
+              RefreshRate: 5
+              Tag: PAGE1
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeMessageSubscriptionResponse'
+              example:
+                ContextId: '20221030063404760'
+                Format: application/json
+                InactivityTimeout: 120
+                ReferenceId: TM42897
+                RefreshRate: 800
+                Snapshot:
+                  Data:
+                  - DateTime: '2014-12-12T09:17:12Z'
+                    DisplayType: Default
+                    IsDiscardable: false
+                    MessageBody: Price alert was triggered on EURUSD
+                    MessageHeader: Price Alert
+                    MessageId: '345322'
+                    MessageType: PriceAlert
+                State: Active
+                Tag: PAGE1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    - InvalidRequest
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/TradeMessageResponseDomainEvent'
+  /trade/v1/messages/seen:
+    put:
+      tags:
+      - Messages
+      summary: Mark trade message as 'seen'
+      description: Logically this is done by moving the message to the 'seen' collection.
+      operationId: TradeMessagesV1MarkMessagesAsSeen
+      parameters:
+      - name: MessageIds
+        in: query
+        description: Unique ids of the message.
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            example: stringValue
+        example: '345322'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidMessageId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidMessageId: The provided message id is either invalid or not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /trade/v1/messages/seen/{MessageId}:
+    put:
+      tags:
+      - Messages
+      summary: Mark trade message as 'seen'
+      description: Logically this is done by moving the message to the 'seen' collection.
+      operationId: TradeMessagesV1MarkMessageAsSeen
+      parameters:
+      - name: MessageId
+        in: path
+        description: Unique id of the message.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '345322'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidMessageId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidMessageId: The provided message id is either invalid or not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /trade/v1/messages:
+    get:
+      tags:
+      - Messages
+      summary: Get trade messages for the current user
+      description: Only messages that haven't been marked as 'seen' are returned.
+      operationId: TradeMessagesV1GetMessagesAsync
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeMessageResponseListResult'
+              example:
+                Data:
+                - DateTime: '2014-12-12T09:17:12Z'
+                  DisplayType: Default
+                  MessageBody: Price alert was triggered on EURUSD
+                  MessageHeader: Price Alert
+                  MessageId: '345322'
+                  MessageType: PriceAlert
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    TradeMessageType:
+      title: Enumeration of message types used by trade message subscriptions.
+      enum:
+      - AccountDepreciation
+      - MarginCall
+      - Mifid
+      - Notification
+      - PositionDepreciation
+      - PriceAlert
+      - ShareWorkspaceNotification
+      - TradeConfirmation
+      type: string
+      example: PriceAlert
+      x-enum-descriptions:
+        TradeConfirmation: "A very broad set of notifications related to orders and positions. For example:\n            \n\n*   An order has been placed\n*   An order has expired\n*   An order has been (partially) filled\n*   An order was cancelled\n*   A position was stopped out (due to insufficient margin)\n*   A position was placed"
+        MarginCall: A margin call is a message informing the client about loses affecting his ability fulfill the margin requirements of his positions in the market.
+        PriceAlert: A price alert has been triggered
+        Notification: Message from broker to end client
+        Mifid: A change has been made to the clients Mifid classification. Only sent for configured client segments.
+        PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
+    TradeMessageResponseDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          allOf:
+          - $ref: '#/components/schemas/TradeMessageResponse'
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+          example: stringValue
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example: null
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    TradeMessageSubscriptionRequest:
+      title: Public request contract for setting up a subscription for trade messages.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404760'
+        Format: application/json
+        ReferenceId: TM42897
+        RefreshRate: 5
+        Tag: PAGE1
+    TradeMessageSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription for trade messages.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/TradeMessageResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404760'
+        Format: application/json
+        InactivityTimeout: 120
+        ReferenceId: TM42897
+        RefreshRate: 800
+        Snapshot:
+          Data:
+          - DateTime: '2014-12-12T09:17:12Z'
+            DisplayType: Default
+            IsDiscardable: false
+            MessageBody: Price alert was triggered on EURUSD
+            MessageHeader: Price Alert
+            MessageId: '345322'
+            MessageType: PriceAlert
+        State: Active
+        Tag: PAGE1
+    TradeMessageResponse:
+      title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
+      type: object
+      properties:
+        DateTime:
+          title: Date and Time the message was generated.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        DisplayType:
+          title: Suggestion to the application about how the message should be displayed.
+          allOf:
+          - $ref: '#/components/schemas/MessageDisplayType'
+        MessageBody:
+          title: "Trade message body.\n            This is fully formatted text in the language selected for the logged in client."
+          type: string
+          example: stringValue
+        MessageHeader:
+          title: Header of the message
+          type: string
+          example: stringValue
+        MessageId:
+          title: Unique identification of the message
+          type: string
+          example: stringValue
+        MessageType:
+          title: The type of the message.
+          allOf:
+          - $ref: '#/components/schemas/TradeMessageType'
+      additionalProperties: false
+      example:
+        DateTime: '2014-12-12T09:17:12.0000000+00:00'
+        DisplayType: Default
+        MessageBody: Price alert was triggered on EURUSD
+        MessageHeader: Price Alert
+        MessageId: '345322'
+        MessageType: PriceAlert
+    TradeMessageResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeMessageResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DateTime: '2014-12-12T09:17:12Z'
+          DisplayType: Default
+          MessageBody: Price alert was triggered on EURUSD
+          MessageHeader: Price Alert
+          MessageId: '345322'
+          MessageType: PriceAlert
+    MessageDisplayType:
+      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
+      enum:
+      - Default
+      - Popup
+      type: string
+      example: Default
+      x-enum-descriptions:
+        Default: No message render method is set.
+        Popup: Message is to popup suggesting immediate attention
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

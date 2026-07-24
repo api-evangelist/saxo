@@ -1,0 +1,2104 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Exposure API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Exposure
+  description: "Read only end points serving exposure of positions.\n            The exposure results are restricted by the supplied query parameters as well as whether or not the identity \n            represented by the authorization token has access to the client/account owner of the underlying positions.\n\n*   A user of a client will have access to accounts under that client\n*   A user of an IB or WLC will have access to accounts on that client or clients there under \n*   An employee has access to all accounts"
+paths:
+  /port/v2/exposure/currency/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Exposure
+      summary: Remove subscription
+      description: Removes subscription for the current session identified by subscription id..
+      operationId: ExposureV2DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: ReferenceId
+        in: path
+        description: Unique id of the subscription
+        required: true
+        schema:
+          type: string
+        example: 0f8fad5b-d9cb-469f-a165-70867728950e
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v2/exposure/currency/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Exposure
+      summary: Remove multiple subscriptions
+      description: Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server.
+      operationId: ExposureV2DeleteSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: Tag
+        in: query
+        description: Optional. Remove only subscriptions that are marked with specified tag.
+        schema:
+          type: string
+        example: '2345223'
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v2/exposure/currency/subscriptions:
+    post:
+      tags:
+      - Exposure
+      summary: Create a subscription on a list of instrument exposure and make it active
+      description: Sets up a subscription and returns an initial snapshot of list of instrument exposure specified by the parameters in the request.
+      operationId: ExposureV2AddActiveSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyExposureSubscriptionRequest'
+            example:
+              Arguments:
+                AccountGroupKey: stringValue
+                AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+                ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+                CurrencyCode: stringValue
+                PriceMode: RegularTradingHours
+              ContextId: '-'
+              Format: stringValue
+              ReferenceId: '-'
+              RefreshRate: 106
+              ReplaceReferenceId: '-'
+              Tag: stringValue
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyExposureSubscriptionResponse'
+              example:
+                ContextId: stringValue
+                Format: stringValue
+                InactivityTimeout: 99
+                ReferenceId: stringValue
+                RefreshRate: 99
+                Snapshot:
+                  CurrencyExposures:
+                  - AmountsInCurrency:
+                      Cash: 10
+                      Fx: 10
+                      ProfitLoss: 10
+                      Total: 10
+                    AmountsInEntityCurrency:
+                      Cash: 10
+                      Fx: 10
+                      ProfitLoss: 10
+                      Total: 10
+                    AmountsInRequestCurrency:
+                      Cash: 10
+                      Fx: 10
+                      ProfitLoss: 10
+                      Total: 10
+                    Currency: stringValue
+                    ExposureCurrencyCode: stringValue
+                    ExposureLimit: 10
+                    ExposureUtilization: 10
+                    ValueDateCurrencyExposures:
+                      Amounts:
+                      - Exposures:
+                          Cash: 10
+                          Fx: 10
+                          ProfitLoss: 10
+                          Total: 10
+                        ValueDate: '9999-12-31T23:59:59.999999Z'
+                        ValueDateKey: stringValue
+                      NonDatedExposure:
+                        Cash: 10
+                        Fx: 10
+                        ProfitLoss: 10
+                        Total: 10
+                      Total:
+                        Cash: 10
+                        Fx: 10
+                        ProfitLoss: 10
+                        Total: 10
+                  NetOpenPositionValue:
+                    AmountInEntityCurrency: 10
+                    AmountInRequestCurrency: 10
+                    ExposureCurrencyCode: stringValue
+                    ExposureLimit: 10
+                    ExposureUtilization: 10
+                State: Active
+                Tag: stringValue
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidInput
+                    - InvalidModelState
+                    - NoValidInput
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidInput: An error was encountered when processing given input parameters.
+                      NoValidInput: No valid input values passed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/CurrencyExposureResponse'
+  /port/v1/exposure/fxspot:
+    get:
+      tags:
+      - Exposure
+      summary: Get net FxSpot exposures list for a client, accountGroup or account
+      description: Returns a list of currency exposures from FxSpot positions for a requested client, account group or account.
+      operationId: ExposureV1GetFxSpotNetExposuresForLoggedInUser
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the positions belong.
+        schema:
+          title: The key of the account group to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account to which the positions belong.
+        schema:
+          title: The key of the account to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the positions belong.
+        required: true
+        schema:
+          title: The key of the client to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyExposuresResponseListResult'
+              example:
+                Data:
+                - Amount: 10
+                  AmountInCalculationEntityCurrency: 10
+                  Currency: stringValue
+                MaxRows: 99
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidExchangeId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoValidInput: No valid input values passed.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidExchangeId: The provided exchange id is invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/exposure/fxspot/me:
+    get:
+      tags:
+      - Exposure
+      summary: Get net FxSpot exposures for a client, to which the logged in user belongs
+      description: Returns a list of currency exposures from FxSpot positions for the client, to which the logged in user belongs.
+      operationId: ExposureV1GetFxSpotNetExposures
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyExposuresResponseListResult'
+              example:
+                Data:
+                - Amount: 10
+                  AmountInCalculationEntityCurrency: 10
+                  Currency: stringValue
+                MaxRows: 99
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/exposure/currency:
+    get:
+      tags:
+      - Exposure
+      summary: Get a currency exposures list for a client, accountGroup or account
+      description: Returns a list of currencies in which there is an exposure.
+      operationId: ExposureV1GetCurrencyExposuresForLoggedInUser
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the positions belong.
+        schema:
+          title: The key of the account group to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account to which the positions belong.
+        schema:
+          title: The key of the account to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the positions belong.
+        required: true
+        schema:
+          title: The key of the client to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyExposuresResponseListResult'
+              example:
+                Data:
+                - Amount: 10
+                  AmountInCalculationEntityCurrency: 10
+                  Currency: stringValue
+                MaxRows: 99
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidExchangeId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoValidInput: No valid input values passed.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidExchangeId: The provided exchange id is invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/exposure/currency/me:
+    get:
+      tags:
+      - Exposure
+      summary: Get currency exposures for a client, to which the logged in user belongs
+      description: Returns a list of currencies and net exposures.
+      operationId: ExposureV1GetCurrencyExposures
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyExposuresResponseListResult'
+              example:
+                Data:
+                - Amount: 10
+                  AmountInCalculationEntityCurrency: 10
+                  Currency: stringValue
+                MaxRows: 99
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/exposure/instruments/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Exposure
+      summary: Remove subscription
+      description: Removes subscription for the current session identified by subscription id..
+      operationId: ExposureV1DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: ReferenceId
+        in: path
+        description: Unique id of the subscription
+        required: true
+        schema:
+          type: string
+        example: 0f8fad5b-d9cb-469f-a165-70867728950e
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v1/exposure/instruments/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Exposure
+      summary: Remove multiple subscriptions
+      description: Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server.
+      operationId: ExposureV1DeleteSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: Tag
+        in: query
+        description: Optional. Remove only subscriptions that are marked with specified tag.
+        schema:
+          type: string
+        example: '2345223'
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v1/exposure/instruments/subscriptions:
+    post:
+      tags:
+      - Exposure
+      summary: Create a subscription on a list of instrument exposure and make it active
+      description: Sets up a subscription and returns an initial snapshot of list of instrument exposure specified by the parameters in the request.
+      operationId: ExposureV1AddActiveSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstrumentExposureSubscriptionRequest'
+            example:
+              Arguments:
+                AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+                AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                AssetType: FxSpot
+                ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+                PriceMode: RegularTradingHours
+                Uic: 21
+              ContextId: '-'
+              Format: stringValue
+              ReferenceId: '-'
+              RefreshRate: 104
+              ReplaceReferenceId: '-'
+              Tag: stringValue
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentExposureSubscriptionResponse'
+              example:
+                ContextId: '20221030064906529'
+                Format: application/json
+                InactivityTimeout: 120
+                ReferenceId: E68752
+                RefreshRate: 1000
+                Snapshot:
+                  Data:
+                  - Amount: 200000
+                    AssetType: FxSpot
+                    AverageOpenPrice: 1.08414
+                    CalculationReliability: Ok
+                    CanBeClosed: false
+                    DisplayAndFormat:
+                      Currency: USD
+                      Decimals: 4
+                      Description: Euro/US Dollar
+                      Format: AllowDecimalPips
+                      Symbol: EURUSD
+                    NetPositionId: EURUSD_FxSpot
+                    Uic: 21
+                State: Active
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidInput
+                    - InvalidModelState
+                    - NoValidInput
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidInput: An error was encountered when processing given input parameters.
+                      NoValidInput: No valid input values passed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/InstrumentExposureResponseArray'
+  /port/v1/exposure/instruments:
+    get:
+      tags:
+      - Exposure
+      summary: Get instrument net exposure list for a client, accountGroup or account
+      description: Returns a list of instruments in which there is an exposure fulfilling the criteria specified by the query string parameters.
+      operationId: ExposureV1GetInstrumentsExposuresForLoggedInUser
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the positions belong.
+        schema:
+          title: The key of the account group to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account to which the positions belong.
+        schema:
+          title: The key of the account to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: AssetType
+        in: query
+        description: The AssetType.
+        schema:
+          title: The AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        example: StockIndexOption
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the positions belong.
+        required: true
+        schema:
+          title: The key of the client to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      - name: ExpiryDate
+        in: query
+        description: The expiry date. Only used to distinguish FxOptions.
+        schema:
+          title: The expiry date. Only used to distinguish FxOptions.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '9999-12-31T23:59:59.9999990+00:00'
+      - name: LowerBarrier
+        in: query
+        description: The Lower Barrier. Only used to distinguish Fx Barrier Options.
+        schema:
+          title: The Lower Barrier. Only used to distinguish Fx Barrier Options.
+          type: number
+        example: 2.55
+      - name: PutCall
+        in: query
+        description: Put or Call. Only used to distinguish FxOptions.
+        schema:
+          title: Put or Call. Only used to distinguish FxOptions.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        example: Put
+      - name: Strike
+        in: query
+        description: The strike price of the option. Only used to distinguish FxOptions.
+        schema:
+          title: The strike price of the option. Only used to distinguish FxOptions.
+          type: number
+        example: 2.55
+      - name: Uic
+        in: query
+        description: Unique id of the instrument.
+        schema:
+          title: Unique id of the instrument.
+          type: integer
+          format: int32
+        example: 99
+      - name: UpperBarrier
+        in: query
+        description: The Upper Barrier. Only used to distinguish Fx Barrier Options.
+        schema:
+          title: The Upper Barrier. Only used to distinguish Fx Barrier Options.
+          type: number
+        example: 2.55
+      - name: ValueDate
+        in: query
+        description: The value date. Only used to distinguish FxForwards.
+        schema:
+          title: The value date. Only used to distinguish FxForwards.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        example: '9999-12-31T23:59:59.9999990+00:00'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentExposureResponseListResult'
+              example:
+                __next: /openapi/port/....../?$top=1&$skip=1
+                Data:
+                - Amount: 200000
+                  AssetType: FxSpot
+                  AverageOpenPrice: 1.08414
+                  CalculationReliability: Ok
+                  CanBeClosed: false
+                  DisplayAndFormat:
+                    Currency: USD
+                    Decimals: 4
+                    Description: Euro/US Dollar
+                    Format: AllowDecimalPips
+                    Symbol: EURUSD
+                  NetPositionId: EURUSD_FxSpot
+                  Uic: 21
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidExchangeId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoValidInput: No valid input values passed.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidExchangeId: The provided exchange id is invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/exposure/instruments/me:
+    get:
+      tags:
+      - Exposure
+      summary: Get the net instrument exposure for a client, to which the logged in user belongs
+      description: Returns a list instruments and net exposures.
+      operationId: ExposureV1GetInstrumentsExposures
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentExposureResponseListResult'
+              example:
+                __next: /openapi/port/....../?$top=1&$skip=1
+                Data:
+                - Amount: 200000
+                  AssetType: FxSpot
+                  AverageOpenPrice: 1.08414
+                  CalculationReliability: Ok
+                  CanBeClosed: false
+                  DisplayAndFormat:
+                    Currency: USD
+                    Decimals: 4
+                    Description: Euro/US Dollar
+                    Format: AllowDecimalPips
+                    Symbol: EURUSD
+                  NetPositionId: EURUSD_FxSpot
+                  Uic: 21
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    InstrumentExposureRequest:
+      title: "Filters results so only exposures that match the provided criteria are returned.\n            ClientKey must be specified."
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        AssetType:
+          title: The AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ClientKey:
+          title: The key of the client to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        ExpiryDate:
+          title: The expiry date. Only used to distinguish FxOptions.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LowerBarrier:
+          title: The Lower Barrier. Only used to distinguish Fx Barrier Options.
+          type: number
+        PutCall:
+          title: Put or Call. Only used to distinguish FxOptions.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        Strike:
+          title: The strike price of the option. Only used to distinguish FxOptions.
+          type: number
+        Uic:
+          title: Unique id of the instrument.
+          type: integer
+          format: int32
+        UpperBarrier:
+          title: The Upper Barrier. Only used to distinguish Fx Barrier Options.
+          type: number
+        ValueDate:
+          title: The value date. Only used to distinguish FxForwards.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        AssetType: FxSpot
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        Uic: 21
+    CurrencyExposurePerValueDate:
+      title: Currency exposure breakdown by value date
+      type: object
+      properties:
+        Amounts:
+          title: Exposure breakdown for each date
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueDateExposureEntry'
+          example:
+          - Exposures:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            ValueDate: '9999-12-31T23:59:59.999999Z'
+            ValueDateKey: stringValue
+        NonDatedExposure:
+          title: Exposure with no specific value date
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureBreakdown'
+        Total:
+          title: Total
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureBreakdown'
+      additionalProperties: false
+      example:
+        Amounts:
+        - Exposures:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+          ValueDate: '9999-12-31T23:59:59.999999Z'
+          ValueDateKey: stringValue
+        NonDatedExposure:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+        Total:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+    InstrumentExposureSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription to exposures by instrument.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentExposureResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030064906529'
+        Format: application/json
+        InactivityTimeout: 120
+        ReferenceId: E68752
+        RefreshRate: 1000
+        Snapshot:
+          Data:
+          - Amount: 200000
+            AssetType: FxSpot
+            AverageOpenPrice: 1.08414
+            CalculationReliability: Ok
+            CanBeClosed: false
+            DisplayAndFormat:
+              Currency: USD
+              Decimals: 4
+              Description: Euro/US Dollar
+              Format: AllowDecimalPips
+              Symbol: EURUSD
+            NetPositionId: EURUSD_FxSpot
+            Uic: 21
+        State: Active
+    CurrencyExposureSubscriptionRequest:
+      title: Public request contract for setting up a subscription on a list of instrument exposures
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/Exposures.CurrencyExposuresRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: stringValue
+          AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+          ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+          CurrencyCode: stringValue
+          PriceMode: RegularTradingHours
+        ContextId: '-'
+        Format: stringValue
+        ReferenceId: '-'
+        RefreshRate: 106
+        ReplaceReferenceId: '-'
+        Tag: stringValue
+    InstrumentExposureResponse:
+      title: Represents a net open exposure in an instrument.
+      required:
+      - NetPositionId
+      type: object
+      properties:
+        Amount:
+          title: Sum exposure of positions in instrument
+          type: number
+          example: 10
+        AssetType:
+          title: The AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        AverageOpenPrice:
+          title: The average price of all the positions that make up the exposure.
+          type: number
+          example: 10
+        CalculationReliability:
+          title: If an error was encountered this code indicates source of the calculation error.
+          allOf:
+          - $ref: '#/components/schemas/CalculationReliability'
+        CanBeClosed:
+          title: Indicates if the exposure may be closed.
+          type: boolean
+          example: true
+        DisplayAndFormat:
+          title: Information about the instrument and how to display it.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        ExpiryDate:
+          title: The ExpiryDate.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        InstrumentPriceDayPercentChange:
+          title: Percent change in instrument's price between Previous Close and current Last Traded price.
+          type: number
+          example: 10
+        LowerBarrier:
+          title: LowerBarrier for digital option.
+          type: number
+          example: 10
+        NetPositionId:
+          title: The exposure net position id. May be used to fetch the net position or open positions of the net position from the Open Positions service.
+          type: string
+          example: stringValue
+        ProfitLossOnTrade:
+          title: The P/L on the trade in the currency in which the instrument is traded.
+          type: number
+          example: 10
+        PutCall:
+          title: The Put/Call value of the option.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        Strike:
+          title: The strike price of the option.
+          type: number
+          example: 10
+        Uic:
+          title: Unique id of the instrument.
+          type: integer
+          format: int32
+          example: 99
+        UpperBarrier:
+          title: UpperBarrier for digital option.
+          type: number
+          example: 10
+        ValueDate:
+          title: The value date. Only used to distinguish FxForwards.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        Amount: 200000
+        AssetType: FxSpot
+        AverageOpenPrice: 1.08414
+        CalculationReliability: Ok
+        CanBeClosed: false
+        DisplayAndFormat:
+          Currency: USD
+          Decimals: 4
+          Description: Euro/US Dollar
+          Format: AllowDecimalPips
+          Symbol: EURUSD
+        NetPositionId: EURUSD_FxSpot
+        Uic: 21
+    InstrumentExposureResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/InstrumentExposureResponse'
+      example:
+      - Amount: 200000
+        AssetType: FxSpot
+        AverageOpenPrice: 1.08414
+        CalculationReliability: Ok
+        CanBeClosed: false
+        DisplayAndFormat:
+          Currency: USD
+          Decimals: 4
+          Description: Euro/US Dollar
+          Format: AllowDecimalPips
+          Symbol: EURUSD
+        NetPositionId: EURUSD_FxSpot
+        Uic: 21
+    CurrencyExposureBreakdown:
+      title: Breakdown of currency exposures
+      type: object
+      properties:
+        Cash:
+          title: Cash contribution
+          type: number
+          example: 10
+        Fx:
+          title: Fx contribution
+          type: number
+          example: 10
+        ProfitLoss:
+          title: Profit loss contribution
+          type: number
+          example: 10
+        Total:
+          title: The total
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Cash: 10
+        Fx: 10
+        ProfitLoss: 10
+        Total: 10
+    CurrencyExposures:
+      title: Represents a net open exposure in an a currency.
+      required:
+      - Currency
+      type: object
+      properties:
+        AmountsInCurrency:
+          title: Exposures in the given currency
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureEntry'
+        AmountsInEntityCurrency:
+          title: Exposures in the currency of the calculation entity
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureEntry'
+        AmountsInRequestCurrency:
+          title: Exposure in the requested currency
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureEntry'
+        Currency:
+          title: The exposure currency.
+          type: string
+          example: stringValue
+        ExposureCurrencyCode:
+          title: The currency of the ExposureLimit
+          type: string
+          example: stringValue
+        ExposureLimit:
+          title: Current exposure limit
+          type: number
+          example: 10
+        ExposureUtilization:
+          title: Current exposure utilization
+          type: number
+          example: 10
+        ValueDateCurrencyExposures:
+          title: Currency exposures breakdown by value date
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposurePerValueDate'
+      additionalProperties: false
+      example:
+        AmountsInCurrency:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+        AmountsInEntityCurrency:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+        AmountsInRequestCurrency:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+        Currency: stringValue
+        ExposureCurrencyCode: stringValue
+        ExposureLimit: 10
+        ExposureUtilization: 10
+        ValueDateCurrencyExposures:
+          Amounts:
+          - Exposures:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            ValueDate: '9999-12-31T23:59:59.999999Z'
+            ValueDateKey: stringValue
+          NonDatedExposure:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+          Total:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+    CalculationReliability:
+      title: To what extent can the calculated values and P/L be trusted
+      enum:
+      - ApproximatedPrice
+      - CurrencyConversionFailed
+      - FailedToCalculateCollateral
+      - NoMarketAccess
+      - Ok
+      - OkWithConditions
+      - PricePending
+      - SystemError
+      - UnknownPrice
+      type: string
+      example: UnknownPrice
+      x-enum-descriptions:
+        Ok: Ok - calculation successful
+        UnknownPrice: Unknown price
+        CurrencyConversionFailed: Currency conversion failed
+        FailedToCalculateCollateral: Failed to calculate collateral
+        OkWithConditions: Calculation was ok given some conditions
+        PricePending: Calculation depends on a price that is currently unavailable.
+        NoMarketAccess: No Market Access for price.
+        SystemError: General error due to system or client configuration.
+        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+    CurrencyExposureEntry:
+      title: Breakdown of currency exposures
+      type: object
+      properties:
+        Cash:
+          title: Cash contribution
+          type: number
+          example: 10
+        Fx:
+          title: Fx contribution
+          type: number
+          example: 10
+        ProfitLoss:
+          title: Profit loss contribution
+          type: number
+          example: 10
+        Total:
+          title: The total
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Cash: 10
+        Fx: 10
+        ProfitLoss: 10
+        Total: 10
+    CurrencyExposureResponse:
+      title: Pack Currency Exposures and Net Open Position Value (NOV)
+      type: object
+      properties:
+        CurrencyExposures:
+          title: Currency exposures
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyExposures'
+          example:
+          - AmountsInCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            AmountsInEntityCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            AmountsInRequestCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            Currency: stringValue
+            ExposureCurrencyCode: stringValue
+            ExposureLimit: 10
+            ExposureUtilization: 10
+            ValueDateCurrencyExposures:
+              Amounts:
+              - Exposures:
+                  Cash: 10
+                  Fx: 10
+                  ProfitLoss: 10
+                  Total: 10
+                ValueDate: '9999-12-31T23:59:59.999999Z'
+                ValueDateKey: stringValue
+              NonDatedExposure:
+                Cash: 10
+                Fx: 10
+                ProfitLoss: 10
+                Total: 10
+              Total:
+                Cash: 10
+                Fx: 10
+                ProfitLoss: 10
+                Total: 10
+        NetOpenPositionValue:
+          title: Net Open Position Value
+          allOf:
+          - $ref: '#/components/schemas/NetOpenPositionValue'
+      additionalProperties: false
+      example:
+        CurrencyExposures:
+        - AmountsInCurrency:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+          AmountsInEntityCurrency:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+          AmountsInRequestCurrency:
+            Cash: 10
+            Fx: 10
+            ProfitLoss: 10
+            Total: 10
+          Currency: stringValue
+          ExposureCurrencyCode: stringValue
+          ExposureLimit: 10
+          ExposureUtilization: 10
+          ValueDateCurrencyExposures:
+            Amounts:
+            - Exposures:
+                Cash: 10
+                Fx: 10
+                ProfitLoss: 10
+                Total: 10
+              ValueDate: '9999-12-31T23:59:59.999999Z'
+              ValueDateKey: stringValue
+            NonDatedExposure:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            Total:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+        NetOpenPositionValue:
+          AmountInEntityCurrency: 10
+          AmountInRequestCurrency: 10
+          ExposureCurrencyCode: stringValue
+          ExposureLimit: 10
+          ExposureUtilization: 10
+    CurrencyExposuresResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyExposuresResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Amount: 10
+          AmountInCalculationEntityCurrency: 10
+          Currency: stringValue
+        MaxRows: 99
+    InstrumentExposureResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentExposureResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - Amount: 200000
+          AssetType: FxSpot
+          AverageOpenPrice: 1.08414
+          CalculationReliability: Ok
+          CanBeClosed: false
+          DisplayAndFormat:
+            Currency: USD
+            Decimals: 4
+            Description: Euro/US Dollar
+            Format: AllowDecimalPips
+            Symbol: EURUSD
+          NetPositionId: EURUSD_FxSpot
+          Uic: 21
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Put
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: "Display format of barrier price.\n            One touch/no touch options only."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x).\n            Same as DisplayDecimals."
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: "The price format to use when formatting strike price.\n            Only relevant for options."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+        UnderlyingInstrumentDescription:
+          title: Common full name of the underlying instrument. Only used for options and is the same as the option root description.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BarrierDecimals: 99
+        BarrierFormat: Normal
+        Currency: stringValue
+        Decimals: 99
+        Description: stringValue
+        DisplayHint: PreciousMetal
+        Format: Percentage
+        NumeratorDecimals: 99
+        OrderDecimals: 99
+        StrikeDecimals: 99
+        StrikeFormat: AllowDecimalPips
+        Symbol: stringValue
+        UnderlyingInstrumentDescription: stringValue
+    InstrumentExposureSubscriptionRequest:
+      title: Public request contract for setting up a subscription on a list of instrument exposures
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentExposureRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          AssetType: FxSpot
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          PriceMode: RegularTradingHours
+          Uic: 21
+        ContextId: '-'
+        Format: stringValue
+        ReferenceId: '-'
+        RefreshRate: 104
+        ReplaceReferenceId: '-'
+        Tag: stringValue
+    CurrencyExposureSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription to exposures by instrument.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureResponse'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: stringValue
+        Format: stringValue
+        InactivityTimeout: 99
+        ReferenceId: stringValue
+        RefreshRate: 99
+        Snapshot:
+          CurrencyExposures:
+          - AmountsInCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            AmountsInEntityCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            AmountsInRequestCurrency:
+              Cash: 10
+              Fx: 10
+              ProfitLoss: 10
+              Total: 10
+            Currency: stringValue
+            ExposureCurrencyCode: stringValue
+            ExposureLimit: 10
+            ExposureUtilization: 10
+            ValueDateCurrencyExposures:
+              Amounts:
+              - Exposures:
+                  Cash: 10
+                  Fx: 10
+                  ProfitLoss: 10
+                  Total: 10
+                ValueDate: '9999-12-31T23:59:59.999999Z'
+                ValueDateKey: stringValue
+              NonDatedExposure:
+                Cash: 10
+                Fx: 10
+                ProfitLoss: 10
+                Total: 10
+              Total:
+                Cash: 10
+                Fx: 10
+                ProfitLoss: 10
+                Total: 10
+          NetOpenPositionValue:
+            AmountInEntityCurrency: 10
+            AmountInRequestCurrency: 10
+            ExposureCurrencyCode: stringValue
+            ExposureLimit: 10
+            ExposureUtilization: 10
+        State: Active
+        Tag: stringValue
+    Exposures.CurrencyExposuresRequest:
+      title: Represents a request for total currency exposures.
+      required:
+      - CurrencyCode
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: The key of the client to which the positions belong.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        CurrencyCode:
+          title: Currency code for the request
+          type: string
+      additionalProperties: false
+      example:
+        AccountGroupKey: stringValue
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+        CurrencyCode: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CurrencyExposuresResponse:
+      title: Represents a net open exposure in an a currency.
+      required:
+      - Currency
+      type: object
+      properties:
+        Amount:
+          title: Total exposure in the given currency.
+          type: number
+          example: 10
+        AmountInCalculationEntityCurrency:
+          title: Total exposure in the currency of the calculation entity.
+          type: number
+          example: 10
+        Currency:
+          title: The exposure currency.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Amount: 10
+        AmountInCalculationEntityCurrency: 10
+        Currency: stringValue
+    NetOpenPositionValue:
+      title: Net Open Position Value ( NOV )
+      type: object
+      properties:
+        AmountInEntityCurrency:
+          title: In entity currency
+          type: number
+          example: 10
+        AmountInRequestCurrency:
+          title: in request currency
+          type: number
+          example: 10
+        ExposureCurrencyCode:
+          title: Currency of the exposure limit
+          type: string
+          example: stringValue
+        ExposureLimit:
+          title: exposure limit
+          type: number
+          example: 10
+        ExposureUtilization:
+          title: Exposure utilization
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AmountInEntityCurrency: 10
+        AmountInRequestCurrency: 10
+        ExposureCurrencyCode: stringValue
+        ExposureLimit: 10
+        ExposureUtilization: 10
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Fractions
+      x-enum-descriptions:
+        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
+        Fractions: Display as regular fraction i.e. 3 1/4
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    ValueDateExposureEntry:
+      title: Currency exposures for a value date
+      required:
+      - ValueDateKey
+      type: object
+      properties:
+        Exposures:
+          title: The currency exposure breakdown for the value date
+          allOf:
+          - $ref: '#/components/schemas/CurrencyExposureEntry'
+        ValueDate:
+          title: The value date
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ValueDateKey:
+          title: Unique list entry key.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Exposures:
+          Cash: 10
+          Fx: 10
+          ProfitLoss: 10
+          Total: 10
+        ValueDate: '9999-12-31T23:59:59.9999990+00:00'
+        ValueDateKey: stringValue
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

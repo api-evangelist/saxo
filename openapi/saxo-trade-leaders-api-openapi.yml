@@ -1,0 +1,2417 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Trade Leaders API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Trade Leaders
+  description: End points for fetching tradeLeader information.
+paths:
+  /at/v3/tradeLeaders/public/customselection/{SelectionId}:
+    get:
+      tags:
+      - Trade Leaders
+      description: Retrieve all Trade Leaders mapped to custom portfolioID (public)
+      operationId: TradeLeadersV3GetTradeLeadersCustomSelectionPublic
+      parameters:
+      - name: SelectionId
+        in: path
+        description: Id of custom portfolio selection
+        required: true
+        schema:
+          pattern: ^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          type: string
+        example: 5C736EB0-D605-4D92-8DA9-67D37F1A4473
+      - name: StandardPeriod
+        in: query
+        description: Period to fetch account performance data
+        schema:
+          $ref: '#/components/schemas/Public.StandardPeriodType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeLeaderContract'
+              example:
+                AccountPerformance:
+                  AccountSummary:
+                    AverageTradeDurationInMinutes: 34260
+                    AverageTradesPerWeek: 48.2325728770595
+                    NumberOfDaysTraded: 1589
+                    NumberOfLongTrades: 5434
+                    NumberOfShortTrades: 5263
+                    TopTradedInstruments:
+                    - DAX.I
+                    - DJI.I
+                    - EURUSD
+                    - GBPUSD
+                    - NAS100.I
+                    - NOKSEK
+                    - EURNOK
+                    - SP500.I
+                    TotalReturnFraction: -0.9999963956455
+                    TradedInstruments:
+                    - FxSpot
+                    - Stock
+                    - FxVanillaOption
+                    - ContractFutures
+                    TradesTotalCount: 10697
+                    TradesWonCount: 6499
+                    WinFraction: 0.61
+                  Allocation:
+                    TradesPerAssetType:
+                      ClosedTradesAllocations:
+                      - AssetClassType: Equity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 1
+                        TradeCount: 168
+                        TradePct: 38.009049773755656
+                        TradePercent: 0.38009049773755654
+                      - AssetClassType: Currency
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.249937016456527
+                        TradeCount: 112
+                        TradePct: 25.339366515837103
+                        TradePercent: 0.25339366515837103
+                      - AssetClassType: Commodity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.5628789450009563
+                        TradeCount: 105
+                        TradePct: 23.755656108597282
+                        TradePercent: 0.23755656108597284
+                      - AssetClassType: Fixed Income
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.013150856136249162
+                        TradeCount: 57
+                        TradePct: 12.895927601809955
+                        TradePercent: 0.12895927601809956
+                    TradesPerInstrument:
+                      ClosedTradesAllocations:
+                      - AssetType: ContractFutures
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                        InstrumentSymbol: ZBU6
+                        InstrumentUic: 3626018
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.15987101005684304
+                        TradeCount: 40
+                        TradePct: 9.049773755656108
+                        TradePercent: 0.09049773755656108
+                      - AssetType: FxSpot
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: British Pound/US Dollar
+                        InstrumentSymbol: GBPUSD
+                        InstrumentUic: 31
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.14685155225185834
+                        TradeCount: 37
+                        TradePct: 8.3710407239819
+                        TradePercent: 0.083710407239819
+                  BalancePerformance:
+                    AccountBalanceTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    AccountValueTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    MonthlyProfitLossTimeSeries:
+                    - Date: '2015-11-30'
+                      Value: 0
+                    - Date: '2015-12-31'
+                      Value: 0
+                    SecurityTransferTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    YearlyProfitLossTimeSeries:
+                    - Date: '2015-12-31'
+                      Value: 0
+                    - Date: '2016-12-31'
+                      Value: 0
+                    - Date: '2017-12-31'
+                      Value: 0
+                  BenchMark:
+                    AssetType: CfdOnIndex
+                    Description: Japan 225
+                    DisplayHintType: None
+                    Uic: 16351
+                  BenchmarkPerformance:
+                  - Date: '2018-05-31'
+                    Value: 0
+                  - Date: '2018-06-01'
+                    Value: 0.0014689581211755269
+                  - Date: '2018-06-04'
+                    Value: 0.014297558645674684
+                  - Date: '2018-06-05'
+                    Value: 0.015536710435009869
+                  - Date: '2018-06-06'
+                    Value: 0.020349125384137055
+                  - Date: '2018-06-07'
+                    Value: 0.030226291646765137
+                  - Date: '2018-06-08'
+                    Value: 0.02173697538819246
+                  - Date: '2018-06-11'
+                    Value: 0.029834269080684553
+                  - Date: '2018-06-12'
+                    Value: 0.03227201860079486
+                  - Date: '2018-06-13'
+                    Value: 0.034308733541811236
+                  - Date: '2018-06-14'
+                    Value: 0.02529221452195777
+                  - Date: '2018-06-15'
+                    Value: 0.030685904310445825
+                  - Date: '2018-06-18'
+                    Value: 0.02224164811693988
+                  - Date: '2018-06-19'
+                    Value: 0.0028207600731775455
+                  - Date: '2018-06-20'
+                    Value: 0.014617485107648496
+                  - Date: '2018-06-21'
+                    Value: 0.020673557852617538
+                  - Date: '2018-06-22'
+                    Value: 0.01429305263916801
+                  - Date: '2018-06-25'
+                    Value: 0.00672746771446338
+                  - Date: '2018-06-26'
+                    Value: 0.007971125510305236
+                  - Date: '2018-06-27'
+                    Value: 0.003203770626244784
+                  - Date: '2018-06-28'
+                    Value: 0.0029739642944044413
+                  - Date: '2018-06-29'
+                    Value: 0.0028297720861908925
+                  - Date: '2018-07-02'
+                    Value: 0.002604471760857223
+                  From: '2016-03-28'
+                  InceptionDay: '2015-11-24'
+                  LastTradeDay: '2017-03-27'
+                  Thru: '2017-03-27'
+                  TimeWeightedPerformance:
+                    AccumulatedTimeWeightedTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    MonthlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    PerformanceFraction: -1
+                    PerformanceKeyFigures:
+                      ClosedTradesCount: 0
+                      DrawdownReport:
+                        Drawdowns:
+                        - DaysCount: 3
+                          DepthInPercent: 1
+                          FromDate: '2016-08-05'
+                          ThruDate: '2016-08-08'
+                        MaxDaysInDrawdownFromTop10Drawdowns: 3
+                      LosingDaysFraction: 0.03
+                      MaxDrawDownFraction: 1
+                      ReturnFraction: -1
+                      SampledStandardDeviation: 0.0618018874919214
+                      SharpeRatio: -0.952069751000777
+                      SortinoRatio: -0.0591710418985739
+                    YearlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                  TotalCashBalance: 20226.02
+                  TotalCashBalancePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalOpenPositionsValue: 29571.057
+                  TotalPositionsValuePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalPositionsValuePerProductPerSecurity:
+                  - Description: Abengoa SA - Warrants
+                    ProductName: Shares
+                    Symbol: LOCK - 1496:xxxx
+                    Value: 0
+                AllowMultipleInvestment: true
+                AllowPartialWithdrawal: true
+                Category: Balanced Portfolios
+                Currency: GBP
+                FollowerAmountRemaining: 1000
+                IsInvestmentShieldSupported: true
+                IsOpenForFollowers: false
+                LeaderPartnerOptions: PositionsCloseOnDeactivation, FeesAreExclusiveOfVat
+                ManagementFee: 0.95
+                MinimumFundingAmount: 10000
+                PerformanceFee: 0
+                Prospectus:
+                  CSPXJ: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-core-msci-pacific-ex-japan-ucits-etf-usd-acc-gb-ie00b52mjy50-en.pdf
+                  E20Y: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiv-ishares-govt-bond-20yr-target-duration-ucits-etf-eur-dist-gb-ie00bskrjx20-en.pdf
+                  EMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EMBE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-eur-hedged-ucits-etf-dist-gb-ie00b9m6rs56-en.pdf
+                  EIMI: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EXXY: https://www.blackrock.com/kiid/literature/kiid/kiid-munich-all-ishares-diversified-commodity-swap-ucits-etf-de-gb-de000a0h0728-en.pdf
+                  IBCX: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-corp-bond-large-cap-ucits-etf-eur-dist-gb-ie0032523478-en.pdf
+                  IEGA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-govt-bond-ucits-etf-eur-dist-gb-ie00b4wxjj64-en.pdf
+                  IEGE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-govt-bond-0-1yr-ucits-etf-eur-dist-gb-ie00b3fh7618-en.pdf
+                  IMEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-msci-europe-ucits-etf-eur-dist-gb-ie00b1yzsc51-en.pdf
+                  INFR: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-global-infrastructure-ucits-etf-usd-dist-gb-ie00b1fzs467-en.pdf
+                  IRCP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-corp-bond-interest-rate-hedged-ucits-etf-eur-dist-gb-ie00b6x2vy59-en.pdf
+                  IUSE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-sp-500-eur-hedged-ucits-etf-acc-gb-ie00b3zw0k18-en.pdf
+                  IWDP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-developed-markets-property-yield-ucits-etf-usd-dist-gb-ie00b1fzs350-en.pdf
+                  MVEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-edge-msci-europe-minimum-volatility-ucits-etf-eur-acc-gb-ie00b86mwn23-en.pdf
+                  SHYU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-high-yield-corp-bond-ucits-etf-usd-dist-gb-ie00b4py7y77-en.pdf
+                  SJPA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-msci-japan-imi-ucits-etf-usd-acc-gb-ie00b4l5yx21-en.pdf
+                  CHDVD: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-dividend-ch-ch-ch0237935637-en.pdf
+                  CHCORP: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-chf-corporate-bond-ch-ch-ch0226976816-en.pdf
+                  CHSPI: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-spi-ch-ch-ch0237935652-en.pdf
+                  CSBGC0: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-7-15-ch-ch-ch0016999861-en.pdf
+                  CSBGC3: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-1-3-ch-ch-ch0102530786-en.pdf
+                  CSBGC7: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-3-7-ch-ch-ch0016999846-en.pdf
+                  CSGLDC: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ishii-ishares-gold-chf-hedged-ch-ch-ch0104136285-en.pdf
+                  CSSMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-smim-ch-ch-ch0019852802-en.pdf
+                  EMBC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-chf-hedged-ucits-etf-dist-ch-ie00b9m04v95-en.pdf
+                  EMUC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-msci-emu-chf-hedged-ucits-etf-acc-ch-ie00bwk1sp74-en.pdf
+                  GHYC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-global-high-yield-corp-bond-chf-hedged-ucits-etf-dist-ch-ie00b988c465-en.pdf
+                  IEMB: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-jp-morgan-em-bond-ucits-etf-usd-dist-ch-ie00b2npkv68-en.pdf
+                  IJPC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-msci-japan-chf-hedged-ucits-etf-acc-ch-ie00b8j37j31-en.pdf
+                  IUSC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-sp-500-chf-hedged-ucits-etf-acc-ch-ie00b88dz566-en.pdf
+                RiskLevel: Moderate
+                StrategyLegalAssetTypes:
+                - Stock
+                - Bond
+                - Cash
+                StrategyName: Moderate Portfolio (GBP)
+                SuitabilityLevel: Medium
+                TradeLeaderId: '77'
+                TradeLeaderOptions: FixedInvestmentAmount
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /at/v3/tradeLeaders/public/{TradeLeaderId}:
+    get:
+      tags:
+      - Trade Leaders
+      description: Retrieve single trade leader (public).
+      operationId: TradeLeadersV3GetTradeLeaderPublic
+      parameters:
+      - name: OwnerKey
+        in: query
+        description: Id of the owner Key of owner to that leaders are available to.
+        schema:
+          title: Id of the owner Key of owner to that leaders are available to.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 966bf8c8-7202-45c0-8b4f-0c4bf1a47c4d
+      - name: StandardPeriod
+        in: query
+        description: Period to fetch account performance data.
+        schema:
+          title: Period to fetch account performance data.
+          allOf:
+          - $ref: '#/components/schemas/Public.StandardPeriodType'
+        example: Quarter
+      - name: TradeLeaderId
+        in: path
+        description: Id of the trade leader.
+        required: true
+        schema:
+          title: Id of the trade leader.
+          type: integer
+          format: int32
+        example: 91
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeLeaderContract'
+              example:
+                AccountPerformance:
+                  AccountSummary:
+                    AverageTradeDurationInMinutes: 34260
+                    AverageTradesPerWeek: 48.2325728770595
+                    NumberOfDaysTraded: 1589
+                    NumberOfLongTrades: 5434
+                    NumberOfShortTrades: 5263
+                    TopTradedInstruments:
+                    - DAX.I
+                    - DJI.I
+                    - EURUSD
+                    - GBPUSD
+                    - NAS100.I
+                    - NOKSEK
+                    - EURNOK
+                    - SP500.I
+                    TotalReturnFraction: -0.9999963956455
+                    TradedInstruments:
+                    - FxSpot
+                    - Stock
+                    - FxVanillaOption
+                    - ContractFutures
+                    TradesTotalCount: 10697
+                    TradesWonCount: 6499
+                    WinFraction: 0.61
+                  Allocation:
+                    TradesPerAssetType:
+                      ClosedTradesAllocations:
+                      - AssetClassType: Equity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 1
+                        TradeCount: 168
+                        TradePct: 38.009049773755656
+                        TradePercent: 0.38009049773755654
+                      - AssetClassType: Currency
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.249937016456527
+                        TradeCount: 112
+                        TradePct: 25.339366515837103
+                        TradePercent: 0.25339366515837103
+                      - AssetClassType: Commodity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.5628789450009563
+                        TradeCount: 105
+                        TradePct: 23.755656108597282
+                        TradePercent: 0.23755656108597284
+                      - AssetClassType: Fixed Income
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.013150856136249162
+                        TradeCount: 57
+                        TradePct: 12.895927601809955
+                        TradePercent: 0.12895927601809956
+                    TradesPerInstrument:
+                      ClosedTradesAllocations:
+                      - AssetType: ContractFutures
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                        InstrumentSymbol: ZBU6
+                        InstrumentUic: 3626018
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.15987101005684304
+                        TradeCount: 40
+                        TradePct: 9.049773755656108
+                        TradePercent: 0.09049773755656108
+                      - AssetType: FxSpot
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: British Pound/US Dollar
+                        InstrumentSymbol: GBPUSD
+                        InstrumentUic: 31
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.14685155225185834
+                        TradeCount: 37
+                        TradePct: 8.3710407239819
+                        TradePercent: 0.083710407239819
+                  BalancePerformance:
+                    AccountBalanceTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    AccountValueTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    MonthlyProfitLossTimeSeries:
+                    - Date: '2015-11-30'
+                      Value: 0
+                    - Date: '2015-12-31'
+                      Value: 0
+                    SecurityTransferTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    YearlyProfitLossTimeSeries:
+                    - Date: '2015-12-31'
+                      Value: 0
+                    - Date: '2016-12-31'
+                      Value: 0
+                    - Date: '2017-12-31'
+                      Value: 0
+                  BenchMark:
+                    AssetType: CfdOnIndex
+                    Description: Japan 225
+                    DisplayHintType: None
+                    Uic: 16351
+                  BenchmarkPerformance:
+                  - Date: '2018-05-31'
+                    Value: 0
+                  - Date: '2018-06-01'
+                    Value: 0.0014689581211755269
+                  - Date: '2018-06-04'
+                    Value: 0.014297558645674684
+                  - Date: '2018-06-05'
+                    Value: 0.015536710435009869
+                  - Date: '2018-06-06'
+                    Value: 0.020349125384137055
+                  - Date: '2018-06-07'
+                    Value: 0.030226291646765137
+                  - Date: '2018-06-08'
+                    Value: 0.02173697538819246
+                  - Date: '2018-06-11'
+                    Value: 0.029834269080684553
+                  - Date: '2018-06-12'
+                    Value: 0.03227201860079486
+                  - Date: '2018-06-13'
+                    Value: 0.034308733541811236
+                  - Date: '2018-06-14'
+                    Value: 0.02529221452195777
+                  - Date: '2018-06-15'
+                    Value: 0.030685904310445825
+                  - Date: '2018-06-18'
+                    Value: 0.02224164811693988
+                  - Date: '2018-06-19'
+                    Value: 0.0028207600731775455
+                  - Date: '2018-06-20'
+                    Value: 0.014617485107648496
+                  - Date: '2018-06-21'
+                    Value: 0.020673557852617538
+                  - Date: '2018-06-22'
+                    Value: 0.01429305263916801
+                  - Date: '2018-06-25'
+                    Value: 0.00672746771446338
+                  - Date: '2018-06-26'
+                    Value: 0.007971125510305236
+                  - Date: '2018-06-27'
+                    Value: 0.003203770626244784
+                  - Date: '2018-06-28'
+                    Value: 0.0029739642944044413
+                  - Date: '2018-06-29'
+                    Value: 0.0028297720861908925
+                  - Date: '2018-07-02'
+                    Value: 0.002604471760857223
+                  From: '2016-03-28'
+                  InceptionDay: '2015-11-24'
+                  LastTradeDay: '2017-03-27'
+                  Thru: '2017-03-27'
+                  TimeWeightedPerformance:
+                    AccumulatedTimeWeightedTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    MonthlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    PerformanceFraction: -1
+                    PerformanceKeyFigures:
+                      ClosedTradesCount: 0
+                      DrawdownReport:
+                        Drawdowns:
+                        - DaysCount: 3
+                          DepthInPercent: 1
+                          FromDate: '2016-08-05'
+                          ThruDate: '2016-08-08'
+                        MaxDaysInDrawdownFromTop10Drawdowns: 3
+                      LosingDaysFraction: 0.03
+                      MaxDrawDownFraction: 1
+                      ReturnFraction: -1
+                      SampledStandardDeviation: 0.0618018874919214
+                      SharpeRatio: -0.952069751000777
+                      SortinoRatio: -0.0591710418985739
+                    YearlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                  TotalCashBalance: 20226.02
+                  TotalCashBalancePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalOpenPositionsValue: 29571.057
+                  TotalPositionsValuePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalPositionsValuePerProductPerSecurity:
+                  - Description: Abengoa SA - Warrants
+                    ProductName: Shares
+                    Symbol: LOCK - 1496:xxxx
+                    Value: 0
+                AllowMultipleInvestment: true
+                AllowPartialWithdrawal: true
+                Category: Balanced Portfolios
+                Currency: GBP
+                FollowerAmountRemaining: 1000
+                IsInvestmentShieldSupported: true
+                IsOpenForFollowers: false
+                LeaderPartnerOptions: PositionsCloseOnDeactivation, FeesAreExclusiveOfVat
+                ManagementFee: 0.95
+                MinimumFundingAmount: 10000
+                PerformanceFee: 0
+                Prospectus:
+                  CSPXJ: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-core-msci-pacific-ex-japan-ucits-etf-usd-acc-gb-ie00b52mjy50-en.pdf
+                  E20Y: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiv-ishares-govt-bond-20yr-target-duration-ucits-etf-eur-dist-gb-ie00bskrjx20-en.pdf
+                  EMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EMBE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-eur-hedged-ucits-etf-dist-gb-ie00b9m6rs56-en.pdf
+                  EIMI: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EXXY: https://www.blackrock.com/kiid/literature/kiid/kiid-munich-all-ishares-diversified-commodity-swap-ucits-etf-de-gb-de000a0h0728-en.pdf
+                  IBCX: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-corp-bond-large-cap-ucits-etf-eur-dist-gb-ie0032523478-en.pdf
+                  IEGA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-govt-bond-ucits-etf-eur-dist-gb-ie00b4wxjj64-en.pdf
+                  IEGE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-govt-bond-0-1yr-ucits-etf-eur-dist-gb-ie00b3fh7618-en.pdf
+                  IMEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-msci-europe-ucits-etf-eur-dist-gb-ie00b1yzsc51-en.pdf
+                  INFR: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-global-infrastructure-ucits-etf-usd-dist-gb-ie00b1fzs467-en.pdf
+                  IRCP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-corp-bond-interest-rate-hedged-ucits-etf-eur-dist-gb-ie00b6x2vy59-en.pdf
+                  IUSE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-sp-500-eur-hedged-ucits-etf-acc-gb-ie00b3zw0k18-en.pdf
+                  IWDP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-developed-markets-property-yield-ucits-etf-usd-dist-gb-ie00b1fzs350-en.pdf
+                  MVEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-edge-msci-europe-minimum-volatility-ucits-etf-eur-acc-gb-ie00b86mwn23-en.pdf
+                  SHYU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-high-yield-corp-bond-ucits-etf-usd-dist-gb-ie00b4py7y77-en.pdf
+                  SJPA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-msci-japan-imi-ucits-etf-usd-acc-gb-ie00b4l5yx21-en.pdf
+                  CHDVD: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-dividend-ch-ch-ch0237935637-en.pdf
+                  CHCORP: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-chf-corporate-bond-ch-ch-ch0226976816-en.pdf
+                  CHSPI: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-spi-ch-ch-ch0237935652-en.pdf
+                  CSBGC0: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-7-15-ch-ch-ch0016999861-en.pdf
+                  CSBGC3: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-1-3-ch-ch-ch0102530786-en.pdf
+                  CSBGC7: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-3-7-ch-ch-ch0016999846-en.pdf
+                  CSGLDC: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ishii-ishares-gold-chf-hedged-ch-ch-ch0104136285-en.pdf
+                  CSSMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-smim-ch-ch-ch0019852802-en.pdf
+                  EMBC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-chf-hedged-ucits-etf-dist-ch-ie00b9m04v95-en.pdf
+                  EMUC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-msci-emu-chf-hedged-ucits-etf-acc-ch-ie00bwk1sp74-en.pdf
+                  GHYC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-global-high-yield-corp-bond-chf-hedged-ucits-etf-dist-ch-ie00b988c465-en.pdf
+                  IEMB: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-jp-morgan-em-bond-ucits-etf-usd-dist-ch-ie00b2npkv68-en.pdf
+                  IJPC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-msci-japan-chf-hedged-ucits-etf-acc-ch-ie00b8j37j31-en.pdf
+                  IUSC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-sp-500-chf-hedged-ucits-etf-acc-ch-ie00b88dz566-en.pdf
+                RiskLevel: Moderate
+                StrategyLegalAssetTypes:
+                - Stock
+                - Bond
+                - Cash
+                StrategyName: Moderate Portfolio (GBP)
+                SuitabilityLevel: Medium
+                TradeLeaderId: '77'
+                TradeLeaderOptions: FixedInvestmentAmount
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /at/v3/tradeLeaders/public:
+    get:
+      tags:
+      - Trade Leaders
+      description: Retrieve all trade leaders (internal).
+      operationId: TradeLeadersV3GetAllTradeLeadersPublic
+      parameters:
+      - name: OwnerKey
+        in: query
+        description: Id of the owner Key of owner to that leaders are available to.
+        schema:
+          title: Id of the owner Key of owner to that leaders are available to.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 966bf8c8-7202-45c0-8b4f-0c4bf1a47c4d
+      - name: StandardPeriod
+        in: query
+        description: Period to fetch account performance data.
+        schema:
+          title: Period to fetch account performance data.
+          allOf:
+          - $ref: '#/components/schemas/Public.StandardPeriodType'
+        example: Quarter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeLeaderContractListResult'
+              example:
+                Data:
+                - AccountPerformance:
+                    Allocation:
+                      TradesPerAssetType:
+                        ClosedTradesAllocations:
+                        - AssetClassType: Equity
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 1
+                          TradeCount: 168
+                          TradePct: 38.009049773755656
+                          TradePercent: 0.38009049773755654
+                        - AssetClassType: Currency
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.249937016456527
+                          TradeCount: 112
+                          TradePct: 25.339366515837103
+                          TradePercent: 0.25339366515837103
+                        - AssetClassType: Commodity
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.5628789450009563
+                          TradeCount: 105
+                          TradePct: 23.755656108597282
+                          TradePercent: 0.23755656108597284
+                        - AssetClassType: Fixed Income
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: -0.013150856136249162
+                          TradeCount: 57
+                          TradePct: 12.895927601809955
+                          TradePercent: 0.12895927601809956
+                      TradesPerInstrument:
+                        ClosedTradesAllocations:
+                        - AssetType: ContractFutures
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                          InstrumentSymbol: ZBU6
+                          InstrumentUic: 3626018
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: -0.15987101005684304
+                          TradeCount: 40
+                          TradePct: 9.049773755656108
+                          TradePercent: 0.09049773755656108
+                        - AssetType: FxSpot
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          InstrumentDescription: British Pound/US Dollar
+                          InstrumentSymbol: GBPUSD
+                          InstrumentUic: 31
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.14685155225185834
+                          TradeCount: 37
+                          TradePct: 8.3710407239819
+                          TradePercent: 0.083710407239819
+                    From: '2016-03-28'
+                    InceptionDay: '2011-01-03'
+                    LastTradeDay: '2017-03-27'
+                    Thru: '2017-03-27'
+                    TimeWeightedPerformance:
+                      PerformanceFraction: -1
+                      PerformanceKeyFigures:
+                        ClosedTradesCount: 442
+                        MaxDrawDownFraction: 1
+                        SampledStandardDeviation: 0.0631775477103272
+                    TotalCashBalance: 0
+                    TotalOpenPositionsValue: 0
+                    TotalPositionsValuePerProductPerSecurity: []
+                  AllowMultipleInvestment: true
+                  AllowPartialWithdrawal: true
+                  Category: Equity Portfolios
+                  Currency: USD
+                  Description: A fully discretionary investment theme exploiting short-term price movements across asset-classes.</p><p>Discretionary Trading exploits short-term price movements and is fully discretionary (i.e. trading is not automated), generating absolute returns without reference to a benchmark.
+                  FollowerAmountRemaining: 999997938427.28
+                  IsInvestmentShieldSupported: true
+                  IsOpenForFollowers: true
+                  LeaderPartnerOptions: PositionsCloseOnDeactivation
+                  LogoUrl: https://red.openapi.sys.dom/openapi/at/v3/tradeLeaders/1/logo
+                  ManagementFee: 1.43
+                  MinimumFundingAmount: 20000
+                  PerformanceFee: 0
+                  RiskLevel: Alpha
+                  StrategyLegalAssetTypes:
+                  - FxSpot
+                  - ContractFutures
+                  - CfdOnStock
+                  - Cash
+                  - CfdOnFutures
+                  StrategyName: Discretionary Trading
+                  SuitabilityLevel: High
+                  TradeLeaderId: '1'
+                  TradeLeaderOptions: JointExecutionModel
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /at/v3/tradeLeaders/logo/{LogoKey}:
+    get:
+      tags:
+      - Trade Leaders
+      description: "Get logo image in png format for specified logo key.\r\n             No specific accept headers need to be specified."
+      operationId: TradeLeadersV3GetTradeLeaderLogoByLogoKey
+      parameters:
+      - name: LogoKey
+        in: path
+        description: logoKey of Trade leader's logo
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidTradeLeaderId
+                    type: string
+                    x-enum-descriptions:
+                      InvalidTradeLeaderId: Invalid trade leader Id.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - LogoNotFound
+                    type: string
+                    x-enum-descriptions:
+                      LogoNotFound: Logo not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /at/v3/tradeLeaders/{TradeLeaderId}/logo:
+    get:
+      tags:
+      - Trade Leaders
+      description: "Get logo image in png format for specified trade leader id.\r\n            No specific accept headers need to be specified."
+      operationId: TradeLeadersV3GetTradeLeaderLogo
+      parameters:
+      - name: TradeLeaderId
+        in: path
+        description: Id of trade leader
+        required: true
+        schema:
+          type: string
+        example: '77'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidTradeLeaderId
+                    type: string
+                    x-enum-descriptions:
+                      InvalidTradeLeaderId: Invalid trade leader Id.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - LogoNotFound
+                    type: string
+                    x-enum-descriptions:
+                      LogoNotFound: Logo not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /at/v3/tradeLeaders/{TradeLeaderId}:
+    get:
+      tags:
+      - Trade Leaders
+      description: Retrieve single trade leader by Id.
+      operationId: TradeLeadersV3GetTradeLeader
+      parameters:
+      - name: StandardPeriod
+        in: query
+        description: Period to fetch account performance data. Default value is Year.
+        schema:
+          $ref: '#/components/schemas/StandardPeriodType'
+        example: Year
+      - name: TradeLeaderId
+        in: path
+        description: Id of trade leader
+        required: true
+        schema:
+          type: string
+        example: '77'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeLeaderContract'
+              example:
+                AccountPerformance:
+                  AccountSummary:
+                    AverageTradeDurationInMinutes: 34260
+                    AverageTradesPerWeek: 48.2325728770595
+                    NumberOfDaysTraded: 1589
+                    NumberOfLongTrades: 5434
+                    NumberOfShortTrades: 5263
+                    TopTradedInstruments:
+                    - DAX.I
+                    - DJI.I
+                    - EURUSD
+                    - GBPUSD
+                    - NAS100.I
+                    - NOKSEK
+                    - EURNOK
+                    - SP500.I
+                    TotalReturnFraction: -0.9999963956455
+                    TradedInstruments:
+                    - FxSpot
+                    - Stock
+                    - FxVanillaOption
+                    - ContractFutures
+                    TradesTotalCount: 10697
+                    TradesWonCount: 6499
+                    WinFraction: 0.61
+                  Allocation:
+                    TradesPerAssetType:
+                      ClosedTradesAllocations:
+                      - AssetClassType: Equity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 1
+                        TradeCount: 168
+                        TradePct: 38.009049773755656
+                        TradePercent: 0.38009049773755654
+                      - AssetClassType: Currency
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.249937016456527
+                        TradeCount: 112
+                        TradePct: 25.339366515837103
+                        TradePercent: 0.25339366515837103
+                      - AssetClassType: Commodity
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.5628789450009563
+                        TradeCount: 105
+                        TradePct: 23.755656108597282
+                        TradePercent: 0.23755656108597284
+                      - AssetClassType: Fixed Income
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.013150856136249162
+                        TradeCount: 57
+                        TradePct: 12.895927601809955
+                        TradePercent: 0.12895927601809956
+                    TradesPerInstrument:
+                      ClosedTradesAllocations:
+                      - AssetType: ContractFutures
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                        InstrumentSymbol: ZBU6
+                        InstrumentUic: 3626018
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: -0.15987101005684304
+                        TradeCount: 40
+                        TradePct: 9.049773755656108
+                        TradePercent: 0.09049773755656108
+                      - AssetType: FxSpot
+                        CalculationBasis: 0
+                        CalculationDataType: 0
+                        InstrumentDescription: British Pound/US Dollar
+                        InstrumentSymbol: GBPUSD
+                        InstrumentUic: 31
+                        PortfolioAllocationType: 0
+                        ReturnAttribution: 0.14685155225185834
+                        TradeCount: 37
+                        TradePct: 8.3710407239819
+                        TradePercent: 0.083710407239819
+                  BalancePerformance:
+                    AccountBalanceTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    AccountValueTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    MonthlyProfitLossTimeSeries:
+                    - Date: '2015-11-30'
+                      Value: 0
+                    - Date: '2015-12-31'
+                      Value: 0
+                    SecurityTransferTimeSeries:
+                    - Date: '2016-03-28'
+                      Value: 0
+                    - Date: '2016-03-29'
+                      Value: 0
+                    YearlyProfitLossTimeSeries:
+                    - Date: '2015-12-31'
+                      Value: 0
+                    - Date: '2016-12-31'
+                      Value: 0
+                    - Date: '2017-12-31'
+                      Value: 0
+                  BenchMark:
+                    AssetType: CfdOnIndex
+                    Description: Japan 225
+                    DisplayHintType: None
+                    Uic: 16351
+                  BenchmarkPerformance:
+                  - Date: '2018-05-31'
+                    Value: 0
+                  - Date: '2018-06-01'
+                    Value: 0.0014689581211755269
+                  - Date: '2018-06-04'
+                    Value: 0.014297558645674684
+                  - Date: '2018-06-05'
+                    Value: 0.015536710435009869
+                  - Date: '2018-06-06'
+                    Value: 0.020349125384137055
+                  - Date: '2018-06-07'
+                    Value: 0.030226291646765137
+                  - Date: '2018-06-08'
+                    Value: 0.02173697538819246
+                  - Date: '2018-06-11'
+                    Value: 0.029834269080684553
+                  - Date: '2018-06-12'
+                    Value: 0.03227201860079486
+                  - Date: '2018-06-13'
+                    Value: 0.034308733541811236
+                  - Date: '2018-06-14'
+                    Value: 0.02529221452195777
+                  - Date: '2018-06-15'
+                    Value: 0.030685904310445825
+                  - Date: '2018-06-18'
+                    Value: 0.02224164811693988
+                  - Date: '2018-06-19'
+                    Value: 0.0028207600731775455
+                  - Date: '2018-06-20'
+                    Value: 0.014617485107648496
+                  - Date: '2018-06-21'
+                    Value: 0.020673557852617538
+                  - Date: '2018-06-22'
+                    Value: 0.01429305263916801
+                  - Date: '2018-06-25'
+                    Value: 0.00672746771446338
+                  - Date: '2018-06-26'
+                    Value: 0.007971125510305236
+                  - Date: '2018-06-27'
+                    Value: 0.003203770626244784
+                  - Date: '2018-06-28'
+                    Value: 0.0029739642944044413
+                  - Date: '2018-06-29'
+                    Value: 0.0028297720861908925
+                  - Date: '2018-07-02'
+                    Value: 0.002604471760857223
+                  From: '2016-03-28'
+                  InceptionDay: '2015-11-24'
+                  LastTradeDay: '2017-03-27'
+                  Thru: '2017-03-27'
+                  TimeWeightedPerformance:
+                    AccumulatedTimeWeightedTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    MonthlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                    PerformanceFraction: -1
+                    PerformanceKeyFigures:
+                      ClosedTradesCount: 0
+                      DrawdownReport:
+                        Drawdowns:
+                        - DaysCount: 3
+                          DepthInPercent: 1
+                          FromDate: '2016-08-05'
+                          ThruDate: '2016-08-08'
+                        MaxDaysInDrawdownFromTop10Drawdowns: 3
+                      LosingDaysFraction: 0.03
+                      MaxDrawDownFraction: 1
+                      ReturnFraction: -1
+                      SampledStandardDeviation: 0.0618018874919214
+                      SharpeRatio: -0.952069751000777
+                      SortinoRatio: -0.0591710418985739
+                    YearlyReturnTimeSeries:
+                    - Date: '2016-03-25'
+                      Value: 0
+                  TotalCashBalance: 20226.02
+                  TotalCashBalancePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalOpenPositionsValue: 29571.057
+                  TotalPositionsValuePerCurrency:
+                  - StringValue: CAD
+                    Value: -491.707122366824
+                  TotalPositionsValuePerProductPerSecurity:
+                  - Description: Abengoa SA - Warrants
+                    ProductName: Shares
+                    Symbol: LOCK - 1496:xxxx
+                    Value: 0
+                AllowMultipleInvestment: true
+                AllowPartialWithdrawal: true
+                Category: Balanced Portfolios
+                Currency: GBP
+                FollowerAmountRemaining: 1000
+                IsInvestmentShieldSupported: true
+                IsOpenForFollowers: false
+                LeaderPartnerOptions: PositionsCloseOnDeactivation, FeesAreExclusiveOfVat
+                ManagementFee: 0.95
+                MinimumFundingAmount: 10000
+                PerformanceFee: 0
+                Prospectus:
+                  CSPXJ: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-core-msci-pacific-ex-japan-ucits-etf-usd-acc-gb-ie00b52mjy50-en.pdf
+                  E20Y: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiv-ishares-govt-bond-20yr-target-duration-ucits-etf-eur-dist-gb-ie00bskrjx20-en.pdf
+                  EMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EMBE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-eur-hedged-ucits-etf-dist-gb-ie00b9m6rs56-en.pdf
+                  EIMI: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-core-msci-em-imi-ucits-etf-usd-acc-gb-ie00bkm4gz66-en.pdf
+                  EXXY: https://www.blackrock.com/kiid/literature/kiid/kiid-munich-all-ishares-diversified-commodity-swap-ucits-etf-de-gb-de000a0h0728-en.pdf
+                  IBCX: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ish-ishares-corp-bond-large-cap-ucits-etf-eur-dist-gb-ie0032523478-en.pdf
+                  IEGA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-govt-bond-ucits-etf-eur-dist-gb-ie00b4wxjj64-en.pdf
+                  IEGE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-govt-bond-0-1yr-ucits-etf-eur-dist-gb-ie00b3fh7618-en.pdf
+                  IMEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-msci-europe-ucits-etf-eur-dist-gb-ie00b1yzsc51-en.pdf
+                  INFR: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-global-infrastructure-ucits-etf-usd-dist-gb-ie00b1fzs467-en.pdf
+                  IRCP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-corp-bond-interest-rate-hedged-ucits-etf-eur-dist-gb-ie00b6x2vy59-en.pdf
+                  IUSE: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishv-ishares-sp-500-eur-hedged-ucits-etf-acc-gb-ie00b3zw0k18-en.pdf
+                  IWDP: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-developed-markets-property-yield-ucits-etf-usd-dist-gb-ie00b1fzs350-en.pdf
+                  MVEU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-edge-msci-europe-minimum-volatility-ucits-etf-eur-acc-gb-ie00b86mwn23-en.pdf
+                  SHYU: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-high-yield-corp-bond-ucits-etf-usd-dist-gb-ie00b4py7y77-en.pdf
+                  SJPA: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishiii-ishares-core-msci-japan-imi-ucits-etf-usd-acc-gb-ie00b4l5yx21-en.pdf
+                  CHDVD: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-dividend-ch-ch-ch0237935637-en.pdf
+                  CHCORP: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-chf-corporate-bond-ch-ch-ch0226976816-en.pdf
+                  CHSPI: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-core-spi-ch-ch-ch0237935652-en.pdf
+                  CSBGC0: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-7-15-ch-ch-ch0016999861-en.pdf
+                  CSBGC3: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-1-3-ch-ch-ch0102530786-en.pdf
+                  CSBGC7: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-swiss-domestic-government-bond-3-7-ch-ch-ch0016999846-en.pdf
+                  CSGLDC: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ishii-ishares-gold-chf-hedged-ch-ch-ch0104136285-en.pdf
+                  CSSMIM: https://www.blackrock.com/kiid/literature/kiid/kiid-ch-ish-ishares-smim-ch-ch-ch0019852802-en.pdf
+                  EMBC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-jp-morgan-em-bond-chf-hedged-ucits-etf-dist-ch-ie00b9m04v95-en.pdf
+                  EMUC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvii-ishares-msci-emu-chf-hedged-ucits-etf-acc-ch-ie00bwk1sp74-en.pdf
+                  GHYC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-global-high-yield-corp-bond-chf-hedged-ucits-etf-dist-ch-ie00b988c465-en.pdf
+                  IEMB: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishii-ishares-jp-morgan-em-bond-ucits-etf-usd-dist-ch-ie00b2npkv68-en.pdf
+                  IJPC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-msci-japan-chf-hedged-ucits-etf-acc-ch-ie00b8j37j31-en.pdf
+                  IUSC: https://www.blackrock.com/kiid/literature/kiid/kiid-ir-ishvi-ishares-sp-500-chf-hedged-ucits-etf-acc-ch-ie00b88dz566-en.pdf
+                RiskLevel: Moderate
+                StrategyLegalAssetTypes:
+                - Stock
+                - Bond
+                - Cash
+                StrategyName: Moderate Portfolio (GBP)
+                SuitabilityLevel: Medium
+                TradeLeaderId: '77'
+                TradeLeaderOptions: FixedInvestmentAmount
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    - InvalidStandardPeriod
+                    - InvalidTradeLeaderId
+                    - NotConfiguredForService
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                      NotConfiguredForService: You are not configured for this service. Please Contact Service Center for support.
+                      InvalidStandardPeriod: Valid Standard Period is not specified.
+                      InvalidTradeLeaderId: Invalid trade leader Id.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TradeLeaderNotFound
+                    type: string
+                    x-enum-descriptions:
+                      TradeLeaderNotFound: Trade Leader not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /at/v3/tradeLeaders:
+    get:
+      tags:
+      - Trade Leaders
+      description: Retrieve all trade leaders.
+      operationId: TradeLeadersV3GetAllTradeLeaders
+      parameters:
+      - name: StandardPeriod
+        in: query
+        description: Period to fetch account performance data. Default value is Year.
+        schema:
+          $ref: '#/components/schemas/StandardPeriodType'
+        example: Year
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeLeaderContractListResult'
+              example:
+                Data:
+                - AccountPerformance:
+                    Allocation:
+                      TradesPerAssetType:
+                        ClosedTradesAllocations:
+                        - AssetClassType: Equity
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 1
+                          TradeCount: 168
+                          TradePct: 38.009049773755656
+                          TradePercent: 0.38009049773755654
+                        - AssetClassType: Currency
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.249937016456527
+                          TradeCount: 112
+                          TradePct: 25.339366515837103
+                          TradePercent: 0.25339366515837103
+                        - AssetClassType: Commodity
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.5628789450009563
+                          TradeCount: 105
+                          TradePct: 23.755656108597282
+                          TradePercent: 0.23755656108597284
+                        - AssetClassType: Fixed Income
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: -0.013150856136249162
+                          TradeCount: 57
+                          TradePct: 12.895927601809955
+                          TradePercent: 0.12895927601809956
+                      TradesPerInstrument:
+                        ClosedTradesAllocations:
+                        - AssetType: ContractFutures
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          InstrumentDescription: 30-Year U.S. Treasury Bond - Sep 2016
+                          InstrumentSymbol: ZBU6
+                          InstrumentUic: 3626018
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: -0.15987101005684304
+                          TradeCount: 40
+                          TradePct: 9.049773755656108
+                          TradePercent: 0.09049773755656108
+                        - AssetType: FxSpot
+                          CalculationBasis: 0
+                          CalculationDataType: 0
+                          InstrumentDescription: British Pound/US Dollar
+                          InstrumentSymbol: GBPUSD
+                          InstrumentUic: 31
+                          PortfolioAllocationType: 0
+                          ReturnAttribution: 0.14685155225185834
+                          TradeCount: 37
+                          TradePct: 8.3710407239819
+                          TradePercent: 0.083710407239819
+                    From: '2016-03-28'
+                    InceptionDay: '2011-01-03'
+                    LastTradeDay: '2017-03-27'
+                    Thru: '2017-03-27'
+                    TimeWeightedPerformance:
+                      PerformanceFraction: -1
+                      PerformanceKeyFigures:
+                        ClosedTradesCount: 442
+                        MaxDrawDownFraction: 1
+                        SampledStandardDeviation: 0.0631775477103272
+                    TotalCashBalance: 0
+                    TotalOpenPositionsValue: 0
+                    TotalPositionsValuePerProductPerSecurity: []
+                  AllowMultipleInvestment: true
+                  AllowPartialWithdrawal: true
+                  Category: Equity Portfolios
+                  Currency: USD
+                  Description: A fully discretionary investment theme exploiting short-term price movements across asset-classes.</p><p>Discretionary Trading exploits short-term price movements and is fully discretionary (i.e. trading is not automated), generating absolute returns without reference to a benchmark.
+                  FollowerAmountRemaining: 999997938427.28
+                  IsInvestmentShieldSupported: true
+                  IsOpenForFollowers: true
+                  LeaderPartnerOptions: PositionsCloseOnDeactivation
+                  LogoUrl: https://red.openapi.sys.dom/openapi/at/v3/tradeLeaders/1/logo
+                  ManagementFee: 1.43
+                  MinimumFundingAmount: 20000
+                  PerformanceFee: 0
+                  RiskLevel: Alpha
+                  StrategyLegalAssetTypes:
+                  - FxSpot
+                  - ContractFutures
+                  - CfdOnStock
+                  - Cash
+                  - CfdOnFutures
+                  StrategyName: Discretionary Trading
+                  SuitabilityLevel: High
+                  TradeLeaderId: '1'
+                  TradeLeaderOptions: JointExecutionModel
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    - InvalidStandardPeriod
+                    - NotConfiguredForService
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                      NotConfiguredForService: You are not configured for this service. Please Contact Service Center for support.
+                      InvalidStandardPeriod: Valid Standard Period is not specified.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    Drawdown:
+      title: Drawdown
+      type: object
+      properties:
+        DaysCount:
+          title: Days Count
+          type: integer
+          format: int32
+        DepthInPercent:
+          title: Depth in Percnt
+          type: number
+        FromDate:
+          title: From Date
+          type: string
+          format: date
+          x-type-name: Date
+        RecoveryDaysCount:
+          title: Recovery Days Count
+          type: integer
+          format: int32
+        ThruDate:
+          title: Thru Date
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+    TradesPerDayItem:
+      title: Defines a data contract for closed trades count on a single day.
+      type: object
+      properties:
+        Date:
+          title: The date.
+          type: string
+          format: date
+          x-type-name: Date
+        TradeCount:
+          title: The trade count.
+          type: integer
+          format: int32
+      additionalProperties: false
+    TradeLeaderContractListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeLeaderContract'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    Link:
+      title: Represents a link to some web resource.
+      type: object
+      properties:
+        Relation:
+          title: The type of link. This adds semantic meaning to the link.
+          type: string
+        Type:
+          title: Corresponds to media type for HTTP.
+          type: string
+        Uri:
+          title: The URI to the resource.
+          type: string
+      additionalProperties: false
+    StandardPeriodType:
+      title: Defines types of standard periods.
+      enum:
+      - AllTime
+      - Month
+      - Quarter
+      - Year
+      type: string
+      x-enum-descriptions:
+        AllTime: "Defines a value for a (from, thru) request that maps to an all time account performance\r\n             request."
+        Year: "Defines a value a (from, thru) request that maps to the last year account performance\r\n                request."
+        Quarter: "Defines a value a (from, thru) request that maps to the last quater account performance\r\n            request."
+        Month: "Defines a value a (from, thru) request that maps to the last month account performance\r\n                request."
+    AccountPerformance:
+      title: Account performance data model.
+      type: object
+      properties:
+        AccountSummary:
+          title: "The account summary consists performance metrics which is based on closed positions\r\n            for an account over the entire lifespan of the account."
+          allOf:
+          - $ref: '#/components/schemas/AccountSummary'
+        Allocation:
+          title: The trades allocation.
+          allOf:
+          - $ref: '#/components/schemas/Allocation'
+        BalancePerformance:
+          title: Balance AccountPerformance metrics.
+          allOf:
+          - $ref: '#/components/schemas/BalancePerformance'
+        BenchMark:
+          title: The bench mark.
+          allOf:
+          - $ref: '#/components/schemas/BenchMark'
+        BenchmarkPerformance:
+          title: The benchmark performance.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        BenchmarkReturn:
+          title: The Benchmark Return for the given period
+          type: number
+        Currency:
+          title: The currency in which the data is calculated on.
+          type: string
+        From:
+          title: "The start date is the offset date for all performance metrics that is a part\r\n                of the 'AccountPerformance'."
+          type: string
+          format: date
+          x-type-name: Date
+        InceptionDay:
+          title: The date where the first account deposit have been registred.
+          type: string
+          format: date
+          x-type-name: Date
+        LastTradeDay:
+          title: "Performance data that is returned is limited to the be data that lies between\r\n            the first trade day and the last trade day for the account. The last trade day\r\n            is the last day that one or more trades have been registred."
+          type: string
+          format: date
+          x-type-name: Date
+        Thru:
+          title: "The end date is the ending date for all returned performance metrics that is\r\n                a part of the 'AccountPerformance'. The 'ActualThruDate' date is included."
+          type: string
+          format: date
+          x-type-name: Date
+        TimeWeightedPerformance:
+          title: Time weighted performance metrics.
+          allOf:
+          - $ref: '#/components/schemas/TimeWeightedPerformance'
+        TotalCashBalance:
+          title: The total cash balance
+          type: number
+        TotalCashBalancePerCurrency:
+          title: The total cash balance grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/StringValuePair'
+        TotalOpenPositionsValue:
+          title: The total value of client's open positions
+          type: number
+        TotalPositionsValuePerCurrency:
+          title: The total position value grouped by currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/StringValuePair'
+        TotalPositionsValuePerProductPerSecurity:
+          title: The total position value grouped by product.
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionOnSecurityAndProduct'
+        TradeActivity:
+          title: The trade activity.
+          allOf:
+          - $ref: '#/components/schemas/TradeActivity'
+      additionalProperties: false
+    ETFCategoryType:
+      title: ETF Category Type
+      enum:
+      - DevelopedEquity
+      - EmergingEquity
+      - FixedIncome
+      - NonTraditional
+      - Other
+      type: string
+      x-enum-descriptions:
+        Other: Other
+        FixedIncome: Fixed Income
+        DevelopedEquity: Developed Equity
+        EmergingEquity: Emerging Equity
+        NonTraditional: Non-Traditional
+    CalculationBasis:
+      title: Defines the basis for percentage calculation
+      enum:
+      - MarketValue
+      - NumberOfTrades
+      type: string
+      x-enum-descriptions:
+        NumberOfTrades: Number of Trades
+        MarketValue: Market value
+    Allocation:
+      title: Provides an overview of how performance is allocated across asset types and instruments.
+      type: object
+      properties:
+        TradesPerAssetType:
+          title: The allocation of trades grouped by trade asset type.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerAssetType'
+        TradesPerETFCategoryType:
+          title: 'The allocation trades grouped by ETF category type: Developed Equity, Emerging Equity etc.'
+          allOf:
+          - $ref: '#/components/schemas/TradesPerAssetType'
+        TradesPerInstrument:
+          title: The allocation trades grouped by instrument id.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerInstrument'
+      additionalProperties: false
+    TradeLeaderContract:
+      title: Represents TradeLeader contract.
+      type: object
+      properties:
+        AccountPerformance:
+          title: Account performance numbers.
+          allOf:
+          - $ref: '#/components/schemas/AccountPerformance'
+        AllowMultipleInvestment:
+          title: Indicates if follower is allowed to have multiple investments for this tradeLeader
+          type: boolean
+        AllowPartialWithdrawal:
+          title: Indicates if partial withdrawal is allowed for this tradeleader.
+          type: boolean
+        AllowRegularInvestment:
+          title: Tells if regular investment is allowed or not
+          type: boolean
+        AutoTradingPartnerLeaderId:
+          title: Unique Identifier for Partner Leader Combination
+          type: string
+        Category:
+          title: Category this strategy belongs in.
+          type: string
+        Currency:
+          title: Strategy currency.
+          type: string
+        Description:
+          title: Strategy description, translated if requested and translation exists. Defaults to description in English.
+          type: string
+        EsgPriority:
+          title: ESG Priority to select e.g. Low, Medium, High
+          allOf:
+          - $ref: '#/components/schemas/EsgPriority'
+        EsgType:
+          title: ESG Type for investment e.g. Environmental,Science,Governance etc
+          allOf:
+          - $ref: '#/components/schemas/EsgType'
+        FollowerAmountRemaining:
+          title: Amount remaining before this strategy is fully invested.
+          type: number
+        IsInvestmentShieldSupported:
+          title: Indicates if this strategy support investment shield.
+          type: boolean
+        IsOpenForFollowers:
+          title: Indicates if additional followers can join.
+          type: boolean
+          description: Expresses if follower amount has exceeded limit.
+        LeaderPartnerOptions:
+          title: Trade leader partner options, see
+          allOf:
+          - $ref: '#/components/schemas/TradeLeaderPartnerOptions'
+        LogoUrl:
+          title: URL path to leader logo.
+          type: string
+        ManagementFee:
+          title: Strategy management fee.
+          type: number
+        MaxInvestmentAmount:
+          title: Gives the maximum amount available for investment
+          type: number
+        MaxInvestmentAmountDescription:
+          title: Gives the maximum amount description for investment
+          type: string
+        MinimumFundingAmount:
+          title: Minimum amount requried to invest in this strategy.
+          type: number
+        PerformanceFee:
+          title: Strategy performance fee.
+          type: number
+        Products:
+          title: Translated products description for trade leader.
+          type: string
+        Prospectus:
+          title: Links to prospectus documents for this strategy.
+          type: array
+          items:
+            $ref: '#/components/schemas/StringStringKeyValuePair'
+        RiskLevel:
+          title: Strategy Risk level.
+          allOf:
+          - $ref: '#/components/schemas/RiskLevel'
+        StrategyLegalAssetTypes:
+          title: Returns the list of client legal asset types.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+        StrategyLegalProductAreas:
+          title: Returns the list of client product areas.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductArea'
+        StrategyName:
+          title: Name of the strategy.
+          type: string
+        SuitabilityLevel:
+          title: Strategy required suitability level.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+        TradeLeaderId:
+          title: Trade leader identifier.
+          type: string
+        TradeLeaderOptions:
+          title: Trade leader options, see
+          allOf:
+          - $ref: '#/components/schemas/TradeLeaderOptions'
+      additionalProperties: false
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    TimeValuePair:
+      title: Implementation of a time and value pair.
+      type: object
+      properties:
+        Date:
+          title: Date and time of the occurrence.
+          type: string
+          format: date
+          x-type-name: Date
+        Value:
+          title: The value at the given date and time
+          type: number
+      additionalProperties: false
+    TradeLeaderPartnerOptions:
+      title: "Defines options specific for a Saxo Select strategy when configured for a partner hierarchy\r\n            values in Mits AutoTradingLeaderPartner table"
+      enum:
+      - EntryGateTestRequired
+      - FeesAreExclusiveOfVat
+      - None
+      - PositionsCloseOnDeactivation
+      type: string
+      x-enum-descriptions:
+        None: No special options should be used
+        PositionsCloseOnDeactivation: "When Follower stops should all positions be closed?\r\n            If set removes possibility for clients to keep positions"
+        FeesAreExclusiveOfVat: Fees i.e. service- and performancefee are exclusive of VAT
+        EntryGateTestRequired: if entry check is applicable for Trade Leader
+      x-type-warning: FlaggableEnum
+    BalancePerformance:
+      title: OpenApi balance performance data contract.
+      type: object
+      properties:
+        AccountBalanceTimeSeries:
+          title: The account balance time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        AccountValueTimeSeries:
+          title: The account value time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        AccumulatedProfitLoss:
+          title: The accumulated Profit / Loss for the account over the period as a value.
+          type: number
+        CashTransferTimeSeries:
+          title: The cash transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        MonthlyProfitLossTimeSeries:
+          title: The monthly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        SecurityTransferTimeSeries:
+          title: The security transfer time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        YearlyProfitLossTimeSeries:
+          title: The yearly profit / loss time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+      additionalProperties: false
+    AccountSummary:
+      title: "OpenApi account summary performance metrics. The summary is the performance metrics\r\n              that is related to closed positions over the entire lifespan of an account."
+      type: object
+      properties:
+        AverageTradeDurationInMinutes:
+          title: Average trade duration in minutes.
+          type: number
+        AverageTradesPerWeek:
+          title: The average trades per week.
+          type: number
+        NumberOfDaysTraded:
+          title: Number of days traded.
+          type: number
+        NumberOfLongTrades:
+          title: The number of long trades.
+          type: number
+        NumberOfShortTrades:
+          title: The number of short trades.
+          type: number
+        TopHoldings:
+          title: A list of top holdings with this account
+          type: array
+          items:
+            type: string
+        TopTradedInstruments:
+          title: "A list of the most traded instrument in an ordered list where the single most\r\n                traded instruments is located at index 0."
+          type: array
+          items:
+            type: string
+        TotalReturnFraction:
+          title: The total return fraction.
+          type: number
+        TradedInstruments:
+          title: A list of instruments traded with this account.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+        TradesTotalCount:
+          title: Total trades.
+          type: number
+        TradesWonCount:
+          title: The total count of winning trades.
+          type: number
+        WinFraction:
+          title: The fraction of trades with positive profit/loss.
+          type: number
+      additionalProperties: false
+    AllocationItem:
+      title: Defindes a model for an allocation item.
+      type: object
+      properties:
+        AssetClassType:
+          title: The type of the asset class.
+          type: string
+        AssetType:
+          title: The asset type.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        CalculationBasis:
+          title: Basis of calulation used to calculate percentage
+          allOf:
+          - $ref: '#/components/schemas/CalculationBasis'
+        CalculationDataType:
+          title: 'Type of data used for calculation : OpenPositions, ClosedPositions etc.'
+          allOf:
+          - $ref: '#/components/schemas/CalculationDataType'
+        ETFCategoryType:
+          title: ETC Category Type.
+          allOf:
+          - $ref: '#/components/schemas/ETFCategoryType'
+        InstrumentDescription:
+          title: The instrument description.
+          type: string
+        InstrumentSymbol:
+          title: The instrument symbol.
+          type: string
+        InstrumentUic:
+          title: The instrument UIC which is the unique instrument identifier.
+          type: integer
+          format: int32
+        PortfolioAllocationType:
+          title: Defines the type on which Portfolio composition is based
+          allOf:
+          - $ref: '#/components/schemas/PortfolioAllocationType'
+        ReturnAttribution:
+          title: "The return attribution for a collection allocation items.\r\n            Remarks:\r\n                The return attribution is a number in the range [-1 ; 1]. The return attribution\r\n                is a measure of return relative to the allocation item in the collection with\r\n                the numerical largest value"
+          type: number
+        TradeCount:
+          title: The count of trades for the instrument asset type.
+          type: integer
+          format: int32
+        TradePct:
+          title: The percent of trades calculated as per
+          type: number
+        TradePercent:
+          title: "The percent for trades calculated as per \r\n            This property is obsolete. Please use"
+          type: number
+        TradeVolume:
+          title: Aggregated volume of trades.
+          type: number
+      additionalProperties: false
+    EsgType:
+      title: ESG Type
+      enum:
+      - All
+      - Any
+      - Environmental
+      - Governance
+      - None
+      - Social
+      type: string
+      x-enum-descriptions:
+        None: no ESG
+        Environmental: Only specific esg environmental
+        Social: Only specific esg social
+        Governance: Only specific esg governance
+        Any: any esg type
+        All: should be all
+    DrawdownReport:
+      title: Drawdown report
+      type: object
+      properties:
+        CurrentDrawdownDepthInPercent:
+          title: CurrentDrawdownDepthInPercent
+          type: number
+        Drawdowns:
+          title: Drawdowns
+          type: array
+          items:
+            $ref: '#/components/schemas/Drawdown'
+        MaxDaysInDrawdownFromTop10Drawdowns:
+          title: MaxDaysInDrawdownFromTop10Drawdowns
+          type: integer
+          format: int32
+      additionalProperties: false
+    FileResult:
+      title: "Creates a IHttpActionResult from image file\r\n            See http://stackoverflow.com/questions/23768596/why-is-my-file-not-being-returned-by-a-get-request-from-my-web-api-function/23768883#23768883"
+      type: object
+      additionalProperties: false
+    Public.StandardPeriodType:
+      enum:
+      - AllTime
+      - Invalid
+      - Month
+      - None
+      - Quarter
+      - Year
+      type: string
+    BenchMark:
+      title: Class BenchMark.
+      type: object
+      properties:
+        AssetType:
+          title: The type of the asset.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Description of instrument.
+          type: string
+        DisplayHintType:
+          title: Display hint type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Uic:
+          title: The uic.
+          type: integer
+          format: int32
+      additionalProperties: false
+    StringValuePair:
+      title: Dto used for storing string/decimal value pairs
+      type: object
+      properties:
+        StringValue:
+          title: The string value.
+          type: string
+        Value:
+          title: The decimal value
+          type: number
+      additionalProperties: false
+    TradeLeaderOptions:
+      title: "Defines options specific for a Saxo Select strategy\r\n            values in Mits AutoTradingLeaders table"
+      enum:
+      - FixedInvestmentAmount
+      - FutureToCfd
+      - JointExecutionModel
+      - None
+      - UsExchanges
+      type: string
+      x-enum-descriptions:
+        None: No special options should be used on this strategy
+        FutureToCfd: Trade Leaders future trades are mapped to equivalent CFD trades on Follower accounts
+        FixedInvestmentAmount: Trade Leader may only be followed with a fixed investment amount
+        JointExecutionModel: Trade Leader order is executed in the same block as followers
+        UsExchanges: Access to US exchange instruments
+      x-type-warning: FlaggableEnum
+    StringStringKeyValuePair:
+      type: object
+      properties:
+        Key:
+          type: string
+        Value:
+          type: string
+      additionalProperties: false
+    CalculationDataType:
+      title: Defines the type of data on which portfolio composition is calculated
+      enum:
+      - ClosedPositions
+      - OpenPositions
+      type: string
+      x-enum-descriptions:
+        OpenPositions: Open Positions Data Type
+        ClosedPositions: Closed Positions Data Type
+    RiskLevel:
+      title: Defines risk level.
+      enum:
+      - Aggressive
+      - Alpha
+      - Defensive
+      - Moderate
+      type: string
+      x-enum-descriptions:
+        Alpha: Alpha risk level
+        Defensive: Defensive risk level
+        Moderate: Moderate risk level
+        Aggressive: Aggressive risk level
+    TradesPerInstrument:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\r\n               the instrument."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+        OpenTradesAllocations:
+          title: The Open trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+      additionalProperties: false
+    PortfolioAllocationType:
+      title: Defines the type on which Portfolio composition is based
+      enum:
+      - Asset
+      - EtfCategory
+      - Instrument
+      type: string
+      x-enum-descriptions:
+        Asset: Asset Based Allocation Type
+        Instrument: Instrument based Allocation Type
+        EtfCategory: Etf Category based Allocation Type
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    SuitabilityLevel:
+      title: SuitabilityLevel - used by AutoTrading
+      enum:
+      - High
+      - Low
+      - Medium
+      - Unknown
+      - VeryHigh
+      type: string
+      x-enum-descriptions:
+        Unknown: Not specified
+        VeryHigh: '10: Very high risk / suitability required'
+        High: '20: High risk / suitability required'
+        Medium: '30: Medium risk / suitability required'
+        Low: '40: Low risk / suitability required'
+    TradesPerAssetType:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\r\n                the asset type of positions."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+        OpenTradesAllocations:
+          title: The Open trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+      additionalProperties: false
+    TradeActivity:
+      title: Defines a data contract for closed trades activity.
+      type: object
+      properties:
+        TradesPerDay:
+          title: The trades per day.
+          type: array
+          items:
+            $ref: '#/components/schemas/TradesPerDayItem'
+      additionalProperties: false
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PositionOnSecurityAndProduct:
+      title: Details of Position on Securuty and Product
+      type: object
+      properties:
+        Description:
+          title: The product description.
+          type: string
+        ProductName:
+          title: The product name.
+          type: string
+        Symbol:
+          title: The symbol value.
+          type: string
+        Value:
+          title: Value
+          type: number
+      additionalProperties: false
+    EsgPriority:
+      enum:
+      - High
+      - Low
+      - Medium
+      type: string
+    ProductArea:
+      title: Product areas are groupings of asset types (products) areas as needed by Mifid classifications and client suitability evaluations.
+      enum:
+      - Bonds
+      - CFDs
+      - CfdCommodities
+      - ContractOptions
+      - FXForwards
+      - FXOptions
+      - FXSpot
+      - Futures
+      - MutualFunds
+      - Stocks
+      type: string
+      x-enum-descriptions:
+        FXSpot: Forex Spot. The Forex Spot product area includes the asset type FxSpot.
+        FXForwards: Forex Forwards. The FXForwards product area includes the asset type FxForwards.
+        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\r\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
+        Futures: Futures. The Futures product area includes the asset types FuturesStrategy and ContractFutures.
+        ContractOptions: Contract Options. The Contract Options product area includes the asset types FuturesOption, StockOption and StockIndexOption.
+        CFDs: CFDs. The CFDs product area includes the asset types CfdOnStock and CfdOnIndex.
+        Stocks: Stocks. The Stocks product area includes the asset type Stock.
+        Bonds: Bonds. The Bonds product area includes the asset type Bond.
+        MutualFunds: Mutual Funds. The Mutual Funds product area include the asset type MutualFund.
+        CfdCommodities: Cfds on Commodities. The Cfds on Commodities include the asset types CfdOnFutures and CfdOnIndex.
+    TimeWeightedPerformance:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        AccumulatedPerformanceSparklineImageLinks:
+          title: A collection of links to sparkline images for this performance calculatin.
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        AccumulatedTimeWeightedTimeSeries:
+          title: The accumulated time weighted time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        MonthlyReturnTimeSeries:
+          title: The monthly return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        PerformanceFraction:
+          title: The accumulated performance fraction that is associated with the time series.
+          type: number
+        PerformanceKeyFigures:
+          title: Key performance figures for the account.
+          allOf:
+          - $ref: '#/components/schemas/PerformanceKeyFigures'
+        YearlyReturnTimeSeries:
+          title: The yearly time weighted return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+      additionalProperties: false
+    PerformanceKeyFigures:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        ClosedTradesCount:
+          title: The number of closed trades for the period.
+          type: integer
+          format: int32
+        DrawdownReport:
+          title: The drawdown report for a time weighted time series.
+          allOf:
+          - $ref: '#/components/schemas/DrawdownReport'
+        LosingDaysFraction:
+          title: "The losing days fraction is the fraction of days with negative returns where\r\n              both realized and unrealized profits are taken into account."
+          type: number
+        MaxDrawDownFraction:
+          title: "The maximum draw down as fraction is the largest drop in the time series as a\r\n                fraction."
+          type: number
+        ReturnFraction:
+          title: The return fraction.
+          type: number
+        SampledStandardDeviation:
+          title: "The unbiased sampled standard deviation which means that the standard deviation\r\n                estimator has been corrected by applying the Bessel's correction."
+          type: number
+        SharpeRatio:
+          title: The sharpe ratio.
+          type: number
+        SortinoRatio:
+          title: The sortino ratio.
+          type: number
+        WinningFraction:
+          title: The fraction of closed positions that has been won.
+          type: number
+      additionalProperties: false
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

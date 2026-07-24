@@ -1,0 +1,3341 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Prices API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Prices
+  description: "Provides end points for polling and subscribing to a stream of potentially tradable prices.\n            Compared to \"InfoPrices\":\n            \n\n*   A single price subscription can only return prices for a single valid instrument.\n*   To setup a price subscription, you must supply all information to get a potentially tradable price. You must supply the uic and assettype, \n            along with assettype specific optional parameters, strike and expiry for an option."
+paths:
+  /trade/v1/prices/multileg/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Prices
+      summary: Remove a multi-leg price subscription
+      description: Removes an multi-leg price subscription for the current session.
+      operationId: PricesV1DeleteMultiLegPricesSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: ReferenceId
+        in: path
+        description: Unique reference ID of the subscription.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: TP340
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+  /trade/v1/prices/multileg/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Prices
+      summary: Remove a multi-leg price subscriptions
+      description: "Removes a multi-leg price subscriptions for the current session. \n            If the optional tag argument is supplied then only subscriptions with given tag will be removed."
+      operationId: PricesV1DeleteMultiLegPricesSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: Tag
+        in: query
+        description: Optional.Tag that subscriptions are marked with.
+        style: form
+        explode: false
+        schema:
+          type: string
+        example: '2345223'
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+  /trade/v1/prices/multileg/subscriptions:
+    post:
+      tags:
+      - Prices
+      summary: Create a price subscription on a multi-leg strategy
+      description: Sets up an active price subscription on a multi-leg strategy and returns an initial snapshot of the most recent price.
+      operationId: PricesV1AddMultiLegPricesSubscriptionAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiLegPriceSubscriptionRequest'
+            example:
+              Arguments:
+                AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+                FieldGroups:
+                - MarginImpactBuySell
+                Legs:
+                - Amount: 10
+                  AssetType: CertificateCappedCapitalProtected
+                  BuySell: Sell
+                  OrderContext: {}
+                  ToOpenClose: ToClose
+                  Uic: 99
+              ContextId: '-'
+              Format: stringValue
+              ReferenceId: '-'
+              RefreshRate: 117
+              ReplaceReferenceId: '-'
+              Tag: stringValue
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiLegPriceSubscriptionResponse'
+              example:
+                ContextId: stringValue
+                Format: stringValue
+                InactivityTimeout: 99
+                ReferenceId: stringValue
+                RefreshRate: 99
+                Snapshot:
+                  BuySell: Sell
+                  Commissions:
+                    CostBuy: 0
+                    CostIpoCashSubscription: 0
+                    CostIpoSubscription: 0
+                    CostSell: 0
+                  Greeks:
+                    Delta: 1
+                    Gamma: 0
+                    MidVol: 0
+                    Phi: 0
+                    Rho: 0
+                    Theta: -0.0375
+                    Vega: 0
+                  InstrumentPriceDetails:
+                    AverageVolume: 12345000
+                    Barrier: 1
+                    ExpiryDate: '2017-06-01'
+                    IsMarketOpen: true
+                    LowerBarrier: -2
+                    MidForwardPrice: 1.71992423552514
+                    ShortTradeDisabled: false
+                    SpotAsk: 1.71782
+                    SpotBid: 1.71692
+                    SpotDate: '2017-06-03'
+                    SpreadStrikePriceLower: 11
+                    SpreadStrikePriceUpper: 12
+                    StrikePrice: 1.7175
+                    UpperBarrier: 4
+                    ValueDate: '2017-06-05'
+                  LastUpdated: '9999-12-31T23:59:59.999999Z'
+                  Legs:
+                  - Amount: 10
+                    AssetType: CertificateCappedOutperformance
+                    BuySell: Buy
+                    Greeks:
+                      Delta: 1
+                      Gamma: 0
+                      MidVol: 0
+                      Phi: 0
+                      Rho: 0
+                      Theta: -0.0375
+                      Vega: 0
+                    InstrumentPriceDetails:
+                      AverageVolume: 12345000
+                      Barrier: 1
+                      ExpiryDate: '2017-06-01'
+                      IsMarketOpen: true
+                      LowerBarrier: -2
+                      MidForwardPrice: 1.71992423552514
+                      ShortTradeDisabled: false
+                      SpotAsk: 1.71782
+                      SpotBid: 1.71692
+                      SpotDate: '2017-06-03'
+                      SpreadStrikePriceLower: 11
+                      SpreadStrikePriceUpper: 12
+                      StrikePrice: 1.7175
+                      UpperBarrier: 4
+                      ValueDate: '2017-06-05'
+                    LegId: stringValue
+                    Quote:
+                      Amount: 100000
+                      Ask: 1.0899
+                      Bid: 1.0897
+                      DelayedByMinutes: 15
+                      ErrorCode: None
+                      Mid: 1.0898
+                      PriceTypeAsk: Indicative
+                      PriceTypeBid: Indicative
+                    ToOpenClose: ToOpen
+                    Uic: 99
+                  MarginImpactBuySell:
+                    Currency: USD
+                    InitialMarginAvailableBuy: 10447
+                    InitialMarginAvailableCurrent: 10470
+                    InitialMarginBuy: 12
+                    MaintenanceMarginBuy: 11
+                  MarketState: Open
+                  PriceSource: stringValue
+                  Quote:
+                    Amount: 100000
+                    Ask: 1.0899
+                    Bid: 1.0897
+                    DelayedByMinutes: 15
+                    ErrorCode: None
+                    Mid: 1.0898
+                    PriceTypeAsk: Indicative
+                    PriceTypeBid: Indicative
+                  StrategyType: Condor
+                State: Active
+                Tag: stringValue
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstrumentNotAllowed
+                    - InvalidModelState
+                    - InvalidRequest
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InstrumentNotAllowed: The account is not allowed to trade in or receive prices for the specified [AssetType]
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - IllegalInstrumentId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      IllegalInstrumentId: Unknown instrument name
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/MultiLegPriceResponseDomainEvent'
+  /trade/v1/prices/multileg:
+    post:
+      tags:
+      - Prices
+      summary: Get a price snapshot for a multi-leg strategy
+      description: Gets a single price snapshot for a multi-leg strategy using the specified parameters.
+      operationId: PricesV1GetMultiLegPriceAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiLegPriceRequest'
+            example:
+              AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+              FieldGroups:
+              - Quote
+              Legs:
+              - Amount: 10
+                AssetType: Warrant
+                BuySell: Sell
+                OrderContext: {}
+                ToOpenClose: Undefined
+                Uic: 99
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiLegPriceResponse'
+              example:
+                BuySell: Sell
+                Commissions:
+                  CostBuy: 0
+                  CostIpoCashSubscription: 0
+                  CostIpoSubscription: 0
+                  CostSell: 0
+                Greeks:
+                  Delta: 1
+                  Gamma: 0
+                  MidVol: 0
+                  Phi: 0
+                  Rho: 0
+                  Theta: -0.0375
+                  Vega: 0
+                InstrumentPriceDetails:
+                  AverageVolume: 12345000
+                  Barrier: 1
+                  ExpiryDate: '2017-06-01'
+                  IsMarketOpen: true
+                  LowerBarrier: -2
+                  MidForwardPrice: 1.71992423552514
+                  ShortTradeDisabled: false
+                  SpotAsk: 1.71782
+                  SpotBid: 1.71692
+                  SpotDate: '2017-06-03'
+                  SpreadStrikePriceLower: 11
+                  SpreadStrikePriceUpper: 12
+                  StrikePrice: 1.7175
+                  UpperBarrier: 4
+                  ValueDate: '2017-06-05'
+                LastUpdated: '9999-12-31T23:59:59.999999Z'
+                Legs:
+                - Amount: 10
+                  AssetType: WarrantKnockOut
+                  BuySell: Buy
+                  Greeks:
+                    Delta: 1
+                    Gamma: 0
+                    MidVol: 0
+                    Phi: 0
+                    Rho: 0
+                    Theta: -0.0375
+                    Vega: 0
+                  InstrumentPriceDetails:
+                    AverageVolume: 12345000
+                    Barrier: 1
+                    ExpiryDate: '2017-06-01'
+                    IsMarketOpen: true
+                    LowerBarrier: -2
+                    MidForwardPrice: 1.71992423552514
+                    ShortTradeDisabled: false
+                    SpotAsk: 1.71782
+                    SpotBid: 1.71692
+                    SpotDate: '2017-06-03'
+                    SpreadStrikePriceLower: 11
+                    SpreadStrikePriceUpper: 12
+                    StrikePrice: 1.7175
+                    UpperBarrier: 4
+                    ValueDate: '2017-06-05'
+                  LegId: stringValue
+                  Quote:
+                    Amount: 100000
+                    Ask: 1.0899
+                    Bid: 1.0897
+                    DelayedByMinutes: 15
+                    ErrorCode: None
+                    Mid: 1.0898
+                    PriceTypeAsk: Indicative
+                    PriceTypeBid: Indicative
+                  ToOpenClose: ToOpen
+                  Uic: 99
+                MarginImpactBuySell:
+                  Currency: USD
+                  InitialMarginAvailableBuy: 10447
+                  InitialMarginAvailableCurrent: 10470
+                  InitialMarginBuy: 12
+                  MaintenanceMarginBuy: 11
+                MarketState: TradingAtLast
+                PriceSource: stringValue
+                Quote:
+                  Amount: 100000
+                  Ask: 1.0899
+                  Bid: 1.0897
+                  DelayedByMinutes: 15
+                  ErrorCode: None
+                  Mid: 1.0898
+                  PriceTypeAsk: Indicative
+                  PriceTypeBid: Indicative
+                StrategyType: BackRatio
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstrumentNotAllowed
+                    - InstrumentTypeNotSupportedException
+                    - InvalidPriceRequest
+                    - InvalidUic
+                    - Unknown
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      Unknown: One or more of the provided parameters are invalid.
+                      InstrumentNotAllowed: The account is not allowed to trade in or receive prices for the specified [AssetType]
+                      InstrumentTypeNotSupportedException: Unsupported instrument type.
+                      InvalidUic: UIC is either invalid or not specified at all.
+                      InvalidPriceRequest: Invalid price request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - IllegalInstrumentId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      IllegalInstrumentId: Unknown instrument name
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /trade/v1/prices/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Prices
+      summary: Remove multiple instrument price subscriptions
+      description: "Removes multiple instrument price subscriptions for the current session. \n            If the optional tag argument is supplied then only subscriptions with given tag will be removed."
+      operationId: PricesV1DeleteSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: Tag
+        in: query
+        description: Optional.Tag that subscriptions are marked with.
+        style: form
+        explode: false
+        schema:
+          type: string
+        example: '2345223'
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+  /trade/v1/prices/subscriptions/{ContextId}/{ReferenceId}/MarginImpact:
+    put:
+      tags:
+      - Prices
+      summary: Request margin impact on one price update
+      description: 'Request margin impact to come on one of the next following price updates.
+
+
+
+        This will make a margin impact calculation, and send the result in the next possible price update, however only one impact calculation will be done per call.'
+      operationId: PricesV1RequestMarginImpactOnSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: Context for the streaming connection.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: ReferenceId
+        in: path
+        description: Unique id of the subscription.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: TP340
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - RequestMarginImpactOnNextPriceFailed
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      RequestMarginImpactOnNextPriceFailed: Price subscription cannot add margin impact.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/PriceResponseDomainEvent'
+  /trade/v1/prices/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Prices
+      summary: Remove an instrument price subscription
+      description: Removes an instrument price subscription for the current session.
+      operationId: PricesV1DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20160204125301453'
+      - name: ReferenceId
+        in: path
+        description: Unique reference ID of the subscription.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: TP340
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+  /trade/v1/prices/subscriptions:
+    post:
+      tags:
+      - Prices
+      summary: Create a price subscription on an instrument
+      description: Sets up an active price subscription on an instrument and returns an initial snapshot of the most recent price.
+      operationId: PricesV1AddSubscriptionAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceSubscriptionRequest'
+            example:
+              Arguments:
+                AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                Amount: 100000
+                AssetType: FxVanillaOption
+                ExpiryDate: '2017-06-01T00:00:00Z'
+                FieldGroups:
+                - DisplayAndFormat
+                - HistoricalChanges
+                - InstrumentPriceDetails
+                - Quote
+                PutCall: Call
+                Uic: 22
+              ContextId: '20221030063404744'
+              Format: application/json
+              ReferenceId: IP72733
+              RefreshRate: 1000
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceSubscriptionResponse'
+              example:
+                ContextId: '20221030063404744'
+                Format: application/json
+                InactivityTimeout: 30
+                ReferenceId: IP72733
+                RefreshRate: 1000
+                Snapshot:
+                  AssetType: FxSpot
+                  DisplayAndFormat:
+                    Currency: AUD
+                    Decimals: 4
+                    Description: British Pound/Australian Dollar
+                    Format: AllowDecimalPips
+                    StrikeDecimals: 4
+                    StrikeFormat: Normal
+                    Symbol: GBPAUD
+                  HistoricalChanges:
+                    PercentChange1Month: 5.57
+                    PercentChange2Months: 5.83
+                    PercentChange3Months: 3.73
+                    PercentChange6Months: 6.49
+                    PercentChangeDaily: 0.2
+                    PercentChangeWeekly: 0.88
+                  InstrumentPriceDetails:
+                    AverageVolume: 12345000
+                    Barrier: 1
+                    ExpiryDate: '2017-06-01'
+                    IsMarketOpen: true
+                    LowerBarrier: -2
+                    MidForwardPrice: 1.71992423552514
+                    ShortTradeDisabled: false
+                    SpotAsk: 1.71782
+                    SpotBid: 1.71692
+                    SpotDate: '2017-06-03'
+                    SpreadStrikePriceLower: 11
+                    SpreadStrikePriceUpper: 12
+                    StrikePrice: 1.7175
+                    UpperBarrier: 4
+                    ValueDate: '2017-06-05'
+                  LastUpdated: '2017-05-01T00:00:00Z'
+                  Quote:
+                    Amount: 100000
+                    Ask: 0.02257
+                    Bid: 0.01962
+                    DelayedByMinutes: 15
+                    ErrorCode: None
+                    Mid: 0.0210958157864443
+                    PriceTypeAsk: Indicative
+                    PriceTypeBid: Indicative
+                    RFQState: None
+                  Uic: 22
+                State: Active
+                Tag: PAGE1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstrumentNotAllowed
+                    - InvalidModelState
+                    - InvalidRequest
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InstrumentNotAllowed: The account is not allowed to trade in or receive prices for the specified [AssetType]
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - IllegalInstrumentId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      IllegalInstrumentId: Unknown instrument name
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/PriceResponseDomainEvent'
+  /trade/v1/prices/subscriptions/active:
+    post:
+      tags:
+      - Prices
+      summary: OBSOLETE Create an active price subscription on an instrument
+      description: Sets up an active price subscription on an instrument and returns an initial snapshot of the most recent price.
+      operationId: PricesV1AddActiveSubscriptionAsync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceSubscriptionRequest'
+            example:
+              Arguments:
+                AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                Amount: 100000
+                AssetType: FxVanillaOption
+                ExpiryDate: '2017-06-01T00:00:00Z'
+                FieldGroups:
+                - DisplayAndFormat
+                - HistoricalChanges
+                - InstrumentPriceDetails
+                - Quote
+                PutCall: Call
+                Uic: 22
+              ContextId: '20221030063404744'
+              Format: application/json
+              ReferenceId: IP72733
+              RefreshRate: 1000
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceSubscriptionResponse'
+              example:
+                ContextId: '20221030063404744'
+                Format: application/json
+                InactivityTimeout: 30
+                ReferenceId: IP72733
+                RefreshRate: 1000
+                Snapshot:
+                  AssetType: FxSpot
+                  DisplayAndFormat:
+                    Currency: AUD
+                    Decimals: 4
+                    Description: British Pound/Australian Dollar
+                    Format: AllowDecimalPips
+                    StrikeDecimals: 4
+                    StrikeFormat: Normal
+                    Symbol: GBPAUD
+                  HistoricalChanges:
+                    PercentChange1Month: 5.57
+                    PercentChange2Months: 5.83
+                    PercentChange3Months: 3.73
+                    PercentChange6Months: 6.49
+                    PercentChangeDaily: 0.2
+                    PercentChangeWeekly: 0.88
+                  InstrumentPriceDetails:
+                    AverageVolume: 12345000
+                    Barrier: 1
+                    ExpiryDate: '2017-06-01'
+                    IsMarketOpen: true
+                    LowerBarrier: -2
+                    MidForwardPrice: 1.71992423552514
+                    ShortTradeDisabled: false
+                    SpotAsk: 1.71782
+                    SpotBid: 1.71692
+                    SpotDate: '2017-06-03'
+                    SpreadStrikePriceLower: 11
+                    SpreadStrikePriceUpper: 12
+                    StrikePrice: 1.7175
+                    UpperBarrier: 4
+                    ValueDate: '2017-06-05'
+                  LastUpdated: '2017-05-01T00:00:00Z'
+                  Quote:
+                    Amount: 100000
+                    Ask: 0.02257
+                    Bid: 0.01962
+                    DelayedByMinutes: 15
+                    ErrorCode: None
+                    Mid: 0.0210958157864443
+                    PriceTypeAsk: Indicative
+                    PriceTypeBid: Indicative
+                    RFQState: None
+                  Uic: 22
+                State: Active
+                Tag: PAGE1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InstrumentNotAllowed
+                    - InvalidModelState
+                    - InvalidRequest
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InstrumentNotAllowed: The account is not allowed to trade in or receive prices for the specified [AssetType]
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - IllegalInstrumentId
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      IllegalInstrumentId: Unknown instrument name
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      deprecated: true
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/PriceResponseDomainEvent'
+components:
+  schemas:
+    PriceSubscriptionRequest:
+      title: Type used for requesting PriceSubscriptions.
+      required:
+      - Arguments
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/PriceRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Amount: 100000
+          AssetType: FxVanillaOption
+          ExpiryDate: '2017-06-01T00:00:00Z'
+          FieldGroups:
+          - DisplayAndFormat
+          - HistoricalChanges
+          - InstrumentPriceDetails
+          - Quote
+          PutCall: Call
+          Uic: 22
+        ContextId: '20221030063404744'
+        Format: application/json
+        ReferenceId: IP72733
+        RefreshRate: 1000
+    MarketState:
+      title: Defines the possible states of the Market.
+      enum:
+      - Closed
+      - ClosingAuction
+      - IntraDayAuction
+      - Open
+      - OpeningAuction
+      - PostMarket
+      - PreMarket
+      - TradingAtLast
+      - Unknown
+      type: string
+      example: ClosingAuction
+      x-enum-descriptions:
+        Unknown: Default value.
+        Open: Market is open for trades (Automatic Trading, usually).
+        Closed: Market is closed
+        PreMarket: Market is in Pre Market Auction state
+        PostMarket: Market is in Post Market Auction state
+        IntraDayAuction: "Market is temporary out of normal Trading. In an Auction state This state is\n            for Intraday Auction. We have 2 specific states for Opening and Closing Auction"
+        OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
+        ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
+        TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
+    MarketDepth:
+      title: Contains information about the market depth.
+      type: object
+      properties:
+        Ask:
+          title: List of prices of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        AskOrders:
+          title: List of order counts of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        AskSize:
+          title: List of amounts of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Bid:
+          title: List of prices of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidOrders:
+          title: List of order counts of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidSize:
+          title: List of amounts of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        NoOfBids:
+          title: Number of current bids on the instrument.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        NoOfOffers:
+          title: Number of current offers on the instrument.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        UsingOrders:
+          title: Using Orders.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        Ask:
+        - 1.76671
+        - 1.76676
+        - 1.76706
+        AskOrders:
+        - 0
+        - 0
+        - 0
+        AskSize:
+        - 4000000
+        - 7000000
+        - 10000000
+        Bid:
+        - 1.76591
+        - 1.76586
+        - 1.76556
+        BidOrders:
+        - 0
+        - 0
+        - 0
+        BidSize:
+        - 4000000
+        - 7000000
+        - 10000000
+        NoOfBids: 3
+        NoOfOffers: 3
+        UsingOrders: false
+    HistoricalChanges:
+      title: Historical data about the price changes (in %) for a number of periods, from 1 week to 5 years.
+      type: object
+      properties:
+        FiftyTwoWeekHigh:
+          title: The 52 week high
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        FiftyTwoWeekLow:
+          title: The 52 week low
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange1Month:
+          title: The 1 month percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange1Year:
+          title: The 1 year percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange2Months:
+          title: The 2 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange2Years:
+          title: The 2 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange3Months:
+          title: The 3 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange3Years:
+          title: The 3 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange5Years:
+          title: The 5 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange6Months:
+          title: The 6 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChangeDaily:
+          title: The daily percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChangeWeekly:
+          title: The weekly percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        PercentChange1Month: 5.57
+        PercentChange2Months: 5.83
+        PercentChange3Months: 3.73
+        PercentChange6Months: 6.49
+        PercentChangeDaily: 0.2
+        PercentChangeWeekly: 0.88
+    OrderAmountType:
+      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
+      enum:
+      - CashAmount
+      - Quantity
+      type: string
+      example: Quantity
+      x-enum-descriptions:
+        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
+        CashAmount: Order amount is specified as a monetary value.
+    RFQState:
+      title: Request For Quote flow state.
+      enum:
+      - CanEnterRfq
+      - DealerQuote
+      - Error
+      - None
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Not in RFQ state
+        Error: There was an error in the RFQ flow, please see the ErrorCode
+        CanEnterRfq: Client application can request to enter RFQ
+        DealerQuote: This is a dealer quote.
+    PriceResponseDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          allOf:
+          - $ref: '#/components/schemas/PriceResponse'
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+          example: stringValue
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example: null
+    MultiLegPriceSubscriptionResponse:
+      title: Reponse object for multi-leg price subscriptions.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/MultiLegPriceResponse'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: stringValue
+        Format: stringValue
+        InactivityTimeout: 99
+        ReferenceId: stringValue
+        RefreshRate: 99
+        Snapshot:
+          BuySell: Sell
+          Commissions:
+            CostBuy: 0
+            CostIpoCashSubscription: 0
+            CostIpoSubscription: 0
+            CostSell: 0
+          Greeks:
+            Delta: 1
+            Gamma: 0
+            MidVol: 0
+            Phi: 0
+            Rho: 0
+            Theta: -0.0375
+            Vega: 0
+          InstrumentPriceDetails:
+            AverageVolume: 12345000
+            Barrier: 1
+            ExpiryDate: '2017-06-01'
+            IsMarketOpen: true
+            LowerBarrier: -2
+            MidForwardPrice: 1.71992423552514
+            ShortTradeDisabled: false
+            SpotAsk: 1.71782
+            SpotBid: 1.71692
+            SpotDate: '2017-06-03'
+            SpreadStrikePriceLower: 11
+            SpreadStrikePriceUpper: 12
+            StrikePrice: 1.7175
+            UpperBarrier: 4
+            ValueDate: '2017-06-05'
+          LastUpdated: '9999-12-31T23:59:59.999999Z'
+          Legs:
+          - Amount: 10
+            AssetType: CertificateCappedOutperformance
+            BuySell: Buy
+            Greeks:
+              Delta: 1
+              Gamma: 0
+              MidVol: 0
+              Phi: 0
+              Rho: 0
+              Theta: -0.0375
+              Vega: 0
+            InstrumentPriceDetails:
+              AverageVolume: 12345000
+              Barrier: 1
+              ExpiryDate: '2017-06-01'
+              IsMarketOpen: true
+              LowerBarrier: -2
+              MidForwardPrice: 1.71992423552514
+              ShortTradeDisabled: false
+              SpotAsk: 1.71782
+              SpotBid: 1.71692
+              SpotDate: '2017-06-03'
+              SpreadStrikePriceLower: 11
+              SpreadStrikePriceUpper: 12
+              StrikePrice: 1.7175
+              UpperBarrier: 4
+              ValueDate: '2017-06-05'
+            LegId: stringValue
+            Quote:
+              Amount: 100000
+              Ask: 1.0899
+              Bid: 1.0897
+              DelayedByMinutes: 15
+              ErrorCode: None
+              Mid: 1.0898
+              PriceTypeAsk: Indicative
+              PriceTypeBid: Indicative
+            ToOpenClose: ToOpen
+            Uic: 99
+          MarginImpactBuySell:
+            Currency: USD
+            InitialMarginAvailableBuy: 10447
+            InitialMarginAvailableCurrent: 10470
+            InitialMarginBuy: 12
+            MaintenanceMarginBuy: 11
+          MarketState: Open
+          PriceSource: stringValue
+          Quote:
+            Amount: 100000
+            Ask: 1.0899
+            Bid: 1.0897
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 1.0898
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+          StrategyType: Condor
+        State: Active
+        Tag: stringValue
+    PriceResponse:
+      title: Public contract providing the latest price information upon a request.
+      type: object
+      properties:
+        AssetType:
+          title: Asset Type of the instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Commissions:
+          title: The commissions
+          allOf:
+          - $ref: '#/components/schemas/Commissions'
+        DisplayAndFormat:
+          title: Information about the instrument of the net position and how to display it.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        Greeks:
+          title: Greeks - only available for options
+          allOf:
+          - $ref: '#/components/schemas/Greeks'
+        HistoricalChanges:
+          title: The historical price changes
+          allOf:
+          - $ref: '#/components/schemas/HistoricalChanges'
+        InstrumentPriceDetails:
+          title: Instrument Specific Price Details. Contents vary by AssetType
+          allOf:
+          - $ref: '#/components/schemas/InstrumentPriceDetails'
+        LastUpdated:
+          title: Time of last price update
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        MarginImpact:
+          title: (Obsolete) Expected Margin Impact. Will not be available from 1. October 2018, use MarginImpactBuySell instead.
+          allOf:
+          - $ref: '#/components/schemas/MarginImpact'
+          deprecated: true
+        MarginImpactBuySell:
+          title: The margin impact with currency and values for both buy and sell.
+          allOf:
+          - $ref: '#/components/schemas/MarginImpactBuySell'
+        MarketDepth:
+          title: The market depth
+          allOf:
+          - $ref: '#/components/schemas/MarketDepth'
+        PriceInfo:
+          title: Brief price information.
+          allOf:
+          - $ref: '#/components/schemas/PriceInfo'
+        PriceInfoDetails:
+          title: Detailed price information
+          allOf:
+          - $ref: '#/components/schemas/PriceInfoDetails'
+        PriceSource:
+          title: The source for the price information
+          type: string
+          example: stringValue
+        Quote:
+          title: The quote data.
+          allOf:
+          - $ref: '#/components/schemas/TradableQuote'
+        Timestamps:
+          title: Info about timing of prices, asset type specific.
+          allOf:
+          - $ref: '#/components/schemas/PriceTimestamps'
+        Uic:
+          title: Uic of instrument
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: FxSpot
+        DisplayAndFormat:
+          Currency: AUD
+          Decimals: 4
+          Description: British Pound/Australian Dollar
+          Format: AllowDecimalPips
+          StrikeDecimals: 4
+          StrikeFormat: Normal
+          Symbol: GBPAUD
+        HistoricalChanges:
+          PercentChange1Month: 5.57
+          PercentChange2Months: 5.83
+          PercentChange3Months: 3.73
+          PercentChange6Months: 6.49
+          PercentChangeDaily: 0.2
+          PercentChangeWeekly: 0.88
+        InstrumentPriceDetails:
+          AverageVolume: 12345000
+          Barrier: 1
+          ExpiryDate: '2017-06-01'
+          IsMarketOpen: true
+          LowerBarrier: -2
+          MidForwardPrice: 1.71992423552514
+          ShortTradeDisabled: false
+          SpotAsk: 1.71782
+          SpotBid: 1.71692
+          SpotDate: '2017-06-03'
+          SpreadStrikePriceLower: 11
+          SpreadStrikePriceUpper: 12
+          StrikePrice: 1.7175
+          UpperBarrier: 4
+          ValueDate: '2017-06-05'
+        LastUpdated: '2017-05-01T00:00:00.0000000+00:00'
+        Quote:
+          Amount: 100000
+          Ask: 0.02257
+          Bid: 0.01962
+          DelayedByMinutes: 15
+          ErrorCode: None
+          Mid: 0.0210958157864443
+          PriceTypeAsk: Indicative
+          PriceTypeBid: Indicative
+          RFQState: None
+        Uic: 22
+    Greeks:
+      title: Greek info
+      type: object
+      properties:
+        Delta:
+          title: Delta - measures of risk from a move of the underlying price.
+          type: number
+          example: 10
+        Gamma:
+          title: Gamma -  rate of change of Delta resulting from movement of the underlying.
+          type: number
+          example: 10
+        MidVol:
+          title: MidVol - volatility using the option mid price.
+          type: number
+          example: 10
+        Phi:
+          title: Phi - Option Sensitivity to Dividend.
+          type: number
+          example: 10
+        Rho:
+          title: Rho -  risk measure related to changes in interest rates.
+          type: number
+          example: 10
+        Theta:
+          title: Theta - measure of the rate of time premium decay and it is always negative.
+          type: number
+          example: 10
+        Vega:
+          title: Vega - measures of risk from changes in implied volatility.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Delta: 1
+        Gamma: 0
+        MidVol: 0
+        Phi: 0
+        Rho: 0
+        Theta: -0.0375
+        Vega: 0
+    MultiLegStrategyLegRequest:
+      title: The values for a single order leg in a multi-leg order (options strategy).
+      type: object
+      properties:
+        Amount:
+          title: Sum volume of positions in instrument.
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BuySell:
+          title: Is the option to be bought or sold?
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        OrderContext:
+          title: Saxo Specific Order Context
+          allOf:
+          - $ref: '#/components/schemas/Object'
+        ToOpenClose:
+          title: Whether the margin impact should be calculated as to open/increase or close/decrease a position.
+          allOf:
+          - $ref: '#/components/schemas/Public.ToOpenClose'
+        Uic:
+          title: Instrument identifer for this leg.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Amount: 10
+        AssetType: CfdFutureOption
+        BuySell: Buy
+        OrderContext: {}
+        ToOpenClose: ToOpen
+        Uic: 99
+    ErrorCode:
+      title: Errorcode used in RFQ.
+      enum:
+      - DealerCancelsQuote
+      - DealerCannotQuote
+      - DealerCannotTrade
+      - DealerDisconnected
+      - DealerIsBusy
+      - DealerIsUnavailable
+      - DealerRejectsQuoteRequest
+      - None
+      - QuoteHasTimedOut
+      - TooSmallTrade
+      - WarningAmountLargeOrderSize
+      - WarningAmountTooSmall
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: No error code.
+        DealerCancelsQuote: Dealer cancels quote.
+        DealerCannotQuote: Dealer can not give quote at this time.
+        DealerIsBusy: Dealer is handling other request for client.
+        DealerIsUnavailable: Dealer is not available.
+        DealerCannotTrade: Dealer can not trade at this time.
+        DealerDisconnected: Dealer disconnected.
+        TooSmallTrade: Trade contract size is too small
+        QuoteHasTimedOut: Quote has timed out
+        DealerRejectsQuoteRequest: Dealer rejects quote request.
+        WarningAmountLargeOrderSize: Returned when a price request is for a an amount that is larger than will be automatically accepted. For IOC orders, this means that an order on that amount will always be rejected.
+        WarningAmountTooSmall: Returned when an amount for an FXO is so small that we do not accept request for quotes on it.
+    Object:
+      type: object
+      additionalProperties: false
+    MultiLegPriceResponseDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          allOf:
+          - $ref: '#/components/schemas/MultiLegPriceResponse'
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+          example: stringValue
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example: null
+    PriceTimestamps:
+      title: Info about timing of prices, asset type specific.
+      type: object
+      properties:
+        AskTime:
+          title: Time of ask for Bonds, Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        BidTime:
+          title: Time of bid for Bonds, Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        CloseTime:
+          title: Date of a previous trading day, depending on when product is traded last time (only for exchange traded bond)
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        HighTime:
+          title: Time of high for Shares, ETF, CFD, SRD, Bonds (only exchange traded), Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LastTradedVolumeTime:
+          title: Time Volume (last traded time) for Shares, ETF, CFD, SRD, Bonds, Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LowTime:
+          title: Time of low for Shares, ETF, CFD, SRD, Bonds (only exchange traded), Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        OpenPriceTime:
+          title: Time of open price for Shares, ETF, CFD, SRD, Bonds (only exchange traded), Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        UnderlyingUicLastTradeTime:
+          title: Time last ULV (Traded) for Certificate, Turbo, Warrant
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        AskTime: '9999-12-31T23:59:59.9999990+00:00'
+        BidTime: '9999-12-31T23:59:59.9999990+00:00'
+        CloseTime: '9999-12-31T23:59:59.9999990+00:00'
+        HighTime: '9999-12-31T23:59:59.9999990+00:00'
+        LastTradedVolumeTime: '9999-12-31T23:59:59.9999990+00:00'
+        LowTime: '9999-12-31T23:59:59.9999990+00:00'
+        OpenPriceTime: '9999-12-31T23:59:59.9999990+00:00'
+        UnderlyingUicLastTradeTime: '9999-12-31T23:59:59.9999990+00:00'
+    PriceQuality:
+      title: "This enumeration describes the reliability of the price. This is for spot trading on FX Options where a price must be\n            tradable in order for a spot trade to be accepted.Price access is controlled by\n            price feed subscriptions and lack of permission may lead to delayed (Indicative) or even complete absense of prices (NoAccess)"
+      enum:
+      - Indicative
+      - NoAccess
+      - NoMarket
+      - None
+      - OldIndicative
+      - Pending
+      - Tradable
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Price orgin is unknown.
+        Tradable: "Directly tradable price. If this price was received from the /Prices endpoint, as opposed to the /InfoPrices endpoint, the caller use it as the basis for\n            making a trade, by posting to the /Positions endpoint (\"TradeOnQuote\")."
+        Indicative: This is  valid price, but you cannot directly create a position on that price (normally shown as a yellow price).
+        OldIndicative: This is  valid price, but the price is "old", so you the market may have moved significantly from the price.
+        NoMarket: There is currently no access to the market on which the instrument is traded.
+        NoAccess: User does not have permission to the price feed. While FX prices are normally free, access to other price feeds depends on application type, the partner's default price feeds and feed subscriptions held by the user
+        Pending: A price is currently not available, but it will be shortly
+    Quote:
+      title: Provides quote data.
+      type: object
+      properties:
+        Amount:
+          title: The amount for which the quote is calculated.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Ask:
+          title: The ask price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Bid:
+          title: The bid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        DelayedByMinutes:
+          title: If set, it defines the number of minutes by which the price is delayed.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ErrorCode:
+          title: Gets or sets the error code.
+          allOf:
+          - $ref: '#/components/schemas/ErrorCode'
+        MarketState:
+          title: The source for the price information
+          allOf:
+          - $ref: '#/components/schemas/MarketState'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Mid:
+          title: The mid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceSource:
+          title: The source for the price information
+          type: string
+          example: stringValue
+        PriceTypeAsk:
+          title: The price type for ask.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceTypeBid:
+          title: The price type for bid.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ReferencePrice:
+          title: Suggested price based on best available price information. Typically used as suggested price when exchange is closed.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        Amount: 100000
+        Ask: 1.0899
+        Bid: 1.0897
+        DelayedByMinutes: 15
+        ErrorCode: None
+        Mid: 1.0898
+        PriceTypeAsk: Indicative
+        PriceTypeBid: Indicative
+    PriceGroupSpec:
+      title: Specification of fieldsets to include in results.
+      enum:
+      - Commissions
+      - DisplayAndFormat
+      - Greeks
+      - HistoricalChanges
+      - InstrumentPriceDetails
+      - MarginImpact
+      - MarginImpactBuySell
+      - MarketDepth
+      - PriceInfo
+      - PriceInfoDetails
+      - Quote
+      - Timestamps
+      type: string
+      example: Quote
+      x-enum-deprecated:
+      - MarginImpact
+      x-enum-descriptions:
+        Quote: Quote data fields are returned in results.
+        PriceInfo: Informational price fields are returned in results.
+        PriceInfoDetails: Detailed price fields are returned in results.
+        InstrumentPriceDetails: Fields related to the asset type are returned in results.
+        MarketDepth: Market depth fields are returned in results.
+        Commissions: Commission fields are returned in results.
+        Greeks: Greeks are returned in results.
+        MarginImpact: (Obsolete) Margin impact fields are returned in results. Will not be available from 1. October 2018, use MarginImpactBuySell instead.
+        HistoricalChanges: Historical price changes are returned in results.
+        MarginImpactBuySell: Margin impact fields are returned in results.
+        Timestamps: Price time stamps
+        DisplayAndFormat: Display and Format (not mapped to a QTE strategy)
+      x-type-warning: FlaggableEnum
+    MultiLegOrderLegPriceLegResponse:
+      title: The values for a single order leg in a multi-leg order (options strategy).
+      required:
+      - LegId
+      type: object
+      properties:
+        Amount:
+          title: Sum volume of positions in instrument.
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BuySell:
+          title: Is the instrument to be bought or sold?
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        Greeks:
+          title: Greeks - only available for options
+          allOf:
+          - $ref: '#/components/schemas/Greeks'
+        InstrumentPriceDetails:
+          title: Instrument Specific Price Details. Contents vary by AssetType
+          allOf:
+          - $ref: '#/components/schemas/InstrumentPriceDetails'
+        LegId:
+          title: Unique identifer for this leg.
+          type: string
+          example: stringValue
+        Quote:
+          title: The quote data.
+          allOf:
+          - $ref: '#/components/schemas/Quote'
+        ToOpenClose:
+          title: Margin impact of leg calculated as to open/increase or close/decrease a position.
+          allOf:
+          - $ref: '#/components/schemas/Public.ToOpenClose'
+        Uic:
+          title: Instrument identifer for this leg.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Amount: 10
+        AssetType: WarrantOpenEndKnockOut
+        BuySell: Sell
+        Greeks:
+          Delta: 1
+          Gamma: 0
+          MidVol: 0
+          Phi: 0
+          Rho: 0
+          Theta: -0.0375
+          Vega: 0
+        InstrumentPriceDetails:
+          AverageVolume: 12345000
+          Barrier: 1
+          ExpiryDate: '2017-06-01'
+          IsMarketOpen: true
+          LowerBarrier: -2
+          MidForwardPrice: 1.71992423552514
+          ShortTradeDisabled: false
+          SpotAsk: 1.71782
+          SpotBid: 1.71692
+          SpotDate: '2017-06-03'
+          SpreadStrikePriceLower: 11
+          SpreadStrikePriceUpper: 12
+          StrikePrice: 1.7175
+          UpperBarrier: 4
+          ValueDate: '2017-06-05'
+        LegId: stringValue
+        Quote:
+          Amount: 100000
+          Ask: 1.0899
+          Bid: 1.0897
+          DelayedByMinutes: 15
+          ErrorCode: None
+          Mid: 1.0898
+          PriceTypeAsk: Indicative
+          PriceTypeBid: Indicative
+        ToOpenClose: ToClose
+        Uic: 99
+    MarginImpactBuySell:
+      title: The impact on the clients margin if the trade is executed
+      type: object
+      properties:
+        Currency:
+          title: Currency for margin impacts.
+          type: string
+          example: stringValue
+        InitialMarginAvailableBuy:
+          title: The initial margin available if instrument is bought.
+          type: number
+          example: 10
+        InitialMarginAvailableCurrent:
+          title: The current initial margin available.
+          type: number
+          example: 10
+        InitialMarginAvailableSell:
+          title: The initial margin available if instrument is sold.
+          type: number
+          example: 10
+        InitialMarginBuy:
+          title: The initial margin to pay if instrument is bought.
+          type: number
+          example: 10
+        InitialMarginSell:
+          title: The initial margin to pay if instrument is sold.
+          type: number
+          example: 10
+        InitialSpendingPower:
+          title: The initial spending power available.
+          type: number
+          example: 10
+        MaintenanceMarginBuy:
+          title: The maintenance margin to pay if instrument is bought.
+          type: number
+          example: 10
+        MaintenanceMarginSell:
+          title: The maintenance margin to pay if instrument is sold.
+          type: number
+          example: 10
+        MaintenanceSpendingPower:
+          title: The maintenance spending power available.
+          type: number
+          example: 10
+        MarginBuy:
+          title: The margin to pay if instrument is bought.
+          type: number
+          example: 10
+        MarginSell:
+          title: The margin to pay if instrument is sold.
+          type: number
+          example: 10
+        SpendingPower:
+          title: The current spending power available.
+          type: number
+          example: 10
+          deprecated: true
+      additionalProperties: false
+      example:
+        Currency: USD
+        InitialMarginAvailableBuy: 10447
+        InitialMarginAvailableCurrent: 10470
+        InitialMarginBuy: 12
+        MaintenanceMarginBuy: 11
+    MultiLegPriceRequest:
+      title: Represents a request for a number of instrument to be priced as one, for later placement as single order.
+      required:
+      - Legs
+      type: object
+      properties:
+        AccountKey:
+          title: "Unique key identifying the account used in retrieving the price.\n                Only required when calling context represents an authenticated user."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        FieldGroups:
+          title: Specification of fields to return in results
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLegPriceFieldGroups'
+          example:
+          - Commissions
+        Legs:
+          title: List of each desired legs in a multi-leg order/options strategy.
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLegStrategyLegRequest'
+          example:
+          - Amount: 10
+            AssetType: MiniFuture
+            BuySell: Sell
+            OrderContext: {}
+            ToOpenClose: ToClose
+            Uic: 99
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        FieldGroups:
+        - Quote
+        Legs:
+        - Amount: 10
+          AssetType: Warrant
+          BuySell: Sell
+          OrderContext: {}
+          ToOpenClose: Undefined
+          Uic: 99
+    TradableQuote:
+      title: Provides tradable quote data.
+      type: object
+      properties:
+        Amount:
+          title: The amount for which the quote is calculated.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Ask:
+          title: The ask price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Bid:
+          title: The bid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        DelayedByMinutes:
+          title: If set, it defines the number of minutes by which the price is delayed.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ErrorCode:
+          title: Gets or sets the error code.
+          allOf:
+          - $ref: '#/components/schemas/ErrorCode'
+        MarketState:
+          title: The source for the price information
+          allOf:
+          - $ref: '#/components/schemas/MarketState'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Mid:
+          title: The mid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceSource:
+          title: The source for the price information
+          type: string
+          example: stringValue
+        PriceTypeAsk:
+          title: The price type for ask.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceTypeBid:
+          title: The price type for bid.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        QuoteId:
+          title: "The Id of this quote. Only supplied if quote (price) is tradable. You must supply this when trading on the quote, \n            i.e. when posting to the /position resource."
+          type: string
+          example: stringValue
+        RFQState:
+          title: "State of RFQ flow.\n            If quote is not in RFQ, then this value will not be returned.\n            If quote is in RFQ one of the listed state values will be returned.\n            If quote switches from RFQ mode back to normal mode, the RFQState=None value will be sent over the streaming channel once."
+          allOf:
+          - $ref: '#/components/schemas/RFQState'
+        ReferencePrice:
+          title: Suggested price based on best available price information. Typically used as suggested price when exchange is closed.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        Amount: 100000
+        Ask: 0.02257
+        Bid: 0.01962
+        DelayedByMinutes: 15
+        ErrorCode: None
+        Mid: 0.0210958157864443
+        PriceTypeAsk: Indicative
+        PriceTypeBid: Indicative
+        RFQState: None
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxKnockOutOption
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    OptionsStrategyType:
+      title: Common exchange traded options strategies.
+      enum:
+      - BackRatio
+      - Butterfly
+      - CalendarSpread
+      - Combo
+      - Condor
+      - Custom
+      - Diagonal
+      - Gut
+      - IronButterfly
+      - IronCondor
+      - RiskReversal
+      - Straddle
+      - Strangle
+      - Synthetic
+      - Vertical
+      type: string
+      example: Synthetic
+      x-enum-descriptions:
+        Custom: User defined custom strategy.
+        Vertical: A vertical spread has two legs. One is buy and one is sell with same expiration date, but with different strike prices.
+        BackRatio: Consists of two options, of same type and expiry, but with different amounts and strike prices.
+        Diagonal: A diagonal spread is two options of the same type, one buy and one sell, but with different expiry times and different strike prices. Essentially a combination of a Vertical and Calendar spread.
+        Condor: A condor strategy leverages four options with same expiry. A buy and a sell in the money, and a buy and a sell out of the money. Can also be characterized as two call spreads.
+        Butterfly: Non directional strategy that combines legs of same expiry, but with varying amounts and strike prices.
+        IronButterfly: Two overlapping vertical spreads. One of the verticals is on the call side and one is on the put side.
+        IronCondor: A combined put and call spread with same expiration but varying different strikes.
+        Straddle: A position in both a call and a put with the same underlier, strike price and maturity expiration date
+        Strangle: A position in both a call and put with different strike prices but with the same maturity and underlier
+        RiskReversal: One leg is an OTM put, the other leg is an OTM call.
+        CalendarSpread: A calendar spread is a long-short position is two calls or two puts. Both options have the same strike, but they have different expirations.
+        Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
+        Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
+        Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Call
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: Optional separate display information for option barrier prices
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: Optional separate display information for option barrier prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
+          type: integer
+          description: Decimals and DisplayDecimals have the same value. Moving forward, DisplayDecimals will be removed.
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        LotSizeText:
+          title: Lot size description of the instrument. Futures only.
+          type: string
+          example: stringValue
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: Optional separate display information for option strike prices
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: Optional separate display information for option strike prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Currency: USD
+        Decimals: 4
+        Description: Euro/US Dollar
+        Format: AllowDecimalPips
+        Symbol: EURUSD
+    PriceInfo:
+      title: Brief information about the price.
+      type: object
+      properties:
+        High:
+          title: The high.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Low:
+          title: The low.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        NetChange:
+          title: The net change in price (Mid price – LastClose price)
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange:
+          title: "The percent change in price.\n            If LastClose greater than 0 , value = NetChange/LastClose * 100\n            If NetChange less than 0 , value = -100\n            If NetChange equal to 0 , value = 0\n            If NetChange greater than 100 , value = +100"
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        High: 1.09117
+        Low: 1.08853
+        NetChange: 0.00048
+        PercentChange: 0.04
+    ToOpenClose:
+      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
+      enum:
+      - ToClose
+      - ToOpen
+      - Undefined
+      type: string
+      example: Undefined
+      x-enum-descriptions:
+        Undefined: Undefined.
+        ToOpen: Order/Position is ToOpen.
+        ToClose: Order/Position is ToClose.
+    Commissions:
+      title: Commissions for buying and selling the instrument.
+      type: object
+      properties:
+        CostBuy:
+          title: The cost to pay if instrument is bought.
+          type: number
+          example: 10
+        CostIpoCashSubscription:
+          title: The cost to pay for Ipo Subscription in case of Cash option
+          type: number
+          example: 10
+        CostIpoSubscription:
+          title: The cost to pay for Ipo Subscription in case of Finance option
+          type: number
+          example: 10
+        CostSell:
+          title: The cost to pay if instrument is sold.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CostBuy: 0
+        CostIpoCashSubscription: 0
+        CostIpoSubscription: 0
+        CostSell: 0
+    PriceInfoDetails:
+      title: Additional information related to the instrument
+      type: object
+      properties:
+        AskSize:
+          title: The ask size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        AskYield:
+          title: Optional ask yield, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidSize:
+          title: The bid size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidYield:
+          title: Optional bid yield, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastClose:
+          title: The last close.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastTraded:
+          title: The last traded.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastTradedSize:
+          title: The last traded size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Open:
+          title: The open.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Volume:
+          title: Optional volume, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        AskSize: 1000000
+        BidSize: 1000000
+        LastClose: 1.729595
+        LastTraded: 0
+        LastTradedSize: 0
+        Open: 0
+        Volume: 0
+    PriceRequest:
+      title: Represents a request for a price in the API.
+      required:
+      - Uic
+      - AssetType
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account used in retrieving the price.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Amount:
+          title: Order size, defaults to minimal order size for given instrument.
+          type: number
+          example: 10
+        AmountType:
+          allOf:
+          - $ref: '#/components/schemas/OrderAmountType'
+        AssetType:
+          title: The instrument's asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ContractId:
+          title: Optional. ContractId for trading vanilla or binary fx options.
+          type: integer
+          format: int32
+          example: 99
+        ExpiryDate:
+          title: Optional expiry date - only relevant for options
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        FieldGroups:
+          title: Specification of fields to return in results
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceGroupSpec'
+          example:
+          - PriceInfo
+        ForwardDate:
+          title: Forward date
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ForwardDateFarLeg:
+          title: Forward date for far leg
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ForwardDateNearLeg:
+          title: Forward date for near leg
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LowerBarrier:
+          title: Lower barrier
+          type: number
+          example: 10
+        OrderAskPrice:
+          title: Order ask price. When specified, a corresponding cost of buying will be calculated for that price; otherwise the current market ask price will be used.
+          type: number
+          example: 10
+        OrderBidPrice:
+          title: Order bid price. When specified, a corresponding cost of selling will be calculated for that price; otherwise the current market bid price will be used.
+          type: number
+          example: 10
+        PutCall:
+          title: Put/call
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        QuoteCurrency:
+          type: boolean
+          example: true
+        RequireTradableQuote:
+          title: "Optional argument to require that the subscription returns tradable quotes i.e. provides a quoteId.\n            The value defaults to false."
+          type: boolean
+          example: true
+        SharePrice:
+          title: Share Price. Used when subscribing on a price when placing an order for CFDs. When provided it may lead to EstPriceSell / EstPriceBuy being returned in the InstrumentPriceDetail. Not relevant for info prices.
+          type: number
+          example: 10
+        StrategyName:
+          title: Optional argument to specify an algo-order strategy
+          type: string
+          example: stringValue
+        StrikePrice:
+          title: Strike price
+          type: number
+          example: 10
+        ToClosePositionId:
+          title: Set this if the intention is that the subsequent trade should close the position with the specified position id.
+          type: integer
+          format: int64
+          example: 16
+        ToOpenClose:
+          allOf:
+          - $ref: '#/components/schemas/ToOpenClose'
+        Uic:
+          title: Unique id of the instrument
+          type: integer
+          format: int32
+          example: 99
+        UpperBarrier:
+          title: Upper barrier
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        Amount: 100000
+        AssetType: FxVanillaOption
+        ExpiryDate: '2017-06-01T00:00:00.0000000+00:00'
+        FieldGroups:
+        - DisplayAndFormat
+        - HistoricalChanges
+        - InstrumentPriceDetails
+        - Quote
+        PutCall: Call
+        Uic: 22
+    Public.ToOpenClose:
+      title: ToOpenClose
+      enum:
+      - ToClose
+      - ToOpen
+      - Undefined
+      type: string
+      example: ToClose
+      x-enum-descriptions:
+        Undefined: Undefined, equals DB NULL
+        ToOpen: Order/Position is ToOpen
+        ToClose: Order/Position is ToClose
+    MarginImpact:
+      title: The impact on the clients margin if the trade is executed
+      type: object
+      properties:
+        ImpactBuy:
+          title: "Impact on margin if instrument is bought or sold, either Initial/Maintenance margin is filled out, or Margin is filled out,\n            depending on if the initial and maintenance are the same."
+          type: number
+          example: 10
+        ImpactSell:
+          title: Impact on margin if instrument is sold.
+          type: number
+          example: 10
+        InitialMargin:
+          title: The initial margin to pay if instrument is traded (used only for Contract Futures).
+          type: number
+          example: 10
+        MaintenanceMargin:
+          title: The maintenance margin to pay if instrument is traded (used only for Contract Futures).
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ImpactBuy: 23
+        ImpactSell: 12
+        InitialMargin: 10
+        MaintenanceMargin: 5
+    BuySell:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy
+        Sell: Sell
+    MultiLegPriceResponse:
+      title: Public contract providing the price for a multi-leg strategy.
+      type: object
+      properties:
+        BuySell:
+          title: Indicates if the multi-leg strategy to be considered a net Buy or Sell. Please use this value when placing an order.
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        Commissions:
+          title: The commissions
+          allOf:
+          - $ref: '#/components/schemas/Commissions'
+        Greeks:
+          title: Greeks - only available for options
+          allOf:
+          - $ref: '#/components/schemas/Greeks'
+        InstrumentPriceDetails:
+          title: Instrument Specific Price Details. Contents vary by AssetType
+          allOf:
+          - $ref: '#/components/schemas/InstrumentPriceDetails'
+        LastUpdated:
+          title: Time of last price update
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Legs:
+          title: Prices details for each leg of a multi-legs instrument/order.
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLegOrderLegPriceLegResponse'
+          example:
+          - Amount: 10
+            AssetType: WarrantDoubleKnockOut
+            BuySell: Buy
+            Greeks:
+              Delta: 1
+              Gamma: 0
+              MidVol: 0
+              Phi: 0
+              Rho: 0
+              Theta: -0.0375
+              Vega: 0
+            InstrumentPriceDetails:
+              AverageVolume: 12345000
+              Barrier: 1
+              ExpiryDate: '2017-06-01'
+              IsMarketOpen: true
+              LowerBarrier: -2
+              MidForwardPrice: 1.71992423552514
+              ShortTradeDisabled: false
+              SpotAsk: 1.71782
+              SpotBid: 1.71692
+              SpotDate: '2017-06-03'
+              SpreadStrikePriceLower: 11
+              SpreadStrikePriceUpper: 12
+              StrikePrice: 1.7175
+              UpperBarrier: 4
+              ValueDate: '2017-06-05'
+            LegId: stringValue
+            Quote:
+              Amount: 100000
+              Ask: 1.0899
+              Bid: 1.0897
+              DelayedByMinutes: 15
+              ErrorCode: None
+              Mid: 1.0898
+              PriceTypeAsk: Indicative
+              PriceTypeBid: Indicative
+            ToOpenClose: Undefined
+            Uic: 99
+        MarginImpactBuySell:
+          title: The margin impact with currency and values for both buy and sell.
+          allOf:
+          - $ref: '#/components/schemas/MarginImpactBuySell'
+        MarketState:
+          title: The market state of exchange.
+          allOf:
+          - $ref: '#/components/schemas/MarketState'
+        PriceSource:
+          title: The source for the price information
+          type: string
+          example: stringValue
+        Quote:
+          title: The quote data.
+          allOf:
+          - $ref: '#/components/schemas/Quote'
+        StrategyType:
+          title: If non-custom multi-leg strategy, this is the common exchange traded options strategy name.
+          allOf:
+          - $ref: '#/components/schemas/OptionsStrategyType'
+      additionalProperties: false
+      example:
+        BuySell: Sell
+        Commissions:
+          CostBuy: 0
+          CostIpoCashSubscription: 0
+          CostIpoSubscription: 0
+          CostSell: 0
+        Greeks:
+          Delta: 1
+          Gamma: 0
+          MidVol: 0
+          Phi: 0
+          Rho: 0
+          Theta: -0.0375
+          Vega: 0
+        InstrumentPriceDetails:
+          AverageVolume: 12345000
+          Barrier: 1
+          ExpiryDate: '2017-06-01'
+          IsMarketOpen: true
+          LowerBarrier: -2
+          MidForwardPrice: 1.71992423552514
+          ShortTradeDisabled: false
+          SpotAsk: 1.71782
+          SpotBid: 1.71692
+          SpotDate: '2017-06-03'
+          SpreadStrikePriceLower: 11
+          SpreadStrikePriceUpper: 12
+          StrikePrice: 1.7175
+          UpperBarrier: 4
+          ValueDate: '2017-06-05'
+        LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
+        Legs:
+        - Amount: 10
+          AssetType: WarrantKnockOut
+          BuySell: Buy
+          Greeks:
+            Delta: 1
+            Gamma: 0
+            MidVol: 0
+            Phi: 0
+            Rho: 0
+            Theta: -0.0375
+            Vega: 0
+          InstrumentPriceDetails:
+            AverageVolume: 12345000
+            Barrier: 1
+            ExpiryDate: '2017-06-01'
+            IsMarketOpen: true
+            LowerBarrier: -2
+            MidForwardPrice: 1.71992423552514
+            ShortTradeDisabled: false
+            SpotAsk: 1.71782
+            SpotBid: 1.71692
+            SpotDate: '2017-06-03'
+            SpreadStrikePriceLower: 11
+            SpreadStrikePriceUpper: 12
+            StrikePrice: 1.7175
+            UpperBarrier: 4
+            ValueDate: '2017-06-05'
+          LegId: stringValue
+          Quote:
+            Amount: 100000
+            Ask: 1.0899
+            Bid: 1.0897
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 1.0898
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+          ToOpenClose: ToOpen
+          Uic: 99
+        MarginImpactBuySell:
+          Currency: USD
+          InitialMarginAvailableBuy: 10447
+          InitialMarginAvailableCurrent: 10470
+          InitialMarginBuy: 12
+          MaintenanceMarginBuy: 11
+        MarketState: TradingAtLast
+        PriceSource: stringValue
+        Quote:
+          Amount: 100000
+          Ask: 1.0899
+          Bid: 1.0897
+          DelayedByMinutes: 15
+          ErrorCode: None
+          Mid: 1.0898
+          PriceTypeAsk: Indicative
+          PriceTypeBid: Indicative
+        StrategyType: BackRatio
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    InstrumentPriceDetails:
+      title: Additional instrument specific price details
+      type: object
+      properties:
+        AccruedInterest:
+          title: 'Accrued Interest. Valid for: Bonds'
+          type: number
+          example: 10
+        AskYield:
+          title: AskYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        BidYield:
+          title: BidYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        CfdBorrowingCost:
+          title: Costs applicable to shorting the CFD.
+          type: number
+          example: 10
+        CfdHardToFinanceRate:
+          title: A rate relevant for certain long cfd positions
+          type: number
+          example: 10
+        CfdPriceAdjustment:
+          title: Is returned as true when the instrument subscribed for is a CFD and the user is on a special mark-up price configuration. If true, the values in EstPriceBuy and EstPriceSell are relevant (but still only provided given a share price)
+          type: boolean
+          example: true
+        Dma:
+          title: Trade is routed to trading venue. Trade on quote not allowed.
+          type: boolean
+          example: true
+        EstPriceBuy:
+          title: May be returned when the instrument subscribed for is a CFD on a stock and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceBuy is the markup paied for an eventual buy order. Not relevant for info prices.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        EstPriceSell:
+          title: May be returned when the instrument subscribed for is a CFD and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceSell is the markup paied for an eventual sell order. Not relevant for info prices.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ExpiryDate:
+          title: 'Expiry date for contract. Valid for: CFD Futures, FxOptions'
+          type: string
+          format: date
+          x-type-name: Date
+        ForwardDateFarLeg:
+          title: The far leg value date. Applicable for FxSwap
+          type: string
+          format: date
+          x-type-name: Date
+        ForwardDateNearLeg:
+          title: The near leg value date. Applicable for FxSwap
+          type: string
+          format: date
+          x-type-name: Date
+        IndexRatio:
+          title: IndexRatio, Applicable for  inflation linked bond
+          type: number
+          example: 10
+        IsMarketOpen:
+          title: Gets or sets a value indicating whether the market on which the instrument is traded is currently open.
+          type: boolean
+          example: true
+        LowerBarrier:
+          title: 'Lower Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
+          type: number
+          example: 10
+        MidForwardPrice:
+          title: The mid forward price.
+          type: number
+          example: 10
+        MidSpotPrice:
+          title: 'The post mid price. Valid for: Fx Options.'
+          type: number
+          example: 10
+        MidYield:
+          title: MidYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        NoticeDate:
+          title: Futures only - The date on which the owner may be required to take physical delivery of the instrument commodity.
+          type: string
+          format: date
+          x-type-name: Date
+        OpenInterest:
+          title: The number of currently open contracts (available for contract options and futures)
+          type: number
+          example: 10
+        PaidCfdInterest:
+          title: A rate representing the interest to be paid when holding a CFD short position overnight.
+          type: number
+          example: 10
+        PaidSrdInterest:
+          title: A rate representing the interest to be paid when holding a SRD short position overnight.
+          type: number
+          example: 10
+        ReceivedCfdInterest:
+          title: A rate representing the interest received when with holding a CFD long position overnight.
+          type: number
+          example: 10
+        ReceivedSrdInterest:
+          title: A rate representing the interest received when with holding a SRD long position overnight.
+          type: number
+          example: 10
+        ShortTradeDisabled:
+          title: Set to true if short trading is disabled for this instrument.
+          type: boolean
+          example: true
+        SpotAsk:
+          title: 'The spot ask price Valid for: FX Forwards.'
+          type: number
+          example: 10
+        SpotBid:
+          title: 'The post bid price. Valid for: Fx Forwards.'
+          type: number
+          example: 10
+        SpotDate:
+          title: The Spot Date. Valid for Fx Forwards.
+          type: string
+          format: date
+          x-type-name: Date
+        SrdLastTradeDate:
+          title: Liquidation/Last Trade Date of the SRD
+          type: string
+          example: stringValue
+        SrdSettlementDate:
+          title: Settlement Date of the SRD
+          type: string
+          example: stringValue
+        StrikePrice:
+          title: Option Strike Price.
+          type: number
+          example: 10
+        SwapAsk:
+          title: 'Swap rate for ask, Valid for: FxForwards and FxSwap'
+          type: number
+          example: 10
+        SwapBid:
+          title: 'Swap rate for bid, Valid for: FxForwards and FxSwap'
+          type: number
+          example: 10
+        UpperBarrier:
+          title: 'Upper Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
+          type: number
+          example: 10
+        ValueDate:
+          title: Actual ValueDate (could be different from what was specified in request due to holidays etc.).
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        ExpiryDate: '2017-06-01'
+        IsMarketOpen: true
+        LowerBarrier: -2
+        MidForwardPrice: 1.71992423552514
+        ShortTradeDisabled: false
+        SpotAsk: 1.71782
+        SpotBid: 1.71692
+        SpotDate: '2017-06-03'
+        StrikePrice: 1.7175
+        UpperBarrier: 4
+        ValueDate: '2017-06-05'
+    MultiLegPriceSubscriptionRequest:
+      title: Type used for requesting MultiLegPriceSubscriptions.
+      required:
+      - Arguments
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/MultiLegPriceRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+          FieldGroups:
+          - MarginImpactBuySell
+          Legs:
+          - Amount: 10
+            AssetType: CertificateCappedCapitalProtected
+            BuySell: Sell
+            OrderContext: {}
+            ToOpenClose: ToClose
+            Uic: 99
+        ContextId: '-'
+        Format: stringValue
+        ReferenceId: '-'
+        RefreshRate: 117
+        ReplaceReferenceId: '-'
+        Tag: stringValue
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: ModernFractions
+      x-enum-descriptions:
+        Normal: No special display format for this price.
+        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    MultiLegPriceFieldGroups:
+      title: Specification of fieldsets to include in results.
+      enum:
+      - Commissions
+      - DisplayAndFormat
+      - Greeks
+      - InstrumentPriceDetails
+      - MarginImpactBuySell
+      - Quote
+      type: string
+      example: InstrumentPriceDetails
+      x-enum-descriptions:
+        Quote: Quote data fields are returned in results.
+        InstrumentPriceDetails: Fields related to the asset type are returned in results.
+        Commissions: Commission fields are returned in results.
+        Greeks: Greeks are returned in results.
+        MarginImpactBuySell: Margin impact fields are returned in results.
+        DisplayAndFormat: Display and Format (not mapped to a QTE strategy)
+      x-type-warning: FlaggableEnum
+    PriceSubscriptionResponse:
+      title: Reponse object for pricesubscriptions.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/PriceResponse'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404744'
+        Format: application/json
+        InactivityTimeout: 30
+        ReferenceId: IP72733
+        RefreshRate: 1000
+        Snapshot:
+          AssetType: FxSpot
+          DisplayAndFormat:
+            Currency: AUD
+            Decimals: 4
+            Description: British Pound/Australian Dollar
+            Format: AllowDecimalPips
+            StrikeDecimals: 4
+            StrikeFormat: Normal
+            Symbol: GBPAUD
+          HistoricalChanges:
+            PercentChange1Month: 5.57
+            PercentChange2Months: 5.83
+            PercentChange3Months: 3.73
+            PercentChange6Months: 6.49
+            PercentChangeDaily: 0.2
+            PercentChangeWeekly: 0.88
+          InstrumentPriceDetails:
+            AverageVolume: 12345000
+            Barrier: 1
+            ExpiryDate: '2017-06-01'
+            IsMarketOpen: true
+            LowerBarrier: -2
+            MidForwardPrice: 1.71992423552514
+            ShortTradeDisabled: false
+            SpotAsk: 1.71782
+            SpotBid: 1.71692
+            SpotDate: '2017-06-03'
+            SpreadStrikePriceLower: 11
+            SpreadStrikePriceUpper: 12
+            StrikePrice: 1.7175
+            UpperBarrier: 4
+            ValueDate: '2017-06-05'
+          LastUpdated: '2017-05-01T00:00:00Z'
+          Quote:
+            Amount: 100000
+            Ask: 0.02257
+            Bid: 0.01962
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 0.0210958157864443
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+            RFQState: None
+          Uic: 22
+        State: Active
+        Tag: PAGE1
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

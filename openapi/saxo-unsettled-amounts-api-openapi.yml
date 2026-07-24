@@ -1,0 +1,924 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Unsettled Amounts API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Unsettled Amounts
+  description: "This resource provides access to various data-granularities of unsettled amounts of the requesting entity.\n            The endpoints each provide a subset of the amounts structured in the hiearchy: Exchange - Currency - Amount Type - Instrument\n            Read the [learn section](/openapi/learn/unsettled-amounts), or view each endpoint, for more details.\n            NOTE: This is a BETA version. It is currently only made available to select partners."
+paths:
+  /hist/v1/unsettledamounts/exchanges/{ExchangeId}:
+    get:
+      tags:
+      - Unsettled Amounts
+      summary: 'Exchange Breakdown: Owed by Currency and Amount Type'
+      description: For a specific Exchange Identifier, gets unsettled amounts for each currency and each underlying amount type.
+      operationId: UnsettledAmountsGetValueDatedAmountsForSingleExchangeAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: QEPWm2RyUefWudKFjRaJag==
+      - name: AccountKey
+        in: query
+        description: The keys of the accounts to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 7wfA7-TCgQ0ygd||aOXY0w==
+      - name: AmountTypeSource
+        in: query
+        description: Specifies the response data granularity, providing access to source of AmountType.
+        schema:
+          $ref: '#/components/schemas/AmountTypeSource'
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: AbSTLYSoo499JZpp|ckGFw==
+      - name: ExchangeId
+        in: path
+        description: The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use "NoExchange" as the value.
+        required: true
+        schema:
+          type: string
+        example: NYSE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeBreakdown'
+              example:
+                CashFlows:
+                - Amount: -0.57
+                  ValueDate: '2022-11-04'
+                Currencies:
+                - CashFlows:
+                  - Amount: -0.57
+                    ValueDate: '2022-11-04'
+                  Currency: DKK
+                  Total: -0.57
+                Currency: DKK
+                ExchangeId: NYSE
+                Total: -0.57
+        '404':
+          description: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /hist/v1/unsettledamounts/exchanges:
+    get:
+      tags:
+      - Unsettled Amounts
+      summary: 'Exchange Breakdown: Owed by Exchange and Currency'
+      description: Gets unsettled amounts grouped by exchange, for each currency owed by (or to) the requester.
+      operationId: UnsettledAmountsGetValueDatedAmountsByExchangeAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: QEPWm2RyUefWudKFjRaJag==
+      - name: AccountKey
+        in: query
+        description: The keys of the accounts to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 7wfA7-TCgQ0ygd||aOXY0w==
+      - name: AmountTypeSource
+        in: query
+        description: Specifies the response data granularity, providing access to source of AmountType.
+        schema:
+          $ref: '#/components/schemas/AmountTypeSource'
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: AbSTLYSoo499JZpp|ckGFw==
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRoot'
+              example:
+                CashFlows:
+                - Amount: -0.57
+                  ValueDate: '2022-11-04'
+                - Amount: -15.40352205
+                  ValueDate: '2022-11-14'
+                Currency: DKK
+                Exchanges:
+                - CashFlows:
+                  - Amount: -0.57
+                    ValueDate: '2022-11-04'
+                  Currencies:
+                  - CashFlows:
+                    - Amount: -0.57
+                      ValueDate: '2022-11-04'
+                    Currency: DKK
+                    Total: -0.57
+                  Currency: DKK
+                  ExchangeId: NYSE
+                  Total: -0.57
+                - CashFlows:
+                  - Amount: -15.40352205
+                    ValueDate: '2022-11-14'
+                  Currencies:
+                  - CashFlows:
+                    - Amount: -15.40352205
+                      ValueDate: '2022-11-14'
+                    Currency: EUR
+                    Total: -2.07
+                  Currency: EUR
+                  ExchangeId: NoExchange
+                  Total: -15.40352205
+                Total: -15.97352205
+        '404':
+          description: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /hist/v1/unsettledamounts/instruments:
+    get:
+      tags:
+      - Unsettled Amounts
+      summary: 'Currency Breakdown: Owed by Instrument'
+      description: For a specific Currency and AmountTypeId, gets unsettled amounts owed by (or to) the requester, for the underlying instruments.
+      operationId: UnsettledAmountsGetInstrumentsAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: QEPWm2RyUefWudKFjRaJag==
+      - name: AccountKey
+        in: query
+        description: The keys of the accounts to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 7wfA7-TCgQ0ygd||aOXY0w==
+      - name: AmountTypeId
+        in: query
+        description: Amount Type Id of the owed amount, for which you want instruments returned.
+        required: true
+        schema:
+          type: string
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: AbSTLYSoo499JZpp|ckGFw==
+      - name: Currency
+        in: query
+        description: Currency code of the owed amount, for which you want instruments returned.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentBreakdownListResult'
+              example:
+                Data:
+                - AssetType: FxSpot
+                  CashFlows:
+                  - Amount: 274
+                    ValueDate: '2022-11-01'
+                  InstrumentDescription: Phillip Inc.
+                  InstrumentSymbol: PI:xnys
+                  Total: 320.45
+                  Uic: 32154
+        '404':
+          description: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /hist/v1/unsettledamounts:
+    get:
+      tags:
+      - Unsettled Amounts
+      summary: 'Currency Breakdown: Owed by Currency and Amount Type'
+      description: Gets unsettled amounts for each currency owed by (or to) the requester. Scope can be extended in the request to include each currency's underlying amount types.
+      operationId: UnsettledAmountsGetUnsettledAmountsAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: QEPWm2RyUefWudKFjRaJag==
+      - name: AccountKey
+        in: query
+        description: The keys of the accounts to which the resource belongs.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 7wfA7-TCgQ0ygd||aOXY0w==
+      - name: AmountTypeSource
+        in: query
+        description: Specifies the response data granularity, providing access to source of AmountType.
+        schema:
+          $ref: '#/components/schemas/AmountTypeSource'
+      - name: ClientKey
+        in: query
+        description: The key of the client to which the resource belongs.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: AbSTLYSoo499JZpp|ckGFw==
+      - name: Scope
+        in: query
+        description: Specifies the response data granularity, providing access to either Currencies(default) or AmountTypes.
+        schema:
+          $ref: '#/components/schemas/UnsettledAmountRequestType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyRoot'
+              example:
+                CashFlows:
+                - Amount: -0.57
+                  ValueDate: '2022-11-04'
+                - Amount: -15.40352205
+                  ValueDate: '2022-11-14'
+                Currencies:
+                - AmountTypes:
+                  - AmountType: Unrealized CFD Finance
+                    AmountTypeId: '65'
+                    AmountTypeSource: Financing
+                    CashFlows:
+                    - Amount: -0.57
+                      ValueDate: '2022-11-04'
+                    Total: -0.57
+                  CashFlows:
+                  - Amount: -0.57
+                    ValueDate: '2022-11-04'
+                  Currency: DKK
+                  Total: -0.57
+                - AmountTypes:
+                  - AmountType: Unr. Interest
+                    AmountTypeId: '42'
+                    AmountTypeSource: Financing
+                    CashFlows:
+                    - Amount: -15.40352205
+                      ValueDate: '2022-11-14'
+                    Total: -2.07
+                  CashFlows:
+                  - Amount: -15.40352205
+                    ValueDate: '2022-11-14'
+                  Currency: EUR
+                  Total: -2.07
+                Currency: EUR
+                Total: -15.97352205
+        '404':
+          description: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    ExchangeRoot:
+      title: Estimated value dated cash flows of the requesting entity along with a breakdown of specific exchanges where amounts are owed.
+      type: object
+      properties:
+        CashFlows:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        Currency:
+          title: The requester's primary currency
+          type: string
+          example: stringValue
+        Exchanges:
+          title: Array containing value dated amounts by exchange, for owed currency
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeBreakdown'
+          example:
+          - CashFlows:
+            - Amount: -0.57
+              ValueDate: '2022-11-04'
+            Currencies:
+            - CashFlows:
+              - Amount: -0.57
+                ValueDate: '2022-11-04'
+              Currency: DKK
+              Total: -0.57
+            Currency: DKK
+            ExchangeId: NYSE
+            Total: -0.57
+        Total:
+          title: "Estimated total owed amount (converted to the requester's primary currency).\n             \n            Note: Amounts must be paid in the owed currency."
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CashFlows:
+        - Amount: -0.57
+          ValueDate: '2022-11-04'
+        - Amount: -15.40352205
+          ValueDate: '2022-11-14'
+        Currency: DKK
+        Exchanges:
+        - CashFlows:
+          - Amount: -0.57
+            ValueDate: '2022-11-04'
+          Currencies:
+          - CashFlows:
+            - Amount: -0.57
+              ValueDate: '2022-11-04'
+            Currency: DKK
+            Total: -0.57
+          Currency: DKK
+          ExchangeId: NYSE
+          Total: -0.57
+        - CashFlows:
+          - Amount: -15.40352205
+            ValueDate: '2022-11-14'
+          Currencies:
+          - CashFlows:
+            - Amount: -15.40352205
+              ValueDate: '2022-11-14'
+            Currency: EUR
+            Total: -2.07
+          Currency: EUR
+          ExchangeId: NoExchange
+          Total: -15.40352205
+        Total: -15.97352205
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AmountTypeSource:
+      title: Defines the source of the unsettled amounts.
+      enum:
+      - CorporateAction
+      - Financing
+      - TransactionsNotBooked
+      type: string
+      example: TransactionsNotBooked
+      x-enum-descriptions:
+        TransactionsNotBooked: Intraday transactions that have not been booked
+        Financing: Accruals derived from financing and fee bookings
+        CorporateAction: Accruals derived from corporate action bookings
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxSpot
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    InstrumentBreakdown:
+      title: Contains value dated cash flows of an Instrument for which amounts are owed.
+      type: object
+      properties:
+        AssetType:
+          title: The AssetType of the instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        CashFlows:
+          title: Array containing value dated amounts in the owed currency for the instrument
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        InstrumentDescription:
+          title: Instrument Name e:g Amazon.com Inc.
+          type: string
+          example: stringValue
+        InstrumentSymbol:
+          title: Instrument Symbol Code e:g AMZN:xnas
+          type: string
+          example: stringValue
+        Total:
+          title: Total amount owed for the instrument
+          type: number
+          example: 10
+        Uic:
+          title: Instrument Uic
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: Fund
+        CashFlows:
+        - Amount: 10
+          ValueDate: '0001-01-01'
+        InstrumentDescription: stringValue
+        InstrumentSymbol: stringValue
+        Total: 10
+        Uic: 99
+    CurrencyBreakdown:
+      title: Contains total, and value dated cash flows for an owed currency along with associated information.
+      type: object
+      properties:
+        AmountTypes:
+          title: For each amount type owed in this currency, the value dated cash flows and associated details.
+          type: array
+          items:
+            $ref: '#/components/schemas/AmountTypeBreakdown'
+          example:
+          - AmountType: stringValue
+            AmountTypeId: stringValue
+            AmountTypeSource: stringValue
+            CashFlows:
+            - Amount: 10
+              ValueDate: '0001-01-01'
+            Total: 10
+        CashFlows:
+          title: Array containing value dated amounts in the owed currency
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        Currency:
+          title: The owed currency for the associated cash flows.
+          type: string
+          example: stringValue
+        Total:
+          title: Total amount owed in this currency.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AmountTypes:
+        - AmountType: stringValue
+          AmountTypeId: stringValue
+          AmountTypeSource: stringValue
+          CashFlows:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+          Total: 10
+        CashFlows:
+        - Amount: 10
+          ValueDate: '0001-01-01'
+        Currency: stringValue
+        Total: 10
+    CashFlow:
+      title: Cash flow for value date
+      type: object
+      properties:
+        Amount:
+          title: Amount owed on the specified value date
+          type: number
+          example: 10
+        ValueDate:
+          title: Value date which the amount is owed.
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        Amount: 10
+        ValueDate: '0001-01-01'
+    AmountTypeBreakdown:
+      title: Contains value dated cash flows for a specific Amount Type and associated information.
+      type: object
+      properties:
+        AmountType:
+          title: Amount Type Name, which the associated amounts correspond to.
+          type: string
+          example: stringValue
+        AmountTypeId:
+          title: Amount Type Identifier
+          type: string
+          example: stringValue
+        AmountTypeSource:
+          title: Source of where the Amount Type originates from.
+          type: string
+          example: stringValue
+        CashFlows:
+          title: Array containing value dated amounts in the owed currency
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        Total:
+          title: Total value of the provided value dated amounts from the cash flows.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AmountType: stringValue
+        AmountTypeId: stringValue
+        AmountTypeSource: stringValue
+        CashFlows:
+        - Amount: 10
+          ValueDate: '0001-01-01'
+        Total: 10
+    InstrumentBreakdownListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentBreakdown'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AssetType: FxSpot
+          CashFlows:
+          - Amount: 274
+            ValueDate: '2022-11-01'
+          InstrumentDescription: Phillip Inc.
+          InstrumentSymbol: PI:xnys
+          Total: 320.45
+          Uic: 32154
+    ExchangeBreakdown:
+      title: Estimated unsettled amounts with value dated and total cash flows of the amounts owed to an exchange, along with a breakdown of specific currencies owed.
+      type: object
+      properties:
+        CashFlows:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        Currencies:
+          title: For each currency with an amounts owed, the value dated cash flows and associated details.
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBreakdown'
+          example:
+          - AmountTypes:
+            - AmountType: stringValue
+              AmountTypeId: stringValue
+              AmountTypeSource: stringValue
+              CashFlows:
+              - Amount: 10
+                ValueDate: '0001-01-01'
+              Total: 10
+            CashFlows:
+            - Amount: 10
+              ValueDate: '0001-01-01'
+            Currency: stringValue
+            Total: 10
+        Currency:
+          title: The requester's primary currency
+          type: string
+          example: stringValue
+        ExchangeId:
+          title: "Exchange Identifier for the associated amounts. Additional information on the exchange can be looked up in the Reference Data service group.\n            If a returned amount does not have an Exchange associated, no ExchangeId will be provided."
+          type: string
+          example: stringValue
+        Total:
+          title: "Estimated total owed amount (converted to the requester's primary currency).\n             \n            Note: Amounts must be paid in the owed currency."
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CashFlows:
+        - Amount: -0.57
+          ValueDate: '2022-11-04'
+        Currencies:
+        - CashFlows:
+          - Amount: -0.57
+            ValueDate: '2022-11-04'
+          Currency: DKK
+          Total: -0.57
+        Currency: DKK
+        ExchangeId: NYSE
+        Total: -0.57
+    CurrencyRoot:
+      title: Estimated value dated cash flows of the requesting entity along with a breakdown of specific currencies owed.
+      type: object
+      properties:
+        CashFlows:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlow'
+          example:
+          - Amount: 10
+            ValueDate: '0001-01-01'
+        Currencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBreakdown'
+          example:
+          - AmountTypes:
+            - AmountType: stringValue
+              AmountTypeId: stringValue
+              AmountTypeSource: stringValue
+              CashFlows:
+              - Amount: 10
+                ValueDate: '0001-01-01'
+              Total: 10
+            CashFlows:
+            - Amount: 10
+              ValueDate: '0001-01-01'
+            Currency: stringValue
+            Total: 10
+        Currency:
+          title: The requester's primary currency
+          type: string
+          example: stringValue
+        Total:
+          title: "Estimated total owed amount (converted to the requester's primary currency).\n             \n            Note: Amounts must be paid in the owed currency."
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CashFlows:
+        - Amount: -0.57
+          ValueDate: '2022-11-04'
+        - Amount: -15.40352205
+          ValueDate: '2022-11-14'
+        Currencies:
+        - AmountTypes:
+          - AmountType: Unrealized CFD Finance
+            AmountTypeId: '65'
+            AmountTypeSource: Financing
+            CashFlows:
+            - Amount: -0.57
+              ValueDate: '2022-11-04'
+            Total: -0.57
+          CashFlows:
+          - Amount: -0.57
+            ValueDate: '2022-11-04'
+          Currency: DKK
+          Total: -0.57
+        - AmountTypes:
+          - AmountType: Unr. Interest
+            AmountTypeId: '42'
+            AmountTypeSource: Financing
+            CashFlows:
+            - Amount: -15.40352205
+              ValueDate: '2022-11-14'
+            Total: -2.07
+          CashFlows:
+          - Amount: -15.40352205
+            ValueDate: '2022-11-14'
+          Currency: EUR
+          Total: -2.07
+        Currency: EUR
+        Total: -15.97352205
+    UnsettledAmountRequestType:
+      title: Enum for Scope of Unsettled amount request
+      enum:
+      - AmountTypes
+      - Currencies
+      type: string
+      example: Currencies
+      x-enum-descriptions:
+        Currencies: Currencies
+        AmountTypes: Amount Types
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

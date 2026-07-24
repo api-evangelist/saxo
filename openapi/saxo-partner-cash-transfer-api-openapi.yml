@@ -1,0 +1,580 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Partner - Cash Transfer API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Partner - Cash Transfer
+  description: Provides AssetTransfers related endpoints.
+paths:
+  /atr/v1/partner/cashtransfers/{TransactionId}:
+    get:
+      tags:
+      - Partner - Cash Transfer
+      description: Fetches the latest status of fund transfers.
+      operationId: PartnerCashTransferCashTransfersById
+      parameters:
+      - name: TransactionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResult'
+              example:
+                Amount: 10000
+                Comment: Transferring from funding account 33000/FEUR
+                Currency: EUR
+                ExternalReference: '789456'
+                FromAccount: -gh-xomNFSNUYdRL0KrPpg==
+                FromAccountPositionId: '1267'
+                FundingCheck: Enforce
+                ToAccount: y3kFQWkqJYMgOgaxcoqshA==
+                ToAccountPositionId: '1268'
+                TransactionId: '1269'
+                TransferRequestedOn: '2022-10-30T06:28:04.816053Z'
+                TransferStatus: Successful
+                ValueDate: '0001-01-01T00:00:00Z'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TransactionNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      TransactionNotFound: Transaction not found
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: One or more of the provided parameters are invalid.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+  /atr/v1/partner/cashtransfers:
+    get:
+      tags:
+      - Partner - Cash Transfer
+      description: Fetches a summary of transfers.
+      operationId: PartnerCashTransferCashTransfersBySearchParameters
+      parameters:
+      - name: AccountKey
+        in: query
+        description: If specified, will only return entries pertaining to the specified account.
+        schema:
+          title: If specified, will only return entries pertaining to the specified account.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: dIm75edbgnW6aBK3CIc-sw==
+      - name: ClientKey
+        in: query
+        description: If specified, will only return entries pertaining to the specified client.
+        schema:
+          title: If specified, will only return entries pertaining to the specified client.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: zpSlGZ4F0cPIx59wR3HP1g==
+      - name: ExternalReference
+        in: query
+        description: Include entries with the specified ExternalReference.
+        schema:
+          title: Include entries with the specified ExternalReference.
+          type: string
+        example: stringValue
+      - name: FromDateTime
+        in: query
+        description: Only include entries with a TransferRequestedOn value greater than or equal to FromDateTime.
+        schema:
+          title: Only include entries with a TransferRequestedOn value greater than or equal to FromDateTime.
+          type: string
+        example: '2022-03-06T04:23:44.5328096'
+      - name: SkipToken
+        in: query
+        description: Id token of entity to start taking elements from.
+        schema:
+          title: Id token of entity to start taking elements from.
+          type: string
+        example: stringValue
+      - name: ToDateTime
+        in: query
+        description: Only include entries with a TransferRequestedOn value lower than or equal to ToDateTime.
+        schema:
+          title: Only include entries with a TransferRequestedOn value lower than or equal to ToDateTime.
+          type: string
+        example: '2022-03-06T04:23:44.5328096'
+      - name: Top
+        in: query
+        description: Number of elements to retrieve. (Default is 50, Max is 1000.)
+        schema:
+          title: Number of elements to retrieve. (Default is 50, Max is 1000.)
+          type: integer
+          format: int32
+        example: 99
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResultListResult'
+              example:
+                Data:
+                - Amount: 10000
+                  Comment: Transferring from funding account 33000/FEUR
+                  Currency: EUR
+                  ExternalReference: '789456'
+                  FromAccount: -gh-xomNFSNUYdRL0KrPpg==
+                  FromAccountPositionId: '1267'
+                  FundingCheck: Enforce
+                  ToAccount: y3kFQWkqJYMgOgaxcoqshA==
+                  ToAccountPositionId: '1268'
+                  TransactionId: '1269'
+                  TransferRequestedOn: '2022-10-30T06:28:04.817054Z'
+                  TransferStatus: Successful
+                  ValueDate: '0001-01-01T00:00:00Z'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TransactionNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      TransactionNotFound: Transaction not found
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: One or more of the provided parameters are invalid.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+    post:
+      tags:
+      - Partner - Cash Transfer
+      description: Cash transfer initiated by partner.
+      operationId: PartnerCashTransferCashTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerCashTransferRequest'
+            example:
+              Amount: 10000
+              Comment: Transferring from funding account 33000/FEUR
+              Currency: EUR
+              ExternalReference: '789456'
+              FromAccountKey: -gh-xomNFSNUYdRL0KrPpg==
+              FundingCheck: Enforce
+              ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
+              ValueDate: '2022-10-30T06:28:04.794036Z'
+      responses:
+        '201':
+          description: Resource was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerCashTransferResponse'
+              example:
+                FromAccountPositionId: '1267'
+                ToAccountPositionId: '1268'
+                TransactionId: '1269'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AccountsNotFoundForTransferDoneByIb
+                    - AccountsNotFoundForTransferDoneByWlp
+                    - CurrencyShouldBeSameAsAccount
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      AccountsNotFoundForTransferDoneByIb: To/from account not found.
+                      AccountsNotFoundForTransferDoneByWlp: To/from account not found.
+                      CurrencyShouldBeSameAsAccount: Currency should be same as source account and destination account.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AccountNotValid
+                    - CurrencyMustBeSameAsAtLeastOneOfTheAccounts
+                    - FundingAccountsNotFound
+                    - FundingShouldUnderSameHierarchy
+                    - IgnoreFundingCheckNotApplicableWhileFunding
+                    - InputDataInvalid
+                    - InsufficientCash
+                    - MarginBorderLine
+                    - OneAccountShouldBeFundingAccount
+                    - OneAccountShouldBeNormalTradingAccount
+                    - OneClientShouldBeIB
+                    - OnlyOneAccountShouldBeFundingAccount
+                    - OverFundingNotAllowed
+                    - RequestedVariationMarginAmountBelowMinimumLimit
+                    - TransferDoneForAccountsOfSameClient
+                    - TrialClientsNotSupported
+                    - WouldExceedMargin
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      IgnoreFundingCheckNotApplicableWhileFunding: Ignore funding check not applicable while funding.
+                      FundingShouldUnderSameHierarchy: Funding should be under same hierarchy.
+                      TransferDoneForAccountsOfSameClient: Transfer can't be done between account of same client.
+                      OneAccountShouldBeFundingAccount: At least one account should be funding account.
+                      OnlyOneAccountShouldBeFundingAccount: Only one account should be funding account.
+                      OneAccountShouldBeNormalTradingAccount: At least  one account should be normal trading account.
+                      TrialClientsNotSupported: Trial clients are not supported.
+                      OneClientShouldBeIB: At least one client should be an IB.
+                      OverFundingNotAllowed: Cash OverFunding is not Allowed into Aktiesparekonto account
+                      AccountNotValid: One of the two accounts is not valid.
+                      CurrencyMustBeSameAsAtLeastOneOfTheAccounts: Transfer needs to be in the same currency as at least one of the two accounts basecurrencies.
+                      InsufficientCash: The from account has insufficient cash for this transfer.
+                      MarginBorderLine: The from account borderlines margin.
+                      WouldExceedMargin: The from account would exceed margin.
+                      InputDataInvalid: Invalid input data.
+                      RequestedVariationMarginAmountBelowMinimumLimit: Cash withdrawl/transfer amount is below the required minimum limit.
+                      FundingAccountsNotFound: Funding accounts not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    PartnerCashTransferResponse:
+      title: Result of partner's initiated cash transfer.
+      type: object
+      properties:
+        FromAccountPositionId:
+          title: The id of the cash position created on the "from" account.
+          type: string
+          example: stringValue
+        ToAccountPositionId:
+          title: The id of the cash position created on the "to" account.
+          type: string
+          example: stringValue
+        TransactionId:
+          title: Id of the transaction done.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        FromAccountPositionId: '1267'
+        ToAccountPositionId: '1268'
+        TransactionId: '1269'
+    TransferResultListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferResult'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Amount: 10000
+          Comment: Transferring from funding account 33000/FEUR
+          Currency: EUR
+          ExternalReference: '789456'
+          FromAccount: -gh-xomNFSNUYdRL0KrPpg==
+          FromAccountPositionId: '1267'
+          FundingCheck: Enforce
+          ToAccount: y3kFQWkqJYMgOgaxcoqshA==
+          ToAccountPositionId: '1268'
+          TransactionId: '1269'
+          TransferRequestedOn: '2022-10-30T06:28:04.817054Z'
+          TransferStatus: Successful
+          ValueDate: '0001-01-01T00:00:00Z'
+    PartnerCashTransferRequest:
+      title: Transfer details needed for the partner cash transfer
+      required:
+      - FromAccountKey
+      - ToAccountKey
+      - Amount
+      - Currency
+      type: object
+      properties:
+        Amount:
+          title: The value that will be transacted.
+          type: number
+          example: 10
+        Comment:
+          title: Comment to the transaction. The comment will be seen in the EOD files.
+          type: string
+          example: stringValue
+        Currency:
+          title: "Currency in which the cash movement will be held in.\n            \n            This is essentially just an extra check! The currency entered here must be the same as that of the funding account and the clients trading account."
+          type: string
+          example: stringValue
+        ExternalReference:
+          title: Caller may add this to identify the request.
+          type: string
+          example: stringValue
+        FromAccountKey:
+          title: "Account from where the cash is moved from. For funding transactions, this field will hold the AccountKey of the funding account. For withdrawal transactions this field will hold the AccountKey of the clients trading account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        FundingCheck:
+          title: "Specify this to specify if funding rules be checked and enforced.\n            \n            Default is \"Enforce\".\n            \n            Enforce: All margin and funding checks will be performed and enforced.The transaction will fail if margin and funding checks are not passed.\n            \n            Ignore: No margin or funding checks are performed.The operation will move the specified monies from the client account and you can ultimately place the clients accounts into negative.\n            \n            You can only specify FundingCheck:Ignore for a cash withdrawal from a clients trading account back to the WLC's funding account.\n            \n            If you specify FundingCheck:Ignore for a funding from the WLC's funding account to the clients trading account, the call will fail."
+          allOf:
+          - $ref: '#/components/schemas/FundingCheck'
+        ToAccountKey:
+          title: "Account where the cash is moved to. For funding transactions, this field will hold the AccountKey of the clients trading account. For withdrawal transactions this field will hold the AccountKey of the WLCs funding account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ValueDate:
+          title: Value Date of settlement of cash transfer. Must be within the range [-90;90] days of current date.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        Amount: 10000
+        Comment: Transferring from funding account 33000/FEUR
+        Currency: EUR
+        ExternalReference: '789456'
+        FromAccountKey: -gh-xomNFSNUYdRL0KrPpg==
+        FundingCheck: Enforce
+        ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
+        ValueDate: '2022-10-30T06:28:04.7940360+00:00'
+    FundingCheck:
+      title: Specifies if funding rules should be checked or not.
+      enum:
+      - Enforce
+      - Ignore
+      type: string
+      example: Enforce
+      x-enum-descriptions:
+        Enforce: Enforce funding checks
+        Ignore: Ignore funding checks
+    TransferResult:
+      type: object
+      properties:
+        Amount:
+          title: Amount to be moved
+          type: number
+          example: 10
+        Comment:
+          title: Comment specified in the request
+          type: string
+          example: stringValue
+        Currency:
+          title: Currency specified in the request
+          type: string
+          example: stringValue
+        ExternalReference:
+          title: External reference specified in the request
+          type: string
+          example: stringValue
+        FromAccount:
+          title: Account where the cash is moved from.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        FromAccountPositionId:
+          title: The id of the cash position created on the "from" account.
+          type: string
+          example: stringValue
+        FundingCheck:
+          title: Funding check action.
+          allOf:
+          - $ref: '#/components/schemas/FundingCheck'
+        ToAccount:
+          title: Account where the cash is moved to.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ToAccountPositionId:
+          title: The id of the cash position created on the "to" account.
+          type: string
+          example: stringValue
+        TransactionId:
+          title: Unique id for the cash transfer transaction.
+          type: string
+          example: stringValue
+        TransferRequestedOn:
+          title: Time of the transaction was requested.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TransferStatus:
+          title: Status of the transaction.
+          allOf:
+          - $ref: '#/components/schemas/TransferStatus'
+        ValueDate:
+          title: Value Date of settlement of cash transfer.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        Amount: 10000
+        Comment: Transferring from funding account 33000/FEUR
+        Currency: EUR
+        ExternalReference: '789456'
+        FromAccount: -gh-xomNFSNUYdRL0KrPpg==
+        FromAccountPositionId: '1267'
+        FundingCheck: Enforce
+        ToAccount: y3kFQWkqJYMgOgaxcoqshA==
+        ToAccountPositionId: '1268'
+        TransactionId: '1269'
+        TransferRequestedOn: '2022-10-30T06:28:04.8160530+00:00'
+        TransferStatus: Successful
+        ValueDate: '0001-01-01T00:00:00.0000000+00:00'
+    TransferStatus:
+      enum:
+      - Failed
+      - Pending
+      - Successful
+      type: string
+      example: Failed
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

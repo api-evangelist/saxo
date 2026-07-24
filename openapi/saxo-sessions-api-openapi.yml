@@ -1,0 +1,648 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Sessions API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Sessions
+  description: Session management endpoints.
+paths:
+  /root/v1/sessions/events/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Sessions
+      summary: Remove session capabilities subscription
+      description: Removes the subscription identified by the specified reference id (and streaming context id).
+      operationId: SessionsV1DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: The context id part of the streaming session (used to identify the subscription within a streaming session).
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '20180204125301453'
+      - name: ReferenceId
+        in: path
+        description: The reference id that identifies the subscription (within a streaming session).
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: C04
+      responses:
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+  /root/v1/sessions/events/subscriptions:
+    post:
+      tags:
+      - Sessions
+      summary: Create a session capabilities subscription
+      description: Sets up a new session capabilities subscription. The data stream will deliver updates from this point.
+      operationId: SessionsV1AddSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionSubscriptionRequest'
+            example:
+              ContextId: '20221029043400336'
+              ReferenceId: S37523
+              RefreshRate: 1000
+              Tag: PAGE1
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionSubscriptionResponse'
+              example:
+                ContextId: '20221029043400336'
+                Format: application/json
+                InactivityTimeout: 120
+                ReferenceId: S37523
+                RefreshRate: 1000
+                Snapshot:
+                  AuthenticationLevel: Authenticated
+                  DataLevel: Standard
+                  TradeLevel: OrdersOnly
+                State: Active
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-streaming-type:
+        $ref: '#/components/schemas/SessionSubscriptionStreamedState'
+  /root/v1/sessions/events/subscriptions/active:
+    post:
+      tags:
+      - Sessions
+      summary: Obsolete Create a session capabilities subscription
+      description: Sets up a new session capabilities subscription. The data stream will deliver updates from this point.
+      operationId: SessionsV1AddSubscriptionActive
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionSubscriptionRequest'
+            example:
+              ContextId: '20221029043400336'
+              ReferenceId: S37523
+              RefreshRate: 1000
+              Tag: PAGE1
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionSubscriptionResponse'
+              example:
+                ContextId: '20221029043400336'
+                Format: application/json
+                InactivityTimeout: 120
+                ReferenceId: S37523
+                RefreshRate: 1000
+                Snapshot:
+                  AuthenticationLevel: Authenticated
+                  DataLevel: Standard
+                  TradeLevel: OrdersOnly
+                State: Active
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidModelState
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      deprecated: true
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-streaming-type:
+        $ref: '#/components/schemas/SessionSubscriptionStreamedState'
+  /root/v1/sessions/capabilities:
+    get:
+      tags:
+      - Sessions
+      summary: Get the sessions capabilities.
+      description: Get the sessions capabilities.
+      operationId: SessionsV1GetCapabilities
+      responses:
+        '200':
+          description: Indicates operation was successful and response-body contains current capabilities.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilitiesResponse'
+              example:
+                AuthenticationLevel: Authenticated
+                DataLevel: Standard
+                TradeLevel: OrdersOnly
+        '400':
+          description: Returned when either the 'Authorization' header is missing the request or the Open API token sent in this header does not belong to the session identified by the the session ID in the URI.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    put:
+      tags:
+      - Sessions
+      summary: Change the sessions capabilities.
+      description: Change sessions capabilities.
+      operationId: SessionsV1SetCapabilities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutCapabilitiesRequest'
+            example:
+              TradeLevel: OrdersOnly
+      responses:
+        '202':
+          description: Indicates that the request to change capabilities has been accepted and will be executed as soon as possible. Indication of actual capabilities change is streamed to the client.
+        '400':
+          description: Returned when either the 'Authorization' header is missing the request or the Open API token sent in this header does not belong to the session identified by the the session ID in the URI.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    patch:
+      tags:
+      - Sessions
+      summary: Change the sessions capabilities.
+      description: Change sessions capabilities.
+      operationId: SessionsV1PatchCapabilities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchCapabilitiesRequest'
+            example:
+              TradeLevel: OrdersOnly
+      responses:
+        '202':
+          description: Indicates that capabilities are being changed.
+        '400':
+          description: Returned when either the 'Authorization' header is missing the request or the Open API token sent in this header does not belong to the session identified by the the session ID in the URI.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    CapabilitiesResponse:
+      title: Response object holding current session capabilities.
+      type: object
+      properties:
+        AuthenticationLevel:
+          title: Determines the current level of authentication.
+          allOf:
+          - $ref: '#/components/schemas/AuthenticationLevel'
+        DataLevel:
+          title: Unused.
+          allOf:
+          - $ref: '#/components/schemas/DataLevel'
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        AuthenticationLevel: Authenticated
+        DataLevel: Standard
+        TradeLevel: OrdersOnly
+    SessionSubscriptionResponse:
+      title: Response returned when creating a new subscription for broken data.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/SessionSubscriptionStreamedState'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221029043400336'
+        Format: application/json
+        InactivityTimeout: 120
+        ReferenceId: S37523
+        RefreshRate: 1000
+        Snapshot:
+          AuthenticationLevel: Authenticated
+          DataLevel: Standard
+          TradeLevel: OrdersOnly
+        State: Active
+    AuthenticationLevel:
+      title: Represents levels of authentication
+      enum:
+      - Authenticated
+      - Elevated
+      type: string
+      example: Authenticated
+      x-enum-descriptions:
+        Authenticated: Indicates that the user does not have elevated authentication.
+        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
+    PutCapabilitiesRequest:
+      title: Represents a request to set all session capabilities.
+      type: object
+      properties:
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        TradeLevel: OrdersOnly
+    Model.AuthenticationLevel:
+      title: Represents levels of authentication
+      enum:
+      - Authenticated
+      - Elevated
+      type: string
+      example: Authenticated
+      x-enum-descriptions:
+        Authenticated: Indicates that the user is authenticated but does not have elevated authentication.
+        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
+    TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading and access to real time data.
+    PatchCapabilitiesRequest:
+      title: Represents a request to change session capabilities.
+      type: object
+      properties:
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        TradeLevel: OrdersOnly
+    Domain.DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
+    SessionSubscriptionRequest:
+      title: The request object required to setup a session wide subscription.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221029043400336'
+        ReferenceId: S37523
+        RefreshRate: 1000
+        Tag: PAGE1
+    SessionSubscriptionStreamedState:
+      title: Data class that cannot be serialized.
+      type: object
+      properties:
+        AuthenticationLevel:
+          title: Gets or sets the authentication level.
+          allOf:
+          - $ref: '#/components/schemas/Model.AuthenticationLevel'
+        DataLevel:
+          title: Gets or sets the data L evel.
+          allOf:
+          - $ref: '#/components/schemas/Domain.DataLevel'
+        TradeLevel:
+          title: Gets or sets the trade level.
+          allOf:
+          - $ref: '#/components/schemas/Domain.TradeLevel'
+      additionalProperties: false
+      example:
+        AuthenticationLevel: Elevated
+        DataLevel: Premium
+        TradeLevel: FullTradingAndChat
+    Domain.TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading.
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

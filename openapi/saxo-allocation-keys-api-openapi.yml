@@ -1,0 +1,1058 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Allocation Keys API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Allocation Keys
+  description: Add or modify allocation keys.
+paths:
+  /trade/v1/allocationkeys/distributions/{AllocationKeyId}:
+    get:
+      tags:
+      - Allocation Keys
+      summary: Get distributed amount for a given allocation key
+      description: Retrieve distributed amount for the given allocation key.
+      operationId: AllocationKeysDistributeAmountAccordingToAllocationKey
+      parameters:
+      - name: AllocationKeyId
+        in: path
+        description: Allocation key id
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '227'
+      - name: AssetType
+        in: query
+        description: Asset type. Optional, must be used in conjunction with
+        style: form
+        explode: false
+        schema:
+          $ref: '#/components/schemas/AssetType'
+      - name: Totalamount
+        in: query
+        description: Total amount to distribute between accounts associated with the allocationKey
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: number
+        example: 22
+      - name: Uic
+        in: query
+        description: Unique instrument identification. Optional, must be used in conjunction with
+        style: form
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Indicates the information was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistributedAmountResponse'
+              example:
+                Remainder: 0.1
+                SubClientsInfo:
+                - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244113
+                  Amount: 10.3
+                  MultiLegAmount: 0
+                - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244114
+                  Amount: 20.3
+                  MultiLegAmount: 0
+                - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244115
+                  Amount: 70.3
+                  MultiLegAmount: 0
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AllocationKeyNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      AllocationKeyNotFound: Requested allocation key is not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - DomainValidationError
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      DomainValidationError: Domain Validation Failed!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /trade/v1/allocationkeys/{AllocationKeyId}:
+    get:
+      tags:
+      - Allocation Keys
+      summary: Get detailed information about an allocation key
+      description: Get detailed information about an allocation key.
+      operationId: AllocationKeysGetAllocationKey
+      parameters:
+      - name: AllocationKeyId
+        in: path
+        description: allocation key ID
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '227'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationKeyDetails'
+              example:
+                AllocationKeyId: '227'
+                AllocationKeyName: MyAllocation_Key
+                AllocationUnitType: Percentage
+                AssetType: CfdOnStock
+                BuySell: Buy
+                CreationTime: '0001-01-01T00:00:00Z'
+                ExternalReference: Order123
+                MarginHandling: Reduce
+                OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                Participants: 0
+                ParticipatingAccountsInfo:
+                - AcceptRemainderAmount: true
+                  AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                  ClientKey: null
+                  Priority: 1
+                  UnitValue: 10
+                - AcceptRemainderAmount: false
+                  AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                  ClientKey: null
+                  Priority: 1
+                  UnitValue: 90
+                PredefinedQuantity: 0
+                Status: Active
+                TotalUnitValues: 0
+                Uic: 4361
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AllocationKeyNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      AllocationKeyNotFound: Requested allocation key is not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    delete:
+      tags:
+      - Allocation Keys
+      summary: Delete allocation key
+      description: Deletes an allocation key.
+      operationId: AllocationKeysDeleteAllocationKey
+      parameters:
+      - name: AllocationKeyId
+        in: path
+        description: allocation key ID
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: '227'
+      responses:
+        '204':
+          description: Allocation key has been deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /trade/v1/allocationkeys:
+    get:
+      tags:
+      - Allocation Keys
+      summary: Get a list of existing allocation keys
+      description: Get a list of existing allocation keys. By default only Active allocation keys for current client are returned.
+      operationId: AllocationKeysGetAllocationKeys
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 1000
+        example: 1
+      - name: AccountKey
+        in: query
+        description: Optional account key to filter out allocation keys.
+        style: form
+        explode: false
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: ValidAccountKey
+      - name: ClientKey
+        in: query
+        description: Client key for which allocation keys are to be returned.
+        style: form
+        explode: false
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: ValidClientKey
+      - name: IncludeSubClients
+        in: query
+        description: To indicate whether to include allocation keys for sub clients. Default is true.
+        style: form
+        explode: false
+        schema:
+          type: boolean
+        example: true
+      - name: Statuses
+        in: query
+        description: Comma separated list of statuses for keys to include. Default is "Active".
+        style: form
+        explode: false
+        schema:
+          $ref: '#/components/schemas/AllocationKeyStatus'
+        example: Active,OneTime
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationKeySummaryListResult'
+              example:
+                Data:
+                - AllocationKeyId: '227'
+                  AllocationKeyName: MyAllocation_Key
+                  AssetType: CfdOnStock
+                  BuySell: Buy
+                  CreationTime: '0001-01-01T00:00:00Z'
+                  ExternalReference: Order123
+                  OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                  Participants: 0
+                  PredefinedQuantity: 0
+                  Status: Active
+                  TotalUnitValues: 100
+                  Uic: 4361
+                - AllocationKeyId: 2272
+                  AllocationKeyName: MyAllocation_Key_2
+                  CreationTime: '0001-01-01T00:00:00Z'
+                  OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                  Participants: 0
+                  PredefinedQuantity: 0
+                  Status: OneTime
+                  TotalUnitValues: 100
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    post:
+      tags:
+      - Allocation Keys
+      summary: Create an allocation key
+      description: Create an allocation key.
+      operationId: AllocationKeysAddAllocationKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocationKeyCreateRequest'
+            example:
+              AllocationKeyName: MyAllocation_Key
+              AllocationUnitType: Percentage
+              MarginHandling: Reduce
+              OneTime: true
+              OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+              ParticipatingAccountsInfo:
+              - AcceptRemainderAmount: true
+                AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                Priority: 1
+                UnitValue: 10
+              - AcceptRemainderAmount: false
+                AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+                Priority: 1
+                UnitValue: 90
+      responses:
+        '201':
+          description: Allocation key added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocationKeyCreatedResponse'
+              example:
+                AllocationKeyId: '227'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - DomainValidationError
+                    - InvalidModelState
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                      InvalidModelState: One or more properties of the request are invalid!
+                      DomainValidationError: Domain Validation Failed!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    AllocationKeyAccountInfo:
+      title: An allocation participant.
+      required:
+      - Priority
+      - UnitValue
+      - AcceptRemainderAmount
+      type: object
+      properties:
+        AcceptRemainderAmount:
+          title: Specifies if an account can accept the remaining units, if applicable.
+          type: boolean
+          example: true
+        AccountId:
+          title: AccountId of account, which is part of allocation. When creating allocation key, then either AccountKey or AccountId is required.
+          type: string
+          example: stringValue
+        AccountKey:
+          title: AccountKey of account, which is part of allocation. When creating allocation key, then either AccountKey or AccountId is required.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Priority:
+          title: "If several accounts are defined with AcceptRemainderAmount=true, the priority determines the priority by which\n                remainders are distributed between these accounts\n                Also when allocating partial fills, it is allocated in the prioritized order"
+          type: integer
+          format: int32
+          example: 99
+        UnitValue:
+          title: "The actual amount or percentage of the total trade to be distributed to this account, see AllocationUnitType for\n                further explanation."
+          minimum: 0
+          type: number
+          example: 2.55
+      additionalProperties: false
+      example:
+        AcceptRemainderAmount: true
+        AccountId: stringValue
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        Priority: 99
+        UnitValue: 116
+    AllocationKeyStatus:
+      title: Allocation keys status.
+      enum:
+      - Active
+      - DeactivateAfterOrderPlacement
+      - Inactive
+      - OneTime
+      type: string
+      example: OneTime
+      x-enum-descriptions:
+        Inactive: Indicates that key is inactive/deleted and should not be used for any further allocation.
+        Active: The key is active and can be used for allocations.
+        OneTime: Indicates that the key has been created to one-time allocation.
+        DeactivateAfterOrderPlacement: Indicates that the key will be deactivated after order placement.
+      x-type-warning: FlaggableEnum
+    SubClientInfo:
+      title: Distribution information for account.
+      type: object
+      properties:
+        AccountId:
+          title: Account Id.
+          type: string
+          example: stringValue
+        Amount:
+          title: Allocated amount.
+          type: number
+          example: 10
+        MultiLegAmount:
+          title: Allocated multileg amount.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccountId: stringValue
+        Amount: 10
+        MultiLegAmount: 10
+    AllocationKeyCreatedResponse:
+      title: Allocation key created response.
+      type: object
+      properties:
+        AllocationKeyId:
+          title: Newly created allocation key ID.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AllocationKeyId: '227'
+    AllocationKeyCreateRequest:
+      title: Request creating an allocation key.
+      required:
+      - AllocationKeyName
+      - OneTime
+      - OwnerAccountKey
+      - AllocationUnitType
+      - MarginHandling
+      - ParticipatingAccountsInfo
+      type: object
+      properties:
+        AllocationKeyName:
+          title: Name of the allocation key.
+          type: string
+          example: stringValue
+        AllocationUnitType:
+          title: Specifies how to interpret the value of UnitValue in the AllocationKeyAccountInfo.
+          allOf:
+          - $ref: '#/components/schemas/AllocationUnitType'
+        MarginHandling:
+          title: Represents the behavior if because of margin reason entire order can not be processed.
+          allOf:
+          - $ref: '#/components/schemas/MarginHandlingType'
+        OneTime:
+          title: Whether the key is for one time use.
+          type: boolean
+          example: true
+        OwnerAccountKey:
+          title: Account key for the account to this allocation key belongs to.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ParticipatingAccountsInfo:
+          title: Allocation participants.
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationKeyAccountInfo'
+          example:
+          - AcceptRemainderAmount: true
+            AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+            Priority: 1
+            UnitValue: 10
+          - AcceptRemainderAmount: false
+            AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+            Priority: 1
+            UnitValue: 90
+      additionalProperties: false
+      example:
+        AllocationKeyName: MyAllocation_Key
+        AllocationUnitType: Percentage
+        MarginHandling: Reduce
+        OneTime: true
+        OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        ParticipatingAccountsInfo:
+        - AcceptRemainderAmount: true
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Priority: 1
+          UnitValue: 10
+        - AcceptRemainderAmount: false
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Priority: 1
+          UnitValue: 90
+    AllocationKeySummaryListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationKeySummary'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AllocationKeyId: '227'
+          AllocationKeyName: MyAllocation_Key
+          AssetType: CfdOnStock
+          BuySell: Buy
+          CreationTime: '0001-01-01T00:00:00Z'
+          ExternalReference: Order123
+          OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Participants: 0
+          PredefinedQuantity: 0
+          Status: Active
+          TotalUnitValues: 100
+          Uic: 4361
+        - AllocationKeyId: 2272
+          AllocationKeyName: MyAllocation_Key_2
+          CreationTime: '0001-01-01T00:00:00Z'
+          OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Participants: 0
+          PredefinedQuantity: 0
+          Status: OneTime
+          TotalUnitValues: 100
+    DistributedAmountResponse:
+      title: Distributed amount information for given Allocation Key.
+      type: object
+      properties:
+        Remainder:
+          title: Remaining amount not possible to distribute between accounts.
+          type: number
+          example: 10
+        SubClientsInfo:
+          title: Collection of amount distributions.
+          type: array
+          items:
+            $ref: '#/components/schemas/SubClientInfo'
+          example:
+          - AccountId: stringValue
+            Amount: 10
+            MultiLegAmount: 10
+      additionalProperties: false
+      example:
+        Remainder: 0.1
+        SubClientsInfo:
+        - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244113
+          Amount: 10.3
+          MultiLegAmount: 0
+        - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244114
+          Amount: 20.3
+          MultiLegAmount: 0
+        - AccountId: 324b0298-8ec2-4c13-9518-ee4f01244115
+          Amount: 70.3
+          MultiLegAmount: 0
+    AllocationUnitType:
+      title: Specifies how to interpret the value of UnitValue in the AllocationKeyAccountInfo.
+      enum:
+      - Percentage
+      - Unit
+      type: string
+      example: Unit
+      x-enum-descriptions:
+        Unit: "Distribution is done using units allocation. \n            In this case the total sum of UnitValues in the ParticipatingAccounts array must add up to the amount specified in the order, or at least one of the accounts in the ParticipatingAccounts must have the AcceptRemainderAmount field set to true."
+        Percentage: "Distribution is done on a percentage basis. \n            In this case the total sum of UnitValues in the ParticipatingAccounts array must add up to 100."
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxKnockOutOption
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    AllocationKeySummary:
+      title: Allocation key summary info.
+      type: object
+      properties:
+        AllocationKeyId:
+          title: Allocation key ID.
+          type: string
+          example: stringValue
+        AllocationKeyName:
+          title: Allocation key name.
+          type: string
+          example: stringValue
+        AssetType:
+          title: The Instruments AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BuySell:
+          title: The direction of the order buy or sell.
+          allOf:
+          - $ref: '#/components/schemas/Domain.BuySell'
+        CreationTime:
+          title: Datetime of allocation group creation
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExternalReference:
+          title: 'Optional reference from the client app. Maximum length: 50 characters'
+          type: string
+          example: stringValue
+        OwnerAccountKey:
+          title: Allocation key owner account key.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Participants:
+          title: Number of Participant(s)
+          type: integer
+          format: int32
+          example: 99
+        PredefinedQuantity:
+          title: '(Obsolete. Deprecation date: "2022-10-01". Use TotalUnitValues instead) The sum of each of the accounts'' predefined quantity.'
+          type: integer
+          format: int32
+          example: 99
+          deprecated: true
+          x-deprecated-date: '2022-10-01'
+        Status:
+          title: Allocation key status.
+          allOf:
+          - $ref: '#/components/schemas/AllocationKeyStatus'
+        TotalUnitValues:
+          title: Sum of all participating accounts' UnitValues.
+          type: number
+          example: 10
+        Uic:
+          title: Unique id of the instrument to place the allocation key for.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AllocationKeyId: stringValue
+        AllocationKeyName: stringValue
+        AssetType: Rights
+        BuySell: Sell
+        CreationTime: '9999-12-31T23:59:59.9999990+00:00'
+        ExternalReference: stringValue
+        OwnerAccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        Participants: 99
+        PredefinedQuantity: 99
+        Status: DeactivateAfterOrderPlacement
+        TotalUnitValues: 10
+        Uic: 99
+    MarginHandlingType:
+      title: Specifies the behavior of an allocation in case order one or several accounts cannot hold their part of a block trader/order position due to violation of margin requirements.
+      enum:
+      - Reduce
+      - Reject
+      type: string
+      example: Reject
+      x-enum-descriptions:
+        Reject: If on margin, reject the entire order rather than doing part allocation.
+        Reduce: If on margin, reduce the order with the amount the account on margin would have received.
+    Domain.BuySell:
+      title: Describes the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy.
+        Sell: Sell.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AllocationKeyDetails:
+      title: Allocation key details.
+      type: object
+      properties:
+        AllocationKeyId:
+          title: Allocation key ID.
+          type: string
+          example: stringValue
+        AllocationKeyName:
+          title: Allocation key name.
+          type: string
+          example: stringValue
+        AllocationUnitType:
+          title: Specifies how to interpret the value of UnitValue in the AllocationKeyAccountInfo.
+          allOf:
+          - $ref: '#/components/schemas/AllocationUnitType'
+        AssetType:
+          title: The Instruments AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BuySell:
+          title: The direction of the order buy or sell.
+          allOf:
+          - $ref: '#/components/schemas/Domain.BuySell'
+        CreationTime:
+          title: Datetime of allocation group creation
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ErrorAccount:
+          title: If any participant faces issue to book the allocated amount , then respective allocated amount will be booked against Error account instead of participant's account.
+          type: string
+          example: stringValue
+        ExternalReference:
+          title: 'Optional reference from the client app. Maximum length: 50 characters'
+          type: string
+          example: stringValue
+        MarginHandling:
+          title: Represents the behavior if because of margin reason entire order can not be processed.
+          allOf:
+          - $ref: '#/components/schemas/MarginHandlingType'
+        OwnerAccountKey:
+          title: Allocation key owner account key.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Participants:
+          title: Number of Participant(s)
+          type: integer
+          format: int32
+          example: 99
+        ParticipatingAccountsInfo:
+          title: Allocation participants.
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationKeyAccountInfoView'
+          example:
+          - AcceptRemainderAmount: true
+            AccountId: stringValue
+            AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+            ClientId: stringValue
+            ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+            Priority: 99
+            UnitValue: 2.55
+        PredefinedQuantity:
+          title: '(Obsolete. Deprecation date: "2022-10-01". Use TotalUnitValues instead) The sum of each of the accounts'' predefined quantity.'
+          type: integer
+          format: int32
+          example: 99
+          deprecated: true
+          x-deprecated-date: '2022-10-01'
+        Status:
+          title: Allocation key status.
+          allOf:
+          - $ref: '#/components/schemas/AllocationKeyStatus'
+        TotalUnitValues:
+          title: Sum of all participating accounts' UnitValues.
+          type: number
+          example: 10
+        Uic:
+          title: Unique id of the instrument to place the allocation key for.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AllocationKeyId: '227'
+        AllocationKeyName: MyAllocation_Key
+        AllocationUnitType: Percentage
+        AssetType: CfdOnStock
+        BuySell: Buy
+        CreationTime: '0001-01-01T00:00:00.0000000+00:00'
+        ExternalReference: Order123
+        MarginHandling: Reduce
+        OwnerAccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        Participants: 0
+        ParticipatingAccountsInfo:
+        - AcceptRemainderAmount: true
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: null
+          Priority: 1
+          UnitValue: 10
+        - AcceptRemainderAmount: false
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: null
+          Priority: 1
+          UnitValue: 90
+        PredefinedQuantity: 0
+        Status: Active
+        TotalUnitValues: 0
+        Uic: 4361
+    AllocationKeyAccountInfoView:
+      title: An allocation participant.
+      type: object
+      properties:
+        AcceptRemainderAmount:
+          title: Specifies if an account can accept the remaining units, if applicable.
+          type: boolean
+          example: true
+        AccountId:
+          title: AccountId of account, which is part of allocation.
+          type: string
+          example: stringValue
+        AccountKey:
+          title: AccountKey of account, which is part of allocation.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientId:
+          title: ClientId of client, owning the account.
+          type: string
+          example: stringValue
+        ClientKey:
+          title: ClientKey of client, owning the account.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Priority:
+          title: "If several accounts are defined with AcceptRemainderAmount=true, the priority determines the priority by which\n                remainders are distributed between these accounts\n                Also when allocating partial fills, it is allocated in the prioritized order"
+          type: integer
+          format: int32
+          example: 99
+        UnitValue:
+          title: "The actual amount or percentage of the total trade to be distributed to this account, see AllocationUnitType for\n                further explanation."
+          type: number
+          example: 2.55
+      additionalProperties: false
+      example:
+        AcceptRemainderAmount: true
+        AccountId: stringValue
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ClientId: stringValue
+        ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+        Priority: 99
+        UnitValue: 2.55
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

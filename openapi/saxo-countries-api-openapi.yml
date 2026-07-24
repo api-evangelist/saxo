@@ -1,0 +1,344 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Countries API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Countries
+  description: Provides information about countries.
+paths:
+  /ref/v1/countries:
+    get:
+      tags:
+      - Countries
+      summary: Get all supported countries
+      description: Use this GET operation to retrieve a list all the countries supported by Saxo Bank.
+      operationId: CountriesGet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryDetailsListResult'
+              example:
+                Data:
+                - A3: BOL
+                  CountryCode: BO
+                  Name: Bolivia
+                  Numeric: 68
+                - A3: BDI
+                  CountryCode: BI
+                  Name: Burundi
+                  Numeric: 108
+                - A3: COG
+                  CountryCode: CG
+                  Name: Congo
+                  Numeric: 178
+                - A3: DNK
+                  CountryCode: DK
+                  Name: Denmark
+                  Numeric: 208
+                - A3: SLV
+                  CountryCode: SV
+                  Name: El Salvador
+                  Numeric: 222
+                - A3: GNQ
+                  CountryCode: GQ
+                  Name: Equatorial Guinea
+                  Numeric: 226
+                - A3: ERI
+                  CountryCode: ER
+                  Name: Eritrea
+                  Numeric: 232
+                - A3: EST
+                  CountryCode: EE
+                  Name: Estonia
+                  Numeric: 233
+                - A3: ETH
+                  CountryCode: ET
+                  Name: Ethiopia
+                  Numeric: 231
+                - A3: DEU
+                  CountryCode: DE
+                  Name: Germany
+                  Numeric: 276
+                - A3: GRD
+                  CountryCode: GD
+                  Name: Grenada
+                  Numeric: 308
+                - A3: GLP
+                  CountryCode: GP
+                  Name: Guadeloupe
+                  Numeric: 312
+                - A3: HND
+                  CountryCode: HN
+                  Name: Honduras
+                  Numeric: 340
+                - A3: HKG
+                  CountryCode: HK
+                  Name: Hong Kong
+                  Numeric: 344
+                - A3: HUN
+                  CountryCode: HU
+                  Name: Hungary
+                  Numeric: 348
+                - A3: ISL
+                  CountryCode: IS
+                  Name: Iceland
+                  Numeric: 352
+                - A3: MNP
+                  CountryCode: MP
+                  Name: Northern Mariana Islands
+                  Numeric: 580
+                - A3: NOR
+                  CountryCode: false
+                  Name: Norway
+                  Numeric: 578
+                - A3: THA
+                  CountryCode: TH
+                  Name: Thailand
+                  Numeric: 764
+                - A3: TGO
+                  CountryCode: TG
+                  Name: Togo
+                  Numeric: 768
+                - A3: TKL
+                  CountryCode: TK
+                  Name: Tokelau
+                  Numeric: 772
+                - A3: UZB
+                  CountryCode: UZ
+                  Name: Uzbekistan
+                  Numeric: 860
+                - A3: VUT
+                  CountryCode: VU
+                  Name: Vanuatu
+                  Numeric: 548
+                - A3: VEN
+                  CountryCode: VE
+                  Name: Venezuela
+                  Numeric: 862
+                - A3: ZWE
+                  CountryCode: ZW
+                  Name: Zimbabwe
+                  Numeric: 716
+                MaxRows: 99
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CountryDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - A3: BOL
+          CountryCode: BO
+          Name: Bolivia
+          Numeric: 68
+        - A3: BDI
+          CountryCode: BI
+          Name: Burundi
+          Numeric: 108
+        - A3: COG
+          CountryCode: CG
+          Name: Congo
+          Numeric: 178
+        - A3: DNK
+          CountryCode: DK
+          Name: Denmark
+          Numeric: 208
+        - A3: SLV
+          CountryCode: SV
+          Name: El Salvador
+          Numeric: 222
+        - A3: GNQ
+          CountryCode: GQ
+          Name: Equatorial Guinea
+          Numeric: 226
+        - A3: ERI
+          CountryCode: ER
+          Name: Eritrea
+          Numeric: 232
+        - A3: EST
+          CountryCode: EE
+          Name: Estonia
+          Numeric: 233
+        - A3: ETH
+          CountryCode: ET
+          Name: Ethiopia
+          Numeric: 231
+        - A3: DEU
+          CountryCode: DE
+          Name: Germany
+          Numeric: 276
+        - A3: GRD
+          CountryCode: GD
+          Name: Grenada
+          Numeric: 308
+        - A3: GLP
+          CountryCode: GP
+          Name: Guadeloupe
+          Numeric: 312
+        - A3: HND
+          CountryCode: HN
+          Name: Honduras
+          Numeric: 340
+        - A3: HKG
+          CountryCode: HK
+          Name: Hong Kong
+          Numeric: 344
+        - A3: HUN
+          CountryCode: HU
+          Name: Hungary
+          Numeric: 348
+        - A3: ISL
+          CountryCode: IS
+          Name: Iceland
+          Numeric: 352
+        - A3: MNP
+          CountryCode: MP
+          Name: Northern Mariana Islands
+          Numeric: 580
+        - A3: NOR
+          CountryCode: false
+          Name: Norway
+          Numeric: 578
+        - A3: THA
+          CountryCode: TH
+          Name: Thailand
+          Numeric: 764
+        - A3: TGO
+          CountryCode: TG
+          Name: Togo
+          Numeric: 768
+        - A3: TKL
+          CountryCode: TK
+          Name: Tokelau
+          Numeric: 772
+        - A3: UZB
+          CountryCode: UZ
+          Name: Uzbekistan
+          Numeric: 860
+        - A3: VUT
+          CountryCode: VU
+          Name: Vanuatu
+          Numeric: 548
+        - A3: VEN
+          CountryCode: VE
+          Name: Venezuela
+          Numeric: 862
+        - A3: ZWE
+          CountryCode: ZW
+          Name: Zimbabwe
+          Numeric: 716
+        MaxRows: 99
+    CountryDetails:
+      title: Represents a country.
+      type: object
+      properties:
+        A3:
+          title: 3-letter ISO-3166 country code.
+          type: string
+          example: stringValue
+        CountryCode:
+          title: 2-letter ISO-3166 country code. (Also called A2 in ISO 3166 standard).
+          type: string
+          example: stringValue
+        DisplayName:
+          title: Name of the country in the language selected by the user.
+          type: string
+          example: stringValue
+        Name:
+          title: Name of the country in English.
+          type: string
+          example: stringValue
+        Numeric:
+          title: Numeric country code.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        A3: stringValue
+        CountryCode: stringValue
+        DisplayName: stringValue
+        Name: stringValue
+        Numeric: 99
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

@@ -1,0 +1,1706 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Balances API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Balances
+  description: "Read-only endpoint serving client and account balances. The client or account balance is identified by the supplied ClientKey, AccountGroupKey or AccountKey. \n            Access to balance data is further restricted by the access rights of the identity represented by the authorization token."
+paths:
+  /port/v1/balances/subscriptions/{ContextId}/{ReferenceId}:
+    delete:
+      tags:
+      - Balances
+      summary: Remove subscription
+      description: Removes subscription for the current session identified by subscription id.
+      operationId: BalancesV1DeleteSubscription
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: ReferenceId
+        in: path
+        description: Unique ID of the subscription
+        required: true
+        schema:
+          type: string
+        example: B345356
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v1/balances/subscriptions/{ContextId}:
+    delete:
+      tags:
+      - Balances
+      summary: Remove all subscriptions marked with a specific tag
+      description: Removes multiple subscriptions for the current session on this resource and frees all resources on the server.
+      operationId: BalancesV1DeleteSubscriptions
+      parameters:
+      - name: ContextId
+        in: path
+        description: Unique streaming context ID part of the streaming session.
+        required: true
+        schema:
+          type: string
+        example: '29931122'
+      - name: Tag
+        in: query
+        description: Tag that subscriptions are marked with.
+        schema:
+          type: string
+        example: PAGE1
+      responses:
+        '204':
+          description: No Content
+        '202':
+          description: Subscription delete request will be processed eventually.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+  /port/v1/balances/subscriptions:
+    post:
+      tags:
+      - Balances
+      summary: Create a subscription on a balance
+      description: Sets up a subscription and returns an initial snapshot of a balance.
+      operationId: BalancesV1AddActiveSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceSubscriptionRequest'
+            example:
+              Arguments:
+                AccountGroupKey: null
+                AccountKey: null
+                ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+              ContextId: '20221030064906306'
+              ReferenceId: B49083
+              RefreshRate: 500
+              Tag: MyBalancesRelatedSubscriptions
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceSubscriptionResponse'
+              example:
+                ContextId: '20221030064906306'
+                Format: application/json
+                InactivityTimeout: 1500
+                ReferenceId: B49083
+                RefreshRate: 500
+                Snapshot:
+                  CalculationReliability: Ok
+                  CashAvailableForTrading: 100573853.73
+                  CashBalance: 100573853.73
+                  CashBlocked: 0
+                  ChangesScheduled: false
+                  ClosedPositionsCount: 0
+                  CollateralAvailable: 99839075.64
+                  CorporateActionUnrealizedAmounts: 0
+                  CostToClosePositions: -1677.57
+                  Currency: EUR
+                  CurrencyDecimals: 0
+                  InitialMargin:
+                    CollateralAvailable: 12254541.55
+                    MarginAvailable: 12254541.55
+                    MarginCollateralNotAvailable: 0
+                    MarginUsedByCurrentPositions: -1225544.66
+                    MarginUtilizationPct: 15.11
+                    NetEquityForMargin: 1222521.77
+                    OtherCollateralDeduction: 0
+                  IntradayMarginDiscount: 0
+                  IsPortfolioMarginModelSimple: true
+                  MarginAndCollateralUtilizationPct: 0.38
+                  MarginAvailableForTrading: 99839075.64
+                  MarginCollateralNotAvailable: -468419.84
+                  MarginExposureCoveragePct: 344.35
+                  MarginNetExposure: 29088391.02
+                  MarginUsedByCurrentPositions: -326828.87
+                  MarginUtilizationPct: 0.33
+                  NetEquityForMargin: 85539075.64
+                  NetPositionsCount: 0
+                  NonMarginPositionsValue: 509207.41
+                  OpenIpoOrdersCount: 0
+                  OpenPositionsCount: 0
+                  OptionPremiumsMarketValue: 0
+                  OrdersCount: 0
+                  OtherCollateral: 103798.26
+                  SettlementValue: 0
+                  ShareSpendingPower: 50
+                  SpendingPower: 50
+                  SpendingPowerDetail:
+                    Current: 50
+                    Maximum: 50
+                  SrdSpendingPower: 50
+                  TotalValue: 100634324.36
+                  TransactionsNotBooked: -118.71
+                  TriggerOrdersCount: 0
+                  UnrealizedMarginClosedProfitLoss: 0
+                  UnrealizedMarginOpenProfitLoss: 0
+                  UnrealizedMarginProfitLoss: -550738.76
+                  UnrealizedPositionsValue: -43208.92
+                State: Active
+                Tag: MyBalancesRelatedSubscriptions
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - InvalidInput
+                    - InvalidModelState
+                    - NoValidInput
+                    - UnsupportedSubscriptionFormat
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidModelState: Error code returned when model state is invalid.
+                      UnsupportedSubscriptionFormat: Error code returned when a subscription format that isn't supported by the publisher is requested.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                      InvalidInput: An error was encountered when processing given input parameters.
+                      NoValidInput: No valid input values passed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - SubscriptionLimitExceeded
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      SubscriptionLimitExceeded: Error code returned when more than the maximum allowed number of subscriptions for a specified type, is exceeded.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Subscribe
+        community: Subscribe
+      x-streaming-type:
+        $ref: '#/components/schemas/BalanceResponse'
+  /port/v1/balances/marginoverview:
+    get:
+      tags:
+      - Balances
+      summary: Get margin overview
+      description: Get margin overview for a client, account group or an account
+      operationId: BalancesV1GetMarginOverview
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group for which the margin overview is returned
+        schema:
+          title: The key of the account group for which the margin overview is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account for which the margin overview is returned
+        schema:
+          title: The key of the account for which the margin overview is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: query
+        description: The key of the client for which the margin overview is returned
+        required: true
+        schema:
+          title: The key of the client for which the margin overview is returned
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarginOverviewByGroup'
+              example:
+                Groups:
+                - Contributors:
+                  - AssetTypes:
+                    - FxSpot
+                    InstrumentDescription: EURUSD description
+                    InstrumentSpecifier: EURUSD
+                    Margin: 1235
+                    Uic: 21
+                  - AssetTypes:
+                    - FxSpot
+                    InstrumentDescription: GBPUSD description
+                    InstrumentSpecifier: GBPUSD
+                    Margin: 789
+                    Uic: 22
+                  GroupType: FX
+                  TotalMargin: 100000
+                - Contributors:
+                  - AssetTypes:
+                    - CfdOnIndex
+                    InstrumentDescription: SP500 description
+                    InstrumentSpecifier: SP500.I
+                    Margin: 4321
+                    Uic: 4910
+                  - AssetTypes:
+                    - CfdOnIndex
+                    InstrumentDescription: CSE20 description
+                    InstrumentSpecifier: CSE20.I
+                    Margin: 975
+                    Uic: 5768
+                  - AssetTypes:
+                    - CfdOnIndex
+                    InstrumentDescription: DAX description
+                    InstrumentSpecifier: DAX.I
+                    Margin: 864
+                    Uic: 27098
+                  GroupType: CFDs
+                  TotalMargin: 200000
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoValidInput: No valid input values passed.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/balances:
+    get:
+      tags:
+      - Balances
+      summary: Get balance
+      description: Get balance data for a client, account group or an account
+      operationId: GET_BalancesV1GetBalance
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The key of the account group for which the balance data is returned
+        schema:
+          title: The key of the account group for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: stringValue
+      - name: AccountKey
+        in: query
+        description: The key of the account for which the balance data is returned
+        schema:
+          title: The key of the account for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: 01b64edf-da03-4145-bf33-ae21527d4c86
+      - name: ClientKey
+        in: query
+        description: The key of the client for which the balance data is returned
+        required: true
+        schema:
+          title: The key of the client for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+      - name: FieldGroups
+        in: query
+        description: Specifies which data to return.
+        schema:
+          title: Specifies which data to return.
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceFieldGroup'
+        example:
+        - MarginOverview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              example:
+                CalculationReliability: Ok
+                CashAvailableForTrading: 100573853.73
+                CashBalance: 100573853.73
+                CashBlocked: 0
+                ChangesScheduled: false
+                ClosedPositionsCount: 0
+                CollateralAvailable: 99839075.64
+                CorporateActionUnrealizedAmounts: 0
+                CostToClosePositions: -1677.57
+                Currency: EUR
+                CurrencyDecimals: 0
+                InitialMargin:
+                  CollateralAvailable: 12254541.55
+                  MarginAvailable: 12254541.55
+                  MarginCollateralNotAvailable: 0
+                  MarginUsedByCurrentPositions: -1225544.66
+                  MarginUtilizationPct: 15.11
+                  NetEquityForMargin: 1222521.77
+                  OtherCollateralDeduction: 0
+                IntradayMarginDiscount: 0
+                IsPortfolioMarginModelSimple: true
+                MarginAndCollateralUtilizationPct: 0.38
+                MarginAvailableForTrading: 99839075.64
+                MarginCollateralNotAvailable: -468419.84
+                MarginExposureCoveragePct: 344.35
+                MarginNetExposure: 29088391.02
+                MarginUsedByCurrentPositions: -326828.87
+                MarginUtilizationPct: 0.33
+                NetEquityForMargin: 85539075.64
+                NetPositionsCount: 0
+                NonMarginPositionsValue: 509207.41
+                OpenIpoOrdersCount: 0
+                OpenPositionsCount: 0
+                OptionPremiumsMarketValue: 0
+                OrdersCount: 0
+                OtherCollateral: 103798.26
+                SettlementValue: 0
+                SpendingPowerDetail:
+                  Current: 50
+                  Maximum: 50
+                TotalValue: 100634324.36
+                TransactionsNotBooked: -118.71
+                TriggerOrdersCount: 0
+                UnrealizedMarginClosedProfitLoss: 0
+                UnrealizedMarginOpenProfitLoss: 0
+                UnrealizedMarginProfitLoss: -550738.76
+                UnrealizedPositionsValue: -43208.92
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidClientId
+                    - NoValidInput
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoValidInput: No valid input values passed.
+                      InvalidClientId: Indicates that the requested client id was invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+  /port/v1/balances/me:
+    get:
+      tags:
+      - Balances
+      summary: Get balance data for logged-in client
+      description: Get balance data for logged-in client.
+      operationId: BalancesV1GetBalance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+              example:
+                CalculationReliability: Ok
+                CashAvailableForTrading: 100573853.73
+                CashBalance: 100573853.73
+                CashBlocked: 0
+                ChangesScheduled: false
+                ClosedPositionsCount: 0
+                CollateralAvailable: 99839075.64
+                CorporateActionUnrealizedAmounts: 0
+                CostToClosePositions: -1677.57
+                Currency: EUR
+                CurrencyDecimals: 0
+                InitialMargin:
+                  CollateralAvailable: 12254541.55
+                  MarginAvailable: 12254541.55
+                  MarginCollateralNotAvailable: 0
+                  MarginUsedByCurrentPositions: -1225544.66
+                  MarginUtilizationPct: 15.11
+                  NetEquityForMargin: 1222521.77
+                  OtherCollateralDeduction: 0
+                IntradayMarginDiscount: 0
+                IsPortfolioMarginModelSimple: true
+                MarginAndCollateralUtilizationPct: 0.38
+                MarginAvailableForTrading: 99839075.64
+                MarginCollateralNotAvailable: -468419.84
+                MarginExposureCoveragePct: 344.35
+                MarginNetExposure: 29088391.02
+                MarginUsedByCurrentPositions: -326828.87
+                MarginUtilizationPct: 0.33
+                NetEquityForMargin: 85539075.64
+                NetPositionsCount: 0
+                NonMarginPositionsValue: 509207.41
+                OpenIpoOrdersCount: 0
+                OpenPositionsCount: 0
+                OptionPremiumsMarketValue: 0
+                OrdersCount: 0
+                OtherCollateral: 103798.26
+                SettlementValue: 0
+                SpendingPowerDetail:
+                  Current: 50
+                  Maximum: 50
+                TotalValue: 100634324.36
+                TransactionsNotBooked: -118.71
+                TriggerOrdersCount: 0
+                UnrealizedMarginClosedProfitLoss: 0
+                UnrealizedMarginOpenProfitLoss: 0
+                UnrealizedMarginProfitLoss: -550738.76
+                UnrealizedPositionsValue: -43208.92
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    BalanceSubscriptionRequest:
+      title: Public request contract for setting up a subscription on a balance.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/BalanceRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: null
+          AccountKey: null
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ContextId: '20221030064906306'
+        ReferenceId: B49083
+        RefreshRate: 500
+        Tag: MyBalancesRelatedSubscriptions
+    InstrumentCollateralDetail:
+      title: Instrument collateral detail
+      type: object
+      properties:
+        AssetType:
+          title: Instrument Asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Instrument Description
+          type: string
+          example: stringValue
+        InitialCollateral:
+          title: Initial collateral available of the instrument
+          type: number
+          example: 10
+        InitialCollateralNotAvailable:
+          title: Initial collateral not available of the instrument
+          type: number
+          example: 10
+        MaintenanceCollateral:
+          title: Maintenance collateral available of the instrument
+          type: number
+          example: 10
+        MaintenanceCollateralNotAvailable:
+          title: Maintenance collateral not available of the instrument
+          type: number
+          example: 10
+        MarketValue:
+          title: Market value of the instrument
+          type: number
+          example: 10
+        Symbol:
+          title: Instrument Symbol
+          type: string
+          example: stringValue
+        Uic:
+          title: Uic of the instrument
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: PortfolioNote
+        Description: stringValue
+        InitialCollateral: 10
+        InitialCollateralNotAvailable: 10
+        MaintenanceCollateral: 10
+        MaintenanceCollateralNotAvailable: 10
+        MarketValue: 10
+        Symbol: stringValue
+        Uic: 99
+    BalanceRequest:
+      title: Represents a request for the account balance for a specified Client, AccountGroup or Account.
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: The key of the client for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: Specifies which data to return.
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceFieldGroup'
+      additionalProperties: false
+      example:
+        AccountGroupKey: stringValue
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+        FieldGroups:
+        - MarginOverview
+    MarginCollateralNotAvailableDetail:
+      title: Detail of Margin Collateral Not Available
+      type: object
+      properties:
+        InitialFxHaircut:
+          title: Initial Fx Haircut
+          type: number
+          example: 10
+        InstrumentCollateralDetails:
+          title: Instrument collateral collection
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentCollateralDetail'
+          example:
+          - AssetType: GuaranteeNote
+            Description: stringValue
+            InitialCollateral: 10
+            InitialCollateralNotAvailable: 10
+            MaintenanceCollateral: 10
+            MaintenanceCollateralNotAvailable: 10
+            MarketValue: 10
+            Symbol: stringValue
+            Uic: 99
+        MaintenanceFxHaircut:
+          title: Maintenance Fx Haircut
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        InitialFxHaircut: 10
+        InstrumentCollateralDetails:
+        - AssetType: CompanyWarrant
+          Description: stringValue
+          InitialCollateral: 10
+          InitialCollateralNotAvailable: 10
+          MaintenanceCollateral: 10
+          MaintenanceCollateralNotAvailable: 10
+          MarketValue: 10
+          Symbol: stringValue
+          Uic: 99
+        MaintenanceFxHaircut: 10
+    MarginOverviewGroup:
+      title: Margin utilization of the AssetType group as applied to the overall margin calculation.
+      type: object
+      properties:
+        Contributors:
+          title: Contributors are either a list of instruments or a single (anonymous) object representing implicitly aggregated contributors
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginOverviewContributor'
+          example:
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: EURUSD description
+            InstrumentSpecifier: EURUSD
+            Margin: 1235
+            Uic: 21
+        GroupType:
+          title: AssetType group - used by margin calculation.
+          allOf:
+          - $ref: '#/components/schemas/MarginOverviewGroupType'
+        TotalMargin:
+          title: Total margin impact of the group of instrument.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Contributors:
+        - AssetTypes:
+          - FxSpot
+          InstrumentDescription: EURUSD description
+          InstrumentSpecifier: EURUSD
+          Margin: 1235
+          Uic: 21
+        - AssetTypes:
+          - FxSpot
+          InstrumentDescription: GBPUSD description
+          InstrumentSpecifier: GBPUSD
+          Margin: 789
+          Uic: 22
+        GroupType: FX
+        TotalMargin: 100000
+    TransactionsNotBookedDetail:
+      title: Detail of transaction(s) that yet have to be booked.
+      type: object
+      properties:
+        Accrual:
+          title: Net accrual for the transaction(s) not booked yet
+          type: number
+          example: 10
+        AdditionalTransactionCost:
+          title: Net additional transaction cost for the transaction(s) not booked yet
+          type: number
+          example: 10
+        BondValue:
+          title: Net bond value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashDeposit:
+          title: Net cash deposit for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashReservation:
+          title: Net cash reservation for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashWithdrawal:
+          title: Net cash withdrawal for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CertificatesValue:
+          title: Net value of certificates for the transaction(s) not booked yet
+          type: number
+          example: 10
+        Commission:
+          title: Net commission for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ExchangeFee:
+          title: Net exchange fee for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ExternalCharges:
+          title: Net external charges for the transaction(s) not booked yet
+          type: number
+          example: 10
+        FundsReservedByOrder:
+          title: Net funds reserved by order for the transaction(s) not booked yet
+          type: number
+          example: 10
+        IpoSubscriptionFee:
+          title: IPO subscription fee for the transaction(s) not booked yet
+          type: number
+          example: 10
+        LeveragedKnockOutProductsValue:
+          title: Net value of leveraged knock-out products (Turbos) for the transaction(s) not booked yet.
+          type: number
+          example: 10
+        MutualFundValue:
+          title: Net mutual fund value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        OptionPremium:
+          title: Net option premium for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ShareValue:
+          title: Net share value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        StampDuty:
+          title: Net stamp duty for the transaction(s) not booked yet
+          type: number
+          example: 10
+        WarrantPremium:
+          title: Net warrant premium for the transaction(s) not booked yet
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Accrual: 10
+        AdditionalTransactionCost: 10
+        BondValue: 10
+        CashDeposit: 10
+        CashReservation: 10
+        CashWithdrawal: 10
+        CertificatesValue: 10
+        Commission: 10
+        ExchangeFee: 10
+        ExternalCharges: 10
+        FundsReservedByOrder: 10
+        IpoSubscriptionFee: 10
+        LeveragedKnockOutProductsValue: 10
+        MutualFundValue: 10
+        OptionPremium: 10
+        ShareValue: 10
+        StampDuty: 10
+        WarrantPremium: 10
+    CalculationReliability:
+      title: To what extent can the calculated values and P/L be trusted
+      enum:
+      - ApproximatedPrice
+      - CurrencyConversionFailed
+      - FailedToCalculateCollateral
+      - NoMarketAccess
+      - Ok
+      - OkWithConditions
+      - PricePending
+      - SystemError
+      - UnknownPrice
+      type: string
+      example: UnknownPrice
+      x-enum-descriptions:
+        Ok: Ok - calculation successful
+        UnknownPrice: Unknown price
+        CurrencyConversionFailed: Currency conversion failed
+        FailedToCalculateCollateral: Failed to calculate collateral
+        OkWithConditions: Calculation was ok given some conditions
+        PricePending: Calculation depends on a price that is currently unavailable.
+        NoMarketAccess: No Market Access for price.
+        SystemError: General error due to system or client configuration.
+        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+    MarginOverviewContributor:
+      title: Total margin impact by net position.
+      type: object
+      properties:
+        AssetTypes:
+          title: AssetTypes for this contributor.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxVanillaOption
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        InstrumentDescription:
+          title: Description of instrument. Not available for futures.
+          type: string
+          example: stringValue
+        InstrumentSpecifier:
+          title: Instrument identifier. Base contract for futures and symbol for other instruments.
+          type: string
+          example: stringValue
+        Margin:
+          title: Margin impact of the contributor
+          type: number
+          example: 10
+        Uic:
+          title: Uic identifying the instrument, if any
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetTypes:
+        - FxSpot
+        InstrumentDescription: EURUSD description
+        InstrumentSpecifier: EURUSD
+        Margin: 1235
+        Uic: 21
+    MarginOverviewGroupType:
+      title: Margin calculation category of AssetType.
+      enum:
+      - CFDs
+      - FX
+      - FuturesAndOptions
+      - Other
+      type: string
+      example: CFDs
+      x-enum-descriptions:
+        CFDs: Margin impact of CFDs - presumably all categories
+        FuturesAndOptions: Margin impact of future and option contract instruments
+        FX: Margin impact of FX instruments
+        Other: Margin overview group based on unspecified criteria
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    LineStatus:
+      title: Describes the current utilization and size of a Credit, Risk or Trading line.
+      type: object
+      properties:
+        Exposure:
+          title: The current utilization of the credit line.
+          type: number
+          example: 10
+        Line:
+          title: The maximum credit limit allowed.
+          type: number
+          example: 10
+        UtilizationPct:
+          title: The current utilization of the credit line in proportion to the line limit.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Exposure: 10
+        Line: 10
+        UtilizationPct: 10
+    MarginOverviewByGroup:
+      title: Margin utilization for positions, broken down into groups of AssetTypes.
+      type: object
+      properties:
+        Groups:
+          title: List of AssetType groups with it's contributing positions and total margin utilization.
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginOverviewGroup'
+          example:
+          - Contributors:
+            - AssetTypes:
+              - FxSpot
+              InstrumentDescription: EURUSD description
+              InstrumentSpecifier: EURUSD
+              Margin: 1235
+              Uic: 21
+            - AssetTypes:
+              - FxSpot
+              InstrumentDescription: GBPUSD description
+              InstrumentSpecifier: GBPUSD
+              Margin: 789
+              Uic: 22
+            GroupType: FX
+            TotalMargin: 100000
+      additionalProperties: false
+      example:
+        Groups:
+        - Contributors:
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: EURUSD description
+            InstrumentSpecifier: EURUSD
+            Margin: 1235
+            Uic: 21
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: GBPUSD description
+            InstrumentSpecifier: GBPUSD
+            Margin: 789
+            Uic: 22
+          GroupType: FX
+          TotalMargin: 100000
+        - Contributors:
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: SP500 description
+            InstrumentSpecifier: SP500.I
+            Margin: 4321
+            Uic: 4910
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: CSE20 description
+            InstrumentSpecifier: CSE20.I
+            Margin: 975
+            Uic: 5768
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: DAX description
+            InstrumentSpecifier: DAX.I
+            Margin: 864
+            Uic: 27098
+          GroupType: CFDs
+          TotalMargin: 200000
+    BalanceFieldGroup:
+      title: Specification of fieldsets to include in results.
+      enum:
+      - CalculateCashForTrading
+      - MarginOverview
+      type: string
+      example: CalculateCashForTrading
+      x-enum-descriptions:
+        MarginOverview: Include instrument margin utilization for positions on a client, account group or an account.
+        CalculateCashForTrading: Calculates cash available for trading from all accounts.
+      x-type-warning: FlaggableEnum
+    BalanceSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription on accounts.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/BalanceResponse'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030064906306'
+        Format: application/json
+        InactivityTimeout: 1500
+        ReferenceId: B49083
+        RefreshRate: 500
+        Snapshot:
+          CalculationReliability: Ok
+          CashAvailableForTrading: 100573853.73
+          CashBalance: 100573853.73
+          CashBlocked: 0
+          ChangesScheduled: false
+          ClosedPositionsCount: 0
+          CollateralAvailable: 99839075.64
+          CorporateActionUnrealizedAmounts: 0
+          CostToClosePositions: -1677.57
+          Currency: EUR
+          CurrencyDecimals: 0
+          InitialMargin:
+            CollateralAvailable: 12254541.55
+            MarginAvailable: 12254541.55
+            MarginCollateralNotAvailable: 0
+            MarginUsedByCurrentPositions: -1225544.66
+            MarginUtilizationPct: 15.11
+            NetEquityForMargin: 1222521.77
+            OtherCollateralDeduction: 0
+          IntradayMarginDiscount: 0
+          IsPortfolioMarginModelSimple: true
+          MarginAndCollateralUtilizationPct: 0.38
+          MarginAvailableForTrading: 99839075.64
+          MarginCollateralNotAvailable: -468419.84
+          MarginExposureCoveragePct: 344.35
+          MarginNetExposure: 29088391.02
+          MarginUsedByCurrentPositions: -326828.87
+          MarginUtilizationPct: 0.33
+          NetEquityForMargin: 85539075.64
+          NetPositionsCount: 0
+          NonMarginPositionsValue: 509207.41
+          OpenIpoOrdersCount: 0
+          OpenPositionsCount: 0
+          OptionPremiumsMarketValue: 0
+          OrdersCount: 0
+          OtherCollateral: 103798.26
+          SettlementValue: 0
+          ShareSpendingPower: 50
+          SpendingPower: 50
+          SpendingPowerDetail:
+            Current: 50
+            Maximum: 50
+          SrdSpendingPower: 50
+          TotalValue: 100634324.36
+          TransactionsNotBooked: -118.71
+          TriggerOrdersCount: 0
+          UnrealizedMarginClosedProfitLoss: 0
+          UnrealizedMarginOpenProfitLoss: 0
+          UnrealizedMarginProfitLoss: -550738.76
+          UnrealizedPositionsValue: -43208.92
+        State: Active
+        Tag: MyBalancesRelatedSubscriptions
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    InitialMarginResponse:
+      title: The calculation entity's initial margin (purchasing power) status.
+      type: object
+      properties:
+        CollateralAvailable:
+          title: Sum of collateral from positions, cash, collateral credit and other holdings available for opening new positions.
+          type: number
+          example: 10
+        MarginAvailable:
+          title: Margin available for opening new positions. Initial margin available.
+          type: number
+          example: 10
+        MarginUsedByCurrentPositions:
+          title: Sum of initial margin currently reserved.
+          type: number
+          example: 10
+        MarginUtilizationPct:
+          title: Level of margin already utilized in percent. I.e. the ratio between the margin collateral used and the total available margin collateral. Indicates distance to margin calls.
+          type: number
+          example: 10
+        NetEquityForMargin:
+          title: Value used as basis to calculate initial margin available.
+          type: number
+          example: 10
+        OtherCollateralDeduction:
+          title: Other Collateral Deduction derived from regulatory contributors margin value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CollateralAvailable: 10
+        MarginAvailable: 10
+        MarginUsedByCurrentPositions: 10
+        MarginUtilizationPct: 10
+        NetEquityForMargin: 10
+        OtherCollateralDeduction: 10
+    SpendingPower:
+      title: Describes the spending power.
+      type: object
+      properties:
+        Current:
+          title: The current spending power available.
+          type: number
+          example: 10
+        Maximum:
+          title: Spending power for shares / ETF (based on max collateral factor defined for shares)
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Current: 10
+        Maximum: 10
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    BalanceResponse:
+      title: Data contract for account or client balance
+      type: object
+      properties:
+        AccountFundingLimit:
+          title: Account funding limit. This field is available for TaxSaving AccountType and FrancePea and FrancePeaPme SubAccountTypes.
+          type: number
+          example: 10
+        AccountNetFundedAmount:
+          title: Account funding limit. This field is available for TaxSaving AccountType and FrancePea and FrancePeaPme SubAccountTypes.
+          type: number
+          example: 10
+        AccountRemainingFunding:
+          title: Account Remaining Funding. This field is available for TaxSaving and Pension AccountTypes, and FrancePea and FrancePeaPme SubAccountTypes.
+          type: number
+          example: 10
+        AccountValueProtectionLimit:
+          title: If set, this value shields the account/client value from going below the given limit by automatically triggering closing of open positions should the limit be exceeded. A limit of zero means there is no limit.
+          type: number
+          example: 10
+        CalculationReliability:
+          title: In case an error was encountered while computing balances, this field indicates the source of the calculation error.
+          allOf:
+          - $ref: '#/components/schemas/CalculationReliability'
+        CashAvailableForTrading:
+          title: Cash available for trading for the current account/client.
+          type: number
+          example: 10
+        CashBalance:
+          title: Current cash balance of the account/client.
+          type: number
+          example: 10
+        CashBlocked:
+          title: Cash blocked for the current account/client.
+          type: number
+          example: 10
+        ChangesScheduled:
+          title: True if there are scheduled changes to margin, collateral or rating changes.
+          type: boolean
+          example: true
+        ClosedPositionsCount:
+          title: Number of current closed positions.
+          type: integer
+          format: int32
+          example: 99
+        CollateralAvailable:
+          title: Sum of collateral from positions, cash, collateral credit and other holdings available to maintain positions.
+          type: number
+          example: 10
+        CollateralCreditLine:
+          title: The utilization state and maximum collateral credit line limit.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        CollateralCreditValue:
+          title: The utilization state and maximum collateral credit value.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        CollateralLoan:
+          title: Size of loan secured by collateral
+          type: number
+          example: 10
+        CorporateActionUnrealizedAmounts:
+          title: Corporate Action Unrealized Amounts.
+          type: number
+          example: 10
+        CostToClosePositions:
+          title: Estimated costs payable if all position where to be closed on the account/client. The provided value is negative for costs charged to the account.
+          type: number
+          example: 10
+        CreditLine:
+          title: The utilization state and maximum credit limit.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        Currency:
+          title: Currency of the Account, AccountGroup, or Client, depending on the selected entity for which balances are requested. All values provided in this response are denominated in this currency unless otherwise specified.
+          type: string
+          example: stringValue
+        CurrencyDecimals:
+          title: 'Number of decimals used to represent values in this currency. For most common currency denominations this value will be: 2.'
+          type: integer
+          format: int32
+          example: 99
+        FundsAvailableForSettlement:
+          title: Funds available for trades settling today.
+          type: number
+          example: 10
+        FundsReservedForSettlement:
+          title: Funds reserved for trades settling today at market opening.
+          type: number
+          example: 10
+        InitialMargin:
+          title: If set, this represents the calculation entity's initial margin (purchasing power).
+          allOf:
+          - $ref: '#/components/schemas/InitialMarginResponse'
+        IntradayMarginDiscount:
+          title: Margin credited for unnetted positions closed intraday
+          type: number
+          example: 10
+        IsPortfolioMarginModelSimple:
+          title: True if the given client/account is on simple margining. F.ex. Used to indicate if the account supports close all positions. Typically this means the client has a single account or single account margining and no settlement accounts. As well as no Fx Forwards/Options, listed options or Futures using advanced margining methods.
+          type: boolean
+          example: true
+        MarginAndCollateralUtilizationPct:
+          title: Level of margin already utilized in percent. I.e. the ratio between the margin collateral used and the total available margin collateral. Indicates distance to margin calls.
+          type: number
+          example: 10
+        MarginAvailableForTrading:
+          title: Margin available for trading. The amount of remaining collateral available for margin trading for the account/client.
+          type: number
+          example: 10
+        MarginCollateralNotAvailable:
+          title: Current collateral deduction of unrealized positions.
+          type: number
+          example: 10
+        MarginCollateralNotAvailableDetail:
+          title: Detail of  MarginCollateralNotAvailable
+          allOf:
+          - $ref: '#/components/schemas/MarginCollateralNotAvailableDetail'
+        MarginExposureCoveragePct:
+          title: Percentage of total margin exposure to total collateral. I.e. the ratio between the Account Value and the Net Exposure. If account exposure is 0, the coverage percent is also returned as 0.
+          type: number
+          example: 10
+        MarginNetExposure:
+          title: Total net exposure of margin traded positions across all instruments.
+          type: number
+          example: 10
+        MarginOverview:
+          title: Instrument margin utilization for positions.
+          allOf:
+          - $ref: '#/components/schemas/MarginOverviewByGroup'
+        MarginUsedByCurrentPositions:
+          title: Sum of maintenance margin used for current positions on the account/client. The provided value is negative for any margin that is charged to the available margin on the account/client.
+          type: number
+          example: 10
+        MarginUtilizationPct:
+          title: Level of margin already utilized in percent. I.e. the ratio between the margin collateral used and the total available margin collateral. Indicates distance to margin calls.
+          type: number
+          example: 10
+        NetEquityForMargin:
+          title: Value used as basis to calculate maintinance margin. It is calculated as TotalValue plus pending settlements (funds awaiting settlement for partners), minus MarginCollateralNotAvailable.
+          type: number
+          example: 10
+        NetPositionsCount:
+          title: Number of current open net positions.
+          type: integer
+          format: int32
+          example: 99
+        NonMarginPositionsValue:
+          title: Sum of MarketValue for all non-margin instruments held in the account/by the client.
+          type: number
+          example: 10
+        OpenIpoOrdersCount:
+          title: Open Ipo order(s) count
+          type: integer
+          format: int32
+          example: 99
+        OpenPositionsCount:
+          title: Number of current open positions.
+          type: integer
+          format: int32
+          example: 99
+        OptionPremiumsMarketValue:
+          title: Combined market value of premium for all options, both FX and Contract Options.
+          type: number
+          example: 10
+        OrdersCount:
+          title: Number of current open orders.
+          type: integer
+          format: int32
+          example: 99
+        OtherCollateral:
+          title: Indicates the value of securities that have been deposited as collateral for margin.
+          type: number
+          example: 10
+        OtherCollateralDeduction:
+          title: Other Collateral Deduction derived from regulatory contributor margin value.
+          type: number
+          example: 10
+        SettlementLine:
+          title: The utilization state and maximum settlement credit limit.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        SettlementValue:
+          title: Net current settlement value, long and short positions combined.
+          type: number
+          example: 10
+        SpendingPowerDetail:
+          title: Available spending power on the account/client.
+          allOf:
+          - $ref: '#/components/schemas/SpendingPower'
+        TotalRiskLine:
+          title: The utilization state and risk credit limit.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        TotalValue:
+          title: Current value of unrealized positions incl. costs, cash balance and transactions not booked.
+          type: number
+          example: 10
+        TradingLine:
+          title: The utilization state and maximum trading credit limit.
+          allOf:
+          - $ref: '#/components/schemas/LineStatus'
+        TransactionsNotBooked:
+          title: Value of transactions that have yet to be booked to the account/client.
+          type: number
+          example: 10
+        TransactionsNotBookedDetail:
+          title: Detail of transaction(s) that yet have to be booked to the account/client.
+          allOf:
+          - $ref: '#/components/schemas/TransactionsNotBookedDetail'
+        TriggerOrdersCount:
+          title: Number of current open trigger orders.
+          type: integer
+          format: int32
+          example: 99
+        UnrealizedMarginClosedProfitLoss:
+          title: ProfitLoss on all closed (netting and explicit) part of positions (Intraday netting specific).
+          type: number
+          example: 10
+        UnrealizedMarginOpenProfitLoss:
+          title: ProfitLoss on open part of positions (Intraday netting specific).
+          type: number
+          example: 10
+        UnrealizedMarginProfitLoss:
+          title: Sum of profit/loss ex. costs for all margin instruments held in the account/by the client.
+          type: number
+          example: 10
+        UnrealizedPositionsValue:
+          title: The current unrealized profit/loss and face value of all positions excl. costs.
+          type: number
+          example: 10
+        VariationMargin:
+          title: The change in value of unrealized derivatives positions since opening them.
+          type: number
+          example: 10
+        VariationMarginCashBalance:
+          title: Cash amount withdrawn from unrealized derivatives positions (VariationMargin).
+          type: number
+          example: 10
+        VariationMarginThreshold:
+          title: Maximmum amount that may be withdrawn from unrealized derivatives positions (VariationMargin).
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CalculationReliability: Ok
+        CashAvailableForTrading: 100573853.73
+        CashBalance: 100573853.73
+        CashBlocked: 0
+        ChangesScheduled: false
+        ClosedPositionsCount: 0
+        CollateralAvailable: 99839075.64
+        CorporateActionUnrealizedAmounts: 0
+        CostToClosePositions: -1677.57
+        Currency: EUR
+        CurrencyDecimals: 0
+        InitialMargin:
+          CollateralAvailable: 12254541.55
+          MarginAvailable: 12254541.55
+          MarginCollateralNotAvailable: 0
+          MarginUsedByCurrentPositions: -1225544.66
+          MarginUtilizationPct: 15.11
+          NetEquityForMargin: 1222521.77
+          OtherCollateralDeduction: 0
+        IntradayMarginDiscount: 0
+        IsPortfolioMarginModelSimple: true
+        MarginAndCollateralUtilizationPct: 0.38
+        MarginAvailableForTrading: 99839075.64
+        MarginCollateralNotAvailable: -468419.84
+        MarginExposureCoveragePct: 344.35
+        MarginNetExposure: 29088391.02
+        MarginUsedByCurrentPositions: -326828.87
+        MarginUtilizationPct: 0.33
+        NetEquityForMargin: 85539075.64
+        NetPositionsCount: 0
+        NonMarginPositionsValue: 509207.41
+        OpenIpoOrdersCount: 0
+        OpenPositionsCount: 0
+        OptionPremiumsMarketValue: 0
+        OrdersCount: 0
+        OtherCollateral: 103798.26
+        SettlementValue: 0
+        SpendingPowerDetail:
+          Current: 50
+          Maximum: 50
+        TotalValue: 100634324.36
+        TransactionsNotBooked: -118.71
+        TriggerOrdersCount: 0
+        UnrealizedMarginClosedProfitLoss: 0
+        UnrealizedMarginOpenProfitLoss: 0
+        UnrealizedMarginProfitLoss: -550738.76
+        UnrealizedPositionsValue: -43208.92
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

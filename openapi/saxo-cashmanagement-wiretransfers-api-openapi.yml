@@ -1,0 +1,304 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values CashManagement - WireTransfers API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: CashManagement - WireTransfers
+  description: Get wiretransfer instructions for specified client and account
+paths:
+  /cs/v2/cashmanagement/wiretransfers/instructions:
+    get:
+      tags:
+      - CashManagement - WireTransfers
+      summary: Get wiretransfer instructions for specified client and account
+      description: Get the details of the instructions which a client must use to fund this account through wire transfer. The information depends on the client the account and the selected funding currency.
+      operationId: WireTransferGet
+      parameters:
+      - name: AccountKey
+        in: query
+        description: Selected account key in which user will fund.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: yLmSmTV0XPMiq3W9gDPRuA==
+      - name: ClientKey
+        in: query
+        description: Logged-in client key
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: yiQKxZINqbowdH|Dod3HKA==
+      - name: CurrencyCode
+        in: query
+        description: Transaction currency.
+        required: true
+        schema:
+          type: string
+        example: DKK
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WireTransferResponse'
+              example:
+                ClientDetails:
+                  AccountId: 113965-1
+                  AccountNumber: 0100772196
+                  Bic: SAXODKKKXXX
+                  ClientId: 8374926
+                  ClientNameAndAddress: Name/Address
+                  Iban: DK7833789377226198
+                  RegistrationNumber: '7392'
+                CurrencyCode: DKK
+                IntermediaryBank:
+                  Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+                  Bic: SAXODKKKXXX
+                  Name: Saxo Bank A/S
+                IsBrokerFunding: false
+                ReceivingBank:
+                  Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+                  Bic: SAXODKKKXXX
+                  Name: Saxo Bank A/S
+                SubsidiaryId: '1'
+                SubsidiaryName: Saxo Bank
+                VirtualAccountId: SGACU 878000017001
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Read
+components:
+  schemas:
+    BrokerInformation:
+      type: object
+      properties:
+        Account:
+          title: Account number of Broker
+          type: string
+          example: stringValue
+        ClearingCode:
+          title: Clearing code of Broker.
+          type: string
+          example: stringValue
+        Field59:
+          title: "Address set by business user which is part of field 59 \n            in case of broker transfer."
+          type: string
+          example: stringValue
+        Iban:
+          title: IBAN of broker
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Account: '8388662872'
+        ClearingCode: '102494532006'
+        Field59: 444 FIFTH AVE.APARTMENT, 5A NEW YORK, 10023
+        Iban: DK63882615722991638
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    WireTransferResponse:
+      type: object
+      properties:
+        BrokerInfo:
+          title: Broker (in case of broker funding) details like Account, Iban etc.
+          allOf:
+          - $ref: '#/components/schemas/BrokerInformation'
+        ClientDetails:
+          title: Client details like name, address, Iban etc.
+          allOf:
+          - $ref: '#/components/schemas/ClientBankDetails'
+        CurrencyCode:
+          title: Transaction Currency
+          type: string
+          example: stringValue
+        IntermediaryBank:
+          title: Intermediary bank details like BIC, Name and Address
+          allOf:
+          - $ref: '#/components/schemas/BankDetails'
+        IsBrokerFunding:
+          title: If broker funding the value will be true else false.
+          type: boolean
+          example: true
+        MaxFundingLimit:
+          title: Max Funding allowed per year
+          type: number
+          example: 10
+        NetFundedAmount:
+          title: Net funded amount
+          type: number
+          example: 10
+        ReceivingBank:
+          title: Receiving bank details like BIC, Name and Address
+          allOf:
+          - $ref: '#/components/schemas/BankDetails'
+        RemainingFundingLimit:
+          title: Remaining allowed fund for rest of the year
+          type: number
+          example: 10
+        RemainingFundingTax:
+          title: Remaining Funding Tax
+          type: number
+          example: 10
+        RemitterInfo:
+          title: In case of Broker broker funding, details like name, address, Iban etc.
+          allOf:
+          - $ref: '#/components/schemas/ClientBankDetails'
+        SubsidiaryId:
+          title: Legal/subsidiary Id under client has created.
+          type: string
+          example: stringValue
+        SubsidiaryName:
+          title: Legal/subsidiary name under client has created.
+          type: string
+          example: stringValue
+        VirtualAccountId:
+          title: Virtual AccountId
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ClientDetails:
+          AccountId: 113965-1
+          AccountNumber: 0100772196
+          Bic: SAXODKKKXXX
+          ClientId: 8374926
+          ClientNameAndAddress: Name/Address
+          Iban: DK7833789377226198
+          RegistrationNumber: '7392'
+        CurrencyCode: DKK
+        IntermediaryBank:
+          Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+          Bic: SAXODKKKXXX
+          Name: Saxo Bank A/S
+        IsBrokerFunding: false
+        ReceivingBank:
+          Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+          Bic: SAXODKKKXXX
+          Name: Saxo Bank A/S
+        SubsidiaryId: '1'
+        SubsidiaryName: Saxo Bank
+        VirtualAccountId: SGACU 878000017001
+    ClientBankDetails:
+      type: object
+      properties:
+        AccountId:
+          title: Account ID of client
+          type: string
+          example: stringValue
+        AccountNumber:
+          title: Account number of client.
+          type: string
+          example: stringValue
+        Bic:
+          title: Bank identification code.
+          type: string
+          example: stringValue
+        ClientId:
+          title: Client Id of logged in user.
+          type: integer
+          format: int32
+          example: 99
+        ClientNameAndAddress:
+          title: Name and address of client register in CRM
+          type: string
+          example: stringValue
+        Iban:
+          title: IBAN of client.
+          type: string
+          example: stringValue
+        RegistrationNumber:
+          title: Bank registration number.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: 113965-1
+        AccountNumber: 0100772196
+        Bic: SAXODKKKXXX
+        ClientId: 8374926
+        ClientNameAndAddress: Name/Address
+        Iban: DK7833789377226198
+        RegistrationNumber: '7392'
+    BankDetails:
+      type: object
+      properties:
+        Address:
+          title: Address of the bank.
+          type: string
+          example: stringValue
+        Bic:
+          title: Bank Identification code i.e. SAXODKKK
+          type: string
+          example: stringValue
+        Name:
+          title: Name of the bank
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+        Bic: SAXODKKKXXX
+        Name: Saxo Bank A/S
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

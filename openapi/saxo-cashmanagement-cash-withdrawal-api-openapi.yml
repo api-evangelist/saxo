@@ -1,0 +1,205 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values CashManagement - Cash Withdrawal API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: CashManagement - Cash Withdrawal
+  description: This endpoint provides the functionality necessary to allow a client to withdraw money from his account
+paths:
+  /atr/v1/cashmanagement/withdrawals:
+    post:
+      tags:
+      - CashManagement - Cash Withdrawal
+      summary: Submit Cash Withdrawal Request
+      description: "Allow client to do cash transfers by giving account key, amount, beneficiary instruction Id, currency and optionally sending “message to beneficiary” with a character limit of 140.\n             \nNote:\n\nIf withdrawal request is created, service will return \"201 Created\" with cut exchange rate &amp; withdrawal request Id in response.\n\nIf withdrawal request is rejected, the service will return bad request with reason for failure of transaction."
+      operationId: CashWithdrawalWithdrawl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WithdrawalRequest'
+            example: null
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithdrawalResponse'
+              example:
+                CutExchangeRate: 1
+                WithdrawalRequestId: '2425'
+        '503':
+          description: Service Unavailable
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - AccountAccessDenied
+                    - AccountNotFound
+                    - AccountNotValid
+                    - CashAccessDenied
+                    - CashBelowLimit
+                    - CashLargeExposure
+                    - CashNotAllowedOnTrialAccounts
+                    - CashWithdrawlRequestRejected
+                    - ClientAccessDenied
+                    - IncorrectAccountDetails
+                    - IncorrectAmount
+                    - IncorrectReferenceNumber
+                    - InstructedClientNameNotSpecified
+                    - InsufficientCashOnAccount
+                    - InvalidRequestParameter
+                    - MissingOrWrongValueDate
+                    - Other
+                    - SendOTPFailed
+                    - TwoFactorAuthenticationRequestedButNotEnabledforClient
+                    - WouldExceedCreditLine
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      ClientAccessDenied: User is not authorized to access requested Client
+                      AccountAccessDenied: User is not authorized to access Account
+                      CashWithdrawlRequestRejected: Cash Withdrawal Request rejected for not meeting required conditions
+                      SendOTPFailed: Request parameters for sending verification code are invalid
+                      TwoFactorAuthenticationRequestedButNotEnabledforClient: Two factor auth is not enabled while skip two factor authentication flag set to false in request
+                      AccountNotFound: One or more of the provided parameters are invalid.
+                      AccountNotValid: One or more of the provided parameters are invalid.
+                      CashAccessDenied: One or more of the provided parameters are invalid.
+                      CashBelowLimit: One or more of the provided parameters are invalid.
+                      CashLargeExposure: One or more of the provided parameters are invalid.
+                      CashNotAllowedOnTrialAccounts: One or more of the provided parameters are invalid.
+                      InsufficientCashOnAccount: One or more of the provided parameters are invalid.
+                      WouldExceedCreditLine: One or more of the provided parameters are invalid.
+                      InvalidRequestParameter: One or more of the provided parameters are invalid.
+                      IncorrectAccountDetails: One or more of the provided parameters are invalid.
+                      IncorrectAmount: One or more of the provided parameters are invalid.
+                      InstructedClientNameNotSpecified: One or more of the provided parameters are invalid.
+                      MissingOrWrongValueDate: One or more of the provided parameters are invalid.
+                      Other: One or more of the provided parameters are invalid.
+                      IncorrectReferenceNumber: One or more of the provided parameters are invalid.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - TrialClientNotSupported
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      TrialClientNotSupported: Trial clients are not supported
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        confidential: Write
+components:
+  schemas:
+    WithdrawalResponse:
+      title: Response to withdrawal request
+      type: object
+      properties:
+        CutExchangeRate:
+          title: Cut exchange rate.
+          type: number
+          example: 10
+        WithdrawalRequestId:
+          title: Outgoing request Id created.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CutExchangeRate: 1
+        WithdrawalRequestId: '2425'
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    WithdrawalRequest:
+      title: Cash Withdrawal Request
+      required:
+      - AccountKey
+      - BeneficiaryInstructionId
+      - Amount
+      - Currency
+      type: object
+      properties:
+        AccountKey:
+          title: The account identifier in key format from which to transfer money.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Amount:
+          title: The amount to be withdrawn.
+          type: number
+          example: 10
+        BeneficiaryInstructionId:
+          title: Id of the beneficiary instruction to be used for the withdrawal
+          type: string
+          example: stringValue
+        Currency:
+          title: The currency the amount is in.
+          pattern: ^[A-Z]{3}$
+          type: string
+          x-type-name: CurrencyCode
+        MessageToBeneficiary:
+          title: "For MT103 type messages this is a free text field and for MT202 messages it is used to specify additional \n            information to one of the parties involved in the transaction in a structured format.\n            See the Cash Withdrawal learn page for more information about the format for MT202 messages.Maximum length is 140 ASCII characters."
+          maxLength: 140
+          minLength: 0
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example: null
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

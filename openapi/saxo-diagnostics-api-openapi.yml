@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Diagnostics API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Diagnostics
+  description: "This collection provides endpoints for client diagnostics and can be used to verify HTTP methods. \n            \n             An access token is not required for requests to any of the below endpoints. However, if a token is provided it will be validated accordingly."
+paths:
+  /root/v1/diagnostics/options:
+    options:
+      tags:
+      - Diagnostics
+      summary: OPTIONS request
+      description: Test OPTIONS method by sending a request to this endpoint.
+      operationId: DiagnosticsV1Options
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/head:
+    head:
+      tags:
+      - Diagnostics
+      summary: HEAD request
+      description: Test HEAD method by sending a request to this endpoint.
+      operationId: DiagnosticsV1Head
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/patch:
+    patch:
+      tags:
+      - Diagnostics
+      summary: PATCH request
+      description: Test PATCH method by sending a request to this endpoint. Any data provided in the body of the request is ignored.
+      operationId: DiagnosticsV1Patch
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/delete:
+    delete:
+      tags:
+      - Diagnostics
+      summary: DELETE request
+      description: Test DELETE method by sending a request to this endpoint.
+      operationId: DiagnosticsV1Delete
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/put:
+    put:
+      tags:
+      - Diagnostics
+      summary: PUT request
+      description: Test PUT method by sending a request to this endpoint. Any data provided in the body of the request is ignored.
+      operationId: DiagnosticsV1Put
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/post:
+    post:
+      tags:
+      - Diagnostics
+      summary: POST request
+      description: Test POST method by sending a request to this endpoint. Any data provided in the body of the request is ignored.
+      operationId: DiagnosticsV1Post
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /root/v1/diagnostics/get:
+    get:
+      tags:
+      - Diagnostics
+      summary: GET request
+      description: Test GET method by sending a request to this endpoint.
+      operationId: DiagnosticsV1Get
+      responses:
+        '200':
+          description: Action was executed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

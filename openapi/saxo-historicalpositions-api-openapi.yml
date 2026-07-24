@@ -1,0 +1,679 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values HistoricalPositions API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: HistoricalPositions
+  description: End points serving historical positions (a.k.a. closed positions)
+paths:
+  /hist/v3/positions/{ClientKey}:
+    get:
+      tags:
+      - HistoricalPositions
+      summary: Get historical positions of an account of a client, that were closed within the specified period
+      description: "Returns a list of historical positions for a specific account owned by a client.\n             The required fields are ClientKey and either StandardPeriod or FromDate/ToDate."
+      operationId: HistoricalPositionsV3GetHistoricalPositions
+      parameters:
+      - name: $inlinecount
+        in: query
+        description: Specifies that the response to the request should include a count of the number of entries in the collection
+        schema:
+          enum:
+          - AllPages
+          - None
+          type: string
+          x-enum-descriptions:
+            None: The result will not contain an inline count
+            AllPages: The result will contain a total count of items in the queried collection
+        example: AllPages
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $skiptoken
+        in: query
+        description: Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks.
+        schema:
+          type: string
+        example: B17D8890-3C7A-4A47-A9AA-01B022ED03A5
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      - name: AccountGroupKey
+        in: query
+        description: Id of the account containing the historical positions.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+      - name: AccountKey
+        in: query
+        description: Id of the account containing the historical positions.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      - name: AssetType
+        in: query
+        description: Filtering on asset type. If value not supplied all will be returned
+        schema:
+          $ref: '#/components/schemas/AssetType'
+      - name: ClientKey
+        in: path
+        description: Id of the client owning the account
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      - name: FromDate
+        in: query
+        description: From date from which the historical positions are requested.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      - name: MockDataId
+        in: query
+        description: Optional Mock Data Parameter
+        schema:
+          type: string
+      - name: StandardPeriod
+        in: query
+        description: Standard period for account performance.
+        schema:
+          $ref: '#/components/schemas/AccountPerformanceStandardPeriod'
+      - name: Symbol
+        in: query
+        description: The Instrument Symbol Code
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            example: stringValue
+      - name: ToDate
+        in: query
+        description: To date till which the historical positions are requested.
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IHistoricalPositionViewListResult'
+              example:
+                Data:
+                - AccountId: 112209INET
+                  Amount: -1
+                  AmountAccountValueCloseRatio: '2:1'
+                  AmountAccountValueOpenRatio: '2:1'
+                  ClosingAssetType: CfdOnIndex
+                  ClosingTradeDate: '2016-07-19'
+                  ClosingValueDate: '2016-07-19'
+                  CopiedFrom: '1'
+                  CorrelationType: None
+                  Decimals: 2
+                  ExecutionTimeClose: '2016-07-19T07:25:37Z'
+                  ExecutionTimeOpen: '2016-07-18T10:38:06Z'
+                  InstrumentSymbol: GER30.I
+                  LongShort:
+                    PresentationValue: Short
+                    Value: Short
+                  OpeningAssetType: CfdOnIndex
+                  OpeningTradeDate: '2016-07-18'
+                  OpeningValueDate: '2016-07-18'
+                  PriceClose: 9998
+                  PriceGain: 0.004778021102926538
+                  PriceOpen: 10046
+                  PricePct: -0.4778021102926538
+                  ProfitLoss: 52.87
+                  ProfitLossAccountValueFraction: 0.00807437613761156
+                  Uic: '1373'
+        '404':
+          description: Positions not found.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    IHistoricalPositionView:
+      title: Interface for defining the properties common to private and public views of historical positions.
+      type: object
+      properties:
+        AccountId:
+          title: ID/Name of the account on which the position was traded.
+          maxLength: 16
+          minLength: 1
+          type: string
+          x-type-name: AccountId
+        Amount:
+          title: The amount held by the position.
+          type: number
+          example: 10
+        AmountAccountValueCloseRatio:
+          title: The relative value of the Closed Position compared to the account at the time of the position closing.
+          type: string
+          example: stringValue
+        AmountAccountValueOpenRatio:
+          title: The relative value of the Closed Position compared to the account at the time of the position creation.
+          type: string
+          example: stringValue
+        ClosingAssetType:
+          title: of instrument of closing trade.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ClosingDisplayHint:
+          title: Provides  to UI for closing trade.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        ClosingTradeDate:
+          title: The date the clsing trade was executed.
+          type: string
+          format: date
+          x-type-name: Date
+        ClosingValueDate:
+          title: The value date of the opening trade.
+          type: string
+          format: date
+          x-type-name: Date
+        CopiedFrom:
+          title: The position id of the position that has been copied.
+          type: string
+          example: stringValue
+        CorrelationType:
+          title: The correlation type of the historical position.
+          allOf:
+          - $ref: '#/components/schemas/CorrelationType'
+        Decimals:
+          title: Number of Decimals.
+          type: integer
+          format: int32
+          example: 99
+        ExecutionTimeClose:
+          title: UTC date and time of when the position was closed.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExecutionTimeOpen:
+          title: UTC date and time of when the position was opened.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExpiryDate:
+          title: The date the option expires.
+          type: string
+          format: date
+          x-type-name: Date
+        InstrumentSymbol:
+          title: The Instrument symbol.
+          type: string
+          example: stringValue
+        LongShort:
+          title: Indicates whether it is a long or a short position.
+          allOf:
+          - $ref: '#/components/schemas/LongOrShort'
+        LowerBarrier:
+          title: Lower barrier for options.
+          type: number
+          example: 10
+        OpeningAssetType:
+          title: of instrument of opening trade.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        OpeningDisplayHint:
+          title: Provides  to UI for opening trade.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        OpeningTradeDate:
+          title: The date the opening trade was executed.
+          type: string
+          format: date
+          x-type-name: Date
+        OpeningValueDate:
+          title: The value date of the opening trade.
+          type: string
+          format: date
+          x-type-name: Date
+        PipsGainPerInstrumentUnit:
+          title: "The pips or decipips\n            Only applicable for FX"
+          type: number
+          example: 10
+        PriceClose:
+          title: At what price was the posision closed (in instrument base currency).
+          type: number
+          example: 10
+        PriceGain:
+          title: The difference between opening and closing price in percent.
+          type: number
+          example: 10
+        PriceOpen:
+          title: At what price was the position opened (in instrument base currency).
+          type: number
+          example: 10
+        PricePct:
+          title: "Percentage gain between the opening price and the closing price.\n            The percentage gained is taking the 'short' / 'long' information into account.\n            A price drops for a 'short' positions yields a positive price gain \n            where as a price drop for a 'long' position yields a negative price gain.\n            The reverse is true a price increase is registred. \n            Return Percentage value from decimal fraction, e.g. 100% for 1, 50% for 0.50"
+          type: number
+          example: 10
+        ProfitLoss:
+          title: The P/L of the position in absolute amount.
+          type: number
+          example: 10
+        ProfitLossAccountValueFraction:
+          title: The P/L over account value EOD previous day.
+          type: number
+          example: 10
+        PutCall:
+          title: Option type.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        StrikePrice:
+          title: The strike price of the option.
+          type: number
+          example: 10
+        Uic:
+          title: Unique instrument code.
+          minimum: 1
+          type: integer
+          format: int32
+          x-type-name: Uic
+        UpperBarrier:
+          title: Upper barrier for options.
+          type: number
+          example: 10
+      additionalProperties: false
+      example: null
+    LongOrShort:
+      type: object
+      properties:
+        PresentationValue:
+          type: string
+          example: stringValue
+        Value:
+          allOf:
+          - $ref: '#/components/schemas/LongOrShortValue'
+      additionalProperties: false
+      example:
+        PresentationValue: Long
+        Value: Long
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxSpot
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PutCall:
+      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    CorrelationType:
+      title: Correlation Type
+      enum:
+      - Allocation
+      - Assignment
+      - AutoAbandonment
+      - AutoAssignment
+      - AutoExercise
+      - AutoHedge
+      - AutoTrade
+      - BatchFollowerOrders
+      - BlockClosingTrade
+      - ClientDefault
+      - ClosingTrade
+      - CopyTrade
+      - Exercise
+      - ExternalDealCapture
+      - Facilitation
+      - FxDmaTrade
+      - Hedge
+      - InternallyFilledFractionalAmount
+      - InternallyFilledFractionalTrade
+      - ManualHedge
+      - None
+      - OnBehalfOf
+      - PartiallyFilledAndExploded
+      - PartnerHedge
+      - Rebooking
+      - SaxoPrimeTrade
+      - SelfFinancing
+      - Split
+      - Strategy
+      - Synthetic
+      - TradingFloor
+      - TraianaDropCopyTrade
+      - WithAdvice
+      - WithDealCapture
+      type: string
+      example: None
+      x-enum-deprecated:
+      - InternallyFilledFractionalTrade
+      x-enum-descriptions:
+        None: None
+        Allocation: Allocation
+        Synthetic: Synthetic - Indicates that the correlation involves the construction of a synthetic trade.
+        Hedge: Hedge - Indicates that the correlation involves a hedge
+        PartnerHedge: PartnerHedge - Indicates that correlation involves a partner hedge.
+        AutoHedge: AutoHedge - Indicates that correlation involves an auto hedge.
+        ManualHedge: ManualHedge - Indicates that correlation involves a manual hedge.
+        Exercise: Contract option exercise
+        Assignment: Contract option assignment
+        AutoExercise: Automated contract option exercise (at expiry)
+        AutoAssignment: Automated contract option assignment (at expiry)
+        AutoAbandonment: Automated Abandonment
+        Split: Position involved in split
+        Rebooking: Position involved in rebooking
+        CopyTrade: Position/Order copied from other
+        Strategy: For Strategy type future
+        AutoTrade: Position/Order auto-copied from other
+        SaxoPrimeTrade: Saxo Prime position
+        TradingFloor: Order/Position originated from TradingFloor
+        TraianaDropCopyTrade: Position originated from Traiana Drop Copy Service.
+        ClientDefault: Client Default
+        ClosingTrade: Trade to close another trade
+        FxDmaTrade: Fx Dma Trade
+        PartiallyFilledAndExploded: Indicates that this order is partially filled and then ungrouped/exploded from a group stop order
+        BlockClosingTrade: Indicates that this trade is a closing trade of the block trade
+        Facilitation: Indicates that this order or trade is Facilitation flow
+        OnBehalfOf: Indicates that this trade is On Behalf Of booking
+        InternallyFilledFractionalTrade: The trade is created internally to fill Fractional part ( No broker leg)
+        BatchFollowerOrders: 'Saxo Select, fractional ETFs: Delayed order execution when follower starts or funds'
+        WithDealCapture: Deal Capture Type
+        WithAdvice: "With Advice Note, there will be an extra cost for the advice\n            Even if the AdviserClientNote is absent in OpenOrderData"
+        SelfFinancing: Self Financing Orders and Positions
+        InternallyFilledFractionalAmount: This is created internally to fill Fractional part ( No broker leg)
+        ExternalDealCapture: This is used for capturing deal capture externally
+      x-type-warning: FlaggableEnum
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    IHistoricalPositionViewListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IHistoricalPositionView'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountId: 112209INET
+          Amount: -1
+          AmountAccountValueCloseRatio: '2:1'
+          AmountAccountValueOpenRatio: '2:1'
+          ClosingAssetType: CfdOnIndex
+          ClosingTradeDate: '2016-07-19'
+          ClosingValueDate: '2016-07-19'
+          CopiedFrom: '1'
+          CorrelationType: None
+          Decimals: 2
+          ExecutionTimeClose: '2016-07-19T07:25:37Z'
+          ExecutionTimeOpen: '2016-07-18T10:38:06Z'
+          InstrumentSymbol: GER30.I
+          LongShort:
+            PresentationValue: Short
+            Value: Short
+          OpeningAssetType: CfdOnIndex
+          OpeningTradeDate: '2016-07-18'
+          OpeningValueDate: '2016-07-18'
+          PriceClose: 9998
+          PriceGain: 0.004778021102926538
+          PriceOpen: 10046
+          PricePct: -0.4778021102926538
+          ProfitLoss: 52.87
+          ProfitLossAccountValueFraction: 0.00807437613761156
+          Uic: '1373'
+    LongOrShortValue:
+      enum:
+      - Long
+      - Short
+      type: string
+      example: Short
+    AccountPerformanceStandardPeriod:
+      title: Defines standard periods for account performance.
+      enum:
+      - AllTime
+      - Month
+      - Quarter
+      - Year
+      type: string
+      example: AllTime
+      x-enum-descriptions:
+        AllTime: All time account performance.
+        Year: The year standard account performance.
+        Quarter: The quarter standard account performance.
+        Month: The month standard account performance.
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

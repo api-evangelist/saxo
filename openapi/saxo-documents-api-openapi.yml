@@ -1,0 +1,185 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Documents API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Documents
+  description: Provide services to save\upload documents.
+paths:
+  /cm/v1/documents:
+    post:
+      tags:
+      - Documents
+      summary: Upload documents
+      description: Upload documents for an existing client
+      operationId: DocumentsUploadDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveDocumentRequest'
+            example:
+              ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+              Documents:
+              - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+                DocumentType: TaxSavingAccount
+                FileName: TaxSavingAccount.pdf
+      responses:
+        '201':
+          description: Indicates that the request was performed correctly.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidDataFormat
+                    - InvalidDocumentName
+                    - NoDocumentProvided
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NoDocumentProvided: At least one document must be passed.
+                      InvalidDocumentName: Document name should have extension.
+                      InvalidDataFormat: Document data should be Base64 string.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      NotFound: ''
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '500':
+          description: Internal Server Error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+components:
+  schemas:
+    Document:
+      title: Document details to be saved
+      required:
+      - DocumentType
+      - FileName
+      - Data
+      type: object
+      properties:
+        Data:
+          title: Document data in Base64 encoded string
+          type: string
+          example: stringValue
+        DocumentType:
+          title: Document type
+          allOf:
+          - $ref: '#/components/schemas/DocumentType'
+        FileName:
+          title: Document name with extension
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+        DocumentType: TaxSavingAccount
+        FileName: TaxSavingAccount.pdf
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    SaveDocumentRequest:
+      title: Save document request
+      required:
+      - ClientKey
+      - Documents
+      type: object
+      properties:
+        ClientKey:
+          title: ClientKey of the user for which documents are to be uploaded
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Documents:
+          title: Details of documents to be uploaded
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          example:
+          - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+            DocumentType: TaxSavingAccount
+            FileName: TaxSavingAccount.pdf
+      additionalProperties: false
+      example:
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        Documents:
+        - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+          DocumentType: TaxSavingAccount
+          FileName: TaxSavingAccount.pdf
+    DocumentType:
+      title: Document types available
+      enum:
+      - PensionTransferRequest
+      - TaxSavingAccount
+      - TaxSavingAccountWithTransfer
+      type: string
+      example: PensionTransferRequest
+      x-enum-descriptions:
+        PensionTransferRequest: Document detailing Pension Transfer Request
+        TaxSavingAccount: Document detailing Tax Saving Account
+        TaxSavingAccountWithTransfer: Tax saving account with transfer
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

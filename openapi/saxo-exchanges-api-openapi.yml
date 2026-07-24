@@ -1,0 +1,345 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Exchanges API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Exchanges
+  description: End points serving exchange information.
+paths:
+  /ref/v1/exchanges/{ExchangeId}:
+    get:
+      tags:
+      - Exchanges
+      summary: Get details about a specific exchange
+      description: This operation retrieves detailed information about a specific exchange. The exchange is specified by the 'exchangeId' parameter in the URI.
+      operationId: ExchangesV1GetExchange
+      parameters:
+      - name: ExchangeId
+        in: path
+        description: The ID of the exchange.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: LME
+      responses:
+        '200':
+          description: Indicates the information was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeDetails'
+              example:
+                CountryCode: GB
+                Currency: GBP
+                ExchangeId: LME
+                Mic: XLME
+                Name: London Metal Exchange
+                TimeZone: 1
+                TimeZoneOffset: 00:00:00
+        '204':
+          description: Indicates no information about the exchange is available with the service.
+        '400':
+          description: Indicates that the exchangeId is malformed.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+  /ref/v1/exchanges:
+    get:
+      tags:
+      - Exchanges
+      summary: Get all exchanges
+      description: "This operation retrieves a list of exchanges with detailed information about each.\n            The response also contains links to other relevant data, such as their trade statuses."
+      operationId: ExchangesV1GetAllExchanges
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      responses:
+        '200':
+          description: Indicates the list was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeDetailsListResult'
+              example:
+                __next: /openapi/....../?$top=1&$skip=1
+                Data:
+                - CountryCode: GB
+                  Currency: GBP
+                  ExchangeId: LME
+                  Mic: XLME
+                  Name: London Metal Exchange
+                  TimeZone: 1
+                  TimeZoneOffset: 00:00:00
+        '204':
+          description: Indicates no information about exchanges is available with the service.
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ExchangeSession:
+      title: Responsible for carrying information about an Exchange session.
+      type: object
+      properties:
+        EndTime:
+          title: UTC date and time of when the state ends
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        StartTime:
+          title: UTC date and time of when the state starts
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        State:
+          title: Gets the  for the specied  and
+          allOf:
+          - $ref: '#/components/schemas/ExchangeSessionState'
+      additionalProperties: false
+      example:
+        EndTime: '9999-12-31T23:59:59.9999990+00:00'
+        StartTime: '9999-12-31T23:59:59.9999990+00:00'
+        State: Undefined
+    ExchangeSessionState:
+      title: The different states an Exchange session can have
+      enum:
+      - Auction
+      - AutomatedTrading
+      - Break
+      - CallAuctionTrading
+      - Closed
+      - Halt
+      - OpeningAuction
+      - PitTrading
+      - PostAutomatedTrading
+      - PostMarket
+      - PostTrading
+      - PreAutomatedTrading
+      - PreMarket
+      - PreTrading
+      - Suspended
+      - TradingAtLast
+      - Undefined
+      type: string
+      example: AutomatedTrading
+      x-enum-descriptions:
+        Undefined: The state of the Exchange is unknown
+        AutomatedTrading: Normal trading
+        Closed: Exchange is closed
+        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        Break: Break in exchange opening hours
+        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
+        PostTrading: Extended trading session after normal opening hours
+        PreTrading: Extended trading session before normal opening hours
+        PostAutomatedTrading: Extended trading session after normal opening hours
+        PreAutomatedTrading: Extended trading session before normal opening hours
+        Suspended: Trading is suspended on the Exchange
+        Halt: Trading is halted on the Exchange
+        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        PreMarket: Extended trading session before normal opening hours
+        PostMarket: Extended trading session after normal opening hours
+        OpeningAuction: Opening auction exchange state
+        TradingAtLast: Orders collected at last price in absence of closing auction price
+    ExchangeDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - CountryCode: GB
+          Currency: GBP
+          ExchangeId: LME
+          Mic: XLME
+          Name: London Metal Exchange
+          TimeZone: 1
+          TimeZoneOffset: 00:00:00
+    ExchangeDetails:
+      title: Public data contract for an exchange.
+      type: object
+      properties:
+        AllDay:
+          title: Is exchange open or closed all day?
+          type: boolean
+          example: false
+        CountryCode:
+          title: The ISO 3166-2 country code of the exchange's country.
+          type: string
+          example: stringValue
+        Currency:
+          title: The base currency of the exchange.
+          type: string
+          example: stringValue
+        ExchangeId:
+          title: The unique ID of the exchange.
+          type: string
+          example: stringValue
+        ExchangeSessions:
+          title: The exchange start and end times in UTC.
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeSession'
+          example:
+          - EndTime: '9999-12-31T23:59:59.999999Z'
+            StartTime: '9999-12-31T23:59:59.999999Z'
+            State: Closed
+        Mic:
+          title: The exchange's ISO 10383 Market Identifier Code.
+          type: string
+          example: stringValue
+        Name:
+          title: The name of the exchange.
+          type: string
+          description: This is the same as ShortDescription in the database.
+          example: stringValue
+        PriceSourceName:
+          title: The name of the price source.
+          type: string
+          description: This is the same as SourceAttributionDescription in the database.
+          example: stringValue
+        TimeZone:
+          title: The exchange's time zone.
+          type: integer
+          format: int32
+          example: 99
+        TimeZoneAbbreviation:
+          title: The exchange's time zone abbreviation.
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Exchange's TimeZone
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: The time zone offset from UTC.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: GB
+        Currency: GBP
+        ExchangeId: LME
+        Mic: XLME
+        Name: London Metal Exchange
+        TimeZone: 1
+        TimeZoneOffset: 00:00:00
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

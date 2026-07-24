@@ -1,0 +1,320 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Historical Report Data - Portfolio Management API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Historical Report Data - Portfolio Management
+  description: Portfolio Report
+paths:
+  /cr/v1/reports/Portfolio/me/{FromDate}/{ToDate}:
+    get:
+      tags:
+      - Historical Report Data - Portfolio Management
+      summary: Get Portfolio report for the logged in user
+      description: "Get Portfolio report for the logged in user.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n\r\nTo request a PDF format, please set the 'Accept' header on your request as follows:\r\n\r\n\r\n*   For PDF : application/pdf"
+      operationId: PortfolioGetMeAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The account group id.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: LZTc7DdejXODf-WSl2aCyQ==
+      - name: AccountKey
+        in: query
+        description: The account key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: LZTc7DdejXODf-WSl2aCyQ==
+      - name: FromDate
+        in: path
+        description: From date in UTC
+        required: true
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2016-10-10'
+      - name: IncludeYTDInformation
+        in: query
+        description: Include additional information about performance Year To Date.
+        schema:
+          type: boolean
+        example: true
+      - name: OptionalReportSections
+        in: query
+        description: Parameter specifing if any optional section is needed in the report
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionalReportSection'
+        example: Trasactions
+      - name: ToDate
+        in: path
+        description: To date in UTC
+        required: true
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2017-10-10'
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFoundError
+                    type: string
+                    x-enum-descriptions:
+                      NotFoundError: Not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '500':
+          description: Internal Server Error
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - RequestedFormatNotSupported
+                    type: string
+                    x-enum-descriptions:
+                      RequestedFormatNotSupported: Request format not supported.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+  /cr/v1/reports/Portfolio/{ClientKey}/{FromDate}/{ToDate}:
+    get:
+      tags:
+      - Historical Report Data - Portfolio Management
+      summary: Get Portfolio report for the accounts of a specified client
+      description: "Get Portfolio report for the accounts of a specified client.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n\r\nTo request a PDF format, please set the 'Accept' header on your request as follows:\r\n\r\n\r\n*   For PDF : application/pdf"
+      operationId: PortfolioGetAsync
+      parameters:
+      - name: AccountGroupKey
+        in: query
+        description: The account group id.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        example: LZTc7DdejXODf-WSl2aCyQ==
+      - name: AccountKey
+        in: query
+        description: The account key.
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: LZTc7DdejXODf-WSl2aCyQ==
+      - name: ClientKey
+        in: path
+        description: Unique id of the client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 5DG7K1P5cqYBZ77tl7Af4w==
+      - name: FromDate
+        in: path
+        description: From date in UTC
+        required: true
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2016-10-10'
+      - name: IncludeYTDInformation
+        in: query
+        description: Include additional information about performance Year To Date.
+        schema:
+          type: boolean
+        example: true
+      - name: OptionalReportSections
+        in: query
+        description: Whether any optional section is needed in the report
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionalReportSection'
+        example: Trasactions
+      - name: ToDate
+        in: path
+        description: To date in UTC
+        required: true
+        schema:
+          type: string
+          format: date
+          x-type-name: Date
+        example: '2017-10-10'
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFoundError
+                    type: string
+                    x-enum-descriptions:
+                      NotFoundError: Not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '500':
+          description: Internal Server Error
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - RequestedFormatNotSupported
+                    type: string
+                    x-enum-descriptions:
+                      RequestedFormatNotSupported: Request format not supported.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OptionalReportSection:
+      title: Optional section to be added in report.
+      enum:
+      - Transactions
+      type: string
+      x-enum-descriptions:
+        Transactions: Add transaction section
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

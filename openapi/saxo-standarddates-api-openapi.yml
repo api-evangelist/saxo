@@ -1,0 +1,223 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values StandardDates API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: StandardDates
+  description: Provides end points for retrieving standard dates.
+paths:
+  /ref/v1/standarddates/fxoptionexpiry/{Uic}:
+    get:
+      tags:
+      - StandardDates
+      summary: Get a list of FX option expiry dates
+      description: Use this GET operation to retrieve a list of FX option expiry dates for an UIC.
+      operationId: StandardDatesGetFxOptionExpiryDates
+      parameters:
+      - name: Uic
+        in: path
+        description: The Universal Instrument Code (UIC) of the instrument to get.
+        required: true
+        style: simple
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          x-type-name: Uic
+        example: 22
+      responses:
+        '200':
+          description: Indicates the list was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardDateListResult'
+              example:
+                Data:
+                - Date: '0001-01-01'
+                  Unit: Months
+                  Value: 99
+                MaxRows: 99
+        '404':
+          description: Indicates FX option expiry dates were not found for the given UIC.
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+  /ref/v1/standarddates/forwardtenor/{Uic}:
+    get:
+      tags:
+      - StandardDates
+      summary: Get a list of forward tenor dates
+      description: Use this GET operation to retrieve a list of forward tenor dates for an UIC.
+      operationId: StandardDatesGetForwardTenorDates
+      parameters:
+      - name: AccountKey
+        in: query
+        description: Account to which short tenor permissions are checked against. Short tenors are not returned if no account is specified.
+        style: form
+        explode: false
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      - name: Uic
+        in: path
+        description: The Universal Instrument Code (UIC) of the instrument to get.
+        required: true
+        style: simple
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          x-type-name: Uic
+        example: 22
+      responses:
+        '200':
+          description: Indicates the list was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardDateListResult'
+              example:
+                Data:
+                - Date: '0001-01-01'
+                  Unit: Months
+                  Value: 99
+                MaxRows: 99
+        '404':
+          description: Indicates forward tenor dates were not found for the given UIC.
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+components:
+  schemas:
+    TenorUnit:
+      title: Tenor unit type enumeration
+      enum:
+      - Days
+      - Months
+      - Weeks
+      - Years
+      type: string
+      example: Weeks
+      x-enum-descriptions:
+        Days: Days
+        Weeks: Weeks
+        Months: Months
+        Years: Years
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    StandardDateListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandardDate'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Date: '0001-01-01'
+          Unit: Months
+          Value: 99
+        MaxRows: 99
+    StandardDate:
+      title: Represents standard date of a trade.
+      type: object
+      properties:
+        Date:
+          title: The standard date
+          type: string
+          format: date
+          x-type-name: Date
+        Unit:
+          title: Unit
+          allOf:
+          - $ref: '#/components/schemas/TenorUnit'
+        Value:
+          title: Value of the Unit
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Date: '0001-01-01'
+        Unit: Days
+        Value: 99
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

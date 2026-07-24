@@ -1,0 +1,581 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values AlgoStrategies API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: AlgoStrategies
+  description: Endpoints serving strategies information.
+paths:
+  /ref/v1/algostrategies/{Name}:
+    get:
+      tags:
+      - AlgoStrategies
+      summary: Get details about a specific strategy.
+      description: This operation retrieves detailed information about a specific Strategy. The Strategy is specified by the 'name' parameter in the URI.
+      operationId: StrategiesV1GetStrategyByName
+      parameters:
+      - name: Name
+        in: path
+        description: The name of the Strategy.
+        required: true
+        style: simple
+        schema:
+          type: string
+        example: LME
+      responses:
+        '200':
+          description: Indicates the information was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Strategy'
+              example:
+                Description: stringValue
+                MinAmountUSD: 10
+                Name: stringValue
+                Parameters:
+                - DataType: 0
+                  IsEditable: false
+                  IsMandatory: false
+                  UiDefaultValue: stringValue
+                  UiOrderingIndex: 0
+                  UiStepSize: 1.3
+                SupportedDurationTypes:
+                - GoodTillCancel
+                SupportedOrderTypes:
+                - None
+                TradableInstrumentTypes:
+                - CertificateUncappedCapitalProtection
+        '204':
+          description: Indicates no information about the Strategy is available with the service.
+        '400':
+          description: Indicates that the name is malformed.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+  /ref/v1/algostrategies:
+    get:
+      tags:
+      - AlgoStrategies
+      summary: Get all strategies supported by Saxo Bank.
+      description: "This operation retrieves a list of strategies with detailed information about each strategy.\n            The response also contains links to other relevant data, such as their parameters."
+      operationId: StrategiesV1GetAllStrategies
+      parameters:
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        style: form
+        explode: false
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+        example: 1
+      responses:
+        '200':
+          description: Indicates the list was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyListResult'
+              example:
+                Data:
+                - Description: stringValue
+                  MinAmountUSD: 10
+                  Name: stringValue
+                  Parameters:
+                  - DataType: 0
+                    IsEditable: false
+                    IsMandatory: false
+                    UiDefaultValue: stringValue
+                    UiOrderingIndex: 0
+                    UiStepSize: 1.3
+                  SupportedDurationTypes:
+                  - ImmediateOrCancel
+                  SupportedOrderTypes:
+                  - StopIfTraded
+                  TradableInstrumentTypes:
+                  - CertificateDiscount
+                MaxRows: 99
+        '204':
+          description: Indicates no information about Strategys is available with the service.
+        '401':
+          description: Indicates request was disallowed because either the 'Authorization' header was missing or contained an invalid Open API token.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        restricted: Read
+components:
+  schemas:
+    StrategyListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Strategy'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Description: stringValue
+          MinAmountUSD: 10
+          Name: stringValue
+          Parameters:
+          - DataType: 0
+            IsEditable: false
+            IsMandatory: false
+            UiDefaultValue: stringValue
+            UiOrderingIndex: 0
+            UiStepSize: 1.3
+          SupportedDurationTypes:
+          - ImmediateOrCancel
+          SupportedOrderTypes:
+          - StopIfTraded
+          TradableInstrumentTypes:
+          - CertificateDiscount
+        MaxRows: 99
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    OrderType:
+      title: Order type definitions.
+      enum:
+      - Algorithmic
+      - BreakoutTrigger
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - None
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      type: string
+      example: Market
+      x-enum-descriptions:
+        None: None.
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if Traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        Algorithmic: Algorithmic.
+        Switch: Switch.
+        Traspaso: Traspaso.
+        TraspasoIn: A Traspaso In order initiated from an external trading system.
+        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TrailingStop: Trailing Stop.
+        TrailingStopIfTraded: Trailing Stop if Traded.
+    StrategyParameterDataType:
+      title: Lists all possible strategy parameters'datatypes
+      enum:
+      - Char
+      - Int
+      - Price
+      - Qty
+      - String
+      - UtcTimeStamp
+      type: string
+      example: Char
+    StrategyParameter:
+      title: Strategy custom parameter object
+      type: object
+      properties:
+        DataType:
+          title: Parameter's type
+          allOf:
+          - $ref: '#/components/schemas/StrategyParameterDataType'
+        Description:
+          title: Parameter's description
+          type: string
+          example: stringValue
+        DisplayName:
+          title: Name to be displayed on the UI
+          type: string
+          example: stringValue
+        IsEditable:
+          title: Indicates whether parameter value is editable
+          type: boolean
+          example: false
+        IsMandatory:
+          title: Indicates whether parameter is mandatory
+          type: boolean
+          example: false
+        MaxDayTimeValue:
+          title: Max day time value
+          type: string
+          example: stringValue
+        MaxFloatValue:
+          title: Max float value
+          type: number
+          example: 1.3
+        MinDayTimeValue:
+          title: Min day time value
+          type: string
+          example: stringValue
+        MinFloatValue:
+          title: Min float value
+          type: number
+          example: 1.3
+        Name:
+          title: Name
+          type: string
+          example: stringValue
+        ParameterValues:
+          title: Allowed parameter values
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyParameterAllowedValue'
+          example:
+          - Name: stringValue
+            Value: stringValue
+        UiDefaultValue:
+          title: UI default value
+          type: string
+          example: stringValue
+        UiOrderingIndex:
+          title: Suggested ordering column
+          type: integer
+          format: int32
+          example: 99
+        UiStepSize:
+          title: UI step size
+          type: number
+          example: 1.3
+      additionalProperties: false
+      example:
+        DataType: 0
+        IsEditable: false
+        IsMandatory: false
+        UiDefaultValue: stringValue
+        UiOrderingIndex: 0
+        UiStepSize: 1.3
+    DurationType:
+      title: Possible algo orders' duration types.
+      enum:
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: DayOrder
+      x-enum-descriptions:
+        GoodTillCancel: Good till cancel
+        DayOrder: Day order
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Immediate or cancel
+        GoodTillDate: Good till date
+        GoodForPeriod: Good for period
+    StrategyParameterAllowedValue:
+      title: Represents strategy parameter allowed value
+      type: object
+      properties:
+        Name:
+          title: Paramater's value name
+          type: string
+          example: stringValue
+        Value:
+          title: Parameter value
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Name: stringValue
+        Value: stringValue
+    Strategy:
+      title: Represents Algo Strategy object
+      type: object
+      properties:
+        Description:
+          title: User-friendly description
+          type: string
+          example: stringValue
+        MinAmountUSD:
+          title: Min required amount to trade
+          type: number
+          example: 10
+        Name:
+          title: String identification
+          type: string
+          example: stringValue
+        Parameters:
+          title: Strategy's specific parameters
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyParameter'
+          example:
+          - DataType: 0
+            IsEditable: false
+            IsMandatory: false
+            UiDefaultValue: stringValue
+            UiOrderingIndex: 0
+            UiStepSize: 1.3
+        SupportedDurationTypes:
+          title: Supported duration types within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/DurationType'
+          example:
+          - FillOrKill
+        SupportedOrderTypes:
+          title: Supported order types within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderType'
+          example:
+          - Limit
+        TradableInstrumentTypes:
+          title: Instrument types which can be traded within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxKnockInOption
+      additionalProperties: false
+      example:
+        Description: stringValue
+        MinAmountUSD: 10
+        Name: stringValue
+        Parameters:
+        - DataType: 0
+          IsEditable: false
+          IsMandatory: false
+          UiDefaultValue: stringValue
+          UiOrderingIndex: 0
+          UiStepSize: 1.3
+        SupportedDurationTypes:
+        - GoodTillCancel
+        SupportedOrderTypes:
+        - None
+        TradableInstrumentTypes:
+        - CertificateUncappedCapitalProtection
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

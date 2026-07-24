@@ -1,0 +1,556 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values ClientInfo API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: ClientInfo
+  description: End point for accessing summary information for a specified client.
+paths:
+  /cs/v2/clientinfo/clients/search:
+    post:
+      tags:
+      - ClientInfo
+      summary: Search all child counterparts based on ownerId
+      description: "Search all child counterparts based on the values provided in the search criteria. If only Keywords field is provided,\n             it will search clients having AccountId Or ClientId Or ClientName Or UserId Or UserName field values.\n             If AccountId, AccountKey, ClientId, ClientKey fields are provided, the lookup will be for an exact match of these values with AND operator.\n             To get Accounts, Users info in the response, specify \"Accounts\", \"Users\" in the FieldGroups list respectively.\n             The default value of $top is 10 and max value is 100."
+      operationId: ClientInfoV2Search
+      parameters:
+      - name: $inlinecount
+        in: query
+        description: Specifies that the response to the request should include a count of the number of entries in the collection
+        schema:
+          enum:
+          - AllPages
+          - None
+          type: string
+          x-enum-descriptions:
+            None: The result will not contain an inline count
+            AllPages: The result will contain a total count of items in the queried collection
+        example: AllPages
+      - name: $skip
+        in: query
+        description: The number of entries to skip from the beginning of the collection
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: $top
+        in: query
+        description: The number of entries to return from the beginning of the collection
+        schema:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+          default: 10
+        example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSearchCriteria'
+            example:
+              AccountId: 72158INET
+              AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+              ClientId: '825472'
+              ClientKey: qWRC6bqfPBmkV|or68xT4A==
+              FieldGroups:
+              - Accounts
+              Keywords: ''
+              UserId: '1881236'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientSearchResponseListResult'
+              example:
+                Data:
+                - Accounts:
+                  - AccountDisplayName: Stock CFD (R)
+                    AccountGroupId: AccountGroupId1
+                    AccountGroupName: Group1
+                    AccountId: 72158INET
+                    AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+                    PartnerAccountKey: PAK - 10001/INET100JIK
+                  ClientId: '825472'
+                  ClientKey: qWRC6bqfPBmkV|or68xT4A==
+                  DefaultAccountId: 82158INET
+                  DefaultAccountKey: abcC6bqfPBmkV|or68xT4A==
+                  LegalAssetTypes:
+                  - Bond
+                  Name: hll
+                  Users:
+                  - UserId: '1881236'
+                    UserKey: aG90Uvk5z2acv5Qqtm4AgA==
+        '200':
+          description: Indicates that the request was performed correctly (even if there is no record found).
+        '400':
+          description: If no value is provided in any of the search fields.
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    ClientSearchResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientSearchResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Accounts:
+          - AccountDisplayName: Stock CFD (R)
+            AccountGroupId: AccountGroupId1
+            AccountGroupName: Group1
+            AccountId: 72158INET
+            AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+            PartnerAccountKey: PAK - 10001/INET100JIK
+          ClientId: '825472'
+          ClientKey: qWRC6bqfPBmkV|or68xT4A==
+          DefaultAccountId: 82158INET
+          DefaultAccountKey: abcC6bqfPBmkV|or68xT4A==
+          LegalAssetTypes:
+          - Bond
+          Name: hll
+          Users:
+          - UserId: '1881236'
+            UserKey: aG90Uvk5z2acv5Qqtm4AgA==
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    SearchCriteriaFieldGroups:
+      title: Specifies the field groups required in the response.
+      enum:
+      - Accounts
+      - Default
+      - Users
+      type: string
+      example: Default
+      x-enum-descriptions:
+        Default: The default value. The search response will not contain Accounts info if nothing is provided in the FieldGroups field.
+        Accounts: Accounts field in the response will only be displayed if field group is Accounts.
+        Users: Users field in the response will only be displayed if FiledGroups list contains Users.
+    ClientSearchCriteria:
+      type: object
+      properties:
+        AccountId:
+          title: AccountId to search
+          type: string
+          example: stringValue
+        AccountKey:
+          title: AccountKey to search
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientId:
+          title: ClientId to search
+          type: string
+          example: stringValue
+        ClientKey:
+          title: ClientKey to search
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: FieldGroups controlling the presence of different fields in the response
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchCriteriaFieldGroups'
+          example:
+          - Accounts
+        Keywords:
+          title: Text to search in other fields
+          type: string
+          example: stringValue
+        UserId:
+          title: UserId to search
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: 72158INET
+        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+        ClientId: '825472'
+        ClientKey: qWRC6bqfPBmkV|or68xT4A==
+        FieldGroups:
+        - Accounts
+        Keywords: ''
+        UserId: '1881236'
+    ClientSearchResponse:
+      type: object
+      properties:
+        Accounts:
+          title: Accounts info
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountInfo'
+          example:
+          - AccountDisplayName: Stock CFD (R)
+            AccountGroupId: AccountGroupId1
+            AccountGroupName: Group1
+            AccountId: 72158INET
+            AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+            PartnerAccountKey: PAK - 10001/INET100JIK
+        ClientId:
+          title: ClientId
+          type: string
+          example: stringValue
+        ClientKey:
+          title: ClientKey
+          type: string
+          example: stringValue
+        DefaultAccountId:
+          title: Default Account Id
+          type: string
+          example: stringValue
+        DefaultAccountKey:
+          title: Default Account key
+          type: string
+          example: stringValue
+        LegalAssetTypes:
+          title: Legal Assets
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxVanillaOption
+        Name:
+          title: Name of the client
+          type: string
+          example: stringValue
+        Users:
+          title: Users info
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfo'
+          example:
+          - UserId: stringValue
+            UserKey: stringValue
+            UserName: stringValue
+      additionalProperties: false
+      example:
+        Accounts:
+        - AccountDisplayName: Stock CFD (R)
+          AccountGroupId: AccountGroupId1
+          AccountGroupName: Group1
+          AccountId: 72158INET
+          AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+          PartnerAccountKey: PAK - 10001/INET100JIK
+        ClientId: stringValue
+        ClientKey: stringValue
+        DefaultAccountId: stringValue
+        DefaultAccountKey: stringValue
+        LegalAssetTypes:
+        - FxOneTouchOption
+        Name: stringValue
+        Users:
+        - UserId: stringValue
+          UserKey: stringValue
+          UserName: stringValue
+    AccountType:
+      title: Account types
+      enum:
+      - ASK
+      - AutoTradingFollower
+      - AutoTradingLeader
+      - BlockTrading
+      - Cgb
+      - Collateral
+      - Commission
+      - ConBroker
+      - ConEgo
+      - DvP
+      - Facilitation
+      - Funding
+      - Interest
+      - MFAllocation
+      - MFTotal
+      - MarginLending
+      - Normal
+      - Omnibus
+      - Pension
+      - PledgedCash
+      - Settlement
+      - SettlementTrading
+      - Shadow
+      - Tax
+      - TaxSavings
+      - VariationMargin
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: Default. Used for normal client accounts.
+        BlockTrading: Used for block trading accounts only. The account where the root block trade is executed. This is our allocation account.
+        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
+        Collateral: For WLP accounts holding WLP’s collateral (funds transferred from WLP to Saxo Bank). Not used for trading.
+        Funding: For WLP accounts used to transfer funds between WLP and WLP client accounts. Not used for trading.
+        Commission: For partners only. Used to hold partner commission amounts. Not used for trading.
+        Interest: For partners only. Used to hold partner interest amounts. Not used for trading.
+        Omnibus: For WLPs only. Used purely as an overall account. Not used for trading.
+        MFAllocation: Used for managed funds ALLOCATION account sonly (nothing to do with normal allocation/block trading accounts). Only MF trades.
+        MFTotal: Used for managed funds TOTAL accounts only. Only MF trades.
+        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
+        ConBroker: Used on broker accounts (in practise, the Normal account is actually used).
+        ConEgo: Used on EGO accounts (in practise, the Normal account is actually used).
+        Shadow: This account is used when a trade is allocated with negative allocation key. Two Shadow accounts are used. One to hold positive exposure, one to hold the equal but opposite exposure. Used very limited.
+        Cgb: Used for client accounts having open positions in Managed Fund instruments called ”CGB” (Capital Guaranteed Bonds).
+        Tax: Account Type for Julias bear
+        AutoTradingLeader: Account Type for Saxo Select Leader accounts
+        AutoTradingFollower: Account Type for Saxo Select Follower accounts
+        DvP: Account type for delivery versus payment
+        VariationMargin: Indicates the account on which exchange of collateral(cash) under EMIR between client and Saxo happens
+        PledgedCash: Account type for Pledged Cash
+        Facilitation: Account type for Facilitation flow
+        ASK: Account type for Aktiesparekonto(ASK)-Danish Investment Account
+        Pension: Account type for Pension
+        MarginLending: Account type for Margin Lending
+        TaxSavings: Generic account type for tax savings accounts. Should be used in conjection with AccountSubType
+    AccountInfo:
+      type: object
+      properties:
+        AccountCurrency:
+          title: Account Base Currency
+          type: string
+          example: stringValue
+        AccountDisplayName:
+          title: Account Display Name
+          type: string
+          example: stringValue
+        AccountGroupId:
+          title: AccountGroup Id
+          type: string
+          example: stringValue
+        AccountGroupName:
+          title: AccountGroup Name
+          type: string
+          example: stringValue
+        AccountId:
+          title: Account Id
+          type: string
+          example: stringValue
+        AccountKey:
+          title: Account Key
+          type: string
+          example: stringValue
+        AccountType:
+          allOf:
+          - $ref: '#/components/schemas/AccountType'
+        PartnerAccountKey:
+          title: External reference assigned to this account by the partner
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountDisplayName: Stock CFD (R)
+        AccountGroupId: AccountGroupId1
+        AccountGroupName: Group1
+        AccountId: 72158INET
+        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+        PartnerAccountKey: PAK - 10001/INET100JIK
+    UserInfo:
+      type: object
+      properties:
+        UserId:
+          title: User Id
+          type: string
+          example: stringValue
+        UserKey:
+          title: User Key
+          type: string
+          example: stringValue
+        UserName:
+          title: User Name
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        UserId: stringValue
+        UserKey: stringValue
+        UserName: stringValue
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

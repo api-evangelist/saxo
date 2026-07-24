@@ -1,0 +1,172 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Historical Report Data - Trade Details API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Historical Report Data - Trade Details
+  description: Trade Details Report.
+paths:
+  /cr/v1/reports/TradeDetails/{ClientKey}:
+    get:
+      tags:
+      - Historical Report Data - Trade Details
+      summary: Get Trade Details report for the accounts of a specified client
+      description: "Get Trade Details report for the accounts of a specified client.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n\r\nTo request a PDF format, please set the 'Accept' header on your request as follows:\r\n\r\n\r\n*   For PDF : application/pdf"
+      operationId: TradeDetailsGetAsync
+      parameters:
+      - name: AccountKey
+        in: query
+        description: The account key.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        example: LZTc7DdejXODf-WSl2aCyQ==
+      - name: ClientKey
+        in: path
+        description: Unique id of the client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        example: 5DG7K1P5cqYBZ77tl7Af4w==
+      - name: FilterType
+        in: query
+        description: Values which gets included in the request
+        required: true
+        schema:
+          $ref: '#/components/schemas/BookingRequestType'
+      - name: FilterValue
+        in: query
+        description: Id for the specified filter type.
+        required: true
+        schema:
+          type: string
+      - name: TradeId
+        in: query
+        description: Trade id
+        required: true
+        schema:
+          type: string
+        example: '293832'
+      responses:
+        '200':
+          description: Indicates that the request was performed correctly.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - NotFoundError
+                    type: string
+                    x-enum-descriptions:
+                      NotFoundError: Not found.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - BadRequestError
+                    type: string
+                    x-enum-descriptions:
+                      BadRequestError: Bad request.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '500':
+          description: Internal Server Error
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - RequestedFormatNotSupported
+                    type: string
+                    x-enum-descriptions:
+                      RequestedFormatNotSupported: Request format not supported.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    BookingRequestType:
+      title: Request type, basis on which bookings are reterived
+      enum:
+      - BkAmountId
+      - CaMasterRecordId
+      - RelatedTradeId
+      type: string
+      x-enum-descriptions:
+        BkAmountId: Booking amount Id
+        CaMasterRecordId: Corporate action Id
+        RelatedTradeId: Related trade Id
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}

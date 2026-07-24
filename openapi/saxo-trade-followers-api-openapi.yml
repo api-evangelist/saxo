@@ -1,0 +1,794 @@
+openapi: 3.0.1
+info:
+  title: Services.AutoTrading Account Values Trade Followers API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  version: 2.4.138+710c760591
+  x-framework-version: 38.0.2+439c5b0ec3
+  x-machine: SIMOAWEB11-DK2
+servers:
+- url: https://gateway.saxobank.com/sim/openapi
+tags:
+- name: Trade Followers
+  description: End points for fetching follower information.
+paths:
+  /at/v3/tradeFollowers/termsandconditions:
+    get:
+      tags:
+      - Trade Followers
+      summary: Gets the auto trading terms and conditions acceptance status of a client.
+      description: Get the status of whether a client has accepted terms and conditions.
+      operationId: GET_TradeFollowerV3GetTermsAndConditions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoTradingTermsAndConditionsResponse'
+              example:
+                AutoTradingTermsAndConditionsStatus: Accepted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    put:
+      tags:
+      - Trade Followers
+      summary: Updates the auto trading terms and conditions acceptance status of a client.
+      description: Updates the status of a client for terms and conditions.
+      operationId: TradeFollowerV3UpdateTermsAndConditions
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /at/v3/tradeFollowers/{ClientKey}/termsandconditions:
+    get:
+      tags:
+      - Trade Followers
+      summary: Get the terms and conditions acceptance status of a client.
+      description: Get the status of whether a client has accepted terms and conditions.
+      operationId: TradeFollowerV3GetTermsAndConditions
+      parameters:
+      - name: ClientKey
+        in: path
+        description: The client key uniquely identifying a client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClientTermsAndConditionsResponse'
+              example:
+                Accepted: false
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    put:
+      tags:
+      - Trade Followers
+      summary: Sets the terms and conditions acceptance status of a client.
+      description: Set the status of whether a client has accepted terms and conditions.
+      operationId: TradeFollowerV3PutClientTermsAndConditions
+      parameters:
+      - name: ClientKey
+        in: path
+        description: The client key uniquely identifying a client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutClientTermsAndConditionsRequest'
+            example:
+              Accepted: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /at/v3/tradeFollowers/{ClientKey}/suitabilitystatus:
+    get:
+      tags:
+      - Trade Followers
+      summary: Get the suitability status of a client.
+      description: Gets the suitability status of a client, which determines what product areas are suitable for the client, as well as the overall suitability of the client.
+      operationId: TradeFollowerV3GetSuitabilityStatus
+      parameters:
+      - name: ClientKey
+        in: path
+        description: The client key uniquely identifying a client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientSuitabilityStatusResponse'
+              example:
+                CanGiveSuitabilityTest: true
+                LastSuitabilityCheckDate: '2013-01-01T00:00:00'
+                OverallSuitability: Medium
+                ProductAreaSuitability:
+                - FXSpot
+                - FXForwards
+                - FXOptions
+                - Futures
+                - ContractOptions
+                - CFDs
+                - Stocks
+                - Bonds
+                - MutualFunds
+                - CfdCommodities
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+    put:
+      tags:
+      - Trade Followers
+      summary: Update the suitability status of a client.
+      description: Sets the suitability status of a client, to define what product areas are suitable for the client, as well as the overall suitability of the client.
+      operationId: TradeFollowerV3PutSuitabilityStatus
+      parameters:
+      - name: ClientKey
+        in: path
+        description: The client key uniquely identifying a client.
+        required: true
+        schema:
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutClientSuitabilityStatusRequest'
+            example:
+              OverallSuitability: Medium
+              ProductAreaSuitability:
+              - FXSpot
+              - FXForwards
+              - FXOptions
+              - Futures
+              - ContractOptions
+              - CFDs
+              - Stocks
+              - Bonds
+              - MutualFunds
+              - CfdCommodities
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                - ErrorCode
+                - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                    - InvalidRequest
+                    type: string
+                    x-enum-descriptions:
+                      InvalidRequest: The request is invalid!
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Write
+  /at/v3/tradeFollowers/me:
+    get:
+      tags:
+      - Trade Followers
+      description: Retrieve follower suitability information.
+      operationId: TradeFollowerV3GetTradeFollowers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeFollowerContract'
+              example:
+                ClientLegalAssetTypes:
+                - FxSpot
+                - FxForwards
+                - FxVanillaOption
+                - ContractFutures
+                - FuturesOption
+                - Stock
+                - StockOption
+                - CfdOnStock
+                - Bond
+                - ManagedFund
+                - ManagedFund
+                - CfdOnIndex
+                - Cash
+                - CfdOnFutures
+                - FxKnockInOption
+                - FxKnockOutOption
+                - FxBinaryOption
+                - FxOneTouchOption
+                - FxNoTouchOption
+                - FxVanillaOption
+                - StockIndexOption
+                - FuturesStrategy
+                ClientSuitableAssetTypes:
+                - FxSpot
+                - FxForwards
+                - FxVanillaOption
+                - ContractFutures
+                - FuturesOption
+                - Stock
+                - StockOption
+                - CfdOnStock
+                - Bond
+                - ManagedFund
+                - ManagedFund
+                - CfdOnIndex
+                - CfdOnFutures
+                - FxKnockInOption
+                - FxKnockOutOption
+                - FxBinaryOption
+                - FxOneTouchOption
+                - FxNoTouchOption
+                - FxVanillaOption
+                - StockIndexOption
+                - FuturesStrategy
+                HasAcceptedTermsAndConditions: false
+                HasAccess: true
+                IsDisabled: false
+                IsReady: true
+                IsUSExchangesRestricted: false
+                SuitabilityLevel: High
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - OpenApiOAuthSecurityScheme: []
+      - OpenApiJWTSecurityScheme: []
+      x-required-permissions:
+        personal: Read
+        community: Read
+components:
+  schemas:
+    PutClientSuitabilityStatusRequest:
+      title: The suitability status of a client.
+      required:
+      - OverallSuitability
+      - ProductAreaSuitability
+      type: object
+      properties:
+        OverallSuitability:
+          title: The overall suitability level of a client.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+        ProductAreaSuitability:
+          title: The list of product areas for which the client is suitable.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductArea'
+      additionalProperties: false
+    TradeFollowerContract:
+      title: Reperesents information of a Follower.
+      type: object
+      properties:
+        AlertOnEverySaxoSelectAction:
+          title: indicates value (true) based on if client has not retaken the test before suitability test deadline else false.
+          type: boolean
+        ClientLegalAssetTypes:
+          title: Returns the list of client legal asset types.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+        ClientSuitableAssetTypes:
+          title: Returns the list of client suitable asset types.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+        EsgPriority:
+          title: ESG Priority to select e.g. Low, Medium, High
+          allOf:
+          - $ref: '#/components/schemas/EsgPriority'
+        EsgType:
+          title: ESG Type for investment e.g. Environmental,Science,Governance etc
+          allOf:
+          - $ref: '#/components/schemas/EsgType'
+        ForcedIgnoreESGPreference:
+          title: A boolean to indicate ignore ESG score
+          type: boolean
+        HasAcceptedTermsAndConditions:
+          title: A value indicating whether current follower has accepted Terms and Conditions.
+          type: boolean
+        HasAccess:
+          title: A value indicating whether current follower can use service.
+          type: boolean
+        IsDisabled:
+          title: A value indicating whether current follower is active or not.
+          type: boolean
+        IsReady:
+          title: A value indicating whether current follower is Ready for the service.
+          type: boolean
+        IsSuitabilityAlertRequired:
+          title: indicates value (true) based on last suitability test before suitability test deadline else false.
+          type: boolean
+        IsSuitabilityExpired:
+          title: indicates value (true) based on if client has not retaken the test before suitability test deadline else false.
+          type: boolean
+        IsUSExchangesRestricted:
+          title: A value indicating whether current follower has access to US Exchange.
+          type: boolean
+        SuitabilityLevel:
+          title: A value indicating current followers overall suitability level.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    SuitabilityLevel:
+      title: SuitabilityLevel - used by AutoTrading
+      enum:
+      - High
+      - Low
+      - Medium
+      - Unknown
+      - VeryHigh
+      type: string
+      x-enum-descriptions:
+        Unknown: Not specified
+        VeryHigh: '10: Very high risk / suitability required'
+        High: '20: High risk / suitability required'
+        Medium: '30: Medium risk / suitability required'
+        Low: '40: Low risk / suitability required'
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    GetClientTermsAndConditionsResponse:
+      title: Response to getting the terms and conditions status of a client.
+      type: object
+      properties:
+        Accepted:
+          title: Accepted is true if the client has accepted terms and conditions, and false otherwise.
+          type: boolean
+      additionalProperties: false
+    ClientSuitabilityStatusResponse:
+      title: Response type used suitability status.
+      type: object
+      properties:
+        CanGiveSuitabilityTest:
+          title: Field will reflect whether user is allowed to give suitability test or not.
+          type: boolean
+        EsgPriority:
+          title: ESG Priority to select e.g. Low, Medium, High
+          allOf:
+          - $ref: '#/components/schemas/EsgPriority'
+        EsgType:
+          title: ESG Type for investment e.g. Environmental,Science,Governance etc
+          allOf:
+          - $ref: '#/components/schemas/EsgType'
+        ForcedIgnoreESGPreference:
+          title: A boolean to indicate ignore ESG score
+          type: boolean
+        LastSuitabilityCheckDate:
+          title: Last Suitability Check Date And Time
+          type: string
+        OverallSuitability:
+          title: The overall suitablity score for the client.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+        ProductAreaSuitability:
+          title: The list of product areas for which the client has passed suitability test.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductArea'
+      additionalProperties: false
+    AutoTradingTermsAndConditionsStatus:
+      title: Enumeration AutoTradingTermsAndConditionsStatus.
+      enum:
+      - Accepted
+      - NotAccepted
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: The status is unknown
+        Accepted: Your request has been accepted
+        NotAccepted: Your request has not been accepted
+    EsgType:
+      title: ESG Type
+      enum:
+      - All
+      - Any
+      - Environmental
+      - Governance
+      - None
+      - Social
+      type: string
+      x-enum-descriptions:
+        None: no ESG
+        Environmental: Only specific esg environmental
+        Social: Only specific esg social
+        Governance: Only specific esg governance
+        Any: any esg type
+        All: should be all
+    EsgPriority:
+      enum:
+      - High
+      - Low
+      - Medium
+      type: string
+    AutoTradingTermsAndConditionsResponse:
+      title: AutoTradingTermsAndConditionsResponse
+      type: object
+      properties:
+        AutoTradingTermsAndConditionsStatus:
+          title: Accepted terms and conditions status for the client.
+          allOf:
+          - $ref: '#/components/schemas/AutoTradingTermsAndConditionsStatus'
+      additionalProperties: false
+    PutClientTermsAndConditionsRequest:
+      title: Request to update the terms and conditions status of a client.
+      required:
+      - Accepted
+      type: object
+      properties:
+        Accepted:
+          title: Set Accepted to true if the client has accepted terms and conditions, and false otherwise.
+          type: boolean
+      additionalProperties: false
+    ProductArea:
+      title: Product areas are groupings of asset types (products) areas as needed by Mifid classifications and client suitability evaluations.
+      enum:
+      - Bonds
+      - CFDs
+      - CfdCommodities
+      - ContractOptions
+      - FXForwards
+      - FXOptions
+      - FXSpot
+      - Futures
+      - MutualFunds
+      - Stocks
+      type: string
+      x-enum-descriptions:
+        FXSpot: Forex Spot. The Forex Spot product area includes the asset type FxSpot.
+        FXForwards: Forex Forwards. The FXForwards product area includes the asset type FxForwards.
+        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\r\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
+        Futures: Futures. The Futures product area includes the asset types FuturesStrategy and ContractFutures.
+        ContractOptions: Contract Options. The Contract Options product area includes the asset types FuturesOption, StockOption and StockIndexOption.
+        CFDs: CFDs. The CFDs product area includes the asset types CfdOnStock and CfdOnIndex.
+        Stocks: Stocks. The Stocks product area includes the asset type Stock.
+        Bonds: Bonds. The Bonds product area includes the asset type Bond.
+        MutualFunds: Mutual Funds. The Mutual Funds product area include the asset type MutualFund.
+        CfdCommodities: Cfds on Commodities. The Cfds on Commodities include the asset types CfdOnFutures and CfdOnIndex.
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: {}
