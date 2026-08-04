@@ -1,0 +1,804 @@
+openapi: 3.0.1
+info:
+  title: Services.MarketOverview
+  description: The MarketOverview service group provides end points for getting and subscribing to market movers such as winners and losers on an exchange.
+  version: 1.2.228+0167e9247e
+  x-framework-version: 43.0.5+65c0bdc8ab
+  x-machine: SIMOAWEB9-DK1
+servers:
+  - url: https://gateway.saxobank.com/sim/openapi
+paths:
+  '/mkt/v2/instruments/{Uic}/{AssetType}/documents/pdf':
+    get:
+      tags:
+        - Instrument Document
+      summary: Gets document related to instrument.
+      description: 'This endpoint is used to fetch pdf document for the specified AssetType, Uic, DocumentType and LanguageCode.'
+      operationId: InstrumentDocumentV2GetDocumentByDocumentTypeAndLanguageCode
+      parameters:
+        - name: AssetType
+          in: path
+          description: AssetType of the instrument.
+          required: true
+          style: simple
+          schema:
+            $ref: '#/components/schemas/AssetType'
+        - name: DocumentType
+          in: query
+          description: DocumentType for which to request information.
+          required: true
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/DocumentType'
+        - name: LanguageCode
+          in: query
+          description: LanguageCode for which to request information.
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: Uic
+          in: path
+          description: Uic of the instrument.
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentDocumentNotFound
+                      - InstrumentInformationDocumentNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InstrumentInformationDocumentNotFound: 'Instrument Document not found '
+                      InstrumentDocumentNotFound: 'Instrument Document not found '
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentDocumentDetailsNotFound
+                      - InstrumentNotFound
+                      - InvalidRequest
+                      - NoAccessToInstrument
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InstrumentNotFound: Instrument not found or user is missing access to the instrument.
+                      NoAccessToInstrument: User has no trade access to the instrument.
+                      InstrumentDocumentDetailsNotFound: Instrument Document details not found
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - Forbidden
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      Forbidden: The user does not have necessary permissions for the resource
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        personal: Read
+  '/mkt/v2/instruments/{Uic}/{AssetType}/documents/recommended':
+    get:
+      tags:
+        - Instrument Document
+      summary: Gets list of recommended instrument document information.
+      description: This endpoint is used to fetch a list of instrument document information for the specified input parameters.
+      operationId: InstrumentDocumentV2GetRecommendedInstrumentDocumentInformation
+      parameters:
+        - name: AssetType
+          in: path
+          description: AssetType of the instrument.
+          required: true
+          style: simple
+          schema:
+            $ref: '#/components/schemas/AssetType'
+        - name: DocumentTypes
+          in: query
+          description: The list of document types for which to request information
+          required: true
+          style: form
+          explode: false
+          schema:
+            title: The list of document types for which to request information
+            type: array
+            items:
+              $ref: '#/components/schemas/DocumentType'
+          example:
+            - CommercialMemorandum
+        - name: Uic
+          in: path
+          description: Uic of the instrument.
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentDocumentDetailsListResult'
+              example:
+                Data:
+                  - DocumentDateTime: '2020-04-20T00:00:00Z'
+                    DocumentRelationId: 1289
+                    DocumentType: KIIDs
+                    LanguageCode: en
+                  - DocumentDateTime: '2019-09-20T00:00:00Z'
+                    DocumentRelationId: 4028
+                    DocumentType: PRIIPKIDs
+                    LanguageCode: da
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentNotFound
+                      - NoAccessToInstrument
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InstrumentNotFound: Instrument not found or user is missing access to the instrument.
+                      NoAccessToInstrument: User has no trade access to the instrument.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - Forbidden
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      Forbidden: The user does not have necessary permissions for the resource
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        personal: Read
+  '/mkt/v1/instruments/{Uic}/{AssetType}/documents/pdf':
+    get:
+      tags:
+        - Instrument Document
+      summary: Gets document related to instrument.
+      description: 'This endpoint is used to fetch pdf document for the specified AssetType, Uic, DocumentType and LanguageCode.'
+      operationId: InstrumentDocumentV1GetDocumentByDocumentTypeAndLanguageCode
+      parameters:
+        - name: AssetType
+          in: path
+          description: AssetType of the instrument.
+          required: true
+          style: simple
+          schema:
+            $ref: '#/components/schemas/AssetType'
+        - name: DocumentType
+          in: query
+          description: DocumentType for which to request information.
+          required: true
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/DocumentType'
+        - name: LanguageCode
+          in: query
+          description: LanguageCode for which to request information.
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: Uic
+          in: path
+          description: Uic of the instrument.
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentDocumentNotFound
+                      - InstrumentInformationDocumentNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InstrumentInformationDocumentNotFound: 'Instrument Document not found '
+                      InstrumentDocumentNotFound: 'Instrument Document not found '
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentDocumentDetailsNotFound
+                      - InstrumentNotFound
+                      - InvalidRequest
+                      - NoAccessToInstrument
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InvalidRequest: Invalid request.
+                      InstrumentNotFound: Instrument not found or user is missing access to the instrument.
+                      NoAccessToInstrument: User has no trade access to the instrument.
+                      InstrumentDocumentDetailsNotFound: Instrument Document details not found
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - Forbidden
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      Forbidden: The user does not have necessary permissions for the resource
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        personal: Read
+  '/mkt/v1/instruments/{Uic}/{AssetType}/documents/recommended':
+    get:
+      tags:
+        - Instrument Document
+      summary: Gets list of recommended instrument document information.
+      description: This endpoint is used to fetch a list of instrument document information for the specified input parameters.
+      operationId: InstrumentDocumentV1GetRecommendedInstrumentDocumentInformation
+      parameters:
+        - name: AssetType
+          in: path
+          description: AssetType of the instrument.
+          required: true
+          style: simple
+          schema:
+            $ref: '#/components/schemas/AssetType'
+        - name: DocumentType
+          in: query
+          description: Document types for which to request information
+          required: true
+          style: form
+          explode: false
+          schema:
+            title: Document types for which to request information
+            allOf:
+              - $ref: '#/components/schemas/DocumentTypes'
+          example: PRIIP_KIDs
+        - name: Uic
+          in: path
+          description: Uic of the instrument.
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentDocumentInformationResponse'
+              example:
+                DocumentDetails:
+                  - DocumentDateTime: '2020-04-20T00:00:00Z'
+                    DocumentRelationId: 1289
+                    DocumentType: KIIDs
+                    LanguageCode: en
+                  - DocumentDateTime: '2019-09-20T00:00:00Z'
+                    DocumentRelationId: 4028
+                    DocumentType: PRIIP KIDs
+                    LanguageCode: da
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentInformationDocumentNotFound
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InstrumentInformationDocumentNotFound: 'Instrument Document not found '
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - InstrumentNotFound
+                      - NoAccessToInstrument
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      InstrumentNotFound: Instrument not found or user is missing access to the instrument.
+                      NoAccessToInstrument: User has no trade access to the instrument.
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                required:
+                  - ErrorCode
+                  - Message
+                type: object
+                properties:
+                  ErrorCode:
+                    enum:
+                      - Forbidden
+                    type: string
+                    example: None
+                    x-enum-descriptions:
+                      Forbidden: The user does not have necessary permissions for the resource
+                  Message:
+                    type: string
+                  ModelState:
+                    $ref: '#/components/schemas/ModelStateDictionary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - OpenApiOAuthSecurityScheme: [ ]
+        - OpenApiJWTSecurityScheme: [ ]
+      x-required-permissions:
+        personal: Read
+components:
+  schemas:
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+        - Bond
+        - Cash
+        - CertificateBonus
+        - CertificateCappedBonus
+        - CertificateCappedCapitalProtected
+        - CertificateCappedOutperformance
+        - CertificateConstantLeverage
+        - CertificateDiscount
+        - CertificateExpress
+        - CertificateTracker
+        - CertificateUncappedCapitalProtection
+        - CertificateUncappedOutperformance
+        - CfdIndexOption
+        - CfdOnCompanyWarrant
+        - CfdOnEtc
+        - CfdOnEtf
+        - CfdOnEtn
+        - CfdOnFund
+        - CfdOnFutures
+        - CfdOnIndex
+        - CfdOnRights
+        - CfdOnStock
+        - CompanyWarrant
+        - ContractFutures
+        - Etc
+        - Etf
+        - Etn
+        - Fund
+        - FuturesOption
+        - FuturesStrategy
+        - FxBinaryOption
+        - FxForwards
+        - FxKnockInOption
+        - FxKnockOutOption
+        - FxNoTouchOption
+        - FxOneTouchOption
+        - FxSpot
+        - FxVanillaOption
+        - GuaranteeNote
+        - IpoOnStock
+        - ManagedFund
+        - MiniFuture
+        - MutualFund
+        - PortfolioNote
+        - Rights
+        - SrdOnEtf
+        - SrdOnStock
+        - Stock
+        - StockIndex
+        - StockIndexOption
+        - StockOption
+        - Warrant
+        - WarrantDoubleKnockOut
+        - WarrantKnockOut
+        - WarrantOpenEndKnockOut
+        - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: 'Yields a capped return if the underlying asset''s value is above the specified cap level at expiry. If the underlying''s value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.'
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: 'Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.'
+        CertificateBonus: 'Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.'
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: 'Unlisted warrant issued by a corporation, often physically settled.'
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    DocumentType:
+      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
+      enum:
+        - AnnualFinancialStatement
+        - CommercialMemorandum
+        - FactSheet
+        - KFS
+        - KIIDs
+        - PHS
+        - PRIIPKIDs
+        - Prospectus
+        - SemiAnnualFinancialStatement
+        - SimplifiedProspectus
+      type: string
+      example: KIIDs
+      x-enum-descriptions:
+        KIIDs: Key Investor Information Document
+        PRIIPKIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
+        FactSheet: Fact Sheet
+        AnnualFinancialStatement: Annual Financial Statement
+        CommercialMemorandum: Commercial Memorandum
+        Prospectus: Prospectus
+        PHS: Product Highlight Sheet
+        KFS: Key Fact Sheet
+        SimplifiedProspectus: Simplified Prospectus
+        SemiAnnualFinancialStatement: Semi Annual Financial Statement
+      x-type-warning: FlaggableEnum
+    DocumentTypes:
+      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
+      enum:
+        - AnnualFinancialStatement
+        - CommercialMemorandum
+        - FactSheet
+        - KFS
+        - KIIDs
+        - PHS
+        - PRIIP_KIDs
+        - Prospectus
+        - SemiAnnualFinancialStatement
+        - SimplifiedProspectus
+      type: string
+      example: PRIIP_KIDs
+      x-enum-descriptions:
+        KIIDs: Key Investor Information Document
+        PRIIP_KIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
+        FactSheet: Fact Sheet
+        AnnualFinancialStatement: Annual Financial Statement
+        CommercialMemorandum: Commercial Memorandum
+        Prospectus: Prospectus
+        PHS: Product Highlight Sheet
+        KFS: Key Fact Sheet
+        SimplifiedProspectus: Simplified Prospectus
+        SemiAnnualFinancialStatement: Semi Annual Financial Statement
+      x-type-warning: FlaggableEnum
+    InstrumentDocumentDetails:
+      title: Instrument documents related details.
+      type: object
+      properties:
+        DocumentDateTime:
+          title: Document time stamp.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        DocumentRelationId:
+          title: Document Relation Id.
+          type: integer
+          format: int32
+          example: 99
+        DocumentType:
+          title: The document type.
+          allOf:
+            - $ref: '#/components/schemas/DocumentType'
+        LanguageCode:
+          title: The language of the document.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        DocumentDateTime: '9999-12-31T23:59:59.9999990+00:00'
+        DocumentRelationId: 99
+        DocumentType: PHS
+        LanguageCode: stringValue
+    InstrumentDocumentDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDocumentDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+          - DocumentDateTime: '2020-04-20T00:00:00Z'
+            DocumentRelationId: 1289
+            DocumentType: KIIDs
+            LanguageCode: en
+          - DocumentDateTime: '2019-09-20T00:00:00Z'
+            DocumentRelationId: 4028
+            DocumentType: PRIIPKIDs
+            LanguageCode: da
+    InstrumentDocumentInformation:
+      title: Instrument documents related information.
+      type: object
+      properties:
+        DocumentDateTime:
+          title: Document time stamp.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        DocumentRelationId:
+          title: Document Relation Id.
+          type: integer
+          format: int32
+          example: 99
+        DocumentType:
+          title: The document type.
+          type: string
+          example: stringValue
+        LanguageCode:
+          title: The language of the document.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        DocumentDateTime: '2020-01-20T00:00:00.0000000+00:00'
+        DocumentRelationId: 1100
+        DocumentType: KIIDs
+        LanguageCode: en
+    InstrumentDocumentInformationResponse:
+      title: Instrument Document Information Response
+      type: object
+      properties:
+        DocumentDetails:
+          title: List of document details.
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDocumentInformation'
+          example:
+            - DocumentDateTime: '2020-01-20T00:00:00Z'
+              DocumentRelationId: 1100
+              DocumentType: KIIDs
+              LanguageCode: en
+      additionalProperties: false
+      example:
+        DocumentDetails:
+          - DocumentDateTime: '2020-04-20T00:00:00Z'
+            DocumentRelationId: 1289
+            DocumentType: KIIDs
+            LanguageCode: en
+          - DocumentDateTime: '2019-09-20T00:00:00Z'
+            DocumentRelationId: 4028
+            DocumentType: PRIIP KIDs
+            LanguageCode: da
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+  securitySchemes:
+    OpenApiJWTSecurityScheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OpenApiOAuthSecurityScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sim.logonvalidation.net/authorize
+          tokenUrl: https://sim.logonvalidation.net/token
+          scopes: { }
+tags:
+  - name: Instrument Document
+    description: Provides endpoints that returns a document for requested instrument.
