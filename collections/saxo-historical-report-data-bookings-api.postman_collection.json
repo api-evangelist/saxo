@@ -1,0 +1,624 @@
+{
+  "item": [
+    {
+      "id": "360631ed-8ca3-4faa-9daf-60633fb77c89",
+      "name": "Historical Report Data - Bookings",
+      "description": {
+        "content": "Bookings Report Data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "88c786c4-4238-47c3-85cb-69b07d819234",
+          "name": "Booking Get",
+          "request": {
+            "name": "Booking Get",
+            "description": {
+              "content": "Get all bookings for ClientKey between two dates or by specifying a combination of FilterType and FilterValue.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "reports",
+                "bookings",
+                ":ClientKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$skiptoken",
+                  "value": "<string>",
+                  "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "0",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The key of the account to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "FilterType",
+                  "value": "<string>",
+                  "description": "Type, basis on which bookings are reterived. If specified you must also specify a FilterValue"
+                },
+                {
+                  "disabled": false,
+                  "key": "FilterValue",
+                  "value": "<string>",
+                  "description": "Id for the specified filter type."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDate",
+                  "value": "<date>",
+                  "description": "From date, ignored when filterType and filterValue are not null"
+                },
+                {
+                  "disabled": false,
+                  "key": "MockDataId",
+                  "value": "<string>",
+                  "description": "Optional Mock Data Parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDate",
+                  "value": "<date>",
+                  "description": "To date, ignored when filterType and filterValue are not null"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ClientKey",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5756372f-ee5c-4e87-9b33-fe82f3db12a8",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "bookings",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FilterType",
+                      "value": "BkAmountId"
+                    },
+                    {
+                      "key": "FilterValue",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/....../?$top=1&$skip=1\",\n  \"Data\": [\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1.03999996185303,\n      \"AmountAccountCurrency\": 6.62,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": 6.62,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": 1.03602616670318,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3042746175\",\n      \"BkAmountType\": \"Exchange Fee\",\n      \"BkAmountTypeId\": \"30\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-01-15\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2015 15.000 C\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F15C15:xcbf\",\n      \"RelatedPositionId\": \"773603907\",\n      \"RelatedTradeId\": \"773603907\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1012706,\n      \"UnderlyingInstrumentDescription\": \"CBOE Vloatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-01-15\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": 1260,\n      \"AmountAccountCurrency\": 8010.89,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": 8010.89,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": 1253.69964631131,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3042746174\",\n      \"BkAmountType\": \"Premium\",\n      \"BkAmountTypeId\": \"12\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-01-15\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2015 15.000 C\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F15C15:xcbf\",\n      \"RelatedPositionId\": \"773603907\",\n      \"RelatedTradeId\": \"773603907\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1012706,\n      \"UnderlyingInstrumentDescription\": \"CBOE Vloatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-01-15\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -6,\n      \"AmountAccountCurrency\": -38.15,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -38.15,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": 5.97045290932424,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3042742814\",\n      \"BkAmountType\": \"Commission\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-01-15\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2015 15.000 C\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F15C15:xcbf\",\n      \"RelatedPositionId\": \"773603907\",\n      \"RelatedTradeId\": \"773603907\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1012706,\n      \"UnderlyingInstrumentDescription\": \"CBOE Vloatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-01-15\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1186.5,\n      \"AmountAccountCurrency\": -7654.42,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -7654.42,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -1189.20237392412,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3052212830\",\n      \"BkAmountType\": \"Share Amount\",\n      \"BkAmountTypeId\": \"2\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-01-20\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT:xnas\",\n      \"RelatedPositionId\": \"775130723\",\n      \"RelatedTradeId\": \"775130723\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT:xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-01-23\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -12,\n      \"AmountAccountCurrency\": -77.42,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -77.42,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -12.0280893639499,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3051745520\",\n      \"BkAmountType\": \"Commisison\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-01-20\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT:xnas\",\n      \"RelatedPositionId\": \"775130723\",\n      \"RelatedTradeId\": \"775130723\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT:xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-01-23\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -10,\n      \"AmountAccountCurrency\": -66.79,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -66.79,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -10.0261198510868,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3126672978\",\n      \"BkAmountType\": \"Commisison\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-03-02\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT:xnas\",\n      \"RelatedPositionId\": \"787515963\",\n      \"RelatedTradeId\": \"787515963\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT:xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-03-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -10,\n      \"AmountAccountCurrency\": -66.79,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -66.79,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -10.0261198510868,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3126672978\",\n      \"BkAmountType\": \"Commisison\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-03-02\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT:xnas\",\n      \"RelatedPositionId\": \"787515963\",\n      \"RelatedTradeId\": \"787515963\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT:xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-03-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -2.96,\n      \"AmountAccountCurrency\": -20.61,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -20.61,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -2.96031369845305,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3185111269\",\n      \"BkAmountType\": \"CFD Finance\",\n      \"BkAmountTypeId\": \"10\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-03-31\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT:xnas\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT:xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-04-01\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -0.3,\n      \"AmountAccountCurrency\": -2.24,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -2.24,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -0.334595535240827,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3360198216\",\n      \"BkAmountType\": \"CFD Finance\",\n      \"BkAmountTypeId\": \"10\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"EUR\",\n      \"Date\": \"2015-06-30\",\n      \"InstrumentDescription\": \"National Bank of Greece SA\",\n      \"InstrumentSectorName\": \"Banks\",\n      \"InstrumentSectorTypeId\": 656,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"ETE=xath\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"Financials\",\n      \"RootInstrumentSectorTypeId\": 509,\n      \"Uic\": 20690,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"National Bank of Greece SA\",\n      \"UnderlyingInstrumentSectorName\": \"Banks\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"ETE=xath\",\n      \"UnderlyingInstrumentUic\": 20690,\n      \"ValueDate\": \"2015-07-01\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -6.41,\n      \"AmountAccountCurrency\": -6.41,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -6.41,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -0.949643698425162,\n      \"BkAmountId\": \"3360618999\",\n      \"BkAmountType\": \"Interest\",\n      \"BkAmountTypeId\": \"45\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-07-01\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 0,\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentUic\": 0,\n      \"ValueDate\": \"2015-07-01\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -3.06,\n      \"AmountAccountCurrency\": -20.79,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -20.79,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -3.06030073085104,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3420534529\",\n      \"BkAmountType\": \"CFD Finance\",\n      \"BkAmountTypeId\": \"10\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-07-31\",\n      \"InstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"InstrumentSectorName\": \"Telecommunications Equipment\",\n      \"InstrumentSectorTypeId\": 684,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"UBNT=xnas\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"Technology\",\n      \"RootInstrumentSectorTypeId\": 510,\n      \"Uic\": 85485,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"Ubiquiti Networks Inc.\",\n      \"UnderlyingInstrumentSectorName\": \"Telecommunications Equipment\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"UBNT=xnas\",\n      \"UnderlyingInstrumentUic\": 85485,\n      \"ValueDate\": \"2015-08-03\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -0.31,\n      \"AmountAccountCurrency\": -2.31,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -2.31,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -0.340033414539004,\n      \"AssetType\": \"CfdOnStock\",\n      \"BkAmountId\": \"3420454836\",\n      \"BkAmountType\": \"CFD Finance\",\n      \"BkAmountTypeId\": \"10\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"EUR\",\n      \"Date\": \"2015-07-31\",\n      \"InstrumentDescription\": \"National Bank of Greece SA\",\n      \"InstrumentSectorName\": \"Banks\",\n      \"InstrumentSectorTypeId\": 656,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"ETE=xath\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"Financials\",\n      \"RootInstrumentSectorTypeId\": 509,\n      \"Uic\": 20690,\n      \"UnderlyingInstrumentAssetType\": \"CfdOnStock\",\n      \"UnderlyingInstrumentDescription\": \"National Bank of Greece SA\",\n      \"UnderlyingInstrumentSectorName\": \"Banks\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"ETE=xath\",\n      \"UnderlyingInstrumentUic\": 20690,\n      \"ValueDate\": \"2015-08-03\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -4.6,\n      \"AmountAccountCurrency\": -4.6,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -4.6,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -0.675050995700219,\n      \"BkAmountId\": \"3420990244\",\n      \"BkAmountType\": \"Interest\",\n      \"BkAmountTypeId\": \"45\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-08-03\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"RelatedPositionId\": \"0\",\n      \"RelatedTradeId\": \"0\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 0,\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentUic\": 0,\n      \"ValueDate\": \"2015-08-03\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -325,\n      \"AmountAccountCurrency\": -2182.26,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -2182.26,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -326.285099129811,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3440442853\",\n      \"BkAmountType\": \"Premium\",\n      \"BkAmountTypeId\": \"12\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-08-12\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Aug2015 15 C\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/Q15C15=xcbf\",\n      \"RelatedPositionId\": \"840409122\",\n      \"RelatedTradeId\": \"840409122\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1561206,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-08-12\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1.03999996185303,\n      \"AmountAccountCurrency\": -6.96,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -6.96,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -1.04063873687988,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3440445011\",\n      \"BkAmountType\": \"Exchange Fee\",\n      \"BkAmountTypeId\": \"30\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-08-12\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Aug2015 16 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/Q15P16=xcbf\",\n      \"RelatedPositionId\": \"840305316\",\n      \"RelatedTradeId\": \"840305316\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1561245,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-08-12\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1.03999996185303,\n      \"AmountAccountCurrency\": -6.91,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -6.91,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -1.03316288388505,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3440445585\",\n      \"BkAmountType\": \"Exchange Fee\",\n      \"BkAmountTypeId\": \"30\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-08-12\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Aug2015 16 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/Q15P16=xcbf\",\n      \"RelatedPositionId\": \"840407407\",\n      \"RelatedTradeId\": \"840407407\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1561245,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-08-12\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -260,\n      \"AmountAccountCurrency\": -1741.21,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -1741.21,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -260.340599862444,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3440441397\",\n      \"BkAmountType\": \"Premium\",\n      \"BkAmountTypeId\": \"12\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-08-12\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Aug2015 16 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/Q15P16=xcbf\",\n      \"RelatedPositionId\": \"840305316\",\n      \"RelatedTradeId\": \"840305316\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 1561245,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-08-12\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -19,\n      \"AmountAccountCurrency\": -19,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -19,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -2.85383841266503,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3479817118\",\n      \"BkAmountType\": \"Commission\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-08-31\",\n      \"InstrumentDescription\": \"Wealth Invest Sirius Balance\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 400,\n      \"InstrumentSubType\": \"Etf\",\n      \"InstrumentSymbol\": \"WEISIB=xcse\",\n      \"RelatedPositionId\": \"847585758\",\n      \"RelatedTradeId\": \"847585758\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 400,\n      \"Uic\": 343053,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Wealth Invest Sirius Balance\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"Etf\",\n      \"UnderlyingInstrumentSymbol\": \"WEISIB=xcse\",\n      \"UnderlyingInstrumentUic\": 343053,\n      \"ValueDate\": \"2015-09-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1072.8,\n      \"AmountAccountCurrency\": -1072.8,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -1072.8,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -161.136728900371,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3480224792\",\n      \"BkAmountType\": \"Share Amount\",\n      \"BkAmountTypeId\": \"2\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-08-31\",\n      \"InstrumentDescription\": \"Wealth Invest Sirius Balance\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 400,\n      \"InstrumentSubType\": \"Etf\",\n      \"InstrumentSymbol\": \"WEISIB=xcse\",\n      \"RelatedPositionId\": \"847585758\",\n      \"RelatedTradeId\": \"847585758\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 400,\n      \"Uic\": 343053,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Wealth Invest Sirius Balance\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"Etf\",\n      \"UnderlyingInstrumentSymbol\": \"WEISIB=xcse\",\n      \"UnderlyingInstrumentUic\": 343053,\n      \"ValueDate\": \"2015-09-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1103,\n      \"AmountAccountCurrency\": -1103,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -1103,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -165.672829956291,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3480224810\",\n      \"BkAmountType\": \"Share Amount\",\n      \"BkAmountTypeId\": \"2\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-08-31\",\n      \"InstrumentDescription\": \"Wealth Invest - Saxo Global Equities\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 400,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"WEISGE=xcse\",\n      \"RelatedPositionId\": \"847585836\",\n      \"RelatedTradeId\": \"847585836\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 400,\n      \"Uic\": 1307373,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Wealth Invest - Saxo Global Equities\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"WEISGE=xcse\",\n      \"UnderlyingInstrumentUic\": 1307373,\n      \"ValueDate\": \"2015-09-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -19,\n      \"AmountAccountCurrency\": -19,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -19,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -2.85383841266503,\n      \"AssetType\": \"Stock\",\n      \"BkAmountId\": \"3479817136\",\n      \"BkAmountType\": \"Commission\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"DKK\",\n      \"Date\": \"2015-08-31\",\n      \"InstrumentDescription\": \"Wealth Invest - Saxo Global Equities\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 400,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"WEISGE=xcse\",\n      \"RelatedPositionId\": \"847585836\",\n      \"RelatedTradeId\": \"847585836\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 400,\n      \"Uic\": 1307373,\n      \"UnderlyingInstrumentAssetType\": \"Stock\",\n      \"UnderlyingInstrumentDescription\": \"Wealth Invest - Saxo Global Equities\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"WEISGE=xcse\",\n      \"UnderlyingInstrumentUic\": 1307373,\n      \"ValueDate\": \"2015-09-02\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -1.03999996185303,\n      \"AmountAccountCurrency\": -7.12,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -7.12,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -1.04404184965504,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3679054443\",\n      \"BkAmountType\": \"Exchange Fee\",\n      \"BkAmountTypeId\": \"30\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-12-10\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2016 20 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F16P20=xcbf\",\n      \"RelatedPositionId\": \"883010450\",\n      \"RelatedTradeId\": \"883010450\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 2206610,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-12-10\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -680,\n      \"AmountAccountCurrency\": -4653.05,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -4653.05,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -682.300411311431,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3679054441\",\n      \"BkAmountType\": \"Premium\",\n      \"BkAmountTypeId\": \"12\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-12-10\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2016 20 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F16P20=xcbf\",\n      \"RelatedPositionId\": \"883010450\",\n      \"RelatedTradeId\": \"883010450\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 2206610,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-12-10\"\n    },\n    {\n      \"AccountCurrency\": \"DKK\",\n      \"AccountId\": \"179643INET\",\n      \"Amount\": -12,\n      \"AmountAccountCurrency\": -82.11,\n      \"AmountClass\": \"NotAssigned\",\n      \"AmountClientCurrency\": -82.11,\n      \"AmountSubClass\": \"NotAssigned\",\n      \"AmountUSD\": -12.040207342019,\n      \"AssetType\": \"StockIndexOption\",\n      \"BkAmountId\": \"3679054442\",\n      \"BkAmountType\": \"Commission\",\n      \"BkAmountTypeId\": \"4\",\n      \"CaMasterRecordId\": \"0\",\n      \"ClientCurrency\": \"DKK\",\n      \"ConversionRate\": 0,\n      \"ConversionRateAccountCurrency\": 0,\n      \"ConversionRateClientCurrency\": 0,\n      \"ConversionRateUSD\": 0,\n      \"CostClass\": \"NotAssigned\",\n      \"CostSubClass\": \"NotAssigned\",\n      \"Currency\": \"USD\",\n      \"Date\": \"2015-12-10\",\n      \"InstrumentDescription\": \"Volatility Index (VIX) Jan2016 20 P\",\n      \"InstrumentSectorName\": \"<Unknown>\",\n      \"InstrumentSectorTypeId\": 0,\n      \"InstrumentSubType\": \"None\",\n      \"InstrumentSymbol\": \"VIX/F16P20=xcbf\",\n      \"RelatedPositionId\": \"883010450\",\n      \"RelatedTradeId\": \"883010450\",\n      \"RootInstrumentSectorName\": \"<Unknown>\",\n      \"RootInstrumentSectorTypeId\": 0,\n      \"Uic\": 2206610,\n      \"UnderlyingInstrumentDescription\": \"CBOE Volatility Index\",\n      \"UnderlyingInstrumentSectorName\": \"<Unknown>\",\n      \"UnderlyingInstrumentSubType\": \"None\",\n      \"UnderlyingInstrumentSymbol\": \"VIX.I\",\n      \"UnderlyingInstrumentUic\": 10606,\n      \"ValueDate\": \"2015-12-10\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "599a1434-e237-4d7f-8a5b-727474ff1a99",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "bookings",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FilterType",
+                      "value": "BkAmountId"
+                    },
+                    {
+                      "key": "FilterValue",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"BadRequestError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "730befee-83bc-4298-a324-3ec55f4815b3",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "bookings",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FilterType",
+                      "value": "BkAmountId"
+                    },
+                    {
+                      "key": "FilterValue",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "522f2cf4-2663-4e04-a778-6b4b6054698c",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "bookings",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FilterType",
+                      "value": "BkAmountId"
+                    },
+                    {
+                      "key": "FilterValue",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d2e8a9f6-9ee0-45bb-afa0-61c861cf9ab9",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "bookings",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FilterType",
+                      "value": "BkAmountId"
+                    },
+                    {
+                      "key": "FilterValue",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c8abbf05-6a13-4965-a868-6d27de5a55c0",
+    "name": "Services.AutoTrading Account Values Historical Report Data - Bookings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

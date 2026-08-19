@@ -1,0 +1,588 @@
+{
+  "item": [
+    {
+      "id": "9eeb255c-4287-4eb0-baa5-da2cab059a12",
+      "name": "Trading Conditions",
+      "description": {
+        "content": "Provides trading conditions for regular instruments",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5adadb6f-1d5b-4484-97e6-d0fc17782b60",
+          "name": "Trading conditions for all instruments except contract options",
+          "request": {
+            "name": "Trading conditions for all instruments except contract options",
+            "description": {
+              "content": "Trading conditions for all instruments except contract options. \n            Trading conditions details default behavior for the instrument (can it be traded and how), \n            margin requirements for opening and holding a position in an instrument (how much cash is needed on the account) \n            as well as the cost structure of opening, closing and holding a position.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "tradingconditions",
+                "instrument",
+                ":AccountKey",
+                ":Uic",
+                ":AssetType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) Specify which field groups to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) Specify which field groups to return"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "AccountKey",
+                  "description": "(Required) The account key to lookup the conditions for"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "AssetType",
+                  "description": "(Required) The assetType of the instrument to lookup"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "Uic",
+                  "description": "(Required) The uic for the instrument to lookup"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a5a78f79-543b-452e-b4a1-96b39f1efaf0",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AccountCurrency\": \"GBP\",\n  \"AmountCurrency\": \"EUR\",\n  \"AssetType\": \"FxSpot\",\n  \"CarryingCost\": {\n    \"FixedRate\": 2,\n    \"InterbankRate\": {\n      \"AskRate\": 1,\n      \"BidRate\": 2,\n      \"TradeDate\": \"0001-01-01\"\n    },\n    \"MarkUpRate\": 2\n  },\n  \"CommissionLimits\": [\n    {\n      \"Currency\": \"USD\",\n      \"MinCommission\": 3,\n      \"OrderAction\": \"ExecuteOrder\",\n      \"RateOnAmount\": 0.00005\n    }\n  ],\n  \"ExposureLimits\": [\n    {\n      \"Currency\": \"USD\",\n      \"Identifier\": \"EUR\",\n      \"Level\": \"Currency\",\n      \"RuleType\": \"Value\",\n      \"Value\": 115000000\n    },\n    {\n      \"Currency\": \"USD\",\n      \"Identifier\": \"USD\",\n      \"Level\": \"Currency\",\n      \"RuleType\": \"Value\",\n      \"Value\": 115000000\n    },\n    {\n      \"Currency\": \"USD\",\n      \"Identifier\": \"Fx-NOP\",\n      \"Level\": \"Asset\",\n      \"RuleType\": \"Value\",\n      \"Value\": 50000000\n    }\n  ],\n  \"Financing\": {\n    \"AskMarkUp\": 2,\n    \"BidMarkDown\": 2,\n    \"FixedRateAsk\": 2,\n    \"FixedRateBid\": 3,\n    \"InterbankRate\": {\n      \"AskRate\": 1,\n      \"BidRate\": 2,\n      \"TradeDate\": \"0001-01-01\"\n    }\n  },\n  \"FinancingInterest\": {\n    \"InterbankRate\": {\n      \"AskRate\": 1,\n      \"BidRate\": 2,\n      \"TradeDate\": \"0001-01-01\"\n    },\n    \"Markup\": 1,\n    \"TradeDate\": \"0001-01-01\"\n  },\n  \"ForexPriceBands\": [\n    {\n      \"AutoExecuteEnabled\": true,\n      \"AutoQuoteEnabled\": true,\n      \"DisplayDecimals\": 5,\n      \"MaxBand\": 100000,\n      \"Spread\": 0.00001,\n      \"SpreadType\": \"Variable\",\n      \"UpperBandLimit\": 100000\n    },\n    {\n      \"AutoExecuteEnabled\": true,\n      \"AutoQuoteEnabled\": true,\n      \"DisplayDecimals\": 5,\n      \"MaxBand\": 100000,\n      \"Spread\": 0.00002,\n      \"SpreadType\": \"Variable\",\n      \"UpperBandLimit\": 25000000\n    }\n  ],\n  \"InstrumentCurrency\": \"USD\",\n  \"IsTradable\": true,\n  \"LoanInterest\": {\n    \"InterbankRate\": {\n      \"AskRate\": 1,\n      \"BidRate\": 2,\n      \"TradeDate\": \"0001-01-01\"\n    },\n    \"Markup\": 2\n  },\n  \"MarginTierRequirement\": {\n    \"Entries\": [\n      {\n        \"ExtraWeekMarginRate\": 0.015,\n        \"InitialMarginRate\": 0.015,\n        \"IntraWeekMarginRate\": 0.015,\n        \"TierLowerBound\": 0\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.065,\n        \"InitialMarginRate\": 0.055,\n        \"IntraWeekMarginRate\": 0.045,\n        \"TierLowerBound\": 1000000\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.025,\n        \"InitialMarginRate\": 0.025,\n        \"IntraWeekMarginRate\": 0.025,\n        \"TierLowerBound\": 25000000\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.003,\n        \"InitialMarginRate\": 0.003,\n        \"IntraWeekMarginRate\": 0.003,\n        \"TierLowerBound\": 50000000\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.035,\n        \"InitialMarginRate\": 0.035,\n        \"IntraWeekMarginRate\": 0.035,\n        \"TierLowerBound\": 100000000\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.045,\n        \"InitialMarginRate\": 0.045,\n        \"IntraWeekMarginRate\": 0.045,\n        \"TierLowerBound\": 150000000\n      },\n      {\n        \"ExtraWeekMarginRate\": 0.05,\n        \"InitialMarginRate\": 0.05,\n        \"IntraWeekMarginRate\": 0.05,\n        \"TierLowerBound\": 250000000\n      }\n    ],\n    \"TierCurrency\": \"USD\"\n  },\n  \"MinOrderSize\": 1000,\n  \"MinOrderSizeCurrency\": \"EUR\",\n  \"PortfolioBasedMargin\": {\n    \"ExtremeStressFactor\": 15.6,\n    \"Initial\": 185.5,\n    \"IntraWeek\": 8.7,\n    \"LiquidityThresholdAmount\": 569987,\n    \"LiquidityThresholdCurrency\": \"USD\",\n    \"VolatilityAddOn\": 1000.68,\n    \"VolatilityStress\": 100\n  },\n  \"Rating\": 0,\n  \"RiskIndicator\": 0,\n  \"Rules\": [\n    \"DayTradingNotAllowed\",\n    \"ExchangeFeeConstituents\",\n    \"NoMoreBuyOnExchange\",\n    \"NoMoreBuyOnInstrument\",\n    \"OrderAmendmentNotAllowed\"\n  ],\n  \"SpreadAsLowAs\": 0.00007,\n  \"SwapPoints\": {\n    \"AskPoint\": 1,\n    \"BidPoint\": 2,\n    \"Date\": \"0001-01-01\",\n    \"Markup\": 1,\n    \"TimeZoneAbbreviation\": \"CTE\",\n    \"TimeZoneOffset\": \"00:00:00\"\n  },\n  \"TicketFeeThreshold\": 50000,\n  \"Uic\": 21\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16a0c7e5-dd2f-43bf-b63b-289a233e0e9a",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf096f25-d77d-49af-a977-3bf2fdb15a22",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "339c9328-7c24-4e3e-8da4-a6b32fb34a6b",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f6bc8309-9a87-4435-95db-7b71b9f9de5f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7b16ab5e-f7e5-4d22-846b-400a32840afc",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "instrument",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "200b5b30-a6c8-4b0c-bf2e-52c02c9ce910",
+    "name": "Services.AutoTrading Account Values Trading Conditions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

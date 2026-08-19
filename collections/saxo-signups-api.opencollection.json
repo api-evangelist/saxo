@@ -1,0 +1,338 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Signups API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Signups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate verification process from external vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v2/signups/verification/initiate/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "path",
+                "description": "The client key"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initiates the verification process for a client by returning a URL that will redirect the client to an external vendor. If successful, the onboarding status will be approved."
+        },
+        {
+          "info": {
+            "name": "Get all signup options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v2/signups/options",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Return translated data set containing possible field values for each user selections."
+        },
+        {
+          "info": {
+            "name": "SignUpV2AttachFile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v2/signups/attachments/:SignUpId",
+            "params": [
+              {
+                "name": "SignUpId",
+                "value": "5b68ce05-24f7-491c-a3aa-6a43f7923cee",
+                "type": "path",
+                "description": "Signup ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Add multiple files to a sign up case"
+        },
+        {
+          "info": {
+            "name": "SignUpV1GenerateTypedOnboardingPDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/onboardingpdf/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "path",
+                "description": "The client key"
+              },
+              {
+                "name": "DocumentType",
+                "value": "",
+                "type": "query",
+                "description": "The onboarding document type"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Generate PDF document of DocumentType provided in request for client provided"
+        },
+        {
+          "info": {
+            "name": "Initiate verification process from external vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/verification/initiate/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "path",
+                "description": "The client key"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initiates the verification process for a client by returning a URL that will redirect the client to an external vendor. If successful, the onboarding status will be approved."
+        },
+        {
+          "info": {
+            "name": "Completes the onboarding application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/completeapplication/:SignUpId",
+            "params": [
+              {
+                "name": "AwaitAccountCreation",
+                "value": "true",
+                "type": "query",
+                "description": "Flag to mention if you want to wait for account creation. Set it to true to wait for account details or false if you don't want the account details immediately."
+              },
+              {
+                "name": "SignUpId",
+                "value": "5b68ce05-24f7-491c-a3aa-6a43f7923cee",
+                "type": "path",
+                "description": "Signup ID"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Completes the onboarding application without any delay. Call this endpoint after 'create signup' and 'upload documents'."
+        },
+        {
+          "info": {
+            "name": "Get the onboarding status of a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/status/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "path",
+                "description": "The client key"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the onboarding status of a client. The onboarding flow is as follows"
+        },
+        {
+          "info": {
+            "name": "Create client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups",
+            "params": [
+              {
+                "name": "OwnerKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "query",
+                "description": "Client key of owner, under which this signup will be created. If not provided, signup will be created under the LoggedIn client"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initiates the creation of a new client under the specified owner. The country specific properties for Finland, Italy, Singapore and Switzerland cannot be combined. If successful, the endpoint returns the new ClientId, its corresponding ClientKey and the SignupId. The latter is used to upload additional files and to complete the application."
+        },
+        {
+          "info": {
+            "name": "Get all signup options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/options",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Return data set containing possible field values for each user selections."
+        },
+        {
+          "info": {
+            "name": "Adds a file to a sign up case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/signups/attachments/:SignUpId",
+            "params": [
+              {
+                "name": "DocumentType",
+                "value": "ProofOfIdentity",
+                "type": "query",
+                "description": "Type of document"
+              },
+              {
+                "name": "RenewalDate",
+                "value": "2019-07-15T00:00:00.0000000+00:00",
+                "type": "query",
+                "description": "Expiration date of document"
+              },
+              {
+                "name": "SignUpId",
+                "value": "5b68ce05-24f7-491c-a3aa-6a43f7923cee",
+                "type": "path",
+                "description": "Signup ID"
+              },
+              {
+                "name": "Title",
+                "value": "client_POI",
+                "type": "query",
+                "description": "Title of the document file"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Adds attachment to a sign up case."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

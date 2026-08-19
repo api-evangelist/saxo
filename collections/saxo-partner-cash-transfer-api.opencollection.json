@@ -1,0 +1,136 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Partner - Cash Transfer API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Partner - Cash Transfer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "PartnerCashTransferCashTransfersById",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/partner/cashtransfers/:TransactionId",
+            "params": [
+              {
+                "name": "TransactionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fetches the latest status of fund transfers."
+        },
+        {
+          "info": {
+            "name": "PartnerCashTransferCashTransfersBySearchParameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/partner/cashtransfers",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "dIm75edbgnW6aBK3CIc-sw==",
+                "type": "query",
+                "description": "If specified, will only return entries pertaining to the specified account."
+              },
+              {
+                "name": "ClientKey",
+                "value": "zpSlGZ4F0cPIx59wR3HP1g==",
+                "type": "query",
+                "description": "If specified, will only return entries pertaining to the specified client."
+              },
+              {
+                "name": "ExternalReference",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Include entries with the specified ExternalReference."
+              },
+              {
+                "name": "FromDateTime",
+                "value": "2022-03-06T04:23:44.5328096",
+                "type": "query",
+                "description": "Only include entries with a TransferRequestedOn value greater than or equal to FromDateTime."
+              },
+              {
+                "name": "SkipToken",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Id token of entity to start taking elements from."
+              },
+              {
+                "name": "ToDateTime",
+                "value": "2022-03-06T04:23:44.5328096",
+                "type": "query",
+                "description": "Only include entries with a TransferRequestedOn value lower than or equal to ToDateTime."
+              },
+              {
+                "name": "Top",
+                "value": "99",
+                "type": "query",
+                "description": "Number of elements to retrieve. (Default is 50, Max is 1000.)"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fetches a summary of transfers."
+        },
+        {
+          "info": {
+            "name": "PartnerCashTransferCashTransfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/partner/cashtransfers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cash transfer initiated by partner."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Standing Instructions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Standing Instructions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get standing instructions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/standinginstructions",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "query",
+                "description": "Client Key to fetch standing instructions for."
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "Indicates whether to include standing instructions from sub-clients."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fetches a list of standing instructions configured by client or partner."
+        },
+        {
+          "info": {
+            "name": "Create new standing instruction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/standinginstructions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates new standing instructions - configured for given account and instrument. \r\n            Standing instructions will be used to perform auto elections by the Election Robot."
+        },
+        {
+          "info": {
+            "name": "Delete standing instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/standinginstructions",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "W-CgwnsUEpETkiR8MPJalA==",
+                "type": "query",
+                "description": "Client Identifier Key"
+              },
+              {
+                "name": "StandingInstructionIds",
+                "value": "111112",
+                "type": "query",
+                "description": "Standing instruction ids to delete."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes standing instructions, which disables configured auto election."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

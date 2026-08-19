@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Balances API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Balances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "B345356",
+                "type": "path",
+                "description": "Unique ID of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id."
+        },
+        {
+          "info": {
+            "name": "Remove all subscriptions marked with a specific tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "PAGE1",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple subscriptions for the current session on this resource and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on a balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of a balance."
+        },
+        {
+          "info": {
+            "name": "Get margin overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances/marginoverview",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group for which the margin overview is returned"
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account for which the margin overview is returned"
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client for which the margin overview is returned"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get margin overview for a client, account group or an account"
+        },
+        {
+          "info": {
+            "name": "Get balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group for which the balance data is returned"
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account for which the balance data is returned"
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client for which the balance data is returned"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "MarginOverview",
+                "type": "query",
+                "description": "Specifies which data to return."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get balance data for a client, account group or an account"
+        },
+        {
+          "info": {
+            "name": "Get balance data for logged-in client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/balances/me",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get balance data for logged-in client."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

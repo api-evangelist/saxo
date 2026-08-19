@@ -1,0 +1,1831 @@
+{
+  "item": [
+    {
+      "id": "60bf0746-82cb-4b3d-81c2-8d9443ac55f8",
+      "name": "Performance",
+      "description": {
+        "content": "Provides performance metrics for historical positions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6468a2bf-7ec5-42de-939e-e3360d704bea",
+          "name": "Performance Summary",
+          "request": {
+            "name": "Performance Summary",
+            "description": {
+              "content": "Returns a summary containing aggregated trade results and related performance metrics of the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v4",
+                "performance",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The account group key."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The account key."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The client key."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDate",
+                  "value": "<date>",
+                  "description": "From date."
+                },
+                {
+                  "disabled": false,
+                  "key": "MockDataId",
+                  "value": "<string>",
+                  "description": "The mock data identifier."
+                },
+                {
+                  "disabled": false,
+                  "key": "StandardPeriod",
+                  "value": "<string>",
+                  "description": "The standard period."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDate",
+                  "value": "<date>",
+                  "description": "To date."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "973b2458-b3b7-4fec-aa95-47bd5ab69048",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AccumulatedProfitLoss\": 100,\n  \"BenchMarks\": [\n    {\n      \"Allocations\": [\n        {\n          \"AllocationPCT\": 100,\n          \"AssetType\": \"Cash\",\n          \"Description\": \"\",\n          \"DisplayHintType\": \"None\",\n          \"Uic\": 211\n        }\n      ],\n      \"CurrencyCode\": \"USD\",\n      \"Description\": \"Description1\",\n      \"Name\": \"Bench Mark Name 1\"\n    },\n    {\n      \"Allocations\": [\n        {\n          \"AllocationPCT\": 100,\n          \"AssetType\": \"Bond\",\n          \"Description\": \"\",\n          \"DisplayHintType\": \"None\",\n          \"Uic\": 210\n        },\n        {\n          \"AllocationPCT\": 100,\n          \"AssetType\": \"CertificateBonus\",\n          \"Description\": \"\",\n          \"DisplayHintType\": \"None\",\n          \"Uic\": 211\n        }\n      ],\n      \"CurrencyCode\": \"EUR\",\n      \"Description\": \"Description2\",\n      \"Name\": \"Bench Mark Name 2\"\n    }\n  ],\n  \"From\": \"2022-10-30\",\n  \"InceptionDay\": \"2022-10-30\",\n  \"LastTradeDay\": \"2022-10-30\",\n  \"Thru\": \"2022-10-30\",\n  \"TotalCashBalance\": 5000,\n  \"TotalCashBalancePerCurrency\": [\n    {\n      \"StringValue\": \"CAD\",\n      \"Value\": -491.707122366824\n    }\n  ],\n  \"TotalOpenPositionsValue\": 6000,\n  \"TotalPositionsValuePerCurrency\": [\n    {\n      \"StringValue\": \"CAD\",\n      \"Value\": -491.707122366824\n    }\n  ],\n  \"TotalPositionsValuePerProductPerSecurity\": [\n    {\n      \"Description\": \"Position On Security And Product\",\n      \"ProductName\": \"Product Name\",\n      \"Symbol\": \"Symbol\",\n      \"Value\": 200\n    }\n  ],\n  \"TradeSummary\": {\n    \"Allocation\": {\n      \"TradesPerAssetType\": {\n        \"ClosedTradesAllocations\": [\n          {\n            \"AssetClassType\": \"Equity\",\n            \"ReturnAttribution\": 1,\n            \"TradeCount\": 168,\n            \"TradePercent\": 0.38009049773755654\n          },\n          {\n            \"AssetClassType\": \"Commodity\",\n            \"ReturnAttribution\": 0.5628789450009563,\n            \"TradeCount\": 105,\n            \"TradePercent\": 0.23755656108597284\n          },\n          {\n            \"AssetClassType\": \"Currency\",\n            \"ReturnAttribution\": 0.249937016456527,\n            \"TradeCount\": 112,\n            \"TradePercent\": 0.25339366515837103\n          },\n          {\n            \"AssetClassType\": \"Fixed Income\",\n            \"ReturnAttribution\": -0.013150856136249162,\n            \"TradeCount\": 57,\n            \"TradePercent\": 0.12895927601809956\n          }\n        ]\n      },\n      \"TradesPerInstrument\": {\n        \"ClosedTradesAllocations\": [\n          {\n            \"AssetType\": \"ContractFutures\",\n            \"InstrumentDescription\": \"30-Year U.S. Treasury Bond - Sep 2016\",\n            \"InstrumentSymbol\": \"ZBU6\",\n            \"InstrumentUic\": 3626018,\n            \"ReturnAttribution\": -0.15987101005684304,\n            \"TradeCount\": 40,\n            \"TradePercent\": 0.09049773755656108\n          },\n          {\n            \"AssetType\": \"FxSpot\",\n            \"InstrumentDescription\": \"British Pound/US Dollar\",\n            \"InstrumentSymbol\": \"GBPUSD\",\n            \"InstrumentUic\": 31,\n            \"ReturnAttribution\": 0.14685155225185834,\n            \"TradeCount\": 37,\n            \"TradePercent\": 0.083710407239819\n          }\n        ]\n      }\n    },\n    \"AverageTradeDurationInMinutes\": 34260,\n    \"AverageTradesPerWeek\": 48.2325728770595,\n    \"NumberOfDaysTraded\": 1589,\n    \"NumberOfLongTrades\": 5434,\n    \"NumberOfShortTrades\": 5263,\n    \"TopTradedInstruments\": [\n      \"DAX.I\",\n      \"DJI.I\",\n      \"EURUSD\",\n      \"GBPUSD\",\n      \"NAS100.I\",\n      \"NOKSEK\",\n      \"EURNOK\",\n      \"SP500.I\"\n    ],\n    \"TradeActivity\": {\n      \"TradesPerDay\": [\n        {\n          \"Date\": \"2022-10-30\",\n          \"TradeCount\": 100\n        }\n      ]\n    },\n    \"TradedInstruments\": [\n      \"FxSpot\",\n      \"Stock\",\n      \"FxVanillaOption\",\n      \"ContractFutures\"\n    ],\n    \"TradesTotalCount\": 10697,\n    \"TradesWonCount\": 6499\n  },\n  \"WinFraction\": 5\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1503dd6-729a-4d05-a2c4-b53a0df071d3",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d871b93a-13e4-474f-8748-eb11b1d576d2",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9daa0193-a9cb-4520-91f1-5a3e9f01ff6d",
+              "name": "Summary not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1633a22b-2a47-43b6-9c35-7c38f0262c1e",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "00e2f069-0341-4f4c-8c5d-58d42ada70de",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "TradeSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47609564-58a2-449c-9fd3-e483cdc42990",
+          "name": "Performance Timeseries",
+          "request": {
+            "name": "Performance Timeseries",
+            "description": {
+              "content": "Returns timeseries containing performance metrics for the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v4",
+                "performance",
+                "timeseries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The account group key."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The account key."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The client key."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDate",
+                  "value": "<date>",
+                  "description": "From date."
+                },
+                {
+                  "disabled": false,
+                  "key": "MockDataId",
+                  "value": "<string>",
+                  "description": "The mock data identifier."
+                },
+                {
+                  "disabled": false,
+                  "key": "StandardPeriod",
+                  "value": "<string>",
+                  "description": "The standard period."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDate",
+                  "value": "<date>",
+                  "description": "To date."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4fb60310-ecfb-4571-8a64-cbd0ed5780d9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Balance\": {\n    \"AccountBalance\": [\n      {\n        \"Date\": \"2021-03-16\",\n        \"Value\": 2713951\n      },\n      {\n        \"Date\": \"2021-03-17\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-18\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-19\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-22\",\n        \"Value\": 2697389\n      }\n    ],\n    \"AccountValue\": [\n      {\n        \"Date\": \"2021-03-16\",\n        \"Value\": 2713951\n      },\n      {\n        \"Date\": \"2021-03-17\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-18\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-19\",\n        \"Value\": 2697389\n      },\n      {\n        \"Date\": \"2021-03-22\",\n        \"Value\": 2697389\n      }\n    ],\n    \"CashTransfer\": [\n      {\n        \"Date\": \"2021-03-16\",\n        \"Value\": 700000\n      },\n      {\n        \"Date\": \"2021-03-17\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-18\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-19\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-22\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-23\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-24\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-25\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-26\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-30\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-31\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-01\",\n        \"Value\": 693217\n      },\n      {\n        \"Date\": \"2021-03-02\",\n        \"Value\": 693217\n      }\n    ],\n    \"MonthlyProfitLoss\": [\n      {\n        \"Date\": \"2021-03-31\",\n        \"Value\": 476960.78492\n      },\n      {\n        \"Date\": \"2021-04-30\",\n        \"Value\": 0.00151689069285646\n      }\n    ],\n    \"SecurityTransfer\": [\n      {\n        \"Date\": \"2016-03-28\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2016-03-29\",\n        \"Value\": 0\n      }\n    ],\n    \"YearlyProfitLoss\": [\n      {\n        \"Date\": \"2021-12-31\",\n        \"Value\": 473580.71199\n      }\n    ]\n  },\n  \"Benchmark\": [\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        }\n      ],\n      \"Date\": \"2021-05-11\",\n      \"Value\": 0.02\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        },\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Bond\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 210\n            },\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"CertificateBonus\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"EUR\",\n          \"Description\": \"Description2\",\n          \"Name\": \"Bench Mark Name 2\"\n        }\n      ],\n      \"Date\": \"2021-05-12\",\n      \"Value\": 0.03\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Bond\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 210\n            },\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"CertificateBonus\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"EUR\",\n          \"Description\": \"Description2\",\n          \"Name\": \"Bench Mark Name 2\"\n        }\n      ],\n      \"Date\": \"2021-05-13\",\n      \"Value\": 0.04\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        },\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Bond\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 210\n            },\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"CertificateBonus\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"EUR\",\n          \"Description\": \"Description2\",\n          \"Name\": \"Bench Mark Name 2\"\n        }\n      ],\n      \"Date\": \"2021-05-14\",\n      \"Value\": 0.065\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        }\n      ],\n      \"Date\": \"2021-05-15\",\n      \"Value\": -0.01\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Bond\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 210\n            },\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"CertificateBonus\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"EUR\",\n          \"Description\": \"Description2\",\n          \"Name\": \"Bench Mark Name 2\"\n        }\n      ],\n      \"Date\": \"2021-05-16\",\n      \"Value\": 0.03\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        },\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Bond\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 210\n            },\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"CertificateBonus\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"EUR\",\n          \"Description\": \"Description2\",\n          \"Name\": \"Bench Mark Name 2\"\n        }\n      ],\n      \"Date\": \"2021-05-17\",\n      \"Value\": 0.025\n    },\n    {\n      \"Allocations\": [\n        {\n          \"Allocations\": [\n            {\n              \"AllocationPCT\": 100,\n              \"AssetType\": \"Cash\",\n              \"Description\": \"\",\n              \"DisplayHintType\": \"None\",\n              \"Uic\": 211\n            }\n          ],\n          \"CurrencyCode\": \"USD\",\n          \"Description\": \"Description1\",\n          \"Name\": \"Bench Mark Name 1\"\n        }\n      ],\n      \"Date\": \"2021-05-18\",\n      \"Value\": 0.03\n    }\n  ],\n  \"KeyFigures\": {\n    \"ClosedTradesCount\": 0,\n    \"DrawdownReport\": {\n      \"Drawdowns\": [\n        {\n          \"DaysCount\": 3,\n          \"DepthInPercent\": 1,\n          \"FromDate\": \"2016-08-05T00:00:00\",\n          \"RecoveryDaysCount\": 1,\n          \"ThruDate\": \"2016-08-08T00:00:00\"\n        }\n      ],\n      \"MaxDaysInDrawdownFromTop10Drawdowns\": 3\n    },\n    \"LosingDaysFraction\": 0.03,\n    \"MaxDrawDownFraction\": 1,\n    \"PerformanceFraction\": 0,\n    \"ReturnFraction\": -1,\n    \"SampledStandardDeviation\": 0.0618018874919214,\n    \"SharpeRatio\": -0.952069751000777,\n    \"SortinoRatio\": -0.0591710418985739\n  },\n  \"TimeWeighted\": {\n    \"Accumulated\": [\n      {\n        \"Date\": \"2021-03-16\",\n        \"Value\": 0.000707311584857981\n      },\n      {\n        \"Date\": \"2021-03-17\",\n        \"Value\": 0.00289876077113995\n      },\n      {\n        \"Date\": \"2021-03-18\",\n        \"Value\": 0.0030873830953917\n      },\n      {\n        \"Date\": \"2021-03-19\",\n        \"Value\": 0.000729201756574284\n      },\n      {\n        \"Date\": \"2021-03-22\",\n        \"Value\": 0.0016413754184318\n      },\n      {\n        \"Date\": \"2021-03-23\",\n        \"Value\": 0.00615470900076945\n      },\n      {\n        \"Date\": \"2021-03-24\",\n        \"Value\": 0.0145762714416127\n      },\n      {\n        \"Date\": \"2021-03-25\",\n        \"Value\": 0.0130120799919019\n      },\n      {\n        \"Date\": \"2021-03-26\",\n        \"Value\": 0.0109777093144279\n      },\n      {\n        \"Date\": \"2021-03-29\",\n        \"Value\": 0.109105521823687\n      },\n      {\n        \"Date\": \"2021-03-30\",\n        \"Value\": 0.109105521823687\n      },\n      {\n        \"Date\": \"2021-03-31\",\n        \"Value\": 0.174356723940404\n      },\n      {\n        \"Date\": \"2021-03-01\",\n        \"Value\": 0.176303239558097\n      },\n      {\n        \"Date\": \"2021-03-02\",\n        \"Value\": 0.175826866623672\n      }\n    ],\n    \"MonthlyReturn\": [\n      {\n        \"Date\": \"2021-03-31\",\n        \"Value\": 0.176303239558097\n      },\n      {\n        \"Date\": \"2021-04-30\",\n        \"Value\": 0.00151689069285646\n      }\n    ],\n    \"YearlyReturn\": [\n      {\n        \"Date\": \"2021-03-31\",\n        \"Value\": 0.175053781608446\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d772f2bf-6b68-419e-8b7e-a0aa789c44db",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cfdfb2be-f075-41f0-b647-cb1ba7fc0671",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42f1235f-4cd3-466e-b7e8-32712b97cc77",
+              "name": "Performance not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8715fdde-4b42-424d-bc94-252325033835",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6eb22d0f-9f56-405a-ad63-957eb83640f4",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v4",
+                    "performance",
+                    "timeseries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "Benchmark"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ea8c33e-db97-4dc2-9cdb-88cb3097386c",
+          "name": "Get account performance.",
+          "request": {
+            "name": "Get account performance.",
+            "description": {
+              "content": "Returns a collection of performance metrics for a specific account. The account performance returns \n            confidencial information that is only allowed to be viewed by the account owner / owners.\n            The required fields are ClientKey and either StandardPeriod or FromDate/ToDate.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v3",
+                "perf",
+                ":ClientKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "Id of the account containing the historical positions."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "Id of the account containing the historical positions."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "Specifies which data to return. Default is"
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "Specifies which data to return. Default is"
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDate",
+                  "value": "<date>",
+                  "description": "From date from which the historical positions are requested."
+                },
+                {
+                  "disabled": false,
+                  "key": "MockDataId",
+                  "value": "<string>",
+                  "description": "Optional Mock Data Parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "StandardPeriod",
+                  "value": "<string>",
+                  "description": "Standard period for account performance."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDate",
+                  "value": "<date>",
+                  "description": "To date till which the historical positions are requested."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ClientKey",
+                  "description": "(Required) Id of the client owning the account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bb9581e1-a1e1-49e6-b96c-86b5601a48fe",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AccountSummary\": {\n    \"AverageTradeDurationInMinutes\": 34260,\n    \"AverageTradesPerWeek\": 48.2325728770595,\n    \"NumberOfDaysTraded\": 1589,\n    \"NumberOfLongTrades\": 5434,\n    \"NumberOfShortTrades\": 5263,\n    \"TopTradedInstruments\": [\n      \"DAX.I\",\n      \"DJI.I\",\n      \"EURUSD\",\n      \"GBPUSD\",\n      \"NAS100.I\",\n      \"NOKSEK\",\n      \"EURNOK\",\n      \"SP500.I\"\n    ],\n    \"TotalReturnFraction\": -0.9999963956455,\n    \"TradedInstruments\": [\n      \"FxSpot\",\n      \"Stock\",\n      \"FxVanillaOption\",\n      \"ContractFutures\"\n    ],\n    \"TradesTotalCount\": 10697,\n    \"TradesWonCount\": 6499,\n    \"WinFraction\": 0.61\n  },\n  \"Allocation\": {\n    \"TradesPerAssetType\": {\n      \"ClosedTradesAllocations\": [\n        {\n          \"AssetClassType\": \"Equity\",\n          \"ReturnAttribution\": 1,\n          \"TradeCount\": 168,\n          \"TradePercent\": 0.38009049773755654\n        },\n        {\n          \"AssetClassType\": \"Currency\",\n          \"ReturnAttribution\": 0.249937016456527,\n          \"TradeCount\": 112,\n          \"TradePercent\": 0.25339366515837103\n        },\n        {\n          \"AssetClassType\": \"Commodity\",\n          \"ReturnAttribution\": 0.5628789450009563,\n          \"TradeCount\": 105,\n          \"TradePercent\": 0.23755656108597284\n        },\n        {\n          \"AssetClassType\": \"Fixed Income\",\n          \"ReturnAttribution\": -0.013150856136249162,\n          \"TradeCount\": 57,\n          \"TradePercent\": 0.12895927601809956\n        }\n      ]\n    },\n    \"TradesPerInstrument\": {\n      \"ClosedTradesAllocations\": [\n        {\n          \"AssetType\": \"ContractFutures\",\n          \"InstrumentDescription\": \"30-Year U.S. Treasury Bond - Sep 2016\",\n          \"InstrumentSymbol\": \"ZBU6\",\n          \"InstrumentUic\": 3626018,\n          \"ReturnAttribution\": -0.15987101005684304,\n          \"TradeCount\": 40,\n          \"TradePercent\": 0.09049773755656108\n        },\n        {\n          \"AssetType\": \"FxSpot\",\n          \"InstrumentDescription\": \"British Pound/US Dollar\",\n          \"InstrumentSymbol\": \"GBPUSD\",\n          \"InstrumentUic\": 31,\n          \"ReturnAttribution\": 0.14685155225185834,\n          \"TradeCount\": 37,\n          \"TradePercent\": 0.083710407239819\n        }\n      ]\n    }\n  },\n  \"BalancePerformance\": {\n    \"AccountBalanceTimeSeries\": [\n      {\n        \"Date\": \"2016-03-28\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2016-03-29\",\n        \"Value\": 0\n      }\n    ],\n    \"AccountValueTimeSeries\": [\n      {\n        \"Date\": \"2016-03-28\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2016-03-29\",\n        \"Value\": 0\n      }\n    ],\n    \"MonthlyProfitLossTimeSeries\": [\n      {\n        \"Date\": \"2015-11-30\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2015-12-31\",\n        \"Value\": 0\n      }\n    ],\n    \"SecurityTransferTimeSeries\": [\n      {\n        \"Date\": \"2016-03-28\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2016-03-29\",\n        \"Value\": 0\n      }\n    ],\n    \"YearlyProfitLossTimeSeries\": [\n      {\n        \"Date\": \"2015-12-31\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2016-12-31\",\n        \"Value\": 0\n      },\n      {\n        \"Date\": \"2017-12-31\",\n        \"Value\": 0\n      }\n    ]\n  },\n  \"From\": \"2016-03-28\",\n  \"InceptionDay\": \"2015-11-24\",\n  \"LastTradeDay\": \"2017-03-27\",\n  \"Thru\": \"2017-03-27\",\n  \"TimeWeightedPerformance\": {\n    \"AccumulatedTimeWeightedTimeSeries\": [\n      {\n        \"Date\": \"2016-03-25\",\n        \"Value\": 0\n      }\n    ],\n    \"MonthlyReturnTimeSeries\": [\n      {\n        \"Date\": \"2016-03-25\",\n        \"Value\": 0\n      }\n    ],\n    \"PerformanceFraction\": -1,\n    \"PerformanceKeyFigures\": {\n      \"ClosedTradesCount\": 0,\n      \"DrawdownReport\": {\n        \"Drawdowns\": [\n          {\n            \"DaysCount\": 3,\n            \"DepthInPercent\": 1,\n            \"FromDate\": \"2016-08-05\",\n            \"ThruDate\": \"2016-08-08\"\n          }\n        ],\n        \"MaxDaysInDrawdownFromTop10Drawdowns\": 3\n      },\n      \"LosingDaysFraction\": 0.03,\n      \"MaxDrawDownFraction\": 1,\n      \"ReturnFraction\": -1,\n      \"SampledStandardDeviation\": 0.0618018874919214,\n      \"SharpeRatio\": -0.952069751000777,\n      \"SortinoRatio\": -0.0591710418985739\n    },\n    \"YearlyReturnTimeSeries\": [\n      {\n        \"Date\": \"2016-03-25\",\n        \"Value\": 0\n      }\n    ]\n  },\n  \"TotalCashBalance\": 20226.02,\n  \"TotalCashBalancePerCurrency\": [\n    {\n      \"StringValue\": \"CAD\",\n      \"Value\": -491.707122366824\n    }\n  ],\n  \"TotalOpenPositionsValue\": 29571.057,\n  \"TotalPositionsValuePerCurrency\": [\n    {\n      \"StringValue\": \"CAD\",\n      \"Value\": -491.707122366824\n    }\n  ],\n  \"TotalPositionsValuePerProductPerSecurity\": [\n    {\n      \"Description\": \"Abengoa SA - Warrants\",\n      \"ProductName\": \"Shares\",\n      \"Symbol\": \"LOCK - 1496:xxxx\",\n      \"Value\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "041d5f78-5232-4f95-928a-56491e27db2f",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1bf0c124-ada7-4116-88d1-ac700a693040",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f1fa9e7e-7ccf-44eb-9aa4-ea75f2b6f336",
+              "name": "Performance not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3d0dfb17-5bc1-4538-9f3d-0f3fc1564310",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3d4c8b34-2661-4e46-a133-1eeb12fe9438",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v3",
+                    "perf",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "AccountSummary"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandardPeriod",
+                      "value": "AllTime"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Id of the client owning the account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "62154d16-e80b-40c8-a211-87a6ee505046",
+    "name": "Services.AutoTrading Account Values Performance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

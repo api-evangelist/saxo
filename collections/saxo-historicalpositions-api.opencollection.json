@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values HistoricalPositions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "HistoricalPositions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get historical positions of an account of a client, that were closed within the specified period",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v3/positions/:ClientKey",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$skiptoken",
+                "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5",
+                "type": "query",
+                "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "",
+                "type": "query",
+                "description": "Id of the account containing the historical positions."
+              },
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query",
+                "description": "Id of the account containing the historical positions."
+              },
+              {
+                "name": "AssetType",
+                "value": "",
+                "type": "query",
+                "description": "Filtering on asset type. If value not supplied all will be returned"
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client owning the account"
+              },
+              {
+                "name": "FromDate",
+                "value": "",
+                "type": "query",
+                "description": "From date from which the historical positions are requested."
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "Optional Mock Data Parameter"
+              },
+              {
+                "name": "StandardPeriod",
+                "value": "",
+                "type": "query",
+                "description": "Standard period for account performance."
+              },
+              {
+                "name": "Symbol",
+                "value": "",
+                "type": "query",
+                "description": "The Instrument Symbol Code"
+              },
+              {
+                "name": "ToDate",
+                "value": "",
+                "type": "query",
+                "description": "To date till which the historical positions are requested."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of historical positions for a specific account owned by a client.\n             The required fields are ClientKey and either StandardPeriod or FromDate/ToDate."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

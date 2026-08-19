@@ -1,0 +1,144 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values InteractiveIdVerification API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "InteractiveIdVerification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1TrustDockInteractiveVerificationComplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/trustdock/complete"
+          },
+          "docs": "Webhook to get response from TrustDock after verification completed."
+        },
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1MyInfoInteractiveVerificationComplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/myinfo/ib/complete",
+            "params": [
+              {
+                "name": "Code",
+                "value": "",
+                "type": "query",
+                "description": "Verification code that will be used to fetch result from MyInfo"
+              },
+              {
+                "name": "State",
+                "value": "",
+                "type": "query",
+                "description": "State returned by MyInfo. It is the same state which was sent in the start verification request to MyInfo"
+              }
+            ]
+          },
+          "docs": "MyInfo redirect endpoint to update verification status. MyInfo redirects on this endpoint once the interactive verification is complete."
+        },
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1VerifyInteractiveVerificationOidc",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/verify/:Method",
+            "params": [
+              {
+                "name": "Code",
+                "value": "stringValue",
+                "type": "query",
+                "description": "This is OIDC authorisation code send after verification is completed. \n            This will be used to get auth token to fetch client information"
+              },
+              {
+                "name": "Error",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Error code returned from Signicat"
+              },
+              {
+                "name": "Error_Description",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Error description returned from Signicat"
+              },
+              {
+                "name": "Method",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "State",
+                "value": "stringValue",
+                "type": "query",
+                "description": "State sent in redirect URL. \n            This will be used to validate authenticity of redirecton"
+              }
+            ]
+          },
+          "docs": "Redirect endpoint to update verification status, signcat redirects on this endpoint once Oidc interactive verification get completed.\n            This will be used for verification via MITID"
+        },
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1SecureMeInteractiveVerificationComplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/secureme/verification"
+          },
+          "docs": "Webhook to update verification status, it will get called by secureMe once interactive poi-verification get completed."
+        },
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1VerifyInteractiveVerification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/verify/:Correlationid",
+            "params": [
+              {
+                "name": "Correlationid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Callback endpoint to update verification status, signcat redirects on this endpoint once interactive verification get completed."
+        },
+        {
+          "info": {
+            "name": "InteractiveIdVerificationV1IdNowInteractiveVerificationComplete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/InteractiveIdVerification/idnow/complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Webhook to update verification status, it will get called by IdNow once interactive id-verification get completed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

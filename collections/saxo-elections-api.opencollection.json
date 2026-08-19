@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Elections API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Elections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send bulk election instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/elections/bulk",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends instructions about elections to make for given accounts and event.\r\n            When posting these instructions to elect, all previous elections for the specified accounts/event are overwritten."
+        },
+        {
+          "info": {
+            "name": "Send election instruction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/elections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends an instruction about elections to make for a given account and event.\r\n            When posting an instruction to elect, all previous elections for the specified account/event are overwritten."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

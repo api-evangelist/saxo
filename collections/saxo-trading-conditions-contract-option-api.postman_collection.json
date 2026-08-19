@@ -1,0 +1,562 @@
+{
+  "item": [
+    {
+      "id": "d601a9d1-f944-4123-ab01-10cbfebc2bf7",
+      "name": "Trading Conditions - Contract Option",
+      "description": {
+        "content": "Provides trading conditions for contract options",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ead7f2d8-efcf-4540-918e-9066d683c9f5",
+          "name": "Get trading conditions for a contract option.",
+          "request": {
+            "name": "Get trading conditions for a contract option.",
+            "description": {
+              "content": "Trading conditions for all exchange traded options and synthetic options(OTC). \n             Trading conditions details default behavior for the option (can it be traded and how), \n             margin requirements for opening and holding a position in an option (how much cash is needed on the account) \n             as well as the cost structure of opening, closing and holding a position.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "tradingconditions",
+                "ContractOptionSpaces",
+                ":AccountKey",
+                ":OptionRootId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) Specify which field groups to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) Specify which field groups to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "Uic",
+                  "value": "<integer>",
+                  "description": "The uic for the instrument to lookup"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "AccountKey",
+                  "description": "(Required) The account key to lookup the conditions for"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "OptionRootId",
+                  "description": "(Required) The optionRootId for the option to lookup"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5079630b-6d52-4392-9fc0-3533b921d691",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AccountCurrency\": \"GBP\",\n  \"AssetType\": \"FxSpot\",\n  \"CarryingCost\": {\n    \"FixedRate\": 1,\n    \"InterbankRate\": {\n      \"AskRate\": 2,\n      \"BidRate\": 1,\n      \"TradeDate\": \"2022-10-31\"\n    },\n    \"MarkUpRate\": 1.5\n  },\n  \"CommissionLimits\": [\n    {\n      \"Currency\": \"USD\",\n      \"OrderAction\": \"ExecuteOrder\",\n      \"PerUnitRate\": 6\n    }\n  ],\n  \"ExerciseCutOffTime\": \"16:30:00\",\n  \"ExpirationTime\": \"14:30:00\",\n  \"ExposureLimits\": [\n    {\n      \"Identifier\": \"CL\",\n      \"Level\": \"BaseContractNet\",\n      \"RuleType\": \"Amount\",\n      \"Value\": 200\n    }\n  ],\n  \"FinanceInterestMarkUp\": 9.99,\n  \"HoldingFee\": {\n    \"FromPeriodInDays\": 120,\n    \"Value\": 1.6\n  },\n  \"InstrumentCurrency\": \"USD\",\n  \"IsTradable\": true,\n  \"MarginRequirement\": {\n    \"MinimumUnderlyingValue\": 0.5,\n    \"Premium\": 1,\n    \"TradingProfile\": \"Basic\",\n    \"UnderlyingValueOvernightExposure\": 1\n  },\n  \"PortfolioBasedMargin\": {\n    \"ExtremeStressFactor\": 15.6,\n    \"Initial\": 185.5,\n    \"IntraWeek\": 8.7,\n    \"LiquidityThresholdAmount\": 569987,\n    \"LiquidityThresholdCurrency\": \"USD\",\n    \"VolatilityAddOn\": 1000.68,\n    \"VolatilityStress\": 100\n  },\n  \"Rating\": 5,\n  \"SettlementStyle\": \"PhysicalDelivery\",\n  \"SwapInterestMarkUp\": 1.11,\n  \"Taxes\": [\n    {\n      \"BuySell\": \"Buy\",\n      \"CalculationTriggerType\": \"Normal\",\n      \"CalculationType\": \"ValueFraction\",\n      \"Description\": \"UK Stamp Duty\",\n      \"Value\": 0.5\n    }\n  ],\n  \"Uic\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "677faf64-3ed4-4ae6-8e7e-5e773e27e516",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"NotFoundError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91e5d274-85ce-4736-808c-493f071ef568",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c844320c-ce8c-40d5-8163-59329a3dbe6e",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e489e68c-b797-4b91-8fa4-83c406737034",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4dbc20b1-cc3c-4a99-972c-d145e78eef46",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "ContractOptionSpaces",
+                    ":AccountKey",
+                    ":OptionRootId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ScheduledTradingConditions"
+                    },
+                    {
+                      "key": "Uic",
+                      "value": "30256728"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "OptionRootId",
+                      "description": "(Required) The optionRootId for the option to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0a2a7dc1-e1fd-4ae5-96e5-83047fc1ed75",
+    "name": "Services.AutoTrading Account Values Trading Conditions - Contract Option API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,564 @@
+{
+  "item": [
+    {
+      "id": "aa99d6b5-861f-4be6-9ff5-596ed70984a1",
+      "name": "Historical Report Data - Closed positions",
+      "description": {
+        "content": "Closed Positions Report Data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8b30b973-49fc-4481-845b-7f3ea747e7c0",
+          "name": "Closed Position Get",
+          "request": {
+            "name": "Closed Position Get",
+            "description": {
+              "content": "Get all closed positions between two dates",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "reports",
+                "closedPositions",
+                ":ClientKey",
+                ":FromDate",
+                ":ToDate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "0",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The key of the account to which the resource belongs."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ClientKey",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<date>",
+                  "key": "FromDate",
+                  "description": "(Required) From date"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<date>",
+                  "key": "ToDate",
+                  "description": "(Required) To date"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "58441b05-3fcf-407d-896f-ab7be850846b",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "closedPositions",
+                    ":ClientKey",
+                    ":FromDate",
+                    ":ToDate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "FromDate",
+                      "description": "(Required) From date"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "ToDate",
+                      "description": "(Required) To date"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/....../?$top=1&$skip=1\",\n  \"Data\": [\n    {\n      \"AccountCurrency\": \"USD\",\n      \"AccountCurrencyDecimals\": 2,\n      \"AccountId\": \"169236INET2\",\n      \"Amount\": 400,\n      \"AmountClose\": -700,\n      \"AmountOpen\": 400,\n      \"AssetType\": \"Stock\",\n      \"ClosePositionId\": \"112428055\",\n      \"ClosePrice\": 3.1,\n      \"ExchangeDescription\": \"NASDAQ\",\n      \"InstrumentDescription\": \"Central European Media Enterprise Ltd\",\n      \"InstrumentSectorName\": \"Broadcasting & Entertainment\",\n      \"InstrumentSectorTypeId\": 640,\n      \"InstrumentSymbol\": \"CETV:xnas\",\n      \"OpenPositionId\": \"642405794\",\n      \"OpenPrice\": 3.6126,\n      \"PnLAccountCurrency\": 228.64,\n      \"PnLClientCurrency\": 2614.90455108964,\n      \"PnLUSD\": -228.64,\n      \"RootInstrumentSectorName\": \"Consumer Service\",\n      \"RootInstrumentSectorTypeId\": 506,\n      \"TotalBookedOnClosingLegAccountCurrency\": 2154.95,\n      \"TotalBookedOnClosingLegClientCurrency\": 54083.2750759607,\n      \"TotalBookedOnClosingLegUSD\": 2154.95,\n      \"TotalBookedOnOpeningLegAccountCurrency\": -1460.04,\n      \"TotalBookedOnOpeningLegClientCurrency\": -28289.824063745,\n      \"TotalBookedOnOpeningLegUSD\": -1406.04,\n      \"TradeDate\": \"2017-04-07\",\n      \"TradeDateClose\": \"2017-04-07\",\n      \"TradeDateOpen\": \"2013-08-19\",\n      \"UnderlyingInstrumentDescription\": \"Central European Media Enterprise Ltd\",\n      \"UnderlyingInstrumentSymbol\": \"CETV:xnas\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c19cc685-f1db-458a-90cf-c521b97fd295",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "closedPositions",
+                    ":ClientKey",
+                    ":FromDate",
+                    ":ToDate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "FromDate",
+                      "description": "(Required) From date"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "ToDate",
+                      "description": "(Required) To date"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"BadRequestError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1511305-2b38-4166-b96c-08b80bc40f23",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "closedPositions",
+                    ":ClientKey",
+                    ":FromDate",
+                    ":ToDate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "FromDate",
+                      "description": "(Required) From date"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "ToDate",
+                      "description": "(Required) To date"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ade2a442-389f-483c-9fc3-085c82cbadad",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "closedPositions",
+                    ":ClientKey",
+                    ":FromDate",
+                    ":ToDate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "FromDate",
+                      "description": "(Required) From date"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "ToDate",
+                      "description": "(Required) To date"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e9b0def3-d4a7-4c6d-b1bb-bc2bbfe227ec",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "closedPositions",
+                    ":ClientKey",
+                    ":FromDate",
+                    ":ToDate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "FromDate",
+                      "description": "(Required) From date"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "ToDate",
+                      "description": "(Required) To date"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b1ebc1a2-4745-4d94-8cfe-4721d457a7ad",
+    "name": "Services.AutoTrading Account Values Historical Report Data - Closed positions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

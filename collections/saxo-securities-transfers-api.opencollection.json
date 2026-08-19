@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Securities Transfers API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Securities Transfers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "SecuritiesTransferGetBrokers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/securitiestransfers/brokers",
+            "params": [
+              {
+                "name": "CountryCode",
+                "value": "",
+                "type": "query",
+                "description": "ISO Country Code"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get list of brokers for the given ISO Country Code"
+        },
+        {
+          "info": {
+            "name": "SecuritiesTransferGetTransferDetails",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/securitiestransfers/transfers",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query",
+                "description": "The client identifier in key format"
+              },
+              {
+                "name": "TransferIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separate list of Transfer IDs"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get list of Security Transfers executed by client based on list of comma separated transfer ids."
+        },
+        {
+          "info": {
+            "name": "Submit Securities Transfer Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/securitiestransfers/transfers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Submit the list of securities, which the client wants transferred in or out of Saxo Bank.\n             \nIf list of securities in the transfer are accepted the service will return \"201 Created\" and the response will contain the actual transfer result for the transaction\n\nIf one or more securities in the list are not accepted, the service will return bad request and fail complete transaction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

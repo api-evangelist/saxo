@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Holdings API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Holdings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get client holdings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/holdings",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "BxS0VWLta8lJ3SBpjGBQjw==",
+                "type": "query",
+                "description": "Account group identifier"
+              },
+              {
+                "name": "AccountKey",
+                "value": "2y0tX0m9ZH7MH8HK38qM9g==",
+                "type": "query",
+                "description": "Account identifier"
+              },
+              {
+                "name": "ClientKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "query",
+                "description": "Client identifier"
+              },
+              {
+                "name": "EventId",
+                "value": "987468",
+                "type": "query",
+                "description": "Event id"
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "Indicate whether to include events from sub-clients."
+              },
+              {
+                "name": "ManagementTypes",
+                "value": "Client,TradeAdvisory",
+                "type": "query",
+                "description": "SaxoInternal - Management type filter for holdings."
+              },
+              {
+                "name": "ModelIds",
+                "value": "1226",
+                "type": "query",
+                "description": "SaxoInternal - Model filter for holdings. Accepts comma separated model ids for filtering."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get client holdings based on client/account/event"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

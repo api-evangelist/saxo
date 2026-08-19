@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Cash Management - Beneficiary Instructions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cash Management - Beneficiary Instructions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Beneficiary Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/cashmanagement/beneficiaryinstructions",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "11eaXGFNBcXM4ZDelb0R1Q==",
+                "type": "query",
+                "description": "Client Key"
+              },
+              {
+                "name": "Currency",
+                "value": "USD",
+                "type": "query",
+                "description": "Currency code"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Fetch list of active beneficiary instructions for a client and filters based on currency."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

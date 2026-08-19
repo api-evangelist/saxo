@@ -1,0 +1,1244 @@
+{
+  "item": [
+    {
+      "id": "ef54f869-e28e-41a6-81a1-08b469220942",
+      "name": "Standing Instructions",
+      "description": {
+        "content": "A Standing instruction is a rule that defines how an election should be applied automatically.\r\n            Standing instructions only applicable to event types Dividend Reinvestment (DRIP) and \r\n            Dividend Option (DVOP) and option types Cash or Securities.\r\n            A standing instruction specifies that whenever voluntary event of type DRIP or DVOP occurs, \r\n            an election should be made automatically for either Cash or Securities option for account(s) \r\n            and instrument(s) specified in the instruction.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "711c3d99-9d54-48f3-b1b2-8cbc518053d5",
+          "name": "Get standing instructions.",
+          "request": {
+            "name": "Get standing instructions.",
+            "description": {
+              "content": "Fetches a list of standing instructions configured by client or partner.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "standinginstructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Client Key to fetch standing instructions for."
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "Indicates whether to include standing instructions from sub-clients."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5093e9c7-a74a-465b-ad7d-d552a040674a",
+              "name": "Indicates that instructions were retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Data\": [\n    {\n      \"AccountDisplayName\": \"Derivatives\",\n      \"AccountId\": \"12642445\",\n      \"AssetType\": \"Stock\",\n      \"ClientId\": \"9971842\",\n      \"CreatedDate\": \"0001-01-01\",\n      \"DisplayAndFormat\": {\n        \"Description\": \"ABB Ltd\",\n        \"IsinCode\": \"CH0012221716\",\n        \"Symbol\": \"ABB:xome\"\n      },\n      \"OptionType\": \"SECU\",\n      \"StandingInstructionId\": \"31272\",\n      \"Uic\": 101\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ffd4f52-f4ab-48c6-a1e2-0ac884939277",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_3\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d1a89be-26d1-4dae-977d-b2ba72203d2f",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ef164729-ed29-4634-802d-693deb1440a7",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2161d339-15b3-4082-ab7f-6cfc701851c3",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "00db73b9-74cb-4624-8462-2904b1eed698",
+          "name": "Create new standing instruction.",
+          "request": {
+            "name": "Create new standing instruction.",
+            "description": {
+              "content": "Creates new standing instructions - configured for given account and instrument. \r\n            Standing instructions will be used to perform auto elections by the Election Robot.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "standinginstructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ClientKey\": \"<string>\",\n  \"StandingInstructions\": [\n    {\n      \"OptionType\": \"<string>\",\n      \"AccountKey\": \"<string>\",\n      \"AssetType\": \"<string>\",\n      \"Uic\": \"<integer>\"\n    },\n    {\n      \"OptionType\": \"<string>\",\n      \"AccountKey\": \"<string>\",\n      \"AssetType\": \"<string>\",\n      \"Uic\": \"<integer>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "80b17c3e-7327-412f-980f-8f6ca3867af5",
+              "name": "Indicates that the election was performed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__count\": 2,\n  \"Data\": [\n    {\n      \"AccountId\": \"12642445\",\n      \"AssetType\": \"Stock\",\n      \"CreatedDate\": \"0001-01-01\",\n      \"OptionType\": \"SECU\",\n      \"StandingInstructionId\": \"31272\",\n      \"Uic\": 101\n    },\n    {\n      \"AccountId\": \"12642445\",\n      \"AssetType\": \"Stock\",\n      \"CreatedDate\": \"0001-01-01\",\n      \"ErrorCode\": \"InvalidInstrumentDetail\",\n      \"OptionType\": \"CASH\",\n      \"StandingInstructionId\": \"21272\",\n      \"Uic\": 2103\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8ec05ea-2595-45f2-aa7d-8bace00aed07",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79424bd1-3aa7-4a31-9f84-c45d68bd3cf9",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5e9aae21-5a99-4a36-b047-9f02d3d9f8d4",
+              "name": "Logged in client doesn't have necessary permissions to create standing instruction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"TradeFollowersCannotElectStandingInstructions\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa8289a6-da28-4a2a-bbc0-de54bd4dd2f5",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d186188e-de30-427c-ae47-7fe7a5b20bbf",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n  \"StandingInstructions\": [\n    {\n      \"AccountKey\": \"dIm75edbgnW6aBK3CIc-sw==\",\n      \"AssetType\": \"Stock\",\n      \"OptionType\": \"SECU\",\n      \"Uic\": 101\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "baf07960-79f7-4131-9910-c58c93b6ac77",
+          "name": "Delete standing instructions",
+          "request": {
+            "name": "Delete standing instructions",
+            "description": {
+              "content": "Removes standing instructions, which disables configured auto election.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "standinginstructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) Client Identifier Key"
+                },
+                {
+                  "disabled": false,
+                  "key": "StandingInstructionIds",
+                  "value": "<string>",
+                  "description": "(Required) Standing instruction ids to delete."
+                },
+                {
+                  "disabled": false,
+                  "key": "StandingInstructionIds",
+                  "value": "<string>",
+                  "description": "(Required) Standing instruction ids to delete."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "983ca584-39ac-4a9b-8942-a83a127c6cca",
+              "name": "Standing Instructions successfully deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7446decb-4333-4d82-add6-c4d50f34ee0f",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "de87c46f-346f-49ff-bc44-bd9d26a996cc",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InstructionIdNotSpecified\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00fb5269-586e-4b65-9537-e995e909fd97",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bab3f09f-0664-42ef-aace-568eaaa426c4",
+              "name": "Logged in client doesn't have necessary permissions to delete standing instruction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"TradeFollowersCannotElectStandingInstructions\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a2d7fd0-34db-445c-b9ab-ed30a3fc61c1",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InstructionIdNotFound\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_3\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bf8a6a2-dddf-48a6-91f0-97a026814f2e",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4c09d373-720c-4094-8af4-5b6fd38d5bca",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "standinginstructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "StandingInstructionIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2f1821d0-7424-43a4-b500-7efbc645d424",
+    "name": "Services.AutoTrading Account Values Standing Instructions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

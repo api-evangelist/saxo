@@ -1,0 +1,918 @@
+{
+  "item": [
+    {
+      "id": "57769f16-d446-408f-89f3-4b22f94268d1",
+      "name": "Update pricing",
+      "description": {
+        "content": "Provides non stream price update endpoint",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e45618f9-b429-493d-af91-73a5a27a65ea",
+          "name": "Update Pricing Get Prices",
+          "request": {
+            "name": "Update Pricing Get Prices",
+            "description": {
+              "content": "Get the prices for unlisted instruments\n\nThis endpoint supports OData query operators: $top and $skip.\n             Default value of query operator $top is 1000 records and maximum value is 1000 records.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "partnerintegration",
+                "v1",
+                "instrumentprices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "1000",
+                  "description": "The number of entries to return from the beginning of the collection"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "016e427a-9b4f-4773-b0d3-2601a2fb0bb8",
+              "name": "Indicates that the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/....../?$top=1&$skip=1\",\n  \"Data\": [\n    {\n      \"AssetType\": \"Stock\",\n      \"Currency\": \"USD\",\n      \"Description\": \"Apple Inc.\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.167463Z\",\n      \"Price\": 10,\n      \"Uic\": 122\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfac4fe7-66f3-4f9f-a109-b9bc21ac38f5",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f218763-97b1-4774-b756-6c6bf2670f69",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "55771988-8511-4ff4-bcc4-4c30d0363e6a",
+              "name": "Indicates that the request is not authorize to perform operation Or given client has not been configured for any feedbproviderid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2513963e-e7e7-408a-aeb0-341111e00800",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "063abd07-432e-4edc-846d-fa6356cb29c9",
+              "name": "Indicates that the internal error occurred due to unhandled exception while processing request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cc5375d3-dd27-42fd-bf29-6af2714d6953",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a2a3ef2-85c4-4702-8895-4a6d33eb7b88",
+          "name": "Update Pricing Update Prices",
+          "request": {
+            "name": "Update Pricing Update Prices",
+            "description": {
+              "content": "Update pricing\n\nEndpoint update the prices for unlisted uics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "partnerintegration",
+                "v1",
+                "instrumentprices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"<string>\",\n      \"LastUpdated\": \"<dateTime>\",\n      \"Price\": \"<number>\",\n      \"Uic\": \"<integer>\"\n    },\n    {\n      \"AssetType\": \"<string>\",\n      \"LastUpdated\": \"<dateTime>\",\n      \"Price\": \"<number>\",\n      \"Uic\": \"<integer>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6328612b-9442-4032-8ae8-90da8092719a",
+              "name": "Indicates that the request is processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "07284cef-1b1e-48d5-b8c0-6ab6b7c0b684",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7435e7c9-807e-4738-954e-a64059096a0a",
+              "name": "Indicates that the request is invalid data content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19430660-3e71-4c8b-809e-0aa0c637be19",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7a72e73d-b4a1-45bc-a887-c1ef7e2ed6df",
+              "name": "Indicates that the request is not authorize to perform operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ae97836b-3327-4b37-b40c-e2fb01a52494",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a045a487-30e1-4163-8d97-9adc55f60936",
+              "name": "Indicates that the internal error occurred due to unhandled exception while processing request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e86a95fc-957f-445d-82d2-2fb086554a30",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "partnerintegration",
+                    "v1",
+                    "instrumentprices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"PriceUpdates\": [\n    {\n      \"AssetType\": \"Bond\",\n      \"LastUpdated\": \"2022-10-31T03:45:12.156462Z\",\n      \"Price\": 100,\n      \"Uic\": 211\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f84acb4d-eb74-4329-a056-66a8e7a3a917",
+    "name": "Services.AutoTrading Account Values Update pricing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

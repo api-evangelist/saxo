@@ -1,0 +1,65 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Trading Conditions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trading Conditions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Trading conditions for all instruments except contract options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v1/tradingconditions/instrument/:AccountKey/:Uic/:AssetType",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "path",
+                "description": "The account key to lookup the conditions for"
+              },
+              {
+                "name": "AssetType",
+                "value": "FxSpot",
+                "type": "path",
+                "description": "The assetType of the instrument to lookup"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Specify which field groups to return"
+              },
+              {
+                "name": "Uic",
+                "value": "21",
+                "type": "path",
+                "description": "The uic for the instrument to lookup"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Trading conditions for all instruments except contract options. \n            Trading conditions details default behavior for the instrument (can it be traded and how), \n            margin requirements for opening and holding a position in an instrument (how much cash is needed on the account) \n            as well as the cost structure of opening, closing and holding a position."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

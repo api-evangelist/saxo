@@ -1,0 +1,327 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Accounts API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v2/accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create an additional account for an existing client"
+        },
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session"
+              },
+              {
+                "name": "ReferenceId",
+                "value": "A74231",
+                "type": "path",
+                "description": "Unique reference ID of the subscription."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id."
+        },
+        {
+          "info": {
+            "name": "Remove subscriptions by tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "CORE",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes all subscriptions for the current session on this resource marked with a specific tag, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Subscribe to accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a subscription on a list accounts, makes it active and returns an initial snapshot containing a list of accounts as specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Reset trial account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/:AccountKey/reset",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "path",
+                "description": "Required unique key identifying the account."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Resets a trial account. Cannot be used in live environment."
+        },
+        {
+          "info": {
+            "name": "Get accounts of a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The client to which the accounts belong. Default: Logged-in user's client."
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "true",
+                "type": "query",
+                "description": "Optionally set true to request that all sub accounts are returned."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of all accounts owned by the specified client"
+        },
+        {
+          "info": {
+            "name": "Get accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/me",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns all accounts under a particular client to which the logged in user belongs."
+        },
+        {
+          "info": {
+            "name": "Get account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/:AccountKey",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "path",
+                "description": "Unique key for the account."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the details about a single account"
+        },
+        {
+          "info": {
+            "name": "Update account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accounts/:AccountKey",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "path",
+                "description": "Unique key of the account to share."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Updates account details, particularly the user account shield value, the benchmark instrument or the account display name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

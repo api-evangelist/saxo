@@ -1,0 +1,876 @@
+{
+  "item": [
+    {
+      "id": "34d11095-26b3-403e-ba96-10368314954d",
+      "name": "Audit - OrderActivities",
+      "description": {
+        "content": "End point for querying order activities",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a71892a2-79a5-4f93-8a5b-3b88f1c3e6d5",
+          "name": "Query Order activities history",
+          "request": {
+            "name": "Query Order activities history",
+            "description": {
+              "content": "Query Order activities history\n\n\nThe __nextPoll link is present when relevant and MUST be used for continuously polling\n\n\nOur preferred option for continuously fetching order activities is to stream it out of ENS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "audit",
+                "orderactivities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skiptoken",
+                  "value": "<string>",
+                  "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "0",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "Account key: If specified will only return entries pertaining to specified Account."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Client key: If specified will only return entries pertaining to specified client and its sub clients depending upon includeSubAccounts."
+                },
+                {
+                  "disabled": false,
+                  "key": "CorrelationKey",
+                  "value": "<string>",
+                  "description": "CorrelationKey: If specified, will only return entries with the specified CorrelationKey"
+                },
+                {
+                  "disabled": false,
+                  "key": "EntryType",
+                  "value": "<string>",
+                  "description": "EntryType: optional. Defaults to 'All': Return all entries pertaining to any order. 'Last': Only return the latest state of an order ignoring ToDateTime (if any)."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) FieldGroups: DisplayAndFormat"
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) FieldGroups: DisplayAndFormat"
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDateTime",
+                  "value": "<dateTime>",
+                  "description": "Only include entries, with a ActivityDateTime greater than or equal to FromDateTime"
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "IncludeSubAccounts: If specified true will return entries for all clients under specified ClientId in a hierarchy."
+                },
+                {
+                  "disabled": false,
+                  "key": "OrderId",
+                  "value": "<string>",
+                  "description": "OrderId: Will only return entries pertaining to specified OrderId"
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "(Required) Status: If specified will only return entries with the specified OrderStatus"
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "(Required) Status: If specified will only return entries with the specified OrderStatus"
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDateTime",
+                  "value": "<dateTime>",
+                  "description": "Only include entries, with a ActivityDateTime less than or equal to ToDateTime. Cannot be used with EntryType=\"Last\""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d3230b74-9226-4f90-97f0-28c97ec8a7c3",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/....../?$top=1&$skiptoken=1\",\n  \"Data\": [\n    {\n      \"AccountId\": \"120602INET\",\n      \"ActivityTime\": \"2017-12-28T08:20:19Z\",\n      \"Amount\": 300,\n      \"AssetType\": \"CfdOnStock\",\n      \"BuySell\": \"Buy\",\n      \"ClientId\": \"3031269\",\n      \"CorrelationKey\": \"bb6bfb96-606d-45d6-95f5-efa443192f5c\",\n      \"DisplayAndFormat\": {\n        \"BarrierFormat\": \"Normal\",\n        \"Currency\": \"DKK\",\n        \"Decimals\": 3,\n        \"Description\": \"Genmab A/S\",\n        \"Format\": \"Normal\",\n        \"OrderDecimals\": 2,\n        \"StrikeFormat\": \"Normal\",\n        \"Symbol\": \"GEN:xcse\"\n      },\n      \"Duration\": {\n        \"DurationType\": \"DayOrder\"\n      },\n      \"HandledBy\": \"3031269\",\n      \"LogId\": \"260971\",\n      \"OrderId\": \"234728341\",\n      \"OrderRelation\": \"StandAlone\",\n      \"OrderType\": \"Market\",\n      \"Price\": 1048.2,\n      \"SleepingOrderCondition\": {\n        \"BreakoutTriggerDownPrice\": 150.1,\n        \"BreakoutTriggerUpPrice\": 160.6,\n        \"BuySell\": \"Buy\",\n        \"ConditionId\": \"114485191\",\n        \"Duration\": {\n          \"DurationType\": \"DayOrder\"\n        },\n        \"OrderType\": \"LimitTrigger\",\n        \"Price\": 16000.01,\n        \"Status\": \"Placed\",\n        \"SubStatus\": \"Confirmed\",\n        \"Symbol\": \"NAS100.I\",\n        \"TrailingStopDistanceToMarket\": 10.1,\n        \"TriggerPriceType\": \"Ask\",\n        \"Uic\": 1909050\n      },\n      \"Status\": \"Placed\",\n      \"SubStatus\": \"Requested\",\n      \"Uic\": 2090\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "060ac439-f29e-4a8c-8cc8-c7e02933e8b9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"BadRequestError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ecb715b-5fcd-4455-9d66-afabc039c9bf",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d2e43153-4fff-4937-988c-6cff1a709f02",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"NotFoundError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a8aa51c-938e-424e-99c7-e57ea975ce25",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5b5e4399-df92-456e-b77c-4ae70491e6ad",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "73a19028-acea-4be9-b075-dea4c67e83aa",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "audit",
+                    "orderactivities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "uLDoIiVA30y8uj4kFKp7Og =="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "CorrelationKey",
+                      "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c"
+                    },
+                    {
+                      "key": "EntryType",
+                      "value": "All"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2017-12-01T00:00:00.0000000+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "OrderId",
+                      "value": "234728341"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Placed"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2017-12-31T00:00:00.0000000+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1a8f8ae6-025d-4968-a305-7b18de11dc34",
+    "name": "Services.AutoTrading Account Values Audit - OrderActivities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

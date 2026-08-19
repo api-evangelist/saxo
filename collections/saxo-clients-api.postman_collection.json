@@ -1,0 +1,1668 @@
+{
+  "item": [
+    {
+      "id": "673a762f-a917-4444-9f2e-a17703a18238",
+      "name": "Clients",
+      "description": {
+        "content": "End points serving client related resources\n            The set of clients is restricted by the supplied query parameters as well as whether or not the identity \n            represented by the authorization token has access to the client.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4862ca31-65b0-48fd-91f2-4eee346da11e",
+          "name": "Get details about clients under a particular owner",
+          "request": {
+            "name": "Get details about clients under a particular owner",
+            "description": {
+              "content": "This endpoint will return information for all clients under the specified owner as well as the owner itself.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "port",
+                "v1",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$inlinecount",
+                  "value": "<string>",
+                  "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "1000",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "OwnerKey",
+                  "value": "<string>",
+                  "description": "Unique key identifying the owner. This is the clientKey of the client under which the list of clients belongs. Default: Logged-in user's client."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "29f35580-4e02-4c8d-898f-683dbfae1d54",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$inlinecount",
+                      "value": "AllPages"
+                    },
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/port/....../?$top=1&$skip=1\",\n  \"Data\": [\n    {\n      \"AllowedTradingSessions\": \"Regular\",\n      \"ClientId\": \"654321\",\n      \"ClientKey\": \"V-B8jOk9SM8QdqN1u2Bjtw==\",\n      \"CurrencyDecimals\": 0,\n      \"DefaultAccountId\": \"192134INET\",\n      \"DefaultAccountKey\": \"uke8gbCUrk6l7TnS5fnIdQ==\",\n      \"DefaultCurrency\": \"EUR\",\n      \"ForceOpenDefaultValue\": false,\n      \"IsMarginTradingAllowed\": false,\n      \"IsVariationMarginEligible\": false,\n      \"LegalAssetTypes\": [\n        \"Stock\",\n        \"FxSpot\",\n        \"CfdOnStock\",\n        \"Bond\",\n        \"ContractFutures\"\n      ],\n      \"LegalAssetTypesAreIndicative\": false,\n      \"MarginCalculationMethod\": \"Default\",\n      \"Name\": \"Mr. Anthony Test\",\n      \"PositionNettingMethod\": \"FIFO\",\n      \"PositionNettingMode\": \"EndOfDay\",\n      \"PositionNettingProfile\": \"FifoEndOfDay\",\n      \"ReduceExposureOnly\": false,\n      \"SupportsAccountValueProtectionLimit\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f1bbd92-b732-4f68-a303-13fef71071a2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$inlinecount",
+                      "value": "AllPages"
+                    },
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidClientId\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05f9da46-cf7a-465e-bf76-ed8a89e44587",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$inlinecount",
+                      "value": "AllPages"
+                    },
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e6b12e5b-8f2b-422c-bcb0-d9acdf88c717",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$inlinecount",
+                      "value": "AllPages"
+                    },
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c07958a-c9ee-4539-9b7f-4f9f73d6102d",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$inlinecount",
+                      "value": "AllPages"
+                    },
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d249e0fa-017a-4a13-9c37-d967cf45632c",
+          "name": "Enables IB to switch position netting mode(or netting profile) and change AccountValueProtectionLimit",
+          "request": {
+            "name": "Enables IB to switch position netting mode(or netting profile) and change AccountValueProtectionLimit",
+            "description": {
+              "content": "Enables IB to switch  position netting mode(or netting profile) and change account value protection limit on behalf of its clients.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "port",
+                "v1",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) clientKey of the client that to switch."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"AccountValueProtectionLimit\": \"<number>\",\n  \"ForceOpenDefaultValue\": \"<boolean>\",\n  \"NewPositionNettingMode\": \"<string>\",\n  \"NewPositionNettingProfile\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c85b1c42-b46d-4962-905a-1e1e755d2e69",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3b24181e-0bb8-480e-a471-91f4e0a4f9f4",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientPositionNettingModeSwitchNotAllowedByConfiguration\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe599a3b-4d1a-4636-97c5-4eaabe322748",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7eee6506-599d-4b18-9218-eedcd17e0662",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "68312bf1-eb0a-44ff-8f5e-443776899a04",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eddc7c52-926f-4015-85d7-6146b3721429",
+          "name": "Get client details",
+          "request": {
+            "name": "Get client details",
+            "description": {
+              "content": "Get details about a client",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "port",
+                "v1",
+                "clients",
+                ":ClientKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ClientKey",
+                  "description": "(Required) Unique key identifying the Client."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7805f72c-19f9-49ca-80ec-5443640cd15b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Unique key identifying the Client."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AllowedTradingSessions\": \"Regular\",\n  \"ClientId\": \"654321\",\n  \"ClientKey\": \"V-B8jOk9SM8QdqN1u2Bjtw==\",\n  \"CurrencyDecimals\": 0,\n  \"DefaultAccountId\": \"192134INET\",\n  \"DefaultAccountKey\": \"uke8gbCUrk6l7TnS5fnIdQ==\",\n  \"DefaultCurrency\": \"EUR\",\n  \"ForceOpenDefaultValue\": false,\n  \"IsMarginTradingAllowed\": false,\n  \"IsVariationMarginEligible\": false,\n  \"LegalAssetTypes\": [\n    \"Stock\",\n    \"FxSpot\",\n    \"CfdOnStock\",\n    \"Bond\",\n    \"ContractFutures\"\n  ],\n  \"LegalAssetTypesAreIndicative\": false,\n  \"MarginCalculationMethod\": \"Default\",\n  \"Name\": \"Mr. Anthony Test\",\n  \"PositionNettingMethod\": \"FIFO\",\n  \"PositionNettingMode\": \"EndOfDay\",\n  \"PositionNettingProfile\": \"FifoEndOfDay\",\n  \"ReduceExposureOnly\": false,\n  \"SupportsAccountValueProtectionLimit\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d7facce-e005-422c-bd9e-b9da962fd261",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Unique key identifying the Client."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidClientId\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07acae24-5659-4cd2-93fb-2cc96922eb10",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Unique key identifying the Client."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0380493c-2be2-43ab-9201-7abdf7282dc3",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Unique key identifying the Client."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "001715d9-2157-464c-9cc0-f0ad3813f6f3",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) Unique key identifying the Client."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bcd2a52a-6271-4855-8807-ac6011758956",
+          "name": "Get logged in client details",
+          "request": {
+            "name": "Get logged in client details",
+            "description": {
+              "content": "Get details about logged-in user's client",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "port",
+                "v1",
+                "clients",
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b8ac443a-b064-47b1-9be7-0812f8ddfeff",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AllowedTradingSessions\": \"Regular\",\n  \"ClientId\": \"654321\",\n  \"ClientKey\": \"V-B8jOk9SM8QdqN1u2Bjtw==\",\n  \"CurrencyDecimals\": 0,\n  \"DefaultAccountId\": \"192134INET\",\n  \"DefaultAccountKey\": \"uke8gbCUrk6l7TnS5fnIdQ==\",\n  \"DefaultCurrency\": \"EUR\",\n  \"ForceOpenDefaultValue\": false,\n  \"IsMarginTradingAllowed\": false,\n  \"IsVariationMarginEligible\": false,\n  \"LegalAssetTypes\": [\n    \"Stock\",\n    \"FxSpot\",\n    \"CfdOnStock\",\n    \"Bond\",\n    \"ContractFutures\"\n  ],\n  \"LegalAssetTypesAreIndicative\": false,\n  \"MarginCalculationMethod\": \"Default\",\n  \"Name\": \"Mr. Anthony Test\",\n  \"PositionNettingMethod\": \"FIFO\",\n  \"PositionNettingMode\": \"EndOfDay\",\n  \"PositionNettingProfile\": \"FifoEndOfDay\",\n  \"ReduceExposureOnly\": false,\n  \"SupportsAccountValueProtectionLimit\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c99df494-8e72-4341-9c82-6b2dfd39246f",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2093bfc7-23e0-4b18-9319-15540dd32c66",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4d25d12f-7754-43a2-bf35-3c94969bb087",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cdffe68e-5eaf-4d52-92da-7c1813f8d268",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b9fcd064-c88e-4e57-9274-ebea6dd2d145",
+          "name": "Enables user to switch position netting mode or netting profile",
+          "request": {
+            "name": "Enables user to switch position netting mode or netting profile",
+            "description": {
+              "content": "Enables user of the client to switch position netting mode or netting profile of its own.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "port",
+                "v1",
+                "clients",
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"AccountValueProtectionLimit\": \"<number>\",\n  \"ForceOpenDefaultValue\": \"<boolean>\",\n  \"NewPositionNettingMode\": \"<string>\",\n  \"NewPositionNettingProfile\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b465c749-d0f7-494a-b3be-64601ef5be43",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3333f94e-c8ae-42f7-a8c2-c7bc4054ce4b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientPositionNettingModeSwitchNotAllowedByConfiguration\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20d43364-64e0-4bdf-9b90-5da17ed44c91",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1843d404-43f8-4d7e-9997-869e114bb726",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "02104fe2-7efd-403a-b512-959b842c9624",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "port",
+                    "v1",
+                    "clients",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountValueProtectionLimit\": 10,\n  \"ForceOpenDefaultValue\": false,\n  \"NewPositionNettingMode\": \"Intraday\",\n  \"NewPositionNettingProfile\": \"FifoEndOfDay\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "de0753b9-1243-4bd8-8c7e-24fa89875e4a",
+    "name": "Services.AutoTrading Account Values Clients API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

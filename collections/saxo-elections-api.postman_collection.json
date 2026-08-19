@@ -1,0 +1,870 @@
+{
+  "item": [
+    {
+      "id": "54895c18-fc1b-467e-9fd7-925516e8b455",
+      "name": "Elections",
+      "description": {
+        "content": "Endpoints for election instructions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "99a4248f-5929-4ac2-9634-dfccc8f725f0",
+          "name": "Send bulk election instructions",
+          "request": {
+            "name": "Send bulk election instructions",
+            "description": {
+              "content": "Sends instructions about elections to make for given accounts and event.\r\n            When posting these instructions to elect, all previous elections for the specified accounts/event are overwritten.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "elections",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"<string>\"\n    },\n    {\n      \"AccountKey\": \"<string>\"\n    }\n  ],\n  \"EventId\": \"<string>\",\n  \"Options\": [\n    {\n      \"OptionId\": \"<string>\",\n      \"AmountPct\": \"<number>\"\n    },\n    {\n      \"OptionId\": \"<string>\",\n      \"AmountPct\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e8bed2ea-10a3-4cb6-84e2-ef0466d7f503",
+              "name": "Election instructions have been accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e03eb8b4-8888-4faa-8c74-4a9d821483cd",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Data\": [\n    {\n      \"AccountId\": \"845935\",\n      \"Status\": \"Accepted\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09db161b-88fb-4c6c-bd8c-caf4144e796c",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"BulkOverSubscriptionNotAllowed\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d30c8199-97ac-44ff-9c6e-9988d1f598f7",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2f233340-94d8-4068-a13e-9bd538502254",
+              "name": "Logged in client doesn't have necessary accesses to make election.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "06c42563-8cd0-4707-b13b-8d4cf8c0f816",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b896703-60d1-4929-af76-63a04c171384",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Accounts\": [\n    {\n      \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\"\n    }\n  ],\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"AmountPct\": 75,\n      \"OptionId\": \"1\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e347b23-c251-4555-b394-6288a5eafe18",
+          "name": "Send election instruction",
+          "request": {
+            "name": "Send election instruction",
+            "description": {
+              "content": "Sends an instruction about elections to make for a given account and event.\r\n            When posting an instruction to elect, all previous elections for the specified account/event are overwritten.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "elections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"EventId\": \"<string>\",\n  \"Options\": [\n    {\n      \"OptionId\": \"<string>\",\n      \"Amount\": \"<number>\",\n      \"Remarks\": \"<string>\"\n    },\n    {\n      \"OptionId\": \"<string>\",\n      \"Amount\": \"<number>\",\n      \"Remarks\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a919621-3855-4095-b11b-5a5c8a2c915d",
+              "name": "Election instructions have been accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2d58f8e0-687e-4aa8-9a95-c128e563e77d",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2b47bcbd-33d1-4343-b2ac-7d254c2477ae",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ElectionAmountNotMultipleOfMinExercisableMultipleQuantity\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2259d151-3a2b-483d-9a6a-67fdaa1762f2",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9462288a-701f-4331-9039-dc787997a8f3",
+              "name": "Logged in client doesn't have necessary accesses to make election.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "501e1fef-b905-4c09-96df-9f15663a109e",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b2af5363-558b-4744-b73d-d90cd6e95f56",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "elections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"2y0tX0m9ZH7MH8HK38qM9g==\",\n  \"EventId\": \"9652429\",\n  \"Options\": [\n    {\n      \"Amount\": 100,\n      \"OptionId\": \"1\",\n      \"Remarks\": \"Electing on 100 holdings for option 1.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8df10ef9-a300-4740-a3da-f862565ea085",
+    "name": "Services.AutoTrading Account Values Elections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

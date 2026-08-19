@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Partner Bulk Bookings API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Partner Bulk Bookings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the overall status of bookings uploaded via CSV file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/bulkbookings/:RequestReferenceNumber/status",
+            "params": [
+              {
+                "name": "RequestReferenceNumber",
+                "value": "",
+                "type": "path",
+                "description": "Booking request reference number."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the overall status of the uploaded CSV file after its published successfully."
+        },
+        {
+          "info": {
+            "name": "Get details/validation status for booking using RequestReferenceNumber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/bulkbookings/:RequestReferenceNumber/validations",
+            "params": [
+              {
+                "name": "RequestReferenceNumber",
+                "value": "",
+                "type": "path",
+                "description": "Booking request reference number."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the bulk booking validation status for all records in CSV file :\n            \n1. Validation Status : Working, Failed and Success.\n\nOR\n\n2. Validation error code and description with row numbers."
+        },
+        {
+          "info": {
+            "name": "CSV File Upload For BulkBookings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/partnerintegration/v1/bulkbookings",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint would allow WLCs to book trades using external Instruments via uploading a CSV File. The given endpoint asynchronously uploads the file and the booking's status can be retrieved later through other Get endpoints.\n\n\n\n  Note : \n\n\n\n1. Please upload single bulk booking file with.csv extension and max file size should not be greater than 15MB or max 200,000 record in single file.\n\n\n2. Refer the below column headers Name and Type and their order, Also please ensure to align the column an"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

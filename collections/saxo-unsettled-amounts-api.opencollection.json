@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Unsettled Amounts API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Unsettled Amounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange Breakdown: Owed by Currency and Amount Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v1/unsettledamounts/exchanges/:ExchangeId",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "QEPWm2RyUefWudKFjRaJag==",
+                "type": "query",
+                "description": "The key of the account group to which the resource belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "7wfA7-TCgQ0ygd||aOXY0w==",
+                "type": "query",
+                "description": "The keys of the accounts to which the resource belongs."
+              },
+              {
+                "name": "AmountTypeSource",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the response data granularity, providing access to source of AmountType."
+              },
+              {
+                "name": "ClientKey",
+                "value": "AbSTLYSoo499JZpp|ckGFw==",
+                "type": "query",
+                "description": "The key of the client to which the resource belongs."
+              },
+              {
+                "name": "ExchangeId",
+                "value": "NYSE",
+                "type": "path",
+                "description": "The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "For a specific Exchange Identifier, gets unsettled amounts for each currency and each underlying amount type."
+        },
+        {
+          "info": {
+            "name": "Exchange Breakdown: Owed by Exchange and Currency",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v1/unsettledamounts/exchanges",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "QEPWm2RyUefWudKFjRaJag==",
+                "type": "query",
+                "description": "The key of the account group to which the resource belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "7wfA7-TCgQ0ygd||aOXY0w==",
+                "type": "query",
+                "description": "The keys of the accounts to which the resource belongs."
+              },
+              {
+                "name": "AmountTypeSource",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the response data granularity, providing access to source of AmountType."
+              },
+              {
+                "name": "ClientKey",
+                "value": "AbSTLYSoo499JZpp|ckGFw==",
+                "type": "query",
+                "description": "The key of the client to which the resource belongs."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets unsettled amounts grouped by exchange, for each currency owed by (or to) the requester."
+        },
+        {
+          "info": {
+            "name": "Currency Breakdown: Owed by Instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v1/unsettledamounts/instruments",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "QEPWm2RyUefWudKFjRaJag==",
+                "type": "query",
+                "description": "The key of the account group to which the resource belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "7wfA7-TCgQ0ygd||aOXY0w==",
+                "type": "query",
+                "description": "The keys of the accounts to which the resource belongs."
+              },
+              {
+                "name": "AmountTypeId",
+                "value": "",
+                "type": "query",
+                "description": "Amount Type Id of the owed amount, for which you want instruments returned."
+              },
+              {
+                "name": "ClientKey",
+                "value": "AbSTLYSoo499JZpp|ckGFw==",
+                "type": "query",
+                "description": "The key of the client to which the resource belongs."
+              },
+              {
+                "name": "Currency",
+                "value": "",
+                "type": "query",
+                "description": "Currency code of the owed amount, for which you want instruments returned."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "For a specific Currency and AmountTypeId, gets unsettled amounts owed by (or to) the requester, for the underlying instruments."
+        },
+        {
+          "info": {
+            "name": "Currency Breakdown: Owed by Currency and Amount Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v1/unsettledamounts",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "QEPWm2RyUefWudKFjRaJag==",
+                "type": "query",
+                "description": "The key of the account group to which the resource belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "7wfA7-TCgQ0ygd||aOXY0w==",
+                "type": "query",
+                "description": "The keys of the accounts to which the resource belongs."
+              },
+              {
+                "name": "AmountTypeSource",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the response data granularity, providing access to source of AmountType."
+              },
+              {
+                "name": "ClientKey",
+                "value": "AbSTLYSoo499JZpp|ckGFw==",
+                "type": "query",
+                "description": "The key of the client to which the resource belongs."
+              },
+              {
+                "name": "Scope",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the response data granularity, providing access to either Currencies(default) or AmountTypes."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets unsettled amounts for each currency owed by (or to) the requester. Scope can be extended in the request to include each currency's underlying amount types."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

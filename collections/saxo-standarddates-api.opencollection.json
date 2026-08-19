@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values StandardDates API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "StandardDates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of FX option expiry dates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/standarddates/fxoptionexpiry/:Uic",
+            "params": [
+              {
+                "name": "Uic",
+                "value": "22",
+                "type": "path",
+                "description": "The Universal Instrument Code (UIC) of the instrument to get."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Use this GET operation to retrieve a list of FX option expiry dates for an UIC."
+        },
+        {
+          "info": {
+            "name": "Get a list of forward tenor dates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/standarddates/forwardtenor/:Uic",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query",
+                "description": "Account to which short tenor permissions are checked against. Short tenors are not returned if no account is specified."
+              },
+              {
+                "name": "Uic",
+                "value": "22",
+                "type": "path",
+                "description": "The Universal Instrument Code (UIC) of the instrument to get."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Use this GET operation to retrieve a list of forward tenor dates for an UIC."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

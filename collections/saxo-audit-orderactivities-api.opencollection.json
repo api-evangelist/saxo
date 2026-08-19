@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Audit - OrderActivities API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audit - OrderActivities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query Order activities history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v1/audit/orderactivities",
+            "params": [
+              {
+                "name": "$skiptoken",
+                "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5",
+                "type": "query",
+                "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountKey",
+                "value": "uLDoIiVA30y8uj4kFKp7Og ==",
+                "type": "query",
+                "description": "Account key: If specified will only return entries pertaining to specified Account."
+              },
+              {
+                "name": "ClientKey",
+                "value": "2y0tX0m9ZH7MH8HK38qM9g==",
+                "type": "query",
+                "description": "Client key: If specified will only return entries pertaining to specified client and its sub clients depending upon includeSubAccounts."
+              },
+              {
+                "name": "CorrelationKey",
+                "value": "bb6bfb96-606d-45d6-95f5-efa443192f5c",
+                "type": "query",
+                "description": "CorrelationKey: If specified, will only return entries with the specified CorrelationKey"
+              },
+              {
+                "name": "EntryType",
+                "value": "All",
+                "type": "query",
+                "description": "EntryType: optional. Defaults to 'All': Return all entries pertaining to any order. 'Last': Only return the latest state of an order ignoring ToDateTime (if any)."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "DisplayAndFormat",
+                "type": "query",
+                "description": "FieldGroups: DisplayAndFormat"
+              },
+              {
+                "name": "FromDateTime",
+                "value": "2017-12-01T00:00:00.0000000+00:00",
+                "type": "query",
+                "description": "Only include entries, with a ActivityDateTime greater than or equal to FromDateTime"
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "IncludeSubAccounts: If specified true will return entries for all clients under specified ClientId in a hierarchy."
+              },
+              {
+                "name": "OrderId",
+                "value": "234728341",
+                "type": "query",
+                "description": "OrderId: Will only return entries pertaining to specified OrderId"
+              },
+              {
+                "name": "Status",
+                "value": "Placed",
+                "type": "query",
+                "description": "Status: If specified will only return entries with the specified OrderStatus"
+              },
+              {
+                "name": "ToDateTime",
+                "value": "2017-12-31T00:00:00.0000000+00:00",
+                "type": "query",
+                "description": "Only include entries, with a ActivityDateTime less than or equal to ToDateTime. Cannot be used with EntryType=\"Last\""
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Query Order activities history\n\n\nThe __nextPoll link is present when relevant and MUST be used for continuously polling\n\n\nOur preferred option for continuously fetching order activities is to stream it out of ENS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

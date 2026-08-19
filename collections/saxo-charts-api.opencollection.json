@@ -1,0 +1,295 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Charts API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Charts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "OBSOLETE Get the chart client configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/chart/ClientConfig",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns configuration data for the chart client.\n                Including:\n                Maximum/minimum amount of samples to request\n                Request frequency\n                Timeout values"
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Get chart data for an instrument.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/chart/:Symbol",
+            "params": [
+              {
+                "name": "Count",
+                "value": "",
+                "type": "query",
+                "description": "Optional number of samples. Max. is 1200, default is 0."
+              },
+              {
+                "name": "Horizon",
+                "value": "",
+                "type": "query",
+                "description": "The horizon to get samples from. Values are interpreted in minutes: 1, 5, 10, 15, 30, 60, 120,\n                240, 360, 480, 1440, 10080, 43200."
+              },
+              {
+                "name": "Mode",
+                "value": "",
+                "type": "query",
+                "description": "Defines how to get the data from the chart feed server. Following options are available: START,\n                FROM, UPTO"
+              },
+              {
+                "name": "Seq",
+                "value": "",
+                "type": "query",
+                "description": "Optional sequence id that is repeated in the response to help clients correlate responses with\n                requests. Must be an integer"
+              },
+              {
+                "name": "Symbol",
+                "value": "",
+                "type": "path",
+                "description": "The symbol of the instrument to retreive data for. NB! Symbol is case sensitive."
+              },
+              {
+                "name": "Time",
+                "value": "",
+                "type": "query",
+                "description": "Optional UTC time of the first/last sample. This depends on the MODE parameter. (MODE=FROM => time\n                equals first sample, MODE=UPTO => time equals last sample)."
+              },
+              {
+                "name": "Tz",
+                "value": "",
+                "type": "query",
+                "description": "Optional time zone to get UTC-offsets for. Must be a zone name from the tz-database\n                (http://www.iana.org/time-zones). Example: Australia/Hobart"
+              },
+              {
+                "name": "Version",
+                "value": "",
+                "type": "query",
+                "description": "Optional protocol version. If not specified the default version 105 will be used."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Responsible for getting chart data for an instrument from the back end domain."
+        },
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/v1/charts/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "20160204125301444",
+                "type": "path",
+                "description": "The reference id that identifies the subscription (within a streaming session)."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscriptions for the given reference id on this resource, and frees resources on the server."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/v1/charts/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "TAB9",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes all subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on chart data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/v1/charts/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of most recently completed samples specified by the parameters in the request.\n            \n\n            Subsequent samples are delivered over the streaming channel. Most often a single new sample or sample update is delivered at a time, \n            but when a sample closes, you will typcially get two samples: The now closed bar, and the bar just opening.\n            \n\n\n            Two events may require that a client application must close"
+        },
+        {
+          "info": {
+            "name": "Obsolete Create a subscription on chart data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/v1/charts/subscriptions/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of most recently completed samples specified by the parameters in the request.\n            \n\n            Subsequent samples are delivered over the streaming channel. Most often a single new sample or sample update is delivered at a time, \n            but when a sample closes, you will typcially get two samples: The now closed bar, and the bar just opening.\n            \n\n\n            Two events may require that a client application must close"
+        },
+        {
+          "info": {
+            "name": "Get chart data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/chart/v1/charts",
+            "params": [
+              {
+                "name": "AssetType",
+                "value": "FxSpot",
+                "type": "query",
+                "description": "Assettype of the instrument."
+              },
+              {
+                "name": "Count",
+                "value": "99",
+                "type": "query",
+                "description": "Specifies maximum number of samples to return. Maximum is 1200. If not specified a default of 1200 samples are returned."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "ChartInfo",
+                "type": "query",
+                "description": "Use FieldGroups to add additional information to the samples like display/formatting details or information about the price source. If FieldGroups are not specified in the request then the response defaults to only hold the bare OHLC samples and nothing else."
+              },
+              {
+                "name": "Horizon",
+                "value": "99",
+                "type": "query",
+                "description": "The time period that each sample covers. Values are interpreted in minutes: 1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200."
+              },
+              {
+                "name": "Mode",
+                "value": "UpTo",
+                "type": "query",
+                "description": "If Time is supplied, mode specifies if the endpoint should returns samples \"UpTo\" (and including) or \"From\" (and including) the specified time."
+              },
+              {
+                "name": "Time",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Specifies the time of a sample, which must either be the first (If Mode==\"From\") or the last (if Mode==\"UpTo\") in the returned data."
+              },
+              {
+                "name": "Uic",
+                "value": "99",
+                "type": "query",
+                "description": "UIC (Universal Instrument Code) of the instrument."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns timestamped OHLC samples for a single instrument identified by UIC and AssetType. The time period covered by the samples and interval size between them are controlled by the combination of parameters Horizon, Time, Mode and Count."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

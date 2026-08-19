@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values CashManagement - Cash Withdrawal API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CashManagement - Cash Withdrawal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Cash Withdrawal Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/atr/v1/cashmanagement/withdrawals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Allow client to do cash transfers by giving account key, amount, beneficiary instruction Id, currency and optionally sending “message to beneficiary” with a character limit of 140.\n             \nNote:\n\nIf withdrawal request is created, service will return \"201 Created\" with cut exchange rate &amp; withdrawal request Id in response.\n\nIf withdrawal request is rejected, the service will return bad request with reason for failure of transaction."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

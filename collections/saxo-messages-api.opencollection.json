@@ -1,0 +1,217 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Messages API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove multiple trade message subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "CORE",
+                "type": "query",
+                "description": "The tag which the subscriptions are grouped under."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple trade message subscriptions for the current session."
+        },
+        {
+          "info": {
+            "name": "Remove a trade message subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "M452",
+                "type": "path",
+                "description": "Unique reference ID of the subscription to remove."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes a trade message subscription for the current session."
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Create an active subscription on trade messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/subscriptions/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription, and returns an initial snapshot containing a list of trade messages."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on trade messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription, and returns an initial snapshot containing a list of trade messages."
+        },
+        {
+          "info": {
+            "name": "Mark trade message as 'seen'",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/seen",
+            "params": [
+              {
+                "name": "MessageIds",
+                "value": "345322",
+                "type": "query",
+                "description": "Unique ids of the message."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Logically this is done by moving the message to the 'seen' collection."
+        },
+        {
+          "info": {
+            "name": "Mark trade message as 'seen'",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages/seen/:MessageId",
+            "params": [
+              {
+                "name": "MessageId",
+                "value": "345322",
+                "type": "path",
+                "description": "Unique id of the message."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Logically this is done by moving the message to the 'seen' collection."
+        },
+        {
+          "info": {
+            "name": "Get trade messages for the current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/messages",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Only messages that haven't been marked as 'seen' are returned."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

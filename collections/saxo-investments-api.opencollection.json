@@ -1,0 +1,343 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Investments API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Investments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove session wide suggestion subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/subscriptions/suggestions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "explorer_201704091208182471",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "123",
+                "type": "path",
+                "description": "The reference id that identifies the subscription (within a streaming session)."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes the suggestion subscription identified by the specified reference id (and streaming context id)."
+        },
+        {
+          "info": {
+            "name": "Remove session wide subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "explorer_201704091208182471",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "123",
+                "type": "path",
+                "description": "The reference id that identifies the subscription (within a streaming session)."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes the subscription identified by the specified reference id (and streaming context id)."
+        },
+        {
+          "info": {
+            "name": "Create a session wide suggestion subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/subscriptions/suggestions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a new session wide suggestion subscription. The data stream will deliver updates from this point.\r\n            Provides updates on all investments that one could possibly participate in."
+        },
+        {
+          "info": {
+            "name": "Create a session wide subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a new session wide subscription. The data stream will deliver updates from this point.\r\n            Provides updates on the investments that one actively participating in."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3GetInvestmentsummariesAsync",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/summaries",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets the investment information for all clients under the given client combined with the investments of client itself and this information\r\n            is grouped according to the leaders."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3GetMaxWithdrawalAmountAsync",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/:InvestmentId/maxWithdrawalAmount",
+            "params": [
+              {
+                "name": "InvestmentId",
+                "value": "1505",
+                "type": "path",
+                "description": "Id of the investment portfolio."
+              },
+              {
+                "name": "TargetAccountId",
+                "value": "",
+                "type": "query",
+                "description": "max withdrawal amount returned to this account id"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get max amount currently available for withdrawal from an investment."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3PutInvestmentAsync",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/:InvestmentId/withdraw",
+            "params": [
+              {
+                "name": "InvestmentId",
+                "value": "1505",
+                "type": "path",
+                "description": "Id of the investment portfolio to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initiate partial or full amount withdrawal from an investment."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3PatchInvestmentAsync",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/:InvestmentId",
+            "params": [
+              {
+                "name": "InvestmentId",
+                "value": "1505",
+                "type": "path",
+                "description": "Id of the investment to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update an investment."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3GetInvestmentByLeader",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments",
+            "params": [
+              {
+                "name": "TradeLeaderId",
+                "value": "8",
+                "type": "query",
+                "description": "Id of leader to retrieve data for"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve potential investment details for a specific leader."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3PostInvestment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Start an investment."
+        },
+        {
+          "info": {
+            "name": "InvestmentsV3GetInvestments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/at/v3/investments/me",
+            "params": [
+              {
+                "name": "TradeLeaderId",
+                "value": "8",
+                "type": "query",
+                "description": "Id of trade leader"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve all investments for the client."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

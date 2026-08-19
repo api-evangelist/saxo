@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Proxy Voting API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Proxy Voting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "ProxyVotingGetProxyVotingEventsAsync",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v1/proxyvoting/events",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "ClientKey",
+                "value": "W-CgwnsUEpETkiR8MPJalA==",
+                "type": "query",
+                "description": "Client identifier to get events for"
+              },
+              {
+                "name": "SortColumn",
+                "value": "",
+                "type": "query",
+                "description": "Specify a column to sort on. Default sorting on records is descending by ReceivedDate and ascending by IssuerName."
+              },
+              {
+                "name": "SortType",
+                "value": "",
+                "type": "query",
+                "description": "Specify ascending or descending sort. Default sort type will be Ascending."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get proxy voting events for client. Requires separate license."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,442 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Exposure API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exposure",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v2/exposure/currency/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "0f8fad5b-d9cb-469f-a165-70867728950e",
+                "type": "path",
+                "description": "Unique id of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id.."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v2/exposure/currency/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "2345223",
+                "type": "query",
+                "description": "Optional. Remove only subscriptions that are marked with specified tag."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on a list of instrument exposure and make it active",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v2/exposure/currency/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of list of instrument exposure specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get net FxSpot exposures list for a client, accountGroup or account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/fxspot",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of currency exposures from FxSpot positions for a requested client, account group or account."
+        },
+        {
+          "info": {
+            "name": "Get net FxSpot exposures for a client, to which the logged in user belongs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/fxspot/me",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of currency exposures from FxSpot positions for the client, to which the logged in user belongs."
+        },
+        {
+          "info": {
+            "name": "Get a currency exposures list for a client, accountGroup or account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/currency",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of currencies in which there is an exposure."
+        },
+        {
+          "info": {
+            "name": "Get currency exposures for a client, to which the logged in user belongs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/currency/me",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of currencies and net exposures."
+        },
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/instruments/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "0f8fad5b-d9cb-469f-a165-70867728950e",
+                "type": "path",
+                "description": "Unique id of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id.."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/instruments/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "2345223",
+                "type": "query",
+                "description": "Optional. Remove only subscriptions that are marked with specified tag."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on a list of instrument exposure and make it active",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/instruments/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of list of instrument exposure specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get instrument net exposure list for a client, accountGroup or account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/instruments",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "AssetType",
+                "value": "StockIndexOption",
+                "type": "query",
+                "description": "The AssetType."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              },
+              {
+                "name": "ExpiryDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "The expiry date. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "LowerBarrier",
+                "value": "2.55",
+                "type": "query",
+                "description": "The Lower Barrier. Only used to distinguish Fx Barrier Options."
+              },
+              {
+                "name": "PutCall",
+                "value": "Put",
+                "type": "query",
+                "description": "Put or Call. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "Strike",
+                "value": "2.55",
+                "type": "query",
+                "description": "The strike price of the option. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "Uic",
+                "value": "99",
+                "type": "query",
+                "description": "Unique id of the instrument."
+              },
+              {
+                "name": "UpperBarrier",
+                "value": "2.55",
+                "type": "query",
+                "description": "The Upper Barrier. Only used to distinguish Fx Barrier Options."
+              },
+              {
+                "name": "ValueDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "The value date. Only used to distinguish FxForwards."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of instruments in which there is an exposure fulfilling the criteria specified by the query string parameters."
+        },
+        {
+          "info": {
+            "name": "Get the net instrument exposure for a client, to which the logged in user belongs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/exposure/instruments/me",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list instruments and net exposures."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

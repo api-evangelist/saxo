@@ -1,0 +1,1391 @@
+{
+  "item": [
+    {
+      "id": "5a97856a-e046-49b3-8b15-d2bf4e3cc8aa",
+      "name": "Client Renewals",
+      "description": {
+        "content": "The Client Renewals resource is only implemented in LIVE environment. Implementation in simulation system only returns sample data and response.\n             \n             Provides functionality to get and update client data information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e8589fb1-9b93-4ce7-81cf-7b8b958ed9db",
+          "name": "Gets renewal status for clients, under logged user or the passed owner",
+          "request": {
+            "name": "Gets renewal status for clients, under logged user or the passed owner",
+            "description": {
+              "content": "Gets renewal status for clients, under logged user or the passed owner",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cm",
+                "v1",
+                "clientrenewals",
+                "pending"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "1000",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "MustRenewBy",
+                  "value": "<date>",
+                  "description": "Optional, Date till which the pending renewals should be returned, default value is 30 days from today"
+                },
+                {
+                  "disabled": false,
+                  "key": "OwnerKey",
+                  "value": "<string>",
+                  "description": "Optional, ClientKey of the owner, whose subclient's renewal status is needed"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8453af05-24cd-4f8d-adff-065c2c960756",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__count\": 2,\n  \"Data\": [\n    {\n      \"ClientId\": \"2147279170\",\n      \"ClientKey\": \"7m4I|vtYLUnEGg77o9uQhw==\",\n      \"RenewalBy\": \"2022-11-18\",\n      \"RenewalStatus\": \"Waiting\"\n    },\n    {\n      \"ClientId\": \"2147279171\",\n      \"ClientKey\": \"27KN2aJ-338aeKnLTNOyCw==\",\n      \"RenewalBy\": \"2022-11-28\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea8dd44e-e6ac-4e35-8d71-dcb13f043c87",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "650221c0-88a8-4e14-966c-fa9e26800de8",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "563f4813-f1ac-4b4a-afd7-ebd555aa71eb",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientRenewalStatusNotFound\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73ac97d5-dc09-4506-919c-09a5090459f2",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2eaa003e-2bea-4be8-9d0a-2b9044d1c840",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0fde408e-fb50-40e4-bbce-49678cb8bb5a",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    "pending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "MustRenewBy",
+                      "value": "2020-12-31"
+                    },
+                    {
+                      "key": "OwnerKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ed7d3e7-891f-4597-9a1e-f65d78c1b77d",
+          "name": "Update Renewal Data/Documents for the given renewal entity",
+          "request": {
+            "name": "Update Renewal Data/Documents for the given renewal entity",
+            "description": {
+              "content": "Update Renewal Data/Documents for the given renewal entity",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cm",
+                "v1",
+                "clientrenewals",
+                ":RenewalEntityId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "RenewalEntityId",
+                  "description": "(Required) Renewal entity identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Documents\": [\n    {\n      \"Type\": \"<string>\",\n      \"Data\": \"<string>\",\n      \"Name\": \"<string>\",\n      \"MimeType\": \"<string>\"\n    },\n    {\n      \"Type\": \"<string>\",\n      \"Data\": \"<string>\",\n      \"Name\": \"<string>\",\n      \"MimeType\": \"<string>\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"<string>\",\n      \"NetWorth\": \"<string>\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"<string>\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"CurrencyCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"AmountDescription\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"IntendToInvest\": {\n        \"CurrencyCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"AmountDescription\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"InvestableAsset\": {\n        \"CurrencyCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"AmountDescription\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"<string>\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"<string>\"\n    },\n    \"ItalyData\": {\n      \"EmploymentInformation\": {\n        \"CountryConcernedCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"DetailedBusinessActivity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"OtherEmployment\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ProvinceConcerned\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"StatusOfEmployment\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"MailContactPreference\": \"<boolean>\",\n      \"ProfileInformation\": {\n        \"AnnualIncomeInformation\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"InvestableAssets\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"<string>\",\n      \"NetWorthJpy\": \"<string>\",\n      \"TickerCodes\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"NationalId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"NationalIdType\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"CountryCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"NationalId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"NationalIdType\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TaxId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinMissingReason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinNotAvailable\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinOtherMissingReason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"CountryCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TaxId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinMissingReason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinNotAvailable\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"TinOtherMissingReason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"AliasFirstName\": \"<string>\",\n      \"AliasLastName\": \"<string>\",\n      \"CityOfBirth\": \"<string>\",\n      \"ContactInformation\": {\n        \"EmailAddress\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"MobileNumber\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"CountryOfBirth\": \"<string>\",\n      \"DateOfBirth\": \"<date>\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"NatureOfBusiness\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"NatureOfBusinessOther\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"OccupationTypes\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Position\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"FirstName\": \"<string>\",\n      \"LastName\": \"<string>\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"OtherReason\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SharedResponsibilityWithLegalGuardian\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SharedResponsibilityWithLegalGuardianName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"NationalityCode\": \"<string>\",\n      \"OriginalScriptFirstName\": \"<string>\",\n      \"OriginalScriptLastName\": \"<string>\",\n      \"OtherAddress\": {\n        \"BuildingName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"BuildingNumber\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"City\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"CoName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"CountryOfResidenceCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Floor\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"LocalArea\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PostBoxOffice\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PostalCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SideDoor\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"State\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"StreetName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Unit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"PersonalId\": \"<string>\",\n      \"PersonalIdExpirationDate\": \"<date>\",\n      \"PersonalIdPlaceOfRelease\": \"<string>\",\n      \"PersonalIdReleaseDate\": \"<date>\",\n      \"PersonalIdReleasedBy\": \"<string>\",\n      \"PersonalIdType\": \"<string>\",\n      \"PoliticallyExposedInformation\": {\n        \"PepPosition\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PepRelatedPersonName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PepRelatedPersonPosition\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PepType\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"RelationToPep\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"PoliticallyExposedPerson\": \"<boolean>\",\n      \"ResidentialAddress\": {\n        \"BuildingName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"BuildingNumber\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"City\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"CoName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"CountryOfResidenceCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Floor\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"LocalArea\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PostBoxOffice\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PostalCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SideDoor\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"State\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"StreetName\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"Unit\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"TaxId\": \"<string>\",\n      \"TinMissingReason\": \"<string>\",\n      \"TinNotAvailable\": \"<boolean>\",\n      \"TinOtherMissingReason\": \"<string>\"\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SecondaryIncomeOther\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SecondarySourcesOfIncome\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SecondarySourcesOfIncomeTotal\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"PrimarySourcesOfWealth\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"SourceOfWealthOther\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ValueOfCashAndSecurities\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"UnitedStatesTaxId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"UnitedStatesTaxLiable\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"<string>\",\n      \"NetWorthSgd\": \"<string>\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"<string>\",\n      \"NetWorthChf\": \"<string>\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"<string>\",\n      \"MonthlyIncomeAfterTaxGbp\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "55597a60-3066-44d8-a1c0-1e71d70a0485",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3bceb46-c685-4091-b1a5-39f7fe062455",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientRenewalInvalidInstanceId\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "781ea94a-b663-40f6-8c0d-9fb8212f169d",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "efe94466-762a-47d6-a0bc-45658f39a3d2",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "61dcd54c-c2b7-4e5f-a277-6d4e8535adb1",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2a8a6d60-a163-4bd6-a893-5108b0ce793b",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals",
+                    ":RenewalEntityId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "RenewalEntityId",
+                      "description": "(Required) Renewal entity identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Documents\": [\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/pdf\",\n      \"Name\": \"ProofOfIdentity.pdf\",\n      \"Type\": \"ProofOfIdentity\"\n    },\n    {\n      \"Data\": \"iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4\",\n      \"MimeType\": \"application/msword\",\n      \"Name\": \"ProofOfResidency.doc\",\n      \"Type\": \"ProofOfResidency\"\n    }\n  ],\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb01332a-946a-4d21-bb85-eab7a7877e17",
+          "name": "Get Renewal Data for the passed Client/User or logged in user. Priority is given to userKey over clientKey.",
+          "request": {
+            "name": "Get Renewal Data for the passed Client/User or logged in user. Priority is given to userKey over clientKey.",
+            "description": {
+              "content": "Get Renewal Data for the passed Client/User or logged in user",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cm",
+                "v1",
+                "clientrenewals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "ClientKey of the primary user for which renewal is requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "UserKey",
+                  "value": "<string>",
+                  "description": "UserKey of the user for which renewal is requested"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "863b4752-0624-4165-b716-7e2fae855ef2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"RenewalBy\": \"2022-11-18\",\n  \"RenewalData\": {\n    \"AustraliaData\": {\n      \"AnnualIncome\": \"3\",\n      \"NetWorth\": \"5\"\n    },\n    \"FinlandData\": {\n      \"EuroClearSectorCode\": \"144200\"\n    },\n    \"GlobalFinancialInformation\": {\n      \"AnnualIncomeAfterTax\": {\n        \"Amount\": 100020,\n        \"AmountDescription\": \"Exact\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"IntendToInvest\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"AboveThisAmount\",\n        \"CurrencyCode\": \"DKK\"\n      },\n      \"InvestableAsset\": {\n        \"Amount\": 1000000,\n        \"AmountDescription\": \"Rounded\",\n        \"CurrencyCode\": \"DKK\"\n      }\n    },\n    \"HongkongData\": {\n      \"NetWorthInUsd\": \"2\",\n      \"TotalEstimatedAnnualIncomeInUsd\": \"4\"\n    },\n    \"JapanData\": {\n      \"AnnualIncomeJpy\": \"3\",\n      \"NetWorthJpy\": \"5\",\n      \"TickerCodes\": [\n        \"6234\",\n        392,\n        \"1025\"\n      ]\n    },\n    \"PersonalInformation\": {\n      \"AdditionalNationalities\": [\n        {\n          \"CountryCode\": \"UK\",\n          \"NationalId\": \"38992710\",\n          \"NationalIdType\": 4\n        }\n      ],\n      \"AdditionalTaxableCountries\": [\n        {\n          \"CountryCode\": \"SG\",\n          \"TaxId\": \"1231314\",\n          \"TinNotAvailable\": false\n        }\n      ],\n      \"AliasFirstName\": \"Alice\",\n      \"AliasLastName\": \"Joe\",\n      \"CityOfBirth\": \"Test Birth City\",\n      \"ContactInformation\": {\n        \"EmailAddress\": \"email1_9534299@email.com\",\n        \"MobileNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"5236254126\"\n        },\n        \"PrimaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"355354654\"\n        },\n        \"SecondaryPhoneNumber\": {\n          \"CountryCode\": \"DK\",\n          \"Number\": \"989899797\"\n        }\n      },\n      \"CountryOfBirth\": \"DK\",\n      \"DateOfBirth\": \"1992-10-29\",\n      \"EmploymentInformation\": {\n        \"EmployerName\": \"Test Employer\",\n        \"NatureOfBusiness\": \"10\",\n        \"OccupationTypes\": [\n          \"1\",\n          \"2\",\n          \"3\"\n        ],\n        \"Position\": \"Test Position\"\n      },\n      \"FirstName\": \"First9534299\",\n      \"LastName\": \"Last9534299\",\n      \"MinorInformation\": {\n        \"MinorLegalGuardianship\": \"Sharedwithanotherlegalguardian\",\n        \"OtherReason\": \"None\",\n        \"SharedResponsibilityWithLegalGuardian\": \"2451ac4b-e2d3-47d9-9d88-db00a056d365\",\n        \"SharedResponsibilityWithLegalGuardianLoginUserId\": \"6372920\",\n        \"SharedResponsibilityWithLegalGuardianName\": \"Guardian\"\n      },\n      \"NationalityCode\": \"DK\",\n      \"OriginalScriptFirstName\": \"比\",\n      \"OriginalScriptLastName\": \"伊\",\n      \"OtherAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"PersonalId\": \"4499647\",\n      \"PersonalIdExpirationDate\": \"2025-07-25\",\n      \"PersonalIdPlaceOfRelease\": \"Milan\",\n      \"PersonalIdReleaseDate\": \"2016-12-08\",\n      \"PersonalIdReleasedBy\": \"John doe\",\n      \"PersonalIdType\": \"1\",\n      \"PoliticallyExposedInformation\": {\n        \"PepRelatedPersonName\": \"Fred XXX\",\n        \"PepRelatedPersonPosition\": \"Director\",\n        \"PepType\": \"2\",\n        \"RelationToPep\": \"5\"\n      },\n      \"PoliticallyExposedPerson\": true,\n      \"ResidentialAddress\": {\n        \"BuildingName\": \"Test Building\",\n        \"BuildingNumber\": \"420\",\n        \"City\": \"Test Address City\",\n        \"CoName\": \"CO Test\",\n        \"CountryOfResidenceCode\": \"IN\",\n        \"Floor\": \"5\",\n        \"LocalArea\": \"Local Test Area\",\n        \"PostalCode\": \"123466\",\n        \"PostBoxOffice\": \"212313\",\n        \"SideDoor\": \"Test SideDoor\",\n        \"State\": \"Test State\",\n        \"StreetName\": \"Test Street\",\n        \"Unit\": \"Unit 10\"\n      },\n      \"TaxId\": \"5454898\",\n      \"TinMissingReason\": \"100000003\",\n      \"TinNotAvailable\": true\n    },\n    \"ProfileInformation\": {\n      \"AnnualIncomeInformation\": {\n        \"AnnualSalaryAfterTax\": \"11\",\n        \"SecondaryIncomeOther\": \"1\",\n        \"SecondarySourcesOfIncome\": [\n          \"3\"\n        ],\n        \"SecondarySourcesOfIncomeTotal\": \"9\"\n      },\n      \"InvestableAssets\": {\n        \"IntendToInvest\": \"13\",\n        \"PrimarySourcesOfWealth\": [\n          \"2\",\n          \"3\"\n        ],\n        \"SourceOfWealthOther\": \"Other Wealth\",\n        \"ValueOfCashAndSecurities\": \"11\"\n      },\n      \"TradingProfile\": {\n        \"SoleBoOfAssets\": false\n      }\n    },\n    \"RegulatoryInformation\": {\n      \"FatcaDeclaration\": {\n        \"UnitedStatesCitizen\": true,\n        \"UnitedStatesTaxId\": \"456123\",\n        \"UnitedStatesTaxLiable\": true\n      }\n    },\n    \"SingaporeData\": {\n      \"AnnualIncomeSgd\": \"3\",\n      \"NetWorthSgd\": \"5\"\n    },\n    \"SwitzerlandData\": {\n      \"AnnualIncomeChf\": \"3\",\n      \"NetWorthChf\": \"5\"\n    },\n    \"UkData\": {\n      \"EstimatedSavingAndInvestmentGbp\": \"14500\",\n      \"MonthlyIncomeAfterTaxGbp\": \"42000\"\n    }\n  },\n  \"RenewalEntityId\": \"9534299\",\n  \"RenewalStatus\": \"Waiting\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83af27bf-c198-4cea-b6b8-112f5efaddf3",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e16b8107-f9af-4b6c-8897-2790c84d8195",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c400edff-956e-4265-8938-3eb4c270cf2e",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientRenewalDataNotFound\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57480464-d606-47b2-97c2-03d22cf41fa2",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "98c2a8ec-27bb-4546-a087-4534ce7a9310",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ebdc2ccb-6bdf-4e6f-b0a0-80876c2350c0",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cm",
+                    "v1",
+                    "clientrenewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    },
+                    {
+                      "key": "UserKey",
+                      "value": "d2-PzdC5wIPy1284wD-rRA=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "86c78009-a52f-40bc-a746-993377f5ea12",
+    "name": "Services.AutoTrading Account Values Client Renewals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

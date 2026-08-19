@@ -1,0 +1,2020 @@
+{
+  "item": [
+    {
+      "id": "6bb2c5e4-ae8e-4d52-9a3f-1b7326cff3a5",
+      "name": "Client Activities",
+      "description": {
+        "content": "Provides subscription endpoints to stream client related events.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "872d929b-6e30-4fd7-b1f1-6f112194880c",
+          "name": "Get activities for specified client/Account.",
+          "request": {
+            "name": "Get activities for specified client/Account.",
+            "description": {
+              "content": "Returns a list of activities specified by the parameters in the request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ens",
+                "v1",
+                "activities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skiptoken",
+                  "value": "<string>",
+                  "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "0",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "account group key for accounts used in retrieving the trade data.\r\n             If specified, activities of the specified account will be returned/published otherwise activities of all accounts represented by ClientKey."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "Unique key identifying the account used in retrieving the trade data.\r\n             If specified, activities of the specified account will be returned/published otherwise activities of all accounts represented by ClientKey."
+                },
+                {
+                  "disabled": false,
+                  "key": "Activities",
+                  "value": "<string>",
+                  "description": "(Required) Specification of activity typese to return in results."
+                },
+                {
+                  "disabled": false,
+                  "key": "Activities",
+                  "value": "<string>",
+                  "description": "(Required) Specification of activity typese to return in results."
+                },
+                {
+                  "disabled": false,
+                  "key": "CANotificationTypes",
+                  "value": "<string>",
+                  "description": "Corporate action notification type to get the response for."
+                },
+                {
+                  "disabled": false,
+                  "key": "CANotificationTypes",
+                  "value": "<string>",
+                  "description": "Corporate action notification type to get the response for."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Unique key identifying the client.\r\n            If specified, activities of the specified client will be returned/published otherwise for logged in client."
+                },
+                {
+                  "disabled": false,
+                  "key": "Duration",
+                  "value": "<string>",
+                  "description": "The order duration type."
+                },
+                {
+                  "disabled": false,
+                  "key": "ExpirationDateTime",
+                  "value": "<dateTime>",
+                  "description": "The expiration date should only be set if the duration type is GoodTillDate."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "Specification of field groups to return in results."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "Specification of field groups to return in results."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDateTime",
+                  "value": "<dateTime>",
+                  "description": "If specified, activities starting FromDateTime will be returned/published. Default returns current day activities"
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "If specified true, activities of sub-clients will also be returned/published."
+                },
+                {
+                  "disabled": false,
+                  "key": "OrderStatuses",
+                  "value": "<string>",
+                  "description": "List of order statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "OrderStatuses",
+                  "value": "<string>",
+                  "description": "List of order statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "OrderTypes",
+                  "value": "<string>",
+                  "description": "List of order types."
+                },
+                {
+                  "disabled": false,
+                  "key": "OrderTypes",
+                  "value": "<string>",
+                  "description": "List of order types."
+                },
+                {
+                  "disabled": false,
+                  "key": "PositionEventFilter",
+                  "value": "<string>",
+                  "description": "Specify position event filter if any. Default is PositionEventFilter.All."
+                },
+                {
+                  "disabled": false,
+                  "key": "SequenceId",
+                  "value": "<string>",
+                  "description": "If specified and message with SequenceId available in ENS cache, streaming of events start from SequenceId.\r\n            If sequenceId not found in ENS system, Subscription Error with \"Sequence id unavailable\"\r\n            If not specified and FromDateTime is not specified, subscription will be real-time subscription."
+                },
+                {
+                  "disabled": false,
+                  "key": "TimeOnMargin",
+                  "value": "<string>",
+                  "description": "Time the client has been on margin.\r\n            If specified, margin activities with greater or equal to the time specified otherwise all activities."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDateTime",
+                  "value": "<dateTime>",
+                  "description": "If specified, activities ending ToDateTime will be returned/published."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f04b6c47-a66e-4554-8f70-418a1f21eaa7",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "18649353-7c02-4a3a-affe-3bc0d9486607"
+                    },
+                    {
+                      "key": "Activities",
+                      "value": "Positions"
+                    },
+                    {
+                      "key": "CANotificationTypes",
+                      "value": "Update"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "3bc254fa-7c84-40ed-8876-ec9886409356"
+                    },
+                    {
+                      "key": "Duration",
+                      "value": "FillOrKill"
+                    },
+                    {
+                      "key": "ExpirationDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ExchangeInfo"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "true"
+                    },
+                    {
+                      "key": "OrderStatuses",
+                      "value": "Cancelled"
+                    },
+                    {
+                      "key": "OrderTypes",
+                      "value": "TraspasoIn"
+                    },
+                    {
+                      "key": "PositionEventFilter",
+                      "value": "TradesOnly"
+                    },
+                    {
+                      "key": "SequenceId",
+                      "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b"
+                    },
+                    {
+                      "key": "TimeOnMargin",
+                      "value": "00:00:00.0000128"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Data\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fc0f1f2-8a43-400d-9dfa-98e13e0e72ae",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "18649353-7c02-4a3a-affe-3bc0d9486607"
+                    },
+                    {
+                      "key": "Activities",
+                      "value": "Positions"
+                    },
+                    {
+                      "key": "CANotificationTypes",
+                      "value": "Update"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "3bc254fa-7c84-40ed-8876-ec9886409356"
+                    },
+                    {
+                      "key": "Duration",
+                      "value": "FillOrKill"
+                    },
+                    {
+                      "key": "ExpirationDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ExchangeInfo"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "true"
+                    },
+                    {
+                      "key": "OrderStatuses",
+                      "value": "Cancelled"
+                    },
+                    {
+                      "key": "OrderTypes",
+                      "value": "TraspasoIn"
+                    },
+                    {
+                      "key": "PositionEventFilter",
+                      "value": "TradesOnly"
+                    },
+                    {
+                      "key": "SequenceId",
+                      "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b"
+                    },
+                    {
+                      "key": "TimeOnMargin",
+                      "value": "00:00:00.0000128"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"UnauthorizedAccountKey\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82bf12a5-83eb-461e-8501-2e6b6cb5deb5",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "18649353-7c02-4a3a-affe-3bc0d9486607"
+                    },
+                    {
+                      "key": "Activities",
+                      "value": "Positions"
+                    },
+                    {
+                      "key": "CANotificationTypes",
+                      "value": "Update"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "3bc254fa-7c84-40ed-8876-ec9886409356"
+                    },
+                    {
+                      "key": "Duration",
+                      "value": "FillOrKill"
+                    },
+                    {
+                      "key": "ExpirationDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ExchangeInfo"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "true"
+                    },
+                    {
+                      "key": "OrderStatuses",
+                      "value": "Cancelled"
+                    },
+                    {
+                      "key": "OrderTypes",
+                      "value": "TraspasoIn"
+                    },
+                    {
+                      "key": "PositionEventFilter",
+                      "value": "TradesOnly"
+                    },
+                    {
+                      "key": "SequenceId",
+                      "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b"
+                    },
+                    {
+                      "key": "TimeOnMargin",
+                      "value": "00:00:00.0000128"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f22f96c4-8852-4753-9062-e6f0e061c671",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "18649353-7c02-4a3a-affe-3bc0d9486607"
+                    },
+                    {
+                      "key": "Activities",
+                      "value": "Positions"
+                    },
+                    {
+                      "key": "CANotificationTypes",
+                      "value": "Update"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "3bc254fa-7c84-40ed-8876-ec9886409356"
+                    },
+                    {
+                      "key": "Duration",
+                      "value": "FillOrKill"
+                    },
+                    {
+                      "key": "ExpirationDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ExchangeInfo"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "true"
+                    },
+                    {
+                      "key": "OrderStatuses",
+                      "value": "Cancelled"
+                    },
+                    {
+                      "key": "OrderTypes",
+                      "value": "TraspasoIn"
+                    },
+                    {
+                      "key": "PositionEventFilter",
+                      "value": "TradesOnly"
+                    },
+                    {
+                      "key": "SequenceId",
+                      "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b"
+                    },
+                    {
+                      "key": "TimeOnMargin",
+                      "value": "00:00:00.0000128"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "70f0c6e4-b848-40e2-9336-86ad0381ea19",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "18649353-7c02-4a3a-affe-3bc0d9486607"
+                    },
+                    {
+                      "key": "Activities",
+                      "value": "Positions"
+                    },
+                    {
+                      "key": "CANotificationTypes",
+                      "value": "Update"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "3bc254fa-7c84-40ed-8876-ec9886409356"
+                    },
+                    {
+                      "key": "Duration",
+                      "value": "FillOrKill"
+                    },
+                    {
+                      "key": "ExpirationDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "ExchangeInfo"
+                    },
+                    {
+                      "key": "FromDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "true"
+                    },
+                    {
+                      "key": "OrderStatuses",
+                      "value": "Cancelled"
+                    },
+                    {
+                      "key": "OrderTypes",
+                      "value": "TraspasoIn"
+                    },
+                    {
+                      "key": "PositionEventFilter",
+                      "value": "TradesOnly"
+                    },
+                    {
+                      "key": "SequenceId",
+                      "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b"
+                    },
+                    {
+                      "key": "TimeOnMargin",
+                      "value": "00:00:00.0000128"
+                    },
+                    {
+                      "key": "ToDateTime",
+                      "value": "2022-04-11T12:45:29.7789990+00:00"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22fa0ba7-bf46-4046-baa3-04f7c0449c75",
+          "name": "Remove multiple subscriptions",
+          "request": {
+            "name": "Remove multiple subscriptions",
+            "description": {
+              "content": "Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ens",
+                "v1",
+                "activities",
+                "subscriptions",
+                ":ContextId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Tag",
+                  "value": "<string>",
+                  "description": "Optional. Remove only subscriptions that are marked with specified tag."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "80dfefaa-5490-4eac-85e6-35f412c13598",
+              "name": "Subscription delete request will be processed eventually.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4fa20ad4-8549-4eed-a4ca-5f6fe3f409f9",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b9e7329c-b747-4b43-b662-5a1a6df73dcf",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d1b1e98-8e48-4650-a8c5-dc25bfdbbb6f",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1e00ecdf-2d91-4384-af53-068c5162fda7",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5ad4e1c1-790d-4ae5-8c41-15b774dcd611",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Tag",
+                      "value": "PAGE2"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f43b580-470b-4a37-a2e3-d2325959b6ee",
+          "name": "Remove subscription",
+          "request": {
+            "name": "Remove subscription",
+            "description": {
+              "content": "Removes subscription for the current session identified by subscription id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ens",
+                "v1",
+                "activities",
+                "subscriptions",
+                ":ContextId",
+                ":ReferenceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) Unique streaming context ID part of the streaming session."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ReferenceId",
+                  "description": "(Required) Unique ID of the subscription"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0e44efc6-6ac6-4407-9ac3-a5696dcee45a",
+              "name": "Subscription delete request will be processed eventually.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5f5a63ac-16b1-4fb8-919a-e6386e3bd3b2",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7bcf798b-e353-4e26-b4e0-5f195390112d",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aef373e1-a4e7-493a-ae95-8a509032a8f1",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "abbd098b-1eee-4cb1-83c9-3accfe6c7929",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dd56e1d8-e26c-4f17-ba8a-01f86f6e25c0",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) Unique streaming context ID part of the streaming session."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique ID of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fcc3330b-e080-4580-b770-074b55632ddb",
+          "name": "Create a subscription for client events",
+          "request": {
+            "name": "Create a subscription for client events",
+            "description": {
+              "content": "Sets up an active subscription to listen client events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ens",
+                "v1",
+                "activities",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ContextId\": \"<string>\",\n  \"ReferenceId\": \"<string>\",\n  \"Arguments\": {\n    \"Activities\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"AccountGroupKey\": \"<string>\",\n    \"AccountKey\": \"<string>\",\n    \"ClientKey\": \"<string>\",\n    \"CorporateActionEventFilter\": {\n      \"CANotificationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"FieldGroups\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"FromDateTime\": \"<dateTime>\",\n    \"IncludeSubAccounts\": \"<boolean>\",\n    \"OrderEventFilter\": {\n      \"Duration\": {\n        \"DurationType\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ExpirationDate\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ExpirationDateContainsTime\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ExpirationDateTime\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"ExpiryTimeOnExchange\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"OrderStatuses\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"OrderTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"PositionEventFilter\": \"<string>\",\n    \"SequenceId\": \"<string>\",\n    \"TimeOnMargin\": \"<string>\",\n    \"ToDateTime\": \"<dateTime>\"\n  },\n  \"Format\": \"<string>\",\n  \"RefreshRate\": \"<integer>\",\n  \"ReplaceReferenceId\": \"<string>\",\n  \"Tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "87f1362b-5f9b-41f8-a3b3-e0b3473347fb",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ContextId\": \"Context_20221031081659111\",\n  \"InactivityTimeout\": 30,\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0,\n  \"Snapshot\": {\n    \"Data\": []\n  },\n  \"State\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1954ec72-26cc-4aa6-a5d7-441ef27ecb9d",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"SequenceIdUnavailable\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98767a96-5a15-412b-a41e-e6f250f9f952",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "639a4405-2474-4b74-a6fc-e6edb19d60b8",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"SubscriptionLimitExceeded\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2745f2c9-15bb-45f3-bfd1-dd85c239da86",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b64abf13-e8ad-4b93-b54e-87a6da6aadc0",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ens",
+                    "v1",
+                    "activities",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountGroupKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"AccountKey\": \"mroYddvgiGqqudzBPn8daA==\",\n    \"Activities\": [\n      \"AccountFundings\",\n      \"MarginCalls\",\n      \"Orders\",\n      \"Positions\"\n    ],\n    \"ClientKey\": \"URpoxLBgX2I33Af3IhCvHg==\",\n    \"FieldGroups\": [\n      \"DisplayAndFormat\",\n      \"ExchangeInfo\"\n    ],\n    \"FromDateTime\": \"2015-02-02T01:02:03Z\",\n    \"IncludeSubAccounts\": false,\n    \"SequenceId\": \"37456\"\n  },\n  \"ContextId\": \"Context_20221031081659106\",\n  \"ReferenceId\": \"M_344\",\n  \"RefreshRate\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b6353626-4cb5-4b88-9e24-b556b0e32eb9",
+    "name": "Services.AutoTrading Account Values Client Activities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

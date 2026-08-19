@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Exchanges API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exchanges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get details about a specific exchange",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/exchanges/:ExchangeId",
+            "params": [
+              {
+                "name": "ExchangeId",
+                "value": "LME",
+                "type": "path",
+                "description": "The ID of the exchange."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation retrieves detailed information about a specific exchange. The exchange is specified by the 'exchangeId' parameter in the URI."
+        },
+        {
+          "info": {
+            "name": "Get all exchanges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/exchanges",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation retrieves a list of exchanges with detailed information about each.\n            The response also contains links to other relevant data, such as their trade statuses."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

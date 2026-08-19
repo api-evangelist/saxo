@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values CashManagement - WireTransfers API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CashManagement - WireTransfers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get wiretransfer instructions for specified client and account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v2/cashmanagement/wiretransfers/instructions",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "yLmSmTV0XPMiq3W9gDPRuA==",
+                "type": "query",
+                "description": "Selected account key in which user will fund."
+              },
+              {
+                "name": "ClientKey",
+                "value": "yiQKxZINqbowdH|Dod3HKA==",
+                "type": "query",
+                "description": "Logged-in client key"
+              },
+              {
+                "name": "CurrencyCode",
+                "value": "DKK",
+                "type": "query",
+                "description": "Transaction currency."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the details of the instructions which a client must use to fund this account through wire transfer. The information depends on the client the account and the selected funding currency."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

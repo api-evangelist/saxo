@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Clients API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get details about clients under a particular owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/clients",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "OwnerKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "Unique key identifying the owner. This is the clientKey of the client under which the list of clients belongs. Default: Logged-in user's client."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint will return information for all clients under the specified owner as well as the owner itself."
+        },
+        {
+          "info": {
+            "name": "Enables IB to switch position netting mode(or netting profile) and change AccountValueProtectionLimit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/clients",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query",
+                "description": "clientKey of the client that to switch."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Enables IB to switch  position netting mode(or netting profile) and change account value protection limit on behalf of its clients."
+        },
+        {
+          "info": {
+            "name": "Get client details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/clients/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "path",
+                "description": "Unique key identifying the Client."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details about a client"
+        },
+        {
+          "info": {
+            "name": "Get logged in client details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/clients/me",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details about logged-in user's client"
+        },
+        {
+          "info": {
+            "name": "Enables user to switch position netting mode or netting profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/clients/me",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Enables user of the client to switch position netting mode or netting profile of its own."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

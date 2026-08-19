@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Subscriptions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove multiple active subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/root/v1/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "TAB9",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple subscriptions for the current session, and frees all resources on the server."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

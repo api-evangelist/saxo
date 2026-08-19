@@ -1,0 +1,386 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Instruments API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instruments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Trading schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments/tradingschedule/:Uic/:AssetType",
+            "params": [
+              {
+                "name": "AssetType",
+                "value": "FxSpot",
+                "type": "path",
+                "description": "The  of the instrument to get."
+              },
+              {
+                "name": "Uic",
+                "value": "22",
+                "type": "path",
+                "description": "The Universal Instrument Code (UIC) of the instrument to get."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns trading schedule for a given uic and asset type."
+        },
+        {
+          "info": {
+            "name": "Get contract futures space",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments/futuresspaces/:ContinuousFuturesUic",
+            "params": [
+              {
+                "name": "ContinuousFuturesUic",
+                "value": "28016",
+                "type": "path",
+                "description": "The UIC of the continuous futures instrument of the space."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Provides an overview of a contract futures space, with key futures-related properties for all instances in the futures space."
+        },
+        {
+          "info": {
+            "name": "Get option details and options space for specified option root",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments/contractoptionspaces/:OptionRootId",
+            "params": [
+              {
+                "name": "CanParticipateInMultiLegOrder",
+                "value": "",
+                "type": "query",
+                "description": "Should the result only include option roots that allow/disallow exchange traded option strategies, also know as multi-leg or combination orders. This is an optional parameter, all roots are returned regardless if omitted."
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ExpiryDates",
+                "value": "2107-06-16T00:00:00.0000000+00:00",
+                "type": "query",
+                "description": "Return specific information for the ExpiryDates in this array (if OptionSpaceSegment is set to 'SpecificDates')."
+              },
+              {
+                "name": "OptionRootId",
+                "value": "6",
+                "type": "path",
+                "description": "ID of the contract option root."
+              },
+              {
+                "name": "OptionSpaceSegment",
+                "value": "SpecificDates",
+                "type": "query",
+                "description": "How large a segment of the option space should return full contract option details (in the OptionsSpace[].SpecificOptions property). Default is None."
+              },
+              {
+                "name": "TradingStatus",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "UnderlyingUic",
+                "value": "1907570",
+                "type": "query",
+                "description": "The uic of the underlying instrument. This is an optional parameter (if OptionSpaceSegment is set to 'UnderlyingUic')."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Using the optionRoot as the \"key\" this resource lists common details about all contract options based on the same option root.\n            It further returns a subset, or the complete list, of all available expiration and strike prices which can be derived\n            from this root along with the uic needed to trade the specific Option."
+        },
+        {
+          "info": {
+            "name": "Get detailed information for a specific instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments/details/:Uic/:AssetType",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "AssetType",
+                "value": "FxSpot",
+                "type": "path",
+                "description": "The  of the instrument to get."
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "Popularity",
+                "type": "query",
+                "description": "Specifies comma-separated list of additional fields to receive."
+              },
+              {
+                "name": "Uic",
+                "value": "22",
+                "type": "path",
+                "description": "The Universal Instrument Code (UIC) of the instrument to get."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Use this operation to retrieve details for a specific instrument."
+        },
+        {
+          "info": {
+            "name": "Get detailed information for list of instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments/details",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "If specified, access permissions to instruments for the specified account will be evaluated. Optional."
+              },
+              {
+                "name": "AssetTypes",
+                "value": "FxKnockInOption",
+                "type": "query",
+                "description": "Comma separated list of one or more asset types to search for. E.g. AssetTypes=FxSpot,Stock"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "Popularity",
+                "type": "query",
+                "description": "Specifies comma-separated list of additional fields to receive."
+              },
+              {
+                "name": "Tags",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Allows filtering by display hint, on Stocks, ETFs and ETCs are currently supported.\n            Use null to indicate Tag should not be included in search criteria.\n            Currently only one tag is supported."
+              },
+              {
+                "name": "Uics",
+                "value": "99",
+                "type": "query",
+                "description": "Limit list to return information for the following Uics"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Use this operation to retrieve detailed information a list of instruments."
+        },
+        {
+          "info": {
+            "name": "Search for instruments or contract option roots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/instruments",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "If specified, access permissions to instruments for the specified account will be evaluated. Optional."
+              },
+              {
+                "name": "AssetTypes",
+                "value": "FxKnockInOption",
+                "type": "query",
+                "description": "Comma separated list of one or more asset types to search for. E.g. AssetTypes=FxSpot,Stock"
+              },
+              {
+                "name": "CanParticipateInMultiLegOrder",
+                "value": "true",
+                "type": "query",
+                "description": "Should the result only include option roots that allow/disallow exchange traded option strategies, also know as multi-leg or combination orders. All roots are returned regardless if omitted."
+              },
+              {
+                "name": "Class",
+                "value": "Complex",
+                "type": "query",
+                "description": "The class of the instruments to include in the search."
+              },
+              {
+                "name": "ExchangeId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "ID of the exchange that the instruments must match."
+              },
+              {
+                "name": "IncludeNonTradable",
+                "value": "true",
+                "type": "query",
+                "description": "Should the search include instruments, which are not online client tradable?"
+              },
+              {
+                "name": "Keywords",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Search for matching keywords in the instruments. Separate keywords with spaces."
+              },
+              {
+                "name": "OneMonthTotalValueChangesFrom",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Upper filter boundary for one month total value changes that the instruments must match."
+              },
+              {
+                "name": "OneMonthTotalValueChangesTo",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Lower filter boundary for one month total value changes that the instruments must match."
+              },
+              {
+                "name": "OneWeekTotalValueChangesFrom",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Upper filter boundary for one week total value changes that the instruments must match."
+              },
+              {
+                "name": "OneWeekTotalValueChangesTo",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Lower filter boundary for one week total value changes that the instruments must match."
+              },
+              {
+                "name": "OneYearTotalValueChangesFrom",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Upper filter boundary for one year total value changes that the instruments must match."
+              },
+              {
+                "name": "OneYearTotalValueChangesTo",
+                "value": "10",
+                "type": "query",
+                "description": "Subject to data license agreements.\n             Lower filter boundary for one year total value changes that the instruments must match."
+              },
+              {
+                "name": "Tags",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Allows filtering by display hint, on Stocks, ETFs and ETCs are currently supported.\n            Use null to indicate Tag should not be included in search criteria.\n            Currently only one tag is supported."
+              },
+              {
+                "name": "Uics",
+                "value": "99",
+                "type": "query",
+                "description": "Limit list to return information for the following Uics"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of summary information for all instruments and options on the Saxo Trading platform restricted by the access rights of the user.\n            \n\n            The resource serves as the starting point for an application/user who wants to navigate the available universe of instruments and options.\n            Each entry therefore contains further references to instrument details or option roots, where the application can get further information about these entities.\n\nThis endpoint supp"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

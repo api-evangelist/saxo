@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Historical Report Data - Portfolio Management API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Historical Report Data - Portfolio Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Portfolio report for the logged in user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cr/v1/reports/Portfolio/me/:FromDate/:ToDate",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account group id."
+              },
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account key."
+              },
+              {
+                "name": "FromDate",
+                "value": "2016-10-10",
+                "type": "path",
+                "description": "From date in UTC"
+              },
+              {
+                "name": "IncludeYTDInformation",
+                "value": "true",
+                "type": "query",
+                "description": "Include additional information about performance Year To Date."
+              },
+              {
+                "name": "OptionalReportSections",
+                "value": "Trasactions",
+                "type": "query",
+                "description": "Parameter specifing if any optional section is needed in the report"
+              },
+              {
+                "name": "ToDate",
+                "value": "2017-10-10",
+                "type": "path",
+                "description": "To date in UTC"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get Portfolio report for the logged in user.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n\r\nTo request a PDF format, please set the 'Accept' header on your request as follows:\r\n\r\n\r\n*   For PDF : application/pdf"
+        },
+        {
+          "info": {
+            "name": "Get Portfolio report for the accounts of a specified client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cr/v1/reports/Portfolio/:ClientKey/:FromDate/:ToDate",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account group id."
+              },
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account key."
+              },
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "path",
+                "description": "Unique id of the client."
+              },
+              {
+                "name": "FromDate",
+                "value": "2016-10-10",
+                "type": "path",
+                "description": "From date in UTC"
+              },
+              {
+                "name": "IncludeYTDInformation",
+                "value": "true",
+                "type": "query",
+                "description": "Include additional information about performance Year To Date."
+              },
+              {
+                "name": "OptionalReportSections",
+                "value": "Trasactions",
+                "type": "query",
+                "description": "Whether any optional section is needed in the report"
+              },
+              {
+                "name": "ToDate",
+                "value": "2017-10-10",
+                "type": "path",
+                "description": "To date in UTC"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get Portfolio report for the accounts of a specified client.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n\r\nTo request a PDF format, please set the 'Accept' header on your request as follows:\r\n\r\n\r\n*   For PDF : application/pdf"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

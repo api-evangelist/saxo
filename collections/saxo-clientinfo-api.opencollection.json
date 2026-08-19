@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values ClientInfo API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ClientInfo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search all child counterparts based on ownerId",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v2/clientinfo/clients/search",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Search all child counterparts based on the values provided in the search criteria. If only Keywords field is provided,\n             it will search clients having AccountId Or ClientId Or ClientName Or UserId Or UserName field values.\n             If AccountId, AccountKey, ClientId, ClientKey fields are provided, the lookup will be for an exact match of these values with AND operator.\n             To get Accounts, Users info in the response, specify \"Accounts\", \"Users\" in the FieldGroups list res"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

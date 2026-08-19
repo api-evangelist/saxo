@@ -1,0 +1,207 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Allocation Keys API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Allocation Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get distributed amount for a given allocation key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/allocationkeys/distributions/:AllocationKeyId",
+            "params": [
+              {
+                "name": "AllocationKeyId",
+                "value": "227",
+                "type": "path",
+                "description": "Allocation key id"
+              },
+              {
+                "name": "AssetType",
+                "value": "",
+                "type": "query",
+                "description": "Asset type. Optional, must be used in conjunction with"
+              },
+              {
+                "name": "Totalamount",
+                "value": "22",
+                "type": "query",
+                "description": "Total amount to distribute between accounts associated with the allocationKey"
+              },
+              {
+                "name": "Uic",
+                "value": "",
+                "type": "query",
+                "description": "Unique instrument identification. Optional, must be used in conjunction with"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve distributed amount for the given allocation key."
+        },
+        {
+          "info": {
+            "name": "Get detailed information about an allocation key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/allocationkeys/:AllocationKeyId",
+            "params": [
+              {
+                "name": "AllocationKeyId",
+                "value": "227",
+                "type": "path",
+                "description": "allocation key ID"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get detailed information about an allocation key."
+        },
+        {
+          "info": {
+            "name": "Delete allocation key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/allocationkeys/:AllocationKeyId",
+            "params": [
+              {
+                "name": "AllocationKeyId",
+                "value": "227",
+                "type": "path",
+                "description": "allocation key ID"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes an allocation key."
+        },
+        {
+          "info": {
+            "name": "Get a list of existing allocation keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/allocationkeys",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountKey",
+                "value": "ValidAccountKey",
+                "type": "query",
+                "description": "Optional account key to filter out allocation keys."
+              },
+              {
+                "name": "ClientKey",
+                "value": "ValidClientKey",
+                "type": "query",
+                "description": "Client key for which allocation keys are to be returned."
+              },
+              {
+                "name": "IncludeSubClients",
+                "value": "true",
+                "type": "query",
+                "description": "To indicate whether to include allocation keys for sub clients. Default is true."
+              },
+              {
+                "name": "Statuses",
+                "value": "Active,OneTime",
+                "type": "query",
+                "description": "Comma separated list of statuses for keys to include. Default is \"Active\"."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a list of existing allocation keys. By default only Active allocation keys for current client are returned."
+        },
+        {
+          "info": {
+            "name": "Create an allocation key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/allocationkeys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create an allocation key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

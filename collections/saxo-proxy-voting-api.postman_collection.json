@@ -1,0 +1,503 @@
+{
+  "item": [
+    {
+      "id": "e6546797-482c-452f-9912-deeceeb48cec",
+      "name": "Proxy Voting",
+      "description": {
+        "content": "Get proxy voting events or subscribe for proxy voting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd8cfee5-da25-43d4-a582-e2dd2d6605d3",
+          "name": "Proxy Voting Get Proxy Voting Events Async",
+          "request": {
+            "name": "Proxy Voting Get Proxy Voting Events Async",
+            "description": {
+              "content": "Get proxy voting events for client. Requires separate license.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v1",
+                "proxyvoting",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "50",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) Client identifier to get events for"
+                },
+                {
+                  "disabled": false,
+                  "key": "SortColumn",
+                  "value": "<string>",
+                  "description": "Specify a column to sort on. Default sorting on records is descending by ReceivedDate and ascending by IssuerName."
+                },
+                {
+                  "disabled": false,
+                  "key": "SortType",
+                  "value": "<string>",
+                  "description": "Specify ascending or descending sort. Default sort type will be Ascending."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "dc310222-f482-4766-875f-a185cd3cfd1a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__count\": 1,\n  \"Data\": [\n    {\n      \"AccountId\": \"384930295\",\n      \"ActionUrl\": \"http://....\",\n      \"Cins\": \"A08010AA5\",\n      \"Cusip\": \"123456789\",\n      \"CutoffDate\": \"2020-06-30\",\n      \"DeliveryType\": {\n        \"Code\": \"ED\",\n        \"Description\": \"Sent via email\"\n      },\n      \"IsinCode\": \"US0978731104\",\n      \"IssuerName\": \"American International Group, Inc.\",\n      \"JobNumber\": \"S75596\",\n      \"Materials\": [\n        {\n          \"MaterialType\": {\n            \"Code\": \"10K\",\n            \"Description\": \"10-K Report\"\n          },\n          \"Url\": \"http://....\"\n        }\n      ],\n      \"ReceivedDate\": \"2020-06-15\",\n      \"Status\": {\n        \"Code\": \"VW\",\n        \"Description\": \"Viewed\"\n      },\n      \"StatusDate\": \"2020-06-30\",\n      \"Subtype\": {\n        \"Code\": \"S\",\n        \"Description\": \"Special meeting\"\n      },\n      \"Type\": {\n        \"Code\": \"PX\",\n        \"Description\": \"Proxy\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd35a527-ef45-42a4-bfd5-bd54ed4d4d25",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d33fa4fc-392f-456a-8d86-2fcee076786d",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6f5f0b12-570c-41fe-b010-6c52498fb8f5",
+              "name": "User is not authorized to access the requested data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "07313989-294e-49e9-8985-bd29660067fc",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f8b1381b-9d0a-4c9c-8718-6e3bfe34c4d0",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v1",
+                    "proxyvoting",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "W-CgwnsUEpETkiR8MPJalA=="
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3030ed04-1843-45ae-8e83-5e18d3893e4f",
+    "name": "Services.AutoTrading Account Values Proxy Voting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

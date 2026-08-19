@@ -1,0 +1,461 @@
+{
+  "item": [
+    {
+      "id": "e64f8511-e609-4fae-9002-9e9975960956",
+      "name": "CashManagement - Cash Withdrawal",
+      "description": {
+        "content": "This endpoint provides the functionality necessary to allow a client to withdraw money from his account",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "030d3fc2-d14e-45b3-b21b-8204899de02c",
+          "name": "Submit Cash Withdrawal Request",
+          "request": {
+            "name": "Submit Cash Withdrawal Request",
+            "description": {
+              "content": "Allow client to do cash transfers by giving account key, amount, beneficiary instruction Id, currency and optionally sending “message to beneficiary” with a character limit of 140.\n             \nNote:\n\nIf withdrawal request is created, service will return \"201 Created\" with cut exchange rate &amp; withdrawal request Id in response.\n\nIf withdrawal request is rejected, the service will return bad request with reason for failure of transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "atr",
+                "v1",
+                "cashmanagement",
+                "withdrawals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"<string>\",\n  \"Amount\": \"<number>\",\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "22a2fba7-5854-4eee-80ca-0f99a3ca6799",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "69688111-28f8-4944-a2f7-c9ed96af707a",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"CutExchangeRate\": 1,\n  \"WithdrawalRequestId\": \"2425\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8742b54-685e-4a35-b934-8cf9bd7c2dc5",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"ClientAccessDenied\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b108c6a7-7f7b-42d0-89fe-668e25fc40e5",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "10e70a1f-def5-4e8f-9761-57e9c2725a26",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"TrialClientNotSupported\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62e47da5-0fd3-43f1-835c-8f95ba8070a4",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "79a8681b-8934-45b0-a72d-0e9d27f117f6",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "atr",
+                    "v1",
+                    "cashmanagement",
+                    "withdrawals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"AccountKey\": \"<string>\",\n  \"BeneficiaryInstructionId\": \"stringValue\",\n  \"Amount\": 10,\n  \"Currency\": \"<string>\",\n  \"MessageToBeneficiary\": \"stringValue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7e779796-406d-4942-986d-3746f35d12ae",
+    "name": "Services.AutoTrading Account Values CashManagement - Cash Withdrawal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

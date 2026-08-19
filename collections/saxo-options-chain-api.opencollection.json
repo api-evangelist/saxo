@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Options Chain API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Options Chain",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Reset an options chain subscription \"At The Money\"",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions/:ContextId/:ReferenceId/ResetATM",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "0f8fad5b-d9cb-469f-a165-70867728950e",
+                "type": "path",
+                "description": "Unique id of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Resets subscription for the current session identified by contextId and referenceId, to show strikes \"at the money\" for \n            all the previously configured expiries. This method will not change the number of strikes, or which expires are subscribed to."
+        },
+        {
+          "info": {
+            "name": "Modify an existing options chain subscription. This replaces the obsolete version subscriptions/active/{contextId}/{referenceId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ReferenceId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modifies an existing subscription. This is used for scrolling the options board, by providing either another set of expiries, \n            or specifying another set of strikes to subscribe to. \n            For changing to another instrument, it is recommended to create a new subscription and discard the old."
+        },
+        {
+          "info": {
+            "name": "Remove an options chain subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "0f8fad5b-d9cb-469f-a165-70867728950e",
+                "type": "path",
+                "description": "Unique id of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by contextId and referenceId."
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Modify an existing options chain subscription. This endpoint is obsolete. Use subscriptions/{contextId}/{referenceId}.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions/active/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "ReferenceId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modifies an existing subscription. This is used for scrolling the options board, by providing either another set of expiries, \n            or specifying another set of strikes to subscribe to. \n            For changing to another instrument, it is recommended to create a new subscription and discard the old."
+        },
+        {
+          "info": {
+            "name": "Create an active options chain subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of the options chain specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Create an active options chain subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/optionschain/subscriptions/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of the options chain specified by the parameters in the request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

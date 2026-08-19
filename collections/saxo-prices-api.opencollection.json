@@ -1,0 +1,293 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Prices API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove a multi-leg price subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/multileg/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "TP340",
+                "type": "path",
+                "description": "Unique reference ID of the subscription."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes an multi-leg price subscription for the current session."
+        },
+        {
+          "info": {
+            "name": "Remove a multi-leg price subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/multileg/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "2345223",
+                "type": "query",
+                "description": "Optional.Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes a multi-leg price subscriptions for the current session. \n            If the optional tag argument is supplied then only subscriptions with given tag will be removed."
+        },
+        {
+          "info": {
+            "name": "Create a price subscription on a multi-leg strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/multileg/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up an active price subscription on a multi-leg strategy and returns an initial snapshot of the most recent price."
+        },
+        {
+          "info": {
+            "name": "Get a price snapshot for a multi-leg strategy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/multileg",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets a single price snapshot for a multi-leg strategy using the specified parameters."
+        },
+        {
+          "info": {
+            "name": "Remove multiple instrument price subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "2345223",
+                "type": "query",
+                "description": "Optional.Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple instrument price subscriptions for the current session. \n            If the optional tag argument is supplied then only subscriptions with given tag will be removed."
+        },
+        {
+          "info": {
+            "name": "Request margin impact on one price update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/subscriptions/:ContextId/:ReferenceId/MarginImpact",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Context for the streaming connection."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "TP340",
+                "type": "path",
+                "description": "Unique id of the subscription."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Request margin impact to come on one of the next following price updates.\n\n\nThis will make a margin impact calculation, and send the result in the next possible price update, however only one impact calculation will be done per call."
+        },
+        {
+          "info": {
+            "name": "Remove an instrument price subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "TP340",
+                "type": "path",
+                "description": "Unique reference ID of the subscription."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes an instrument price subscription for the current session."
+        },
+        {
+          "info": {
+            "name": "Create a price subscription on an instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up an active price subscription on an instrument and returns an initial snapshot of the most recent price."
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Create an active price subscription on an instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/prices/subscriptions/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up an active price subscription on an instrument and returns an initial snapshot of the most recent price."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

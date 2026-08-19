@@ -1,0 +1,231 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Performance API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Performance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Performance Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v4/performance/summary",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "",
+                "type": "query",
+                "description": "The account group key."
+              },
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query",
+                "description": "The account key."
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query",
+                "description": "The client key."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "The field groups."
+              },
+              {
+                "name": "FromDate",
+                "value": "",
+                "type": "query",
+                "description": "From date."
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "The mock data identifier."
+              },
+              {
+                "name": "StandardPeriod",
+                "value": "",
+                "type": "query",
+                "description": "The standard period."
+              },
+              {
+                "name": "ToDate",
+                "value": "",
+                "type": "query",
+                "description": "To date."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a summary containing aggregated trade results and related performance metrics of the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics."
+        },
+        {
+          "info": {
+            "name": "Performance Timeseries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v4/performance/timeseries",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "",
+                "type": "query",
+                "description": "The account group key."
+              },
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query",
+                "description": "The account key."
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "query",
+                "description": "The client key."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "The field groups."
+              },
+              {
+                "name": "FromDate",
+                "value": "",
+                "type": "query",
+                "description": "From date."
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "The mock data identifier."
+              },
+              {
+                "name": "StandardPeriod",
+                "value": "",
+                "type": "query",
+                "description": "The standard period."
+              },
+              {
+                "name": "ToDate",
+                "value": "",
+                "type": "query",
+                "description": "To date."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns timeseries containing performance metrics for the requesting entity, within the specified period.\n            ClientKey and either StandardPeriod or FromDate/ToDate are required fields, and we encourage the use of FieldGroups to return only the required metrics."
+        },
+        {
+          "info": {
+            "name": "Get account performance.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v3/perf/:ClientKey",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "",
+                "type": "query",
+                "description": "Id of the account containing the historical positions."
+              },
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query",
+                "description": "Id of the account containing the historical positions."
+              },
+              {
+                "name": "ClientKey",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client owning the account"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Specifies which data to return. Default is"
+              },
+              {
+                "name": "FromDate",
+                "value": "",
+                "type": "query",
+                "description": "From date from which the historical positions are requested."
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "Optional Mock Data Parameter"
+              },
+              {
+                "name": "StandardPeriod",
+                "value": "",
+                "type": "query",
+                "description": "Standard period for account performance."
+              },
+              {
+                "name": "ToDate",
+                "value": "",
+                "type": "query",
+                "description": "To date till which the historical positions are requested."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a collection of performance metrics for a specific account. The account performance returns \n            confidencial information that is only allowed to be viewed by the account owner / owners.\n            The required fields are ClientKey and either StandardPeriod or FromDate/ToDate."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

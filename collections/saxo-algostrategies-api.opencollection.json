@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values AlgoStrategies API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AlgoStrategies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get details about a specific strategy.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/algostrategies/:Name",
+            "params": [
+              {
+                "name": "Name",
+                "value": "LME",
+                "type": "path",
+                "description": "The name of the Strategy."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation retrieves detailed information about a specific Strategy. The Strategy is specified by the 'name' parameter in the URI."
+        },
+        {
+          "info": {
+            "name": "Get all strategies supported by Saxo Bank.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ref/v1/algostrategies",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation retrieves a list of strategies with detailed information about each strategy.\n            The response also contains links to other relevant data, such as their parameters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

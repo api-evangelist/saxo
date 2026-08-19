@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Historical Report Data - Trades Executed API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Historical Report Data - Trades Executed",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Trades Executed report for the accounts of a specified client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cr/v1/reports/TradesExecuted/:ClientKey",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account group id."
+              },
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "The account key."
+              },
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "path",
+                "description": "Unique id of the client."
+              },
+              {
+                "name": "FromDate",
+                "value": "2016-10-10",
+                "type": "query",
+                "description": "Include TradesExecuted from this date. By default returns the previous date report."
+              },
+              {
+                "name": "ToDate",
+                "value": "2017-10-10",
+                "type": "query",
+                "description": "Include TradesExecuted till this date. By default returns the previous date report."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get Trades Executed report for the accounts of a specified client.\r\n            \r\nThis report is available in the following formats:\r\n\r\n\r\n*   PDF\r\n*   Excel\r\n\r\nTo request a specific format, please set the 'Accept' header on your request to one of the following:\r\n\r\n\r\n*   For PDF : application/pdf\r\n*   For Excel : application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

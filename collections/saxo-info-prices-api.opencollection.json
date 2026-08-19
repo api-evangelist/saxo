@@ -1,0 +1,394 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Info Prices API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Info Prices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove info price subscription on an instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "IP24",
+                "type": "path",
+                "description": "Unique reference ID of the subscription to remove."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes an info price subscription on a single instrument."
+        },
+        {
+          "info": {
+            "name": "Remove info price subscriptions on instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "20160204125301453",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "IP",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes info price subscriptions on one or more instruments for the current session."
+        },
+        {
+          "info": {
+            "name": "Create an active info price subscription on an list of instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of an info  price list specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "OBSOLETE Create an active info price subscription on an list of instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices/subscriptions/active",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial info price snapshot for a list of instruments, specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get info prices for a list of instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices/list",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "Unique key identifying the account used in retrieving the infoprice.\n                Only required when calling context represents an authenticated user.\n                If not supplied a default account is assumed."
+              },
+              {
+                "name": "Amount",
+                "value": "10",
+                "type": "query",
+                "description": "Order size, defaults to minimal order size for given instrument."
+              },
+              {
+                "name": "AmountType",
+                "value": "CashAmount",
+                "type": "query"
+              },
+              {
+                "name": "AssetType",
+                "value": "FxKnockOutOption",
+                "type": "query",
+                "description": "The instrument's asset type"
+              },
+              {
+                "name": "ExpiryDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Optional expiry date - only relevant for options"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "Commissions",
+                "type": "query",
+                "description": "Specification of field groups to return in results. Default is \"Quote\""
+              },
+              {
+                "name": "ForwardDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date"
+              },
+              {
+                "name": "ForwardDateFarLeg",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date for far leg"
+              },
+              {
+                "name": "ForwardDateNearLeg",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date for near leg"
+              },
+              {
+                "name": "LowerBarrier",
+                "value": "10",
+                "type": "query",
+                "description": "Lower barrier"
+              },
+              {
+                "name": "OrderAskPrice",
+                "value": "10",
+                "type": "query",
+                "description": "Order ask price. When specified, a corresponding cost of buying will be calculated for that price; otherwise the current market ask price will be used."
+              },
+              {
+                "name": "OrderBidPrice",
+                "value": "10",
+                "type": "query",
+                "description": "Order bid price. When specified, a corresponding cost of selling will be calculated for that price; otherwise the current market bid price will be used."
+              },
+              {
+                "name": "PutCall",
+                "value": "None",
+                "type": "query",
+                "description": "Put/call"
+              },
+              {
+                "name": "QuoteCurrency",
+                "value": "true",
+                "type": "query"
+              },
+              {
+                "name": "StrikePrice",
+                "value": "10",
+                "type": "query",
+                "description": "Strike price"
+              },
+              {
+                "name": "ToOpenClose",
+                "value": "ToOpen",
+                "type": "query"
+              },
+              {
+                "name": "Uics",
+                "value": "stringValue",
+                "type": "query",
+                "description": "A comma separated list of Uics."
+              },
+              {
+                "name": "UpperBarrier",
+                "value": "10",
+                "type": "query",
+                "description": "Upper barrier"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a list of info prices for a list of instruments using the specified parameters."
+        },
+        {
+          "info": {
+            "name": "Get an info price for a specific instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/infoprices",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "Unique key identifying the account used in retrieving the price.\n                Only required when calling context represents an authenticated user."
+              },
+              {
+                "name": "Amount",
+                "value": "10",
+                "type": "query",
+                "description": "Order size, defaults to minimal order size for given instrument."
+              },
+              {
+                "name": "AmountType",
+                "value": "CashAmount",
+                "type": "query"
+              },
+              {
+                "name": "AssetType",
+                "value": "FxKnockOutOption",
+                "type": "query",
+                "description": "The instrument's asset type"
+              },
+              {
+                "name": "ExpiryDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Optional expiry date - only relevant for options"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "Commissions",
+                "type": "query",
+                "description": "Specification of fields to return in results"
+              },
+              {
+                "name": "ForwardDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date"
+              },
+              {
+                "name": "ForwardDateFarLeg",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date for far leg"
+              },
+              {
+                "name": "ForwardDateNearLeg",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Forward date for near leg"
+              },
+              {
+                "name": "LowerBarrier",
+                "value": "10",
+                "type": "query",
+                "description": "Lower barrier"
+              },
+              {
+                "name": "OrderAskPrice",
+                "value": "10",
+                "type": "query",
+                "description": "Price when buying. Used when subscribing on a price to get a corresponsing cost of buying."
+              },
+              {
+                "name": "OrderBidPrice",
+                "value": "10",
+                "type": "query",
+                "description": "Price when selling. Used when subscribing on a price to get a corresponsing cost of buying."
+              },
+              {
+                "name": "PutCall",
+                "value": "None",
+                "type": "query",
+                "description": "Put/call of an Option."
+              },
+              {
+                "name": "QuoteCurrency",
+                "value": "true",
+                "type": "query"
+              },
+              {
+                "name": "StrikePrice",
+                "value": "10",
+                "type": "query",
+                "description": "Strike price"
+              },
+              {
+                "name": "ToOpenClose",
+                "value": "ToOpen",
+                "type": "query"
+              },
+              {
+                "name": "Uic",
+                "value": "99",
+                "type": "query",
+                "description": "Unique id of the instrument"
+              },
+              {
+                "name": "UpperBarrier",
+                "value": "10",
+                "type": "query",
+                "description": "Upper barrier"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets an info price for an instrument using the specified parameters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

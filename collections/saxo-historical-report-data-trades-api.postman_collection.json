@@ -1,0 +1,598 @@
+{
+  "item": [
+    {
+      "id": "17031cb8-e48e-4269-b9d3-ab9c3b7894d1",
+      "name": "Historical Report Data - Trades",
+      "description": {
+        "content": "Trades Report Data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5975937e-d84f-4ade-9ed7-701aed181956",
+          "name": "Trades Get Details Async",
+          "request": {
+            "name": "Trades Get Details Async",
+            "description": {
+              "content": "Gets all trades for dates or tradeId.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "reports",
+                "trades",
+                ":ClientKey"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$skiptoken",
+                  "value": "<string>",
+                  "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "0",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The key of the account to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDate",
+                  "value": "<date>",
+                  "description": "from date in UTC, ignored when tradeId is given"
+                },
+                {
+                  "disabled": false,
+                  "key": "MockDataId",
+                  "value": "<string>",
+                  "description": "Optional Mock Data Parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDate",
+                  "value": "<date>",
+                  "description": "to date in UTC, ignored when tradeId is given"
+                },
+                {
+                  "disabled": false,
+                  "key": "TradeId",
+                  "value": "<string>",
+                  "description": "trade id, accountkey is mandatory with tradeId"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ClientKey",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "da23850f-fa5f-4005-813b-dbf036b602d8",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "trades",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "2016-10-10"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "2017-10-10"
+                    },
+                    {
+                      "key": "TradeId",
+                      "value": "293832"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__next\": \"/openapi/....../?$top=1&$skip=1\",\n  \"Data\": [\n    {\n      \"AccountCurrency\": \"AUD\",\n      \"AccountCurrencyDecimals\": 0,\n      \"AccountId\": \"148455INET\",\n      \"AdjustedTradeDate\": \"2010-10-10\",\n      \"Amount\": -100000,\n      \"AssetType\": \"FxSpot\",\n      \"ClientCurrency\": \"AUD\",\n      \"Direction\": \"None\",\n      \"ExchangeDescription\": \"Inter Bank\",\n      \"InitialMargin\": 0,\n      \"InstrumentCurrencyDecimal\": 2,\n      \"InstrumentDescription\": \"Australian Dollar/US Dollar\",\n      \"InstrumentSectorName\": \"Major\",\n      \"InstrumentSectorTypeId\": 2,\n      \"InstrumentSymbol\": \"AUDUSD\",\n      \"MaintenanceMargin\": 0,\n      \"OrderId\": \"735126300\",\n      \"Price\": 0.73356,\n      \"RootInstrumentSectorName\": \"FX\",\n      \"RootInstrumentSectorTypeId\": 1,\n      \"Strike\": 0,\n      \"ToOpenOrClose\": \"ToClose\",\n      \"TradeBarrierEventStatus\": false,\n      \"TradeDate\": \"2015-10-12\",\n      \"TradedValue\": 73356,\n      \"TradeEventType\": \"Sold\",\n      \"TradeExecutionTime\": \"2015-10-12T04:26:47Z\",\n      \"TradeId\": \"861198960\",\n      \"TradeType\": \"Market\",\n      \"Uic\": 4,\n      \"UnderlyingInstrumentDescription\": \"Australian Dollar/US Dollar\",\n      \"UnderlyingInstrumentSymbol\": \"AUDUSD\",\n      \"ValueDate\": \"2015-10-14\",\n      \"Venue\": \"OTC\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "128eec44-849e-4939-8f3d-7d73533a1bf3",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "trades",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "2016-10-10"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "2017-10-10"
+                    },
+                    {
+                      "key": "TradeId",
+                      "value": "293832"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"BadRequestError\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0c54a25-96ec-42d3-9fd5-ebbd9cbfaafe",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "trades",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "2016-10-10"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "2017-10-10"
+                    },
+                    {
+                      "key": "TradeId",
+                      "value": "293832"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "44262b95-095f-4bd1-934b-726d1d24d131",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "trades",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "2016-10-10"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "2017-10-10"
+                    },
+                    {
+                      "key": "TradeId",
+                      "value": "293832"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f58e497e-8e1e-4cd5-9568-f2bf20ddbca9",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "reports",
+                    "trades",
+                    ":ClientKey"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$skiptoken",
+                      "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "stringValue"
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "01b64edf-da03-4145-bf33-ae21527d4c86"
+                    },
+                    {
+                      "key": "FromDate",
+                      "value": "2016-10-10"
+                    },
+                    {
+                      "key": "MockDataId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ToDate",
+                      "value": "2017-10-10"
+                    },
+                    {
+                      "key": "TradeId",
+                      "value": "293832"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ClientKey",
+                      "description": "(Required) The key of the client to which the resource belongs."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "53f02864-1c54-4ca0-90bd-918578c6fe56",
+    "name": "Services.AutoTrading Account Values Historical Report Data - Trades API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

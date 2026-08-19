@@ -1,0 +1,407 @@
+{
+  "item": [
+    {
+      "id": "ccb897dc-36d2-4485-9019-1ad829ddf866",
+      "name": "CashManagement - Inter Account Transfer",
+      "description": {
+        "content": "This endpoint provides the functionality necessary for a client to transfer money between different accounts all belonging to the same client.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "89555b97-1cd3-41c0-9c64-9134f0426416",
+          "name": "Inter Account Transfer Transfer",
+          "request": {
+            "name": "Inter Account Transfer Transfer",
+            "description": {
+              "content": "Interaccount transfer",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v2",
+                "cashmanagement",
+                "interaccounttransfers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"FromAccountKey\": \"<string>\",\n  \"ToAccountKey\": \"<string>\",\n  \"Amount\": \"<number>\",\n  \"Currency\": \"<string>\",\n  \"WithdrawalReasonId\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d3c8813-9fe4-4f30-9b6b-efa205b64ed4",
+              "name": "Indicates that the transfer was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54dc2163-4783-49e8-a38d-6f8b301e2a19",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Commission\": 0,\n  \"FromAccountAmount\": 9.0776625,\n  \"FromAccountCurrency\": \"USD\",\n  \"ToAccountAmount\": 1000,\n  \"ToAccountCurrency\": \"JPY\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca3fd3c5-ef6d-442d-9e01-09ccde5abf40",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4124700b-9493-41ad-95e8-be9e4e9a2a5e",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f8979b72-267a-462d-8141-19c0e54e9e44",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d9d5998e-b76f-45a9-a6b0-4ef9a316ea1e",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v2",
+                    "cashmanagement",
+                    "interaccounttransfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Amount\": 1000,\n  \"Currency\": \"JPY\",\n  \"FromAccountKey\": \"-gh-xomNFSNUYdRL0KrPpg==\",\n  \"ToAccountKey\": \"y3kFQWkqJYMgOgaxcoqshA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b96f8246-4a23-4bd0-b456-41ec9414a72d",
+    "name": "Services.AutoTrading Account Values CashManagement - Inter Account Transfer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

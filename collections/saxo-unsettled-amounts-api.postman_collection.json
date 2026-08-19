@@ -1,0 +1,1908 @@
+{
+  "item": [
+    {
+      "id": "4f130487-6387-40b5-a377-567fef3416cd",
+      "name": "Unsettled Amounts",
+      "description": {
+        "content": "This resource provides access to various data-granularities of unsettled amounts of the requesting entity.\n            The endpoints each provide a subset of the amounts structured in the hiearchy: Exchange - Currency - Amount Type - Instrument\n            Read the [learn section](/openapi/learn/unsettled-amounts), or view each endpoint, for more details.\n            NOTE: This is a BETA version. It is currently only made available to select partners.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "75470556-489b-422e-bded-4f0d70047e82",
+          "name": "Exchange Breakdown: Owed by Currency and Amount Type",
+          "request": {
+            "name": "Exchange Breakdown: Owed by Currency and Amount Type",
+            "description": {
+              "content": "For a specific Exchange Identifier, gets unsettled amounts for each currency and each underlying amount type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v1",
+                "unsettledamounts",
+                "exchanges",
+                ":ExchangeId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The keys of the accounts to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AmountTypeSource",
+                  "value": "<string>",
+                  "description": "Specifies the response data granularity, providing access to source of AmountType."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ExchangeId",
+                  "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "72b0ccf9-3c1e-4225-950a-187172f27086",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"CashFlows\": [\n    {\n      \"Amount\": -0.57,\n      \"ValueDate\": \"2022-11-04\"\n    }\n  ],\n  \"Currencies\": [\n    {\n      \"CashFlows\": [\n        {\n          \"Amount\": -0.57,\n          \"ValueDate\": \"2022-11-04\"\n        }\n      ],\n      \"Currency\": \"DKK\",\n      \"Total\": -0.57\n    }\n  ],\n  \"Currency\": \"DKK\",\n  \"ExchangeId\": \"NYSE\",\n  \"Total\": -0.57\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e32ed45d-6c83-4696-ac97-dbfb07d97da0",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac8374a2-5381-4b00-9de7-6ff8fb160988",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "67de019b-1192-47ac-90db-ef7d33f5cc47",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "555b7e06-b940-4571-a055-8de9cbb1a4c3",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8a4ad9f5-66c7-4f91-bd81-884c65deb3fa",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges",
+                    ":ExchangeId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ExchangeId",
+                      "description": "(Required) The exchange identifier for which value dated amounts is requested. If no exchange is associated to those amounts, use \"NoExchange\" as the value."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e10ef5d4-05ca-44e0-a164-8d6ba9a5b532",
+          "name": "Exchange Breakdown: Owed by Exchange and Currency",
+          "request": {
+            "name": "Exchange Breakdown: Owed by Exchange and Currency",
+            "description": {
+              "content": "Gets unsettled amounts grouped by exchange, for each currency owed by (or to) the requester.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v1",
+                "unsettledamounts",
+                "exchanges"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The keys of the accounts to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AmountTypeSource",
+                  "value": "<string>",
+                  "description": "Specifies the response data granularity, providing access to source of AmountType."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0dfbb622-af16-4e81-ba11-4864adcabc0a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"CashFlows\": [\n    {\n      \"Amount\": -0.57,\n      \"ValueDate\": \"2022-11-04\"\n    },\n    {\n      \"Amount\": -15.40352205,\n      \"ValueDate\": \"2022-11-14\"\n    }\n  ],\n  \"Currency\": \"DKK\",\n  \"Exchanges\": [\n    {\n      \"CashFlows\": [\n        {\n          \"Amount\": -0.57,\n          \"ValueDate\": \"2022-11-04\"\n        }\n      ],\n      \"Currencies\": [\n        {\n          \"CashFlows\": [\n            {\n              \"Amount\": -0.57,\n              \"ValueDate\": \"2022-11-04\"\n            }\n          ],\n          \"Currency\": \"DKK\",\n          \"Total\": -0.57\n        }\n      ],\n      \"Currency\": \"DKK\",\n      \"ExchangeId\": \"NYSE\",\n      \"Total\": -0.57\n    },\n    {\n      \"CashFlows\": [\n        {\n          \"Amount\": -15.40352205,\n          \"ValueDate\": \"2022-11-14\"\n        }\n      ],\n      \"Currencies\": [\n        {\n          \"CashFlows\": [\n            {\n              \"Amount\": -15.40352205,\n              \"ValueDate\": \"2022-11-14\"\n            }\n          ],\n          \"Currency\": \"EUR\",\n          \"Total\": -2.07\n        }\n      ],\n      \"Currency\": \"EUR\",\n      \"ExchangeId\": \"NoExchange\",\n      \"Total\": -15.40352205\n    }\n  ],\n  \"Total\": -15.97352205\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16db8511-de88-421c-ac5b-b3b77e129d0f",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4a899ae-bb5c-4ce5-900e-d09e05f761bf",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "efd89f12-ad5e-4987-996a-7bea308f4bd1",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2173ad4a-8eb8-4251-ab6a-31d998d88794",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3d41328e-2936-4280-aafe-20564ba041bd",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3221c541-d6a2-4543-b068-19c090dca2f7",
+          "name": "Currency Breakdown: Owed by Instrument",
+          "request": {
+            "name": "Currency Breakdown: Owed by Instrument",
+            "description": {
+              "content": "For a specific Currency and AmountTypeId, gets unsettled amounts owed by (or to) the requester, for the underlying instruments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v1",
+                "unsettledamounts",
+                "instruments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The keys of the accounts to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AmountTypeId",
+                  "value": "<string>",
+                  "description": "(Required) Amount Type Id of the owed amount, for which you want instruments returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "Currency",
+                  "value": "<string>",
+                  "description": "(Required) Currency code of the owed amount, for which you want instruments returned."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8031cb90-0c84-4355-ad59-f853a966a66e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Data\": [\n    {\n      \"AssetType\": \"FxSpot\",\n      \"CashFlows\": [\n        {\n          \"Amount\": 274,\n          \"ValueDate\": \"2022-11-01\"\n        }\n      ],\n      \"InstrumentDescription\": \"Phillip Inc.\",\n      \"InstrumentSymbol\": \"PI:xnys\",\n      \"Total\": 320.45,\n      \"Uic\": 32154\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "782d6622-9679-4e1f-8a68-8c25d0ac7a72",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4666f076-759e-4fb9-ab16-660cb4717d9a",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5394e39b-831b-49bb-bac4-c257d01c8dbd",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5487917-3a54-4fcd-ad98-dcc7e0616c48",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c1825bcf-d5b1-4ad9-8554-b6c5df18a996",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Currency",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b3d2f6e-295d-473d-873f-0203ab1792e4",
+          "name": "Currency Breakdown: Owed by Currency and Amount Type",
+          "request": {
+            "name": "Currency Breakdown: Owed by Currency and Amount Type",
+            "description": {
+              "content": "Gets unsettled amounts for each currency owed by (or to) the requester. Scope can be extended in the request to include each currency's underlying amount types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hist",
+                "v1",
+                "unsettledamounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "The key of the account group to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "The keys of the accounts to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "AmountTypeSource",
+                  "value": "<string>",
+                  "description": "Specifies the response data granularity, providing access to source of AmountType."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "(Required) The key of the client to which the resource belongs."
+                },
+                {
+                  "disabled": false,
+                  "key": "Scope",
+                  "value": "<string>",
+                  "description": "Specifies the response data granularity, providing access to either Currencies(default) or AmountTypes."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e6b4a3c3-7cbf-49cb-8e52-b61726503d0e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"CashFlows\": [\n    {\n      \"Amount\": -0.57,\n      \"ValueDate\": \"2022-11-04\"\n    },\n    {\n      \"Amount\": -15.40352205,\n      \"ValueDate\": \"2022-11-14\"\n    }\n  ],\n  \"Currencies\": [\n    {\n      \"AmountTypes\": [\n        {\n          \"AmountType\": \"Unrealized CFD Finance\",\n          \"AmountTypeId\": \"65\",\n          \"AmountTypeSource\": \"Financing\",\n          \"CashFlows\": [\n            {\n              \"Amount\": -0.57,\n              \"ValueDate\": \"2022-11-04\"\n            }\n          ],\n          \"Total\": -0.57\n        }\n      ],\n      \"CashFlows\": [\n        {\n          \"Amount\": -0.57,\n          \"ValueDate\": \"2022-11-04\"\n        }\n      ],\n      \"Currency\": \"DKK\",\n      \"Total\": -0.57\n    },\n    {\n      \"AmountTypes\": [\n        {\n          \"AmountType\": \"Unr. Interest\",\n          \"AmountTypeId\": \"42\",\n          \"AmountTypeSource\": \"Financing\",\n          \"CashFlows\": [\n            {\n              \"Amount\": -15.40352205,\n              \"ValueDate\": \"2022-11-14\"\n            }\n          ],\n          \"Total\": -2.07\n        }\n      ],\n      \"CashFlows\": [\n        {\n          \"Amount\": -15.40352205,\n          \"ValueDate\": \"2022-11-14\"\n        }\n      ],\n      \"Currency\": \"EUR\",\n      \"Total\": -2.07\n    }\n  ],\n  \"Currency\": \"EUR\",\n  \"Total\": -15.97352205\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5478188-0b1f-4584-88fd-f85677afd33d",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "888764a3-fe7b-4057-9212-96d5929fb676",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9900f24c-5b2c-428f-b343-f7af6d753f1b",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "59844c5e-421f-4431-b8a5-91b1be7e3ebd",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2b1483fb-bacf-4643-b701-664950a04348",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hist",
+                    "v1",
+                    "unsettledamounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "QEPWm2RyUefWudKFjRaJag=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "7wfA7-TCgQ0ygd||aOXY0w=="
+                    },
+                    {
+                      "key": "AmountTypeSource",
+                      "value": "TransactionsNotBooked"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "AbSTLYSoo499JZpp|ckGFw=="
+                    },
+                    {
+                      "key": "Scope",
+                      "value": "Currencies"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c3db9f8a-bef1-497c-b86e-78bb5f0a66c2",
+    "name": "Services.AutoTrading Account Values Unsettled Amounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

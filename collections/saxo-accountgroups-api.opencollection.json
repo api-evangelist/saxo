@@ -1,0 +1,180 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values AccountGroups API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AccountGroups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of all accounts groups used by the specified client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accountgroups",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The client to which the account groups belong."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a list of all account groups used by the specified client"
+        },
+        {
+          "info": {
+            "name": "Get all accounts groups under a particular client to which the logged in user belongs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accountgroups/me",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get all accounts gropus under a particular client to which the logged in user belongs."
+        },
+        {
+          "info": {
+            "name": "Get details about a single account group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accountgroups/:AccountGroupKey",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "path",
+                "description": "Unique key for the account group."
+              },
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "query",
+                "description": "The key of the client to which the account group belong."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get details about a single account group"
+        },
+        {
+          "info": {
+            "name": "Update account group information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/accountgroups/:AccountGroupKey",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "path",
+                "description": "Unique key of the account group to change."
+              },
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "query",
+                "description": "The key of the client to which the account group belong."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Enables the user to update account group settings. Particularly the account group AccountValueProtectionLimit ."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

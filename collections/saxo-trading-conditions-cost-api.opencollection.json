@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Trading Conditions - Cost API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trading Conditions - Cost",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get pre-trade cost illustration for regular instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v1/tradingconditions/cost/:AccountKey/:Uic/:AssetType",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "path",
+                "description": "The account key to lookup the conditions for"
+              },
+              {
+                "name": "Amount",
+                "value": "10000",
+                "type": "query",
+                "description": "The number of asset to be traded."
+              },
+              {
+                "name": "AssetType",
+                "value": "FxSpot",
+                "type": "path",
+                "description": "The assetType of the instrument to lookup"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "DisplayAndFormat",
+                "type": "query",
+                "description": "The field groups."
+              },
+              {
+                "name": "HoldingPeriodInDays",
+                "value": "5",
+                "type": "query",
+                "description": "The holding period in days if provided else 1 day."
+              },
+              {
+                "name": "Price",
+                "value": "1.19376",
+                "type": "query",
+                "description": "The instrument price to be used for the calculation. Required for all non-Saxo applications."
+              },
+              {
+                "name": "Uic",
+                "value": "21",
+                "type": "path",
+                "description": "The uic for the instrument to lookup"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets pre-trade cost illustration for regular instruments"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

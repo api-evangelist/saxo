@@ -1,0 +1,494 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Positions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Positions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove multiple subscriptions for the given ContextId, optionally marked with a specific tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "TAB15",
+                "type": "query",
+                "description": "Tag that subscriptions are marked with"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Change the positions subscription page size",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "P54123",
+                "type": "path",
+                "description": "Unique ID of the subscription"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Extends or reduces the page size, number of positions shown, on a running positions subscription.\n            When expanding the page size, the new positions are streamed so to avoid race conditions."
+        },
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "P54123",
+                "type": "path",
+                "description": "Unique ID of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on a list positions and make it active",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/subscriptions",
+            "params": [
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of list of positions specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get positions for a client, account group, account or a position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the net positions belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the net positions belongs."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the net positions belongs."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "PositionView",
+                "type": "query",
+                "description": "Specifies which data to return. Default is [PositionBase,PositionView]"
+              },
+              {
+                "name": "NetPositionId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The id of the netposition to which the position belongs"
+              },
+              {
+                "name": "PositionId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The id of the position."
+              },
+              {
+                "name": "WatchlistId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Selects only positions those instruments belongs to the given watchlist id"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of positions fulfilling the criteria specified by the query string parameters."
+        },
+        {
+          "info": {
+            "name": "Get positions for the logged-in client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/me",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Specifies which data to return. Default is [PositionBase, PositionView]"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get positions for the logged-in client"
+        },
+        {
+          "info": {
+            "name": "Get detailed information for a single position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/:PositionId/details",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the net positions belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the net positions belongs."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the net positions belongs."
+              },
+              {
+                "name": "PositionId",
+                "value": "167968381",
+                "type": "path",
+                "description": "Unique id of the position."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Obsolete Gets detailed information about a single position as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/positions/{PositionId}. Fields available in this resource are moved to PositionBase and the new \"Costs\" fieldgroup that has been added to the base route. These fields also support streaming now."
+        },
+        {
+          "info": {
+            "name": "Get a single position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/positions/:PositionId",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the net positions belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the net positions belongs."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the net positions belongs."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "PositionView",
+                "type": "query",
+                "description": "Specifies which data to return. Default is [PositionBase,PositionView]"
+              },
+              {
+                "name": "PositionId",
+                "value": "167968381",
+                "type": "path",
+                "description": "Unique ID of the position."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a single position"
+        },
+        {
+          "info": {
+            "name": "Exercise an amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/positions/exercise",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Forces exercise of an amount across all positions for the specified UIC. This is relevant for Futures Options, Stock Options, Stock Index Options."
+        },
+        {
+          "info": {
+            "name": "Exercise a position",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/positions/:PositionId/exercise",
+            "params": [
+              {
+                "name": "PositionId",
+                "value": "",
+                "type": "path",
+                "description": "The position identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Forces exercise of a position. This is relevant for Futures Options, Stock Options, Stock Index Options."
+        },
+        {
+          "info": {
+            "name": "Update a position",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/positions/:PositionId",
+            "params": [
+              {
+                "name": "PositionId",
+                "value": "1019942425",
+                "type": "path",
+                "description": "The position identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Updates properties of an existing position."
+        },
+        {
+          "info": {
+            "name": "Create a new position by accepting a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v1/positions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new position by accepting a quote.\n\n\nThe quote must be the most recent one and it must be tradable (Quote.PriceType=PriceType.Tradable)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account Values",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get account summary values, on each individual account and rolled up.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/hist/v3/accountvalues/:ClientKey",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "6Fs62FqtJTLHcQbq4koW2Q==",
+                "type": "path",
+                "description": "The client key"
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "Optional Mock Data Parameter"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the rolled up performance for the accounts of specified client. All rolled up account values are converted to the client base currency."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

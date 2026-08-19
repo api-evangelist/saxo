@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Historical Report Data - Aggregated amounts API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Historical Report Data - Aggregated amounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "AggregatedAmountGet",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cs/v1/reports/aggregatedAmounts/:ClientKey/:FromDate/:ToDate",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$skiptoken",
+                "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5",
+                "type": "query",
+                "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the resource belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the resource belongs."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "path",
+                "description": "The key of the client to which the resource belongs."
+              },
+              {
+                "name": "FromDate",
+                "value": "2016-10-10",
+                "type": "path",
+                "description": "From date"
+              },
+              {
+                "name": "MockDataId",
+                "value": "",
+                "type": "query",
+                "description": "Optional Mock Data Parameter"
+              },
+              {
+                "name": "ToDate",
+                "value": "2017-10-10",
+                "type": "path",
+                "description": "To date"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get all aggregated amounts between two dates"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

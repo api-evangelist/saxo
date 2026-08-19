@@ -1,0 +1,1971 @@
+{
+  "item": [
+    {
+      "id": "5b587ae2-e735-4f22-b305-ad997e3fa865",
+      "name": "Events",
+      "description": {
+        "content": "Find Corporate action voluntary events.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "47047dce-1b01-4a1e-9ded-d2549857e04c",
+          "name": "Get corporate action event",
+          "request": {
+            "name": "Get corporate action event",
+            "description": {
+              "content": "Get specified event, if event is not cancelled, where client holds position on corresponding instrument.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "events",
+                ":EventId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Client identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "Indicate whether to include events from sub-clients."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "EventId",
+                  "description": "(Required) Corporate action identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "889c96bb-ab80-498c-a007-c8a55a8feea0",
+              "name": "Request completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AssetType\": \"Stock\",\n  \"BidIntervalRate\": {\n    \"Currency\": \"EUR\",\n    \"Value\": 1\n  },\n  \"ClaimPeriod\": {\n    \"End\": {\n      \"Status\": \"Ongoing\"\n    },\n    \"Start\": {\n      \"Status\": \"Ongoing\"\n    }\n  },\n  \"CorporateActionType\": \"Voluntary\",\n  \"DisplayAndFormat\": {\n    \"Description\": \"Chargeurs SA\",\n    \"IsinCode\": \"FR0000130692\",\n    \"Symbol\": \"CRI:xpar\"\n  },\n  \"Effective\": {\n    \"Date\": \"2021-02-12\"\n  },\n  \"Electable\": \"Electable\",\n  \"ElectionStatus\": \"PartialElected\",\n  \"EventId\": \"9652429\",\n  \"EventIndicators\": [\n    {\n      \"Indicator\": \"AdditionalBusinessProcess\",\n      \"Values\": [\n        {\n          \"Code\": \"NPLE\",\n          \"Description\": \"The issuer only allows a single option to be selected per designated holding.\",\n          \"Name\": \"No Split Election\"\n        }\n      ]\n    },\n    {\n      \"Indicator\": \"Change\",\n      \"Values\": [\n        {\n          \"Code\": \"BERE\",\n          \"Description\": \"Change from bearer into registered form.\",\n          \"Name\": \"Bearer to Registered\"\n        }\n      ]\n    },\n    {\n      \"Indicator\": \"Consent\",\n      \"Values\": [\n        {\n          \"Code\": \"CTRM\",\n          \"Description\": \"This is a change in the terms and conditions of the bond.\",\n          \"Name\": \"Change in Terms\"\n        }\n      ]\n    },\n    {\n      \"Indicator\": \"Dividend\",\n      \"Values\": [\n        {\n          \"Code\": \"FINL\",\n          \"Description\": \"Payment of a dividend, less the amounts already paid through interim dividends.\",\n          \"Name\": \"Final\"\n        }\n      ]\n    }\n  ],\n  \"EventState\": \"Preliminary\",\n  \"EventStatus\": \"Past\",\n  \"EventType\": {\n    \"Code\": \"DVCA\",\n    \"Description\": \"Distribution of cash to shareholders, in proportion to their equity holding. Ordinary dividends are recurring and regular. Shareholder must take cash and may be offered a choice of currency.\",\n    \"Name\": \"Cash Dividend\"\n  },\n  \"Ex\": {\n    \"Date\": \"2021-02-12\"\n  },\n  \"Holdings\": [\n    {\n      \"AccountId\": \"123INET\",\n      \"Amount\": 100,\n      \"CashReserved\": {\n        \"Currency\": \"USD\",\n        \"Value\": 2583.62\n      },\n      \"ClientId\": \"906869\",\n      \"ClientName\": \"John\",\n      \"ElectedAmount\": 20,\n      \"EventId\": \"9652429\",\n      \"Options\": [\n        {\n          \"ElectedAmount\": 20,\n          \"ElectionType\": \"Manual\",\n          \"Instruction\": {\n            \"Status\": \"Accepted\"\n          },\n          \"OptionId\": \"1\",\n          \"Remarks\": \"Remarks by client...\"\n        }\n      ],\n      \"OwnerId\": \"532\"\n    }\n  ],\n  \"InformationToComply\": \"RestrictionsMayApply\",\n  \"InterestPeriod\": {\n    \"End\": {\n      \"Status\": \"Ongoing\"\n    },\n    \"Start\": {\n      \"Status\": \"Ongoing\"\n    }\n  },\n  \"MaxPrice\": {\n    \"Currency\": \"EUR\",\n    \"Type\": \"Actual\",\n    \"Value\": 60\n  },\n  \"MaxQuantitySought\": 1000,\n  \"MinPrice\": {\n    \"Currency\": \"EUR\",\n    \"Type\": \"Actual\",\n    \"Value\": 5\n  },\n  \"MinQuantitySought\": 4,\n  \"Narrative\": \"<b>ADTX</b><p>Rights issue trading period of rights: ______________   terms: you may apply for _____ new share for every ______ rights held at _________ per share.<br/>Client must ensure that they instruct in the multiple/s advised in the notification.<br/>Failure to comply will result in the rejection of instruction/s and client/s will not be notified of the rejection.<br/>Option 1: exercise (receive shares) option 2: oversubscribe (please state the number of additional shares you wish to oversubscribe for).<br/>Option 3: lapse (default) should the client wish to oversubscribe, kindly ensure to exercise full quantity of rights.<br/>Oversubscription may be subject to scaleback based at the account level.<br/>For clients who elect to exercise and oversubscribe, please ensure your account is funded on the same day of instructions submission; failure to do so will result in your instruction being rejected.<br/>Total subscription cost/s including oversubscription will be debited on the next business day after the instruction deadline date.<br/>A potential future resultant entitlement will be booked to a dummy security and may be subject to a proration factor being applied where oversubscription has been elected.<br/>Note that any reduction or change in this position may be a result of this factor.<br/>The final resultant entitlement will be booked on the market identifier upon receipt from agent.<br/>In the case where scaleback of subscription/oversubscription occurs, cost will be refunded without interest as soon as practical upon receipt from the agent.<br/>We will attempt to sell any tradeable rights position left uninstructed or instructed to lapse on the last rights trading date if the value of the client position is worth more than eur 30 or equivalent to the currency of the security.<br/>For non tradeable rights, rights not exercised will be lapsed worthless.<br/>We hereby informs the client that, according to the laws of the country of its incorporation or the laws of the country of residence of its customers and the laws applicable to an issuer of securities which are subject to corporate actions, the client, will decide to participate or not to such corporate actions upon its sole and exclusive discretion and judgment.<br/>The client will bear any detrimental consequence arising out of or connected to such instruction.<br/>For the avoidance of doubt, any information in relation to the corporate actions sent to the client may have been obtained from sources which are not under the bank's control and accordingly, the bank shall not be held responsible for the truth and the accuracy of this information.<br/>Please refer to the prospectus of the event for any further details.<br/><br/></p><b>ADTX</b><p>Rights issue trading period of rights: ______________   terms: you may apply for _____ new share for every ______ rights held at _________ per share.<br/>Client must ensure that they instruct in the multiple/s advised in the notification.<br/>Failure to comply will result in the rejection of instruction/s and client/s will not be notified of the rejection.<br/>Option 1: exercise (receive shares) option 2: oversubscribe (please state the number of additional shares you wish to oversubscribe for).<br/>Option 3: lapse (default) should the client wish to oversubscribe, kindly ensure to exercise full quantity of rights.<br/>Oversubscription may be subject to scaleback based at the account level.<br/>For clients who elect to exercise and oversubscribe, please ensure your account is funded on the same day of instructions submission; failure to do so will result in your instruction being rejected.<br/>Total subscription cost/s including oversubscription will be debited on the next business day after the instruction deadline date.<br/>A potential future resultant entitlement will be booked to a dummy security and may be subject to a proration factor being applied where oversubscription has been elected.<br/>Note that any reduction or change in this position may be a result of this factor.<br/>The final resultant entitlement will be booked on the market identifier upon receipt from agent.<br/>In the case where scaleback of subscription/oversubscription occurs, cost will be refunded without interest as soon as practical upon receipt from the agent.<br/>We will attempt to sell any tradeable rights position left uninstructed or instructed to lapse on the last rights trading date if the value of the client position is worth more than eur 30 or equivalent to the currency of the security.<br/>For non tradeable rights, rights not exercised will be lapsed worthless.<br/>We hereby informs the client that, according to the laws of the country of its incorporation or the laws of the country of residence of its customers and the laws applicable to an issuer of securities which are subject to corporate actions, the client, will decide to participate or not to such corporate actions upon its sole and exclusive discretion and judgment.<br/>The client will bear any detrimental consequence arising out of or connected to such instruction.<br/>For the avoidance of doubt, any information in relation to the corporate actions sent to the client may have been obtained from sources which are not under the bank's control and accordingly, the bank shall not be held responsible for the truth and the accuracy of this information.<br/>Please refer to the prospectus of the event for any further details.<br/><br/></p>\",\n  \"NewBoardLotQuantity\": 20,\n  \"NewDenominationQuantity\": 100,\n  \"NumberofDaysAccrued\": 23,\n  \"Options\": [\n    {\n      \"BidIntervalRate\": {\n        \"Currency\": \"EUR\",\n        \"Value\": 1\n      },\n      \"CashMovements\": [\n        {\n          \"CashMovementType\": \"Credit\",\n          \"Currency\": \"USD\",\n          \"PriceType\": \"Actual\",\n          \"SubscriptionPrice\": 11.9623\n        }\n      ],\n      \"CashRequired\": false,\n      \"Deadline\": {\n        \"Date\": \"2021-02-23T08:30:00Z\"\n      },\n      \"IsDefault\": false,\n      \"IsGross\": false,\n      \"IsTaxable\": true,\n      \"MaxPrice\": {\n        \"Currency\": \"EUR\",\n        \"Type\": \"Actual\",\n        \"Value\": 60\n      },\n      \"MinPrice\": {\n        \"Currency\": \"EUR\",\n        \"Type\": \"Actual\",\n        \"Value\": 5\n      },\n      \"OptionId\": \"1\",\n      \"OptionIndicators\": [\n        {\n          \"Indicator\": \"BidRange\",\n          \"Values\": [\n            {\n              \"Code\": \"DIVI\",\n              \"Description\": \"All values (including minimum and maximum prices) are divisible by the bid interval.\",\n              \"Name\": \"Divisible\"\n            }\n          ]\n        }\n      ],\n      \"OptionType\": {\n        \"Code\": \"CASH\",\n        \"Name\": \"Cash\"\n      },\n      \"Payment\": {\n        \"Date\": \"2021-02-12\"\n      },\n      \"PayoutBreakdown\": [\n        {\n          \"Amount\": 5.9623,\n          \"Component\": {\n            \"Code\": \"INTRT\",\n            \"Description\": \"Interest\",\n            \"Name\": \"Interest\"\n          },\n          \"Currency\": \"USD\"\n        },\n        {\n          \"Amount\": 6,\n          \"Component\": {\n            \"Code\": \"LTCG\",\n            \"Description\": \"Long term capital gain\",\n            \"Name\": \"Long term capital gain\"\n          },\n          \"Currency\": \"USD\"\n        }\n      ]\n    },\n    {\n      \"CashRequired\": false,\n      \"Deadline\": {\n        \"Date\": \"2021-02-23T08:30:00Z\"\n      },\n      \"IsDefault\": true,\n      \"IsGross\": false,\n      \"IsTaxable\": true,\n      \"NetRate\": 0.08,\n      \"OptionId\": \"2\",\n      \"OptionIndicators\": [\n        {\n          \"Indicator\": \"CertificationBreakdown\",\n          \"Values\": [\n            {\n              \"Code\": \"DOMI\",\n              \"Description\": \"The holder of the security has to certify his domicile.\",\n              \"Name\": \"Country of Domicile\"\n            }\n          ]\n        }\n      ],\n      \"OptionType\": {\n        \"Code\": \"SECU\",\n        \"Description\": \"Securities Option\"\n      },\n      \"Payment\": {\n        \"Date\": \"2021-02-12\"\n      },\n      \"SecurityMovements\": [\n        {\n          \"Currency\": \"AUD\",\n          \"DisplayAndFormat\": {\n            \"Description\": \"Telstra Corp. Ltd\",\n            \"IsinCode\": \"AU000000TLS2\",\n            \"Symbol\": \"TLS:xasx\"\n          },\n          \"SecurityMovementType\": \"Credit\",\n          \"Uic\": 5081\n        }\n      ]\n    }\n  ],\n  \"Record\": {\n    \"Status\": \"Ongoing\"\n  },\n  \"StrikePrice\": {\n    \"Currency\": \"EUR\",\n    \"Type\": \"Actual\",\n    \"Value\": 25\n  },\n  \"TradingSuspended\": {\n    \"Status\": \"Ongoing\"\n  },\n  \"Uic\": 13126\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "901a63f4-17e4-4f04-ae44-53666c63779e",
+              "name": "Request contains invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "894c6068-4a4e-4a48-bdc1-8145b8a12a79",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "af675a0d-384c-450b-9ee9-9f5bcc313f4f",
+              "name": "Requested resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b1491c7b-c60e-4a7b-9cac-b0d3fd9e6391",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0b7c5641-40c1-4b09-b6ff-05177d0ca88d",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    ":EventId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ClientKey",
+                      "value": "5DG7K1P5cqYBZ77tl7Af4w=="
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "EventId",
+                      "description": "(Required) Corporate action identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d16d052-cf43-4b31-83a6-0de9ad610041",
+          "name": "Get corporate action events",
+          "request": {
+            "name": "Get corporate action events",
+            "description": {
+              "content": "Get list of Mandatory and Voluntary events, excluding cancelled events, if specified client holds position on corresponding instrument.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "$skip",
+                  "value": "<integer>",
+                  "description": "The number of entries to skip from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "$top",
+                  "value": "100",
+                  "description": "The number of entries to return from the beginning of the collection"
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "Account group to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "Account to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "AssetTypes",
+                  "value": "<string>",
+                  "description": "Asset type filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "AssetTypes",
+                  "value": "<string>",
+                  "description": "Asset type filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Client to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "CorporateActionTypes",
+                  "value": "<string>",
+                  "description": "Corporate action type filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "CorporateActionTypes",
+                  "value": "<string>",
+                  "description": "Corporate action type filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "ElectionStatuses",
+                  "value": "<string>",
+                  "description": "Election status filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "ElectionStatuses",
+                  "value": "<string>",
+                  "description": "Election status filter for events."
+                },
+                {
+                  "disabled": false,
+                  "key": "EventStatus",
+                  "value": "<string>",
+                  "description": "Event status filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "EventTypes",
+                  "value": "<string>",
+                  "description": "Event type filter. Use event type codes to filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "EventTypes",
+                  "value": "<string>",
+                  "description": "Event type filter. Use event type codes to filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromDeadlineDate",
+                  "value": "<date>",
+                  "description": "Events on or after specified deadline date."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromExDate",
+                  "value": "<date>",
+                  "description": "Events on or after specified ex date."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromPayDate",
+                  "value": "<date>",
+                  "description": "Events on or after specified pay date."
+                },
+                {
+                  "disabled": false,
+                  "key": "FromRecordDate",
+                  "value": "<date>",
+                  "description": "Events on or after specified record date."
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "Indicate whether to include events from sub-clients."
+                },
+                {
+                  "disabled": false,
+                  "key": "Keywords",
+                  "value": "<string>",
+                  "description": "Looks for keywords in instrument description, ISIN code, and instrument symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "SortColumn",
+                  "value": "<string>",
+                  "description": "Specify a column to sort on. Default sort will be provided on Date."
+                },
+                {
+                  "disabled": false,
+                  "key": "SortType",
+                  "value": "<string>",
+                  "description": "Specify ascending or descending sort. Default sort type will be Descending."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToDeadlineDate",
+                  "value": "<date>",
+                  "description": "Events on or before specified deadline date."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToExDate",
+                  "value": "<date>",
+                  "description": "Events on or before specified ex date."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToPayDate",
+                  "value": "<date>",
+                  "description": "Events on or before specified pay date."
+                },
+                {
+                  "disabled": false,
+                  "key": "ToRecordDate",
+                  "value": "<date>",
+                  "description": "Events on or before specified record date."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2d52785c-d52a-4c4c-8f4e-d449576c979c",
+              "name": "Request completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"__count\": 1,\n  \"Data\": [\n    {\n      \"AssetType\": \"Stock\",\n      \"BidIntervalRate\": {\n        \"Currency\": \"EUR\",\n        \"Value\": 1\n      },\n      \"ClaimPeriod\": {\n        \"End\": {\n          \"Status\": \"Ongoing\"\n        },\n        \"Start\": {\n          \"Status\": \"Ongoing\"\n        }\n      },\n      \"CorporateActionType\": \"Voluntary\",\n      \"DisplayAndFormat\": {\n        \"Description\": \"Chargeurs SA\",\n        \"IsinCode\": \"FR0000130692\",\n        \"Symbol\": \"CRI:xpar\"\n      },\n      \"Effective\": {\n        \"Date\": \"2021-02-12\"\n      },\n      \"Electable\": \"Electable\",\n      \"ElectionStatus\": \"PartialElected\",\n      \"EventId\": \"9652429\",\n      \"EventIndicators\": [\n        {\n          \"Indicator\": \"AdditionalBusinessProcess\",\n          \"Values\": [\n            {\n              \"Code\": \"NPLE\",\n              \"Description\": \"The issuer only allows a single option to be selected per designated holding.\",\n              \"Name\": \"No Split Election\"\n            }\n          ]\n        },\n        {\n          \"Indicator\": \"Change\",\n          \"Values\": [\n            {\n              \"Code\": \"BERE\",\n              \"Description\": \"Change from bearer into registered form.\",\n              \"Name\": \"Bearer to Registered\"\n            }\n          ]\n        },\n        {\n          \"Indicator\": \"Consent\",\n          \"Values\": [\n            {\n              \"Code\": \"CTRM\",\n              \"Description\": \"This is a change in the terms and conditions of the bond.\",\n              \"Name\": \"Change in Terms\"\n            }\n          ]\n        },\n        {\n          \"Indicator\": \"Dividend\",\n          \"Values\": [\n            {\n              \"Code\": \"FINL\",\n              \"Description\": \"Payment of a dividend, less the amounts already paid through interim dividends.\",\n              \"Name\": \"Final\"\n            }\n          ]\n        }\n      ],\n      \"EventState\": \"Preliminary\",\n      \"EventStatus\": \"Past\",\n      \"EventType\": {\n        \"Code\": \"DVCA\",\n        \"Description\": \"Distribution of cash to shareholders, in proportion to their equity holding. Ordinary dividends are recurring and regular. Shareholder must take cash and may be offered a choice of currency.\",\n        \"Name\": \"Cash Dividend\"\n      },\n      \"Ex\": {\n        \"Date\": \"2021-02-12\"\n      },\n      \"Holdings\": [\n        {\n          \"AccountId\": \"123INET\",\n          \"Amount\": 100,\n          \"CashReserved\": {\n            \"Currency\": \"USD\",\n            \"Value\": 2583.62\n          },\n          \"ClientId\": \"906869\",\n          \"ClientName\": \"John\",\n          \"ElectedAmount\": 20,\n          \"EventId\": \"9652429\",\n          \"Options\": [\n            {\n              \"ElectedAmount\": 20,\n              \"ElectionType\": \"Manual\",\n              \"Instruction\": {\n                \"Status\": \"Accepted\"\n              },\n              \"OptionId\": \"1\",\n              \"Remarks\": \"Remarks by client...\"\n            }\n          ],\n          \"OwnerId\": \"532\"\n        }\n      ],\n      \"InformationToComply\": \"RestrictionsMayApply\",\n      \"InterestPeriod\": {\n        \"End\": {\n          \"Status\": \"Ongoing\"\n        },\n        \"Start\": {\n          \"Status\": \"Ongoing\"\n        }\n      },\n      \"MaxPrice\": {\n        \"Currency\": \"EUR\",\n        \"Type\": \"Actual\",\n        \"Value\": 60\n      },\n      \"MaxQuantitySought\": 1000,\n      \"MinPrice\": {\n        \"Currency\": \"EUR\",\n        \"Type\": \"Actual\",\n        \"Value\": 5\n      },\n      \"MinQuantitySought\": 4,\n      \"Narrative\": \"<b>ADTX</b><p>Rights issue trading period of rights: ______________   terms: you may apply for _____ new share for every ______ rights held at _________ per share.<br/>Client must ensure that they instruct in the multiple/s advised in the notification.<br/>Failure to comply will result in the rejection of instruction/s and client/s will not be notified of the rejection.<br/>Option 1: exercise (receive shares) option 2: oversubscribe (please state the number of additional shares you wish to oversubscribe for).<br/>Option 3: lapse (default) should the client wish to oversubscribe, kindly ensure to exercise full quantity of rights.<br/>Oversubscription may be subject to scaleback based at the account level.<br/>For clients who elect to exercise and oversubscribe, please ensure your account is funded on the same day of instructions submission; failure to do so will result in your instruction being rejected.<br/>Total subscription cost/s including oversubscription will be debited on the next business day after the instruction deadline date.<br/>A potential future resultant entitlement will be booked to a dummy security and may be subject to a proration factor being applied where oversubscription has been elected.<br/>Note that any reduction or change in this position may be a result of this factor.<br/>The final resultant entitlement will be booked on the market identifier upon receipt from agent.<br/>In the case where scaleback of subscription/oversubscription occurs, cost will be refunded without interest as soon as practical upon receipt from the agent.<br/>We will attempt to sell any tradeable rights position left uninstructed or instructed to lapse on the last rights trading date if the value of the client position is worth more than eur 30 or equivalent to the currency of the security.<br/>For non tradeable rights, rights not exercised will be lapsed worthless.<br/>We hereby informs the client that, according to the laws of the country of its incorporation or the laws of the country of residence of its customers and the laws applicable to an issuer of securities which are subject to corporate actions, the client, will decide to participate or not to such corporate actions upon its sole and exclusive discretion and judgment.<br/>The client will bear any detrimental consequence arising out of or connected to such instruction.<br/>For the avoidance of doubt, any information in relation to the corporate actions sent to the client may have been obtained from sources which are not under the bank's control and accordingly, the bank shall not be held responsible for the truth and the accuracy of this information.<br/>Please refer to the prospectus of the event for any further details.<br/><br/></p><b>ADTX</b><p>Rights issue trading period of rights: ______________   terms: you may apply for _____ new share for every ______ rights held at _________ per share.<br/>Client must ensure that they instruct in the multiple/s advised in the notification.<br/>Failure to comply will result in the rejection of instruction/s and client/s will not be notified of the rejection.<br/>Option 1: exercise (receive shares) option 2: oversubscribe (please state the number of additional shares you wish to oversubscribe for).<br/>Option 3: lapse (default) should the client wish to oversubscribe, kindly ensure to exercise full quantity of rights.<br/>Oversubscription may be subject to scaleback based at the account level.<br/>For clients who elect to exercise and oversubscribe, please ensure your account is funded on the same day of instructions submission; failure to do so will result in your instruction being rejected.<br/>Total subscription cost/s including oversubscription will be debited on the next business day after the instruction deadline date.<br/>A potential future resultant entitlement will be booked to a dummy security and may be subject to a proration factor being applied where oversubscription has been elected.<br/>Note that any reduction or change in this position may be a result of this factor.<br/>The final resultant entitlement will be booked on the market identifier upon receipt from agent.<br/>In the case where scaleback of subscription/oversubscription occurs, cost will be refunded without interest as soon as practical upon receipt from the agent.<br/>We will attempt to sell any tradeable rights position left uninstructed or instructed to lapse on the last rights trading date if the value of the client position is worth more than eur 30 or equivalent to the currency of the security.<br/>For non tradeable rights, rights not exercised will be lapsed worthless.<br/>We hereby informs the client that, according to the laws of the country of its incorporation or the laws of the country of residence of its customers and the laws applicable to an issuer of securities which are subject to corporate actions, the client, will decide to participate or not to such corporate actions upon its sole and exclusive discretion and judgment.<br/>The client will bear any detrimental consequence arising out of or connected to such instruction.<br/>For the avoidance of doubt, any information in relation to the corporate actions sent to the client may have been obtained from sources which are not under the bank's control and accordingly, the bank shall not be held responsible for the truth and the accuracy of this information.<br/>Please refer to the prospectus of the event for any further details.<br/><br/></p>\",\n      \"NewBoardLotQuantity\": 20,\n      \"NewDenominationQuantity\": 100,\n      \"NumberofDaysAccrued\": 23,\n      \"Options\": [\n        {\n          \"BidIntervalRate\": {\n            \"Currency\": \"EUR\",\n            \"Value\": 1\n          },\n          \"CashMovements\": [\n            {\n              \"CashMovementType\": \"Credit\",\n              \"Currency\": \"USD\",\n              \"PriceType\": \"Actual\",\n              \"SubscriptionPrice\": 11.9623\n            }\n          ],\n          \"CashRequired\": false,\n          \"Deadline\": {\n            \"Date\": \"2021-02-23T08:30:00Z\"\n          },\n          \"IsDefault\": false,\n          \"IsGross\": false,\n          \"IsTaxable\": true,\n          \"MaxPrice\": {\n            \"Currency\": \"EUR\",\n            \"Type\": \"Actual\",\n            \"Value\": 60\n          },\n          \"MinPrice\": {\n            \"Currency\": \"EUR\",\n            \"Type\": \"Actual\",\n            \"Value\": 5\n          },\n          \"OptionId\": \"1\",\n          \"OptionIndicators\": [\n            {\n              \"Indicator\": \"BidRange\",\n              \"Values\": [\n                {\n                  \"Code\": \"DIVI\",\n                  \"Description\": \"All values (including minimum and maximum prices) are divisible by the bid interval.\",\n                  \"Name\": \"Divisible\"\n                }\n              ]\n            }\n          ],\n          \"OptionType\": {\n            \"Code\": \"CASH\",\n            \"Name\": \"Cash\"\n          },\n          \"Payment\": {\n            \"Date\": \"2021-02-12\"\n          },\n          \"PayoutBreakdown\": [\n            {\n              \"Amount\": 5.9623,\n              \"Component\": {\n                \"Code\": \"INTRT\",\n                \"Description\": \"Interest\",\n                \"Name\": \"Interest\"\n              },\n              \"Currency\": \"USD\"\n            },\n            {\n              \"Amount\": 6,\n              \"Component\": {\n                \"Code\": \"LTCG\",\n                \"Description\": \"Long term capital gain\",\n                \"Name\": \"Long term capital gain\"\n              },\n              \"Currency\": \"USD\"\n            }\n          ]\n        },\n        {\n          \"CashRequired\": false,\n          \"Deadline\": {\n            \"Date\": \"2021-02-23T08:30:00Z\"\n          },\n          \"IsDefault\": true,\n          \"IsGross\": false,\n          \"IsTaxable\": true,\n          \"NetRate\": 0.08,\n          \"OptionId\": \"2\",\n          \"OptionIndicators\": [\n            {\n              \"Indicator\": \"CertificationBreakdown\",\n              \"Values\": [\n                {\n                  \"Code\": \"DOMI\",\n                  \"Description\": \"The holder of the security has to certify his domicile.\",\n                  \"Name\": \"Country of Domicile\"\n                }\n              ]\n            }\n          ],\n          \"OptionType\": {\n            \"Code\": \"SECU\",\n            \"Description\": \"Securities Option\"\n          },\n          \"Payment\": {\n            \"Date\": \"2021-02-12\"\n          },\n          \"SecurityMovements\": [\n            {\n              \"Currency\": \"AUD\",\n              \"DisplayAndFormat\": {\n                \"Description\": \"Telstra Corp. Ltd\",\n                \"IsinCode\": \"AU000000TLS2\",\n                \"Symbol\": \"TLS:xasx\"\n              },\n              \"SecurityMovementType\": \"Credit\",\n              \"Uic\": 5081\n            }\n          ]\n        }\n      ],\n      \"Record\": {\n        \"Status\": \"Ongoing\"\n      },\n      \"StrikePrice\": {\n        \"Currency\": \"EUR\",\n        \"Type\": \"Actual\",\n        \"Value\": 25\n      },\n      \"TradingSuspended\": {\n        \"Status\": \"Ongoing\"\n      },\n      \"Uic\": 13126\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b23748b-0168-49ce-b3c3-1c6220ec076c",
+              "name": "Request contains invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec253d62-f2a0-40de-8d1c-b454cdbe6f67",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7bd2d6d6-d414-47f2-ae02-04e7ca14b58b",
+              "name": "Requested resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4311ad5a-1d3b-4951-8ae8-dd99ec6b7252",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0c4b9c2f-e828-48a6-81aa-739b0714d6af",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "$skip",
+                      "value": "1"
+                    },
+                    {
+                      "key": "$top",
+                      "value": "1"
+                    },
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "AssetTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "CorporateActionTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ElectionStatuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventStatus",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EventTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "FromDeadlineDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromExDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromPayDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "FromRecordDate",
+                      "value": "2020-06-16"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    },
+                    {
+                      "key": "Keywords",
+                      "value": "Appl"
+                    },
+                    {
+                      "key": "SortColumn",
+                      "value": "Date"
+                    },
+                    {
+                      "key": "SortType",
+                      "value": "Desc"
+                    },
+                    {
+                      "key": "ToDeadlineDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToExDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToPayDate",
+                      "value": "2020-10-15"
+                    },
+                    {
+                      "key": "ToRecordDate",
+                      "value": "2020-10-15"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "afc9fe08-c62c-458e-b9d9-a0b20ddfc869",
+          "name": "Lookup for filters",
+          "request": {
+            "name": "Lookup for filters",
+            "description": {
+              "content": "Serves as a lookup for available filters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "v2",
+                "events",
+                "lookupdata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "AccountGroupKey",
+                  "value": "<string>",
+                  "description": "Account group to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "AccountKey",
+                  "value": "<string>",
+                  "description": "Account to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "ClientKey",
+                  "value": "<string>",
+                  "description": "Client to get the events for."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "Specify lookup fields required in response."
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeSubAccounts",
+                  "value": "<boolean>",
+                  "description": "Indicate whether to include events from sub-clients."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "43f53b60-5628-4a8b-98a1-ae822bea5a23",
+              "name": "Lookup data retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    "lookupdata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "All"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Data\": [\n    {\n      \"FieldGroup\": \"EventTypes\",\n      \"Values\": [\n        {\n          \"Code\": \"DVCA\",\n          \"Name\": \"Cash Dividend\"\n        }\n      ]\n    },\n    {\n      \"FieldGroup\": \"AssetTypes\",\n      \"Values\": [\n        {\n          \"Code\": \"Stock\",\n          \"Name\": \"Stock\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2219c278-30c2-4262-9800-beb3c4a3a199",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    "lookupdata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "All"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fa70a8a-d569-45ad-b0a1-9eadafcba193",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    "lookupdata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "All"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d4e99788-315c-44f3-854c-859899966cf2",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    "lookupdata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "All"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ed1f6881-fc6a-4de9-8aeb-11f3832648bf",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "v2",
+                    "events",
+                    "lookupdata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "AccountGroupKey",
+                      "value": "BxS0VWLta8lJ3SBpjGBQjw=="
+                    },
+                    {
+                      "key": "AccountKey",
+                      "value": "2y0tX0m9ZH7MH8HK38qM9g=="
+                    },
+                    {
+                      "key": "ClientKey",
+                      "value": "7m4I|vtYLUnEGg77o9uQhw=="
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "All"
+                    },
+                    {
+                      "key": "IncludeSubAccounts",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3462074b-52cd-4a17-9a30-afbe19184c22",
+    "name": "Services.AutoTrading Account Values Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

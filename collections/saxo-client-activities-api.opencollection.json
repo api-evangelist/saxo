@@ -1,0 +1,244 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Client Activities API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Client Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get activities for specified client/Account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ens/v1/activities",
+            "params": [
+              {
+                "name": "$skiptoken",
+                "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5",
+                "type": "query",
+                "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "valueaf04a06e-3c0c-4f62-b66c-6e6eda035173",
+                "type": "query",
+                "description": "account group key for accounts used in retrieving the trade data.\r\n             If specified, activities of the specified account will be returned/published otherwise activities of all accounts represented by ClientKey."
+              },
+              {
+                "name": "AccountKey",
+                "value": "18649353-7c02-4a3a-affe-3bc0d9486607",
+                "type": "query",
+                "description": "Unique key identifying the account used in retrieving the trade data.\r\n             If specified, activities of the specified account will be returned/published otherwise activities of all accounts represented by ClientKey."
+              },
+              {
+                "name": "Activities",
+                "value": "Positions",
+                "type": "query",
+                "description": "Specification of activity typese to return in results."
+              },
+              {
+                "name": "CANotificationTypes",
+                "value": "Update",
+                "type": "query",
+                "description": "Corporate action notification type to get the response for."
+              },
+              {
+                "name": "ClientKey",
+                "value": "3bc254fa-7c84-40ed-8876-ec9886409356",
+                "type": "query",
+                "description": "Unique key identifying the client.\r\n            If specified, activities of the specified client will be returned/published otherwise for logged in client."
+              },
+              {
+                "name": "Duration",
+                "value": "FillOrKill",
+                "type": "query",
+                "description": "The order duration type."
+              },
+              {
+                "name": "ExpirationDateTime",
+                "value": "2022-04-11T12:45:29.7789990+00:00",
+                "type": "query",
+                "description": "The expiration date should only be set if the duration type is GoodTillDate."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "ExchangeInfo",
+                "type": "query",
+                "description": "Specification of field groups to return in results."
+              },
+              {
+                "name": "FromDateTime",
+                "value": "2022-04-11T12:45:29.7789990+00:00",
+                "type": "query",
+                "description": "If specified, activities starting FromDateTime will be returned/published. Default returns current day activities"
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "true",
+                "type": "query",
+                "description": "If specified true, activities of sub-clients will also be returned/published."
+              },
+              {
+                "name": "OrderStatuses",
+                "value": "Cancelled",
+                "type": "query",
+                "description": "List of order statuses."
+              },
+              {
+                "name": "OrderTypes",
+                "value": "TraspasoIn",
+                "type": "query",
+                "description": "List of order types."
+              },
+              {
+                "name": "PositionEventFilter",
+                "value": "TradesOnly",
+                "type": "query",
+                "description": "Specify position event filter if any. Default is PositionEventFilter.All."
+              },
+              {
+                "name": "SequenceId",
+                "value": "1c891f8f-05f8-447a-b996-50ed2812fb3b",
+                "type": "query",
+                "description": "If specified and message with SequenceId available in ENS cache, streaming of events start from SequenceId.\r\n            If sequenceId not found in ENS system, Subscription Error with \"Sequence id unavailable\"\r\n            If not specified and FromDateTime is not specified, subscription will be real-time subscription."
+              },
+              {
+                "name": "TimeOnMargin",
+                "value": "00:00:00.0000128",
+                "type": "query",
+                "description": "Time the client has been on margin.\r\n            If specified, margin activities with greater or equal to the time specified otherwise all activities."
+              },
+              {
+                "name": "ToDateTime",
+                "value": "2022-04-11T12:45:29.7789990+00:00",
+                "type": "query",
+                "description": "If specified, activities ending ToDateTime will be returned/published."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of activities specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/ens/v1/activities/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "PAGE2",
+                "type": "query",
+                "description": "Optional. Remove only subscriptions that are marked with specified tag."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/ens/v1/activities/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "NP6783",
+                "type": "path",
+                "description": "Unique ID of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id."
+        },
+        {
+          "info": {
+            "name": "Create a subscription for client events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/ens/v1/activities/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up an active subscription to listen client events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

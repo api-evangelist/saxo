@@ -1,0 +1,373 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values NetPositions API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "NetPositions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "NP6783",
+                "type": "path",
+                "description": "Unique ID of the subscription"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "The context id part of the streaming session (used to identify the subscription within a streaming session)."
+              },
+              {
+                "name": "Tag",
+                "value": "PAGE2",
+                "type": "query",
+                "description": "Optional. Remove only subscriptions that are marked with specified tag."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple all subscriptions for the current session on this resource, and frees all resources on the server."
+        },
+        {
+          "info": {
+            "name": "Create a subscription on a list of net positions and make it active",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of list of net positions specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get net positions for a client, account group or account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "AssetType",
+                "value": "StockIndexOption",
+                "type": "query",
+                "description": "Optional. The AssetType."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              },
+              {
+                "name": "ExpiryDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Optional. The expiry date. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "NetPositionView",
+                "type": "query",
+                "description": "Specifies which data to return. Default is [NetPositionBase,NetPositionView]"
+              },
+              {
+                "name": "LowerBarrier",
+                "value": "2.55",
+                "type": "query",
+                "description": "Optional. The Lower Barrier. Only used to distinguish Fx Barrier Options."
+              },
+              {
+                "name": "NetPositionId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Optional. The id of the netposition"
+              },
+              {
+                "name": "PutCall",
+                "value": "Put",
+                "type": "query",
+                "description": "Optional. Put or Call. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "Strike",
+                "value": "2.55",
+                "type": "query",
+                "description": "Optional. The strike price of the option. Only used to distinguish FxOptions."
+              },
+              {
+                "name": "Uic",
+                "value": "99",
+                "type": "query",
+                "description": "Optional. Unique id of the instrument."
+              },
+              {
+                "name": "UpperBarrier",
+                "value": "2.55",
+                "type": "query",
+                "description": "Optional. The Upper Barrier. Only used to distinguish Fx Barrier Options."
+              },
+              {
+                "name": "ValueDate",
+                "value": "9999-12-31T23:59:59.9999990+00:00",
+                "type": "query",
+                "description": "Optional. The value date. Only used to distinguish FxForwards."
+              },
+              {
+                "name": "WatchlistId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Optional. Watchlist Id.Filter on watchlist instruments"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of net positions fulfilling the criteria specified by the query string parameters.\n            Each net position may include all related sub positions if fieldGroups includes SubPositions."
+        },
+        {
+          "info": {
+            "name": "Get net positions for the current user's client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/me",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Specifies which data to return. Default is [NetPositionBase, NetPositionView]."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of net positions fulfilling the criteria specified by the query string parameters.\n            Each net position may include all related sub positions if fieldGroups includes SubPositions."
+        },
+        {
+          "info": {
+            "name": "Get detailed information for a single net position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/:NetPositionId/details",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              },
+              {
+                "name": "NetPositionId",
+                "value": "247__Share",
+                "type": "path",
+                "description": "Unique id of the net position."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Obsolete Gets detailed information about a single net position as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/netpositions/{NetpositionId}."
+        },
+        {
+          "info": {
+            "name": "Get a single net position",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/netpositions/:NetPositionId",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the positions belong."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the positions belong."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the positions belong."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "NetPositionView",
+                "type": "query",
+                "description": "Specifies which data to return. Default is [NetPositionBase,NetPositionView]"
+              },
+              {
+                "name": "NetPositionId",
+                "value": "247__Share",
+                "type": "path",
+                "description": "Unique id of the net position."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets a single net position calculated as specified by the query parameters. \n            The net position may include all related sub positions if fieldGroups includes SubPositions.\n            Note: the net position is fully identified by the supplied netPositionId, but accountId and clientId may be specified\n            to determine whether the netposition values should be calculated at client or account level."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

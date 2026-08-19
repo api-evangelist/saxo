@@ -1,0 +1,267 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Events API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get corporate action event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/events/:EventId",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "5DG7K1P5cqYBZ77tl7Af4w==",
+                "type": "query",
+                "description": "Client identifier"
+              },
+              {
+                "name": "EventId",
+                "value": "875684",
+                "type": "path",
+                "description": "Corporate action identifier"
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "Indicate whether to include events from sub-clients."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get specified event, if event is not cancelled, where client holds position on corresponding instrument."
+        },
+        {
+          "info": {
+            "name": "Get corporate action events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/events",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "BxS0VWLta8lJ3SBpjGBQjw==",
+                "type": "query",
+                "description": "Account group to get the events for."
+              },
+              {
+                "name": "AccountKey",
+                "value": "2y0tX0m9ZH7MH8HK38qM9g==",
+                "type": "query",
+                "description": "Account to get the events for."
+              },
+              {
+                "name": "AssetTypes",
+                "value": "Stock,Bond",
+                "type": "query",
+                "description": "Asset type filter for events."
+              },
+              {
+                "name": "ClientKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "query",
+                "description": "Client to get the events for."
+              },
+              {
+                "name": "CorporateActionTypes",
+                "value": "Mandatory,Voluntary",
+                "type": "query",
+                "description": "Corporate action type filter for events."
+              },
+              {
+                "name": "ElectionStatuses",
+                "value": "Elected,PartialElected",
+                "type": "query",
+                "description": "Election status filter for events."
+              },
+              {
+                "name": "EventStatus",
+                "value": "Active",
+                "type": "query",
+                "description": "Event status filter."
+              },
+              {
+                "name": "EventTypes",
+                "value": "DVCA,DVOP",
+                "type": "query",
+                "description": "Event type filter. Use event type codes to filter."
+              },
+              {
+                "name": "FromDeadlineDate",
+                "value": "2020-06-16",
+                "type": "query",
+                "description": "Events on or after specified deadline date."
+              },
+              {
+                "name": "FromExDate",
+                "value": "2020-06-16",
+                "type": "query",
+                "description": "Events on or after specified ex date."
+              },
+              {
+                "name": "FromPayDate",
+                "value": "2020-06-16",
+                "type": "query",
+                "description": "Events on or after specified pay date."
+              },
+              {
+                "name": "FromRecordDate",
+                "value": "2020-06-16",
+                "type": "query",
+                "description": "Events on or after specified record date."
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "Indicate whether to include events from sub-clients."
+              },
+              {
+                "name": "Keywords",
+                "value": "Appl",
+                "type": "query",
+                "description": "Looks for keywords in instrument description, ISIN code, and instrument symbol."
+              },
+              {
+                "name": "SortColumn",
+                "value": "Date",
+                "type": "query",
+                "description": "Specify a column to sort on. Default sort will be provided on Date."
+              },
+              {
+                "name": "SortType",
+                "value": "Desc",
+                "type": "query",
+                "description": "Specify ascending or descending sort. Default sort type will be Descending."
+              },
+              {
+                "name": "ToDeadlineDate",
+                "value": "2020-10-15",
+                "type": "query",
+                "description": "Events on or before specified deadline date."
+              },
+              {
+                "name": "ToExDate",
+                "value": "2020-10-15",
+                "type": "query",
+                "description": "Events on or before specified ex date."
+              },
+              {
+                "name": "ToPayDate",
+                "value": "2020-10-15",
+                "type": "query",
+                "description": "Events on or before specified pay date."
+              },
+              {
+                "name": "ToRecordDate",
+                "value": "2020-10-15",
+                "type": "query",
+                "description": "Events on or before specified record date."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get list of Mandatory and Voluntary events, excluding cancelled events, if specified client holds position on corresponding instrument."
+        },
+        {
+          "info": {
+            "name": "Lookup for filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/ca/v2/events/lookupdata",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "BxS0VWLta8lJ3SBpjGBQjw==",
+                "type": "query",
+                "description": "Account group to get the events for."
+              },
+              {
+                "name": "AccountKey",
+                "value": "2y0tX0m9ZH7MH8HK38qM9g==",
+                "type": "query",
+                "description": "Account to get the events for."
+              },
+              {
+                "name": "ClientKey",
+                "value": "7m4I|vtYLUnEGg77o9uQhw==",
+                "type": "query",
+                "description": "Client to get the events for."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "All",
+                "type": "query",
+                "description": "Specify lookup fields required in response."
+              },
+              {
+                "name": "IncludeSubAccounts",
+                "value": "false",
+                "type": "query",
+                "description": "Indicate whether to include events from sub-clients."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Serves as a lookup for available filters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

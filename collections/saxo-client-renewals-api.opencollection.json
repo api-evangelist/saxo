@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Client Renewals API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Client Renewals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets renewal status for clients, under logged user or the passed owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/clientrenewals/pending",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "MustRenewBy",
+                "value": "2020-12-31",
+                "type": "query",
+                "description": "Optional, Date till which the pending renewals should be returned, default value is 30 days from today"
+              },
+              {
+                "name": "OwnerKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "query",
+                "description": "Optional, ClientKey of the owner, whose subclient's renewal status is needed"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Gets renewal status for clients, under logged user or the passed owner"
+        },
+        {
+          "info": {
+            "name": "Update Renewal Data/Documents for the given renewal entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/clientrenewals/:RenewalEntityId",
+            "params": [
+              {
+                "name": "RenewalEntityId",
+                "value": "7526324",
+                "type": "path",
+                "description": "Renewal entity identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update Renewal Data/Documents for the given renewal entity"
+        },
+        {
+          "info": {
+            "name": "Get Renewal Data for the passed Client/User or logged in user. Priority is given to userKey over clientKey.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/cm/v1/clientrenewals",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "query",
+                "description": "ClientKey of the primary user for which renewal is requested"
+              },
+              {
+                "name": "UserKey",
+                "value": "d2-PzdC5wIPy1284wD-rRA==",
+                "type": "query",
+                "description": "UserKey of the user for which renewal is requested"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get Renewal Data for the passed Client/User or logged in user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,678 @@
+{
+  "item": [
+    {
+      "id": "8d05f176-6904-4f11-a3ea-59b036ec2442",
+      "name": "Trading Conditions - Cost",
+      "description": {
+        "content": "Provides pre-trade cost illustration for regular instruments",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "db4af651-ff8f-4b56-ae6e-d53f5d7b30de",
+          "name": "Get pre-trade cost illustration for regular instruments",
+          "request": {
+            "name": "Get pre-trade cost illustration for regular instruments",
+            "description": {
+              "content": "Gets pre-trade cost illustration for regular instruments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cs",
+                "v1",
+                "tradingconditions",
+                "cost",
+                ":AccountKey",
+                ":Uic",
+                ":AssetType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Amount",
+                  "value": "<number>",
+                  "description": "(Required) The number of asset to be traded."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "FieldGroups",
+                  "value": "<string>",
+                  "description": "(Required) The field groups."
+                },
+                {
+                  "disabled": false,
+                  "key": "HoldingPeriodInDays",
+                  "value": "<integer>",
+                  "description": "The holding period in days if provided else 1 day."
+                },
+                {
+                  "disabled": false,
+                  "key": "Price",
+                  "value": "<number>",
+                  "description": "The instrument price to be used for the calculation. Required for all non-Saxo applications."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "AccountKey",
+                  "description": "(Required) The account key to lookup the conditions for"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "AssetType",
+                  "description": "(Required) The assetType of the instrument to lookup"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "Uic",
+                  "description": "(Required) The uic for the instrument to lookup"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "34ce1de7-14fd-4d98-aa15-aaa33c4627a8",
+              "name": "Indicates that the request was performed correctly.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AccountCurrency\": \"GBP\",\n  \"AccountID\": \"125567INET\",\n  \"Amount\": 10000,\n  \"AssetType\": \"FxSpot\",\n  \"Cost\": {\n    \"Long\": {\n      \"BuySell\": \"Buy\",\n      \"Currency\": \"USD\",\n      \"HoldingCost\": {\n        \"Tax\": [\n          {\n            \"Pct\": 0.5,\n            \"Rule\": {\n              \"BuySell\": \"Sell\",\n              \"CalculationType\": \"ValueFraction\",\n              \"Description\": \"UK Stamp Duty\",\n              \"Value\": 0.5\n            },\n            \"Value\": 92.92\n          },\n          {\n            \"Pct\": 0.005,\n            \"Rule\": {\n              \"BuySell\": \"Sell\",\n              \"CalculationType\": \"FixedAmount\",\n              \"Description\": \"UK PTM Levy\",\n              \"Value\": 0.5\n            },\n            \"Value\": 1\n          }\n        ]\n      },\n      \"ReturnOnInvestment\": {\n        \"Return\": {\n          \"Pct\": 0.019,\n          \"Rule\": {\n            \"Pct\": 0.5\n          },\n          \"Value\": 3.507\n        },\n        \"ReturnIncludingCost\": {\n          \"Pct\": 0.019,\n          \"Rule\": {\n            \"Pct\": 0.5\n          },\n          \"Value\": 3.507\n        }\n      },\n      \"TotalCost\": 6.672,\n      \"TotalCostPct\": 0.056,\n      \"TradingCost\": {\n        \"Commissions\": [\n          {\n            \"Pct\": 0.05,\n            \"Rule\": {\n              \"Currency\": \"USD\",\n              \"MinCommission\": 3\n            },\n            \"Value\": 6\n          }\n        ],\n        \"CurrencyConversionCost\": {\n          \"Pct\": 0.05,\n          \"Rule\": {\n            \"AskRate\": 2,\n            \"BidRate\": 1\n          },\n          \"Value\": 5\n        },\n        \"Spread\": {\n          \"DisplayDecimals\": 4,\n          \"Rule\": {\n            \"Pct\": 0.00001\n          },\n          \"Value\": 0.1\n        },\n        \"VatOnCustodyFeePct\": {\n          \"Pct\": 0.002,\n          \"Rule\": {\n            \"Pct\": 0.002,\n            \"Value\": 20\n          },\n          \"Value\": 20\n        }\n      },\n      \"TrailingCommission\": {\n        \"Pct\": 0.5,\n        \"Rule\": {\n          \"Pct\": 0.5\n        },\n        \"Value\": 410.959\n      }\n    },\n    \"Short\": {\n      \"BuySell\": \"Sell\",\n      \"Currency\": \"USD\",\n      \"HoldingCost\": {\n        \"Tax\": [\n          {\n            \"Pct\": 0.5,\n            \"Rule\": {\n              \"BuySell\": \"Sell\",\n              \"CalculationType\": \"ValueFraction\",\n              \"Description\": \"UK Stamp Duty\",\n              \"Value\": 0.5\n            },\n            \"Value\": 92.92\n          },\n          {\n            \"Pct\": 0.005,\n            \"Rule\": {\n              \"BuySell\": \"Sell\",\n              \"CalculationType\": \"FixedAmount\",\n              \"Description\": \"UK PTM Levy\",\n              \"Value\": 0.5\n            },\n            \"Value\": 1\n          }\n        ]\n      },\n      \"ReturnOnInvestment\": {\n        \"Return\": {\n          \"Pct\": 0.019,\n          \"Rule\": {\n            \"Pct\": 0.5\n          },\n          \"Value\": 3.507\n        },\n        \"ReturnIncludingCost\": {\n          \"Pct\": 0.019,\n          \"Rule\": {\n            \"Pct\": 0.5\n          },\n          \"Value\": 3.507\n        }\n      },\n      \"TotalCost\": 6.672,\n      \"TotalCostPct\": 0.056,\n      \"TradingCost\": {\n        \"Commissions\": [\n          {\n            \"Pct\": 0.05,\n            \"Rule\": {\n              \"Currency\": \"USD\",\n              \"MinCommission\": 3\n            },\n            \"Value\": 6\n          }\n        ],\n        \"Spread\": {\n          \"DisplayDecimals\": 4,\n          \"Rule\": {\n            \"Pct\": 0.00001\n          },\n          \"Value\": 0.1\n        }\n      },\n      \"TrailingCommission\": {\n        \"Pct\": 0.5,\n        \"Rule\": {\n          \"Pct\": 0.5\n        },\n        \"Value\": 410.959\n      }\n    }\n  },\n  \"CostCalculationAssumptions\": [\n    \"IncludesOpenAndCloseCost\",\n    \"EquivalentOpenAndClosePrice\"\n  ],\n  \"DisplayAndFormat\": {\n    \"BarrierFormat\": \"Normal\",\n    \"Currency\": \"USD\",\n    \"Decimals\": 4,\n    \"Description\": \"Euro/US Dollar\",\n    \"Format\": \"Normal\",\n    \"OrderDecimals\": 2,\n    \"StrikeFormat\": \"Normal\",\n    \"Symbol\": \"EURUSD\"\n  },\n  \"HoldingPeriodInDays\": 5,\n  \"Instrument\": \"EURUSD\",\n  \"Price\": 1.19376,\n  \"Uic\": 21\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a6494fd-16eb-4718-88d5-f061df74efe7",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6431970-fcf2-4f93-90bc-e9ca77159de2",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ab5ddf42-981f-49d9-a799-48142cd13139",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1d50db59-ddab-439f-bd9a-ae3452686774",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a7974199-cca7-414c-9e0a-ba47cf2549ba",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cs",
+                    "v1",
+                    "tradingconditions",
+                    "cost",
+                    ":AccountKey",
+                    ":Uic",
+                    ":AssetType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Amount",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "FieldGroups",
+                      "value": "DisplayAndFormat"
+                    },
+                    {
+                      "key": "HoldingPeriodInDays",
+                      "value": "5"
+                    },
+                    {
+                      "key": "Price",
+                      "value": "1.19376"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AccountKey",
+                      "description": "(Required) The account key to lookup the conditions for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "AssetType",
+                      "description": "(Required) The assetType of the instrument to lookup"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "Uic",
+                      "description": "(Required) The uic for the instrument to lookup"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c78e87b5-9845-4ec5-9878-dd3d0d4ac1b3",
+    "name": "Services.AutoTrading Account Values Trading Conditions - Cost API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

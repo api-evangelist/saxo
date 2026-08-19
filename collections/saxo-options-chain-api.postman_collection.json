@@ -1,0 +1,2696 @@
+{
+  "item": [
+    {
+      "id": "5e8a24cd-6eb7-4d6a-bee4-bbe5e79a1846",
+      "name": "Options Chain",
+      "description": {
+        "content": "The Options Chain is a construct made specifically for displaying a number of options (ETOs or FxOptions) in a classic \"Options Board\" that orders the options according to\n            Expiries and Strikes. It is made with the common UI needs of such a board in mind.\n            \n            The service provides endpoints for subscribing to a stream of (limited) price-data for a number of options (FX or ETO) and managing such subscriptions to provide e.g. scrolling.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c183a360-3316-4b89-9733-2505a83252ca",
+          "name": "Reset an options chain subscription \"At The Money\"",
+          "request": {
+            "name": "Reset an options chain subscription \"At The Money\"",
+            "description": {
+              "content": "Resets subscription for the current session identified by contextId and referenceId, to show strikes \"at the money\" for \n            all the previously configured expiries. This method will not change the number of strikes, or which expires are subscribed to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions",
+                ":ContextId",
+                ":ReferenceId",
+                "ResetATM"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ReferenceId",
+                  "description": "(Required) Unique id of the subscription"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bf1a099f-684b-4878-8fcd-ac549fa33cff",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId",
+                    "ResetATM"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5d373016-2735-4181-b712-2f03c4f837d9",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId",
+                    "ResetATM"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46e530ed-c431-4e04-9e64-83d44c11262c",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId",
+                    "ResetATM"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f6a38334-38f2-49f3-b09f-8d6ed6d7f89d",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId",
+                    "ResetATM"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3e870789-9b51-4865-9080-240db634ca75",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId",
+                    "ResetATM"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f5320ae-089e-4242-a79a-3bb504cb1835",
+          "name": "Remove an options chain subscription",
+          "request": {
+            "name": "Remove an options chain subscription",
+            "description": {
+              "content": "Removes subscription for the current session identified by contextId and referenceId.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions",
+                ":ContextId",
+                ":ReferenceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ReferenceId",
+                  "description": "(Required) Unique id of the subscription"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "86c7fdee-99b6-4900-8ba3-a083479bbf32",
+              "name": "Subscription delete request will be processed eventually.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "380a1f0b-0fec-4a41-8163-4aa9af5cd8c5",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "45400215-0ff3-44b5-91e4-f33ea346db39",
+              "name": "One or more of the provided parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6c97c93-a4c9-41ab-b5fe-f7b5573f40ed",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "77b61e83-06fe-4a06-8102-e8abf17a7335",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b28868ca-85fb-4595-86cf-3ac32a74eea6",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) The context id part of the streaming session (used to identify the subscription within a streaming session)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) Unique id of the subscription"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75c7130c-a47c-449b-8124-2917f6fa53dc",
+          "name": "Modify an existing options chain subscription. This replaces the obsolete version subscriptions/active/{contextId}/{referenceId}",
+          "request": {
+            "name": "Modify an existing options chain subscription. This replaces the obsolete version subscriptions/active/{contextId}/{referenceId}",
+            "description": {
+              "content": "Modifies an existing subscription. This is used for scrolling the options board, by providing either another set of expiries, \n            or specifying another set of strikes to subscribe to. \n            For changing to another instrument, it is recommended to create a new subscription and discard the old.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions",
+                ":ContextId",
+                ":ReferenceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ReferenceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": \"<integer>\",\n      \"StrikeStartIndex\": \"<integer>\"\n    },\n    {\n      \"Index\": \"<integer>\",\n      \"StrikeStartIndex\": \"<integer>\"\n    }\n  ],\n  \"MaxStrikesPerExpiry\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4a52bc4e-c8d0-48fc-a9c4-af667a0b8b57",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a60b8de1-c8f5-4327-820b-ef0a7b87bef5",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bc40e88-905f-4aa0-9941-7a1ce6f10546",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "62f4dbef-33fd-42a2-8eeb-4e41214bf527",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "44b1b48f-f874-4ae0-8cb6-458ca802f6a4",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ba4163c3-1a77-4d67-87fc-aa6767002bba",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "947f91b8-4449-49bf-b0de-b131a0e55ba7",
+          "name": "OBSOLETE Modify an existing options chain subscription. This endpoint is obsolete. Use subscriptions/{contextId}/{referenceId}.",
+          "request": {
+            "name": "OBSOLETE Modify an existing options chain subscription. This endpoint is obsolete. Use subscriptions/{contextId}/{referenceId}.",
+            "description": {
+              "content": "Modifies an existing subscription. This is used for scrolling the options board, by providing either another set of expiries, \n            or specifying another set of strikes to subscribe to. \n            For changing to another instrument, it is recommended to create a new subscription and discard the old.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions",
+                "active",
+                ":ContextId",
+                ":ReferenceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ContextId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ReferenceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": \"<integer>\",\n      \"StrikeStartIndex\": \"<integer>\"\n    },\n    {\n      \"Index\": \"<integer>\",\n      \"StrikeStartIndex\": \"<integer>\"\n    }\n  ],\n  \"MaxStrikesPerExpiry\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ecbfc588-c786-492d-b0c4-f75be8f1dac3",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "63c1d8df-577d-4623-847c-4712c86767f2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidRequest\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89eaf89e-5d99-46e5-b770-844f7a197644",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ca0e01fb-3bcf-41e9-9fc5-660fb5b67909",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c8a70fbb-5137-4f98-84a5-c624484b5b68",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8a3dfe31-15ad-4637-a1b1-d951f4ed8fd0",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active",
+                    ":ContextId",
+                    ":ReferenceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ContextId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ReferenceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Expiries\": [\n    {\n      \"Index\": 99,\n      \"StrikeStartIndex\": 99\n    }\n  ],\n  \"MaxStrikesPerExpiry\": 99\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4a5589c5-fb10-4ad8-888e-76b727fbb3d9",
+          "name": "Create an active options chain subscription",
+          "request": {
+            "name": "Create an active options chain subscription",
+            "description": {
+              "content": "Sets up a subscription and returns an initial snapshot of the options chain specified by the parameters in the request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Arguments\": {\n    \"AssetType\": \"<string>\",\n    \"Identifier\": \"<integer>\",\n    \"AccountKey\": \"<string>\",\n    \"Amount\": \"<number>\",\n    \"Expiries\": [\n      {\n        \"Index\": \"<integer>\",\n        \"StrikeStartIndex\": \"<integer>\"\n      },\n      {\n        \"Index\": \"<integer>\",\n        \"StrikeStartIndex\": \"<integer>\"\n      }\n    ],\n    \"MaxStrikesPerExpiry\": \"<integer>\"\n  },\n  \"ContextId\": \"<string>\",\n  \"ReferenceId\": \"<string>\",\n  \"Format\": \"<string>\",\n  \"RefreshRate\": \"<integer>\",\n  \"ReplaceReferenceId\": \"<string>\",\n  \"Tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd27e5f4-c29a-440c-bc5b-0c5c5068c9c3",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ContextId\": \"20221030063404760\",\n  \"InactivityTimeout\": 60,\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000,\n  \"Snapshot\": {\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"DisplayDate\": \"0001-01-01\",\n        \"DisplayDaysToExpiry\": 30,\n        \"Expiry\": \"2017-05-31T11:10:00Z\",\n        \"Index\": 0,\n        \"LastTradeDate\": \"0201-05-31T21:00:00Z\",\n        \"MidStrikePrice\": 0,\n        \"StrikeCount\": 50,\n        \"Strikes\": [\n          {\n            \"Index\": 0,\n            \"Strike\": 97.25\n          },\n          {\n            \"Index\": 1,\n            \"Strike\": 97.375\n          },\n          {\n            \"Index\": 2,\n            \"Strike\": 97.5\n          },\n          {\n            \"Index\": 3,\n            \"Strike\": 97.625\n          },\n          {\n            \"Index\": 4,\n            \"Strike\": 97.75\n          },\n          {\n            \"Index\": 5,\n            \"Strike\": 97.8125\n          },\n          {\n            \"Index\": 6,\n            \"Strike\": 97.875\n          },\n          {\n            \"Index\": 7,\n            \"Strike\": 97.9375\n          },\n          {\n            \"Index\": 8,\n            \"Strike\": 98\n          },\n          {\n            \"Index\": 9,\n            \"Strike\": 98.0625\n          },\n          {\n            \"Index\": 10,\n            \"Strike\": 98.125\n          },\n          {\n            \"Index\": 11,\n            \"Strike\": 98.1875\n          },\n          {\n            \"Index\": 12,\n            \"Strike\": 98.25\n          },\n          {\n            \"Index\": 13,\n            \"Strike\": 98.3125\n          },\n          {\n            \"Index\": 14,\n            \"Strike\": 98.375\n          },\n          {\n            \"Index\": 15,\n            \"Strike\": 98.4375\n          },\n          {\n            \"Index\": 16,\n            \"Strike\": 98.5\n          },\n          {\n            \"Index\": 17,\n            \"Strike\": 98.5625\n          },\n          {\n            \"Index\": 18,\n            \"Strike\": 98.625\n          },\n          {\n            \"Index\": 19,\n            \"Strike\": 98.6875\n          },\n          {\n            \"Index\": 20,\n            \"Strike\": 98.75\n          },\n          {\n            \"Index\": 21,\n            \"Strike\": 98.8125\n          },\n          {\n            \"Index\": 22,\n            \"Strike\": 98.875\n          },\n          {\n            \"Index\": 23,\n            \"Strike\": 98.9375\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.095,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.095,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485090,\n              \"Volume\": 0\n            },\n            \"Index\": 24,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": 0,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485130,\n              \"Volume\": 0\n            },\n            \"Strike\": 99\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.035,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.035,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485091,\n              \"Volume\": 0\n            },\n            \"Index\": 25,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0.0025,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0025,\n              \"Open\": 0,\n              \"OpenInterest\": 250,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485131,\n              \"Volume\": 0\n            },\n            \"Strike\": 99.0625\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.0025,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0025,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485092,\n              \"Volume\": 0\n            },\n            \"Index\": 26,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0.0325,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0325,\n              \"Open\": 0,\n              \"OpenInterest\": 250,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485132,\n              \"Volume\": 0\n            },\n            \"Strike\": 99.125\n          },\n          {\n            \"Index\": 27,\n            \"Strike\": 99.1875\n          },\n          {\n            \"Index\": 28,\n            \"Strike\": 99.25\n          },\n          {\n            \"Index\": 29,\n            \"Strike\": 99.3125\n          },\n          {\n            \"Index\": 30,\n            \"Strike\": 99.375\n          },\n          {\n            \"Index\": 31,\n            \"Strike\": 99.4375\n          },\n          {\n            \"Index\": 32,\n            \"Strike\": 99.5\n          },\n          {\n            \"Index\": 33,\n            \"Strike\": 99.5625\n          },\n          {\n            \"Index\": 34,\n            \"Strike\": 99.625\n          },\n          {\n            \"Index\": 35,\n            \"Strike\": 99.6875\n          },\n          {\n            \"Index\": 36,\n            \"Strike\": 99.75\n          },\n          {\n            \"Index\": 37,\n            \"Strike\": 99.8125\n          },\n          {\n            \"Index\": 38,\n            \"Strike\": 99.875\n          },\n          {\n            \"Index\": 39,\n            \"Strike\": 99.9375\n          },\n          {\n            \"Index\": 40,\n            \"Strike\": 100\n          },\n          {\n            \"Index\": 41,\n            \"Strike\": 100.0625\n          },\n          {\n            \"Index\": 42,\n            \"Strike\": 100.125\n          },\n          {\n            \"Index\": 43,\n            \"Strike\": 100.1875\n          },\n          {\n            \"Index\": 44,\n            \"Strike\": 100.25\n          },\n          {\n            \"Index\": 45,\n            \"Strike\": 100.375\n          },\n          {\n            \"Index\": 46,\n            \"Strike\": 100.5\n          },\n          {\n            \"Index\": 47,\n            \"Strike\": 100.625\n          },\n          {\n            \"Index\": 48,\n            \"Strike\": 100.75\n          },\n          {\n            \"Index\": 49,\n            \"Strike\": 100.875\n          }\n        ],\n        \"StrikeWindowStartIndex\": 24,\n        \"UnderlyingUic\": 2456777\n      }\n    ],\n    \"ExpiryCount\": 0,\n    \"LastUpdated\": \"0001-01-01T00:00:00Z\"\n  },\n  \"State\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03ce9dbb-0e6d-4be6-82d9-025db0bfe4ad",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidModelState\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aab081ad-6c52-4d56-9ca6-e3e5dc99bb3b",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e1ed02f5-fa5c-431c-a65e-ec5a287dc9b4",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"IllegalInstrumentId\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2048dea6-b6ef-4ff6-98fd-43941734582c",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"SubscriptionLimitExceeded\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_3\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02e83e5d-48bc-443e-ab7d-ecc456762795",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "15c88db2-937b-4564-bf68-471d39932b2e",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef4154a5-7fc1-4068-ba12-aac1e4479a9a",
+          "name": "OBSOLETE Create an active options chain subscription",
+          "request": {
+            "name": "OBSOLETE Create an active options chain subscription",
+            "description": {
+              "content": "Sets up a subscription and returns an initial snapshot of the options chain specified by the parameters in the request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade",
+                "v1",
+                "optionschain",
+                "subscriptions",
+                "active"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://sim.logonvalidation.net/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://sim.logonvalidation.net/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Arguments\": {\n    \"AssetType\": \"<string>\",\n    \"Identifier\": \"<integer>\",\n    \"AccountKey\": \"<string>\",\n    \"Amount\": \"<number>\",\n    \"Expiries\": [\n      {\n        \"Index\": \"<integer>\",\n        \"StrikeStartIndex\": \"<integer>\"\n      },\n      {\n        \"Index\": \"<integer>\",\n        \"StrikeStartIndex\": \"<integer>\"\n      }\n    ],\n    \"MaxStrikesPerExpiry\": \"<integer>\"\n  },\n  \"ContextId\": \"<string>\",\n  \"ReferenceId\": \"<string>\",\n  \"Format\": \"<string>\",\n  \"RefreshRate\": \"<integer>\",\n  \"ReplaceReferenceId\": \"<string>\",\n  \"Tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "949b095a-b57d-43e0-abb4-7a7dae3a0994",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ContextId\": \"20221030063404760\",\n  \"InactivityTimeout\": 60,\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000,\n  \"Snapshot\": {\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"DisplayDate\": \"0001-01-01\",\n        \"DisplayDaysToExpiry\": 30,\n        \"Expiry\": \"2017-05-31T11:10:00Z\",\n        \"Index\": 0,\n        \"LastTradeDate\": \"0201-05-31T21:00:00Z\",\n        \"MidStrikePrice\": 0,\n        \"StrikeCount\": 50,\n        \"Strikes\": [\n          {\n            \"Index\": 0,\n            \"Strike\": 97.25\n          },\n          {\n            \"Index\": 1,\n            \"Strike\": 97.375\n          },\n          {\n            \"Index\": 2,\n            \"Strike\": 97.5\n          },\n          {\n            \"Index\": 3,\n            \"Strike\": 97.625\n          },\n          {\n            \"Index\": 4,\n            \"Strike\": 97.75\n          },\n          {\n            \"Index\": 5,\n            \"Strike\": 97.8125\n          },\n          {\n            \"Index\": 6,\n            \"Strike\": 97.875\n          },\n          {\n            \"Index\": 7,\n            \"Strike\": 97.9375\n          },\n          {\n            \"Index\": 8,\n            \"Strike\": 98\n          },\n          {\n            \"Index\": 9,\n            \"Strike\": 98.0625\n          },\n          {\n            \"Index\": 10,\n            \"Strike\": 98.125\n          },\n          {\n            \"Index\": 11,\n            \"Strike\": 98.1875\n          },\n          {\n            \"Index\": 12,\n            \"Strike\": 98.25\n          },\n          {\n            \"Index\": 13,\n            \"Strike\": 98.3125\n          },\n          {\n            \"Index\": 14,\n            \"Strike\": 98.375\n          },\n          {\n            \"Index\": 15,\n            \"Strike\": 98.4375\n          },\n          {\n            \"Index\": 16,\n            \"Strike\": 98.5\n          },\n          {\n            \"Index\": 17,\n            \"Strike\": 98.5625\n          },\n          {\n            \"Index\": 18,\n            \"Strike\": 98.625\n          },\n          {\n            \"Index\": 19,\n            \"Strike\": 98.6875\n          },\n          {\n            \"Index\": 20,\n            \"Strike\": 98.75\n          },\n          {\n            \"Index\": 21,\n            \"Strike\": 98.8125\n          },\n          {\n            \"Index\": 22,\n            \"Strike\": 98.875\n          },\n          {\n            \"Index\": 23,\n            \"Strike\": 98.9375\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.095,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.095,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485090,\n              \"Volume\": 0\n            },\n            \"Index\": 24,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": 0,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485130,\n              \"Volume\": 0\n            },\n            \"Strike\": 99\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.035,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.035,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485091,\n              \"Volume\": 0\n            },\n            \"Index\": 25,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0.0025,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0025,\n              \"Open\": 0,\n              \"OpenInterest\": 250,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485131,\n              \"Volume\": 0\n            },\n            \"Strike\": 99.0625\n          },\n          {\n            \"Call\": {\n              \"High\": 0,\n              \"LastClose\": 0.0025,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0025,\n              \"Open\": 0,\n              \"OpenInterest\": 0,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485092,\n              \"Volume\": 0\n            },\n            \"Index\": 26,\n            \"Put\": {\n              \"High\": 0,\n              \"LastClose\": 0.0325,\n              \"LastTraded\": 0,\n              \"Low\": 0,\n              \"NetChange\": -0.0325,\n              \"Open\": 0,\n              \"OpenInterest\": 250,\n              \"PriceTypeAsk\": \"NoMarket\",\n              \"PriceTypeBid\": \"NoMarket\",\n              \"Uic\": 2485132,\n              \"Volume\": 0\n            },\n            \"Strike\": 99.125\n          },\n          {\n            \"Index\": 27,\n            \"Strike\": 99.1875\n          },\n          {\n            \"Index\": 28,\n            \"Strike\": 99.25\n          },\n          {\n            \"Index\": 29,\n            \"Strike\": 99.3125\n          },\n          {\n            \"Index\": 30,\n            \"Strike\": 99.375\n          },\n          {\n            \"Index\": 31,\n            \"Strike\": 99.4375\n          },\n          {\n            \"Index\": 32,\n            \"Strike\": 99.5\n          },\n          {\n            \"Index\": 33,\n            \"Strike\": 99.5625\n          },\n          {\n            \"Index\": 34,\n            \"Strike\": 99.625\n          },\n          {\n            \"Index\": 35,\n            \"Strike\": 99.6875\n          },\n          {\n            \"Index\": 36,\n            \"Strike\": 99.75\n          },\n          {\n            \"Index\": 37,\n            \"Strike\": 99.8125\n          },\n          {\n            \"Index\": 38,\n            \"Strike\": 99.875\n          },\n          {\n            \"Index\": 39,\n            \"Strike\": 99.9375\n          },\n          {\n            \"Index\": 40,\n            \"Strike\": 100\n          },\n          {\n            \"Index\": 41,\n            \"Strike\": 100.0625\n          },\n          {\n            \"Index\": 42,\n            \"Strike\": 100.125\n          },\n          {\n            \"Index\": 43,\n            \"Strike\": 100.1875\n          },\n          {\n            \"Index\": 44,\n            \"Strike\": 100.25\n          },\n          {\n            \"Index\": 45,\n            \"Strike\": 100.375\n          },\n          {\n            \"Index\": 46,\n            \"Strike\": 100.5\n          },\n          {\n            \"Index\": 47,\n            \"Strike\": 100.625\n          },\n          {\n            \"Index\": 48,\n            \"Strike\": 100.75\n          },\n          {\n            \"Index\": 49,\n            \"Strike\": 100.875\n          }\n        ],\n        \"StrikeWindowStartIndex\": 24,\n        \"UnderlyingUic\": 2456777\n      }\n    ],\n    \"ExpiryCount\": 0,\n    \"LastUpdated\": \"0001-01-01T00:00:00Z\"\n  },\n  \"State\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d78ade1-d70f-42bc-a312-3869b899df8a",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"InvalidModelState\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9bf509d-db48-4420-8fc6-e3c88a56e281",
+              "name": "Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fee009c2-02c0-4445-a7dd-7e15834dde41",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"IllegalInstrumentId\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ec5416b-577f-4247-8f3a-9ac492f591ac",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ErrorCode\": \"SubscriptionLimitExceeded\",\n  \"Message\": \"string\",\n  \"ModelState\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_2\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_3\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1bab49b-922f-4141-86fe-fa7c9a3d375c",
+              "name": "The request was rejected due to rate limit being exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1180fb67-6042-4841-aa60-fc1715da1a8f",
+              "name": "Service Unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade",
+                    "v1",
+                    "optionschain",
+                    "subscriptions",
+                    "active"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Arguments\": {\n    \"AccountKey\": \"LZTc7DdejXODf-WSl2aCyQ==\",\n    \"AssetType\": \"StockIndexOption\",\n    \"Expiries\": [\n      {\n        \"Index\": 1,\n        \"StrikeStartIndex\": 0\n      }\n    ],\n    \"Identifier\": 18,\n    \"MaxStrikesPerExpiry\": 3\n  },\n  \"ContextId\": \"20221030063404760\",\n  \"ReferenceId\": \"C0142897\",\n  \"RefreshRate\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://gateway.saxobank.com/sim/openapi",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "caa2a7b1-7c9f-437b-8ed3-13e47181187a",
+    "name": "Services.AutoTrading Account Values Options Chain API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The AutoTrading service group provides endpoints for interacting with Saxo Bank's SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style='border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;'><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>",
+      "type": "text/plain"
+    }
+  }
+}

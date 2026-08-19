@@ -1,0 +1,656 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Services.AutoTrading Account Values Orders API",
+    "version": "2.4.138+710c760591"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/subscriptions/:ContextId/:ReferenceId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "ReferenceId",
+                "value": "O2246",
+                "type": "path",
+                "description": "Unique reference ID of the subscription."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes subscription for the current session identified by subscription id.."
+        },
+        {
+          "info": {
+            "name": "Remove multiple subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/subscriptions/:ContextId",
+            "params": [
+              {
+                "name": "ContextId",
+                "value": "29931122",
+                "type": "path",
+                "description": "Unique streaming context ID part of the streaming session."
+              },
+              {
+                "name": "Tag",
+                "value": "PAGE2",
+                "type": "query",
+                "description": "Optional. Tag that subscriptions are marked with."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes multiple subscriptions for the current session on this resource. Optionally maked with with speccified Tag."
+        },
+        {
+          "info": {
+            "name": "Create a subscription to open orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/subscriptions",
+            "params": [
+              {
+                "name": "$inlinecount",
+                "value": "AllPages",
+                "type": "query",
+                "description": "Specifies that the response to the request should include a count of the number of entries in the collection"
+              },
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$skiptoken",
+                "value": "B17D8890-3C7A-4A47-A9AA-01B022ED03A5",
+                "type": "query",
+                "description": "Specifies an entity id to start retrieving entries from. This is normally only used in generated nextlinks."
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sets up a subscription and returns an initial snapshot of list of orders specified by the parameters in the request."
+        },
+        {
+          "info": {
+            "name": "Get detailed information for a open order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/:OrderId/details",
+            "params": [
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the net positions belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "The key of the account to which the net positions belongs."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "The key of the client to which the net positions belongs."
+              },
+              {
+                "name": "OrderId",
+                "value": "83749234",
+                "type": "path",
+                "description": "Unique id of the order."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Obsolete Gets detailed information about a single open order as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/orders/{OrderId}."
+        },
+        {
+          "info": {
+            "name": "Get all open orders for a client or an account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "AccountGroupKey",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The key of the account group to which the order belongs."
+              },
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "Unique key identifying the account that owns the orders."
+              },
+              {
+                "name": "ClientKey",
+                "value": "493b43a5-fe85-4d1f-9071-dd4a9d4e42a4",
+                "type": "query",
+                "description": "Unique key identifying the client that owns the orders."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "ExchangeInfo",
+                "type": "query",
+                "description": "Specifies which data to return. Default is empty, meaning Display and Formatting information is not included."
+              },
+              {
+                "name": "OrderId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "The id of the order"
+              },
+              {
+                "name": "Status",
+                "value": "All",
+                "type": "query",
+                "description": "Selects only a subset of open orders to be returned. Default is to return working orders only."
+              },
+              {
+                "name": "WatchlistId",
+                "value": "stringValue",
+                "type": "query",
+                "description": "Selects only orders those instruments belongs to the given watchlist id"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "You can use this operation to get all the open orders on an account or a client."
+        },
+        {
+          "info": {
+            "name": "Get all open orders for the client to which the logged-in user belongs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/me",
+            "params": [
+              {
+                "name": "$skip",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to skip from the beginning of the collection"
+              },
+              {
+                "name": "$top",
+                "value": "1",
+                "type": "query",
+                "description": "The number of entries to return from the beginning of the collection"
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Specification of FieldGroups to be included in response model. Defaults to \"ExchangeInfo\" if not provided."
+              },
+              {
+                "name": "MultiLegOrderId",
+                "value": "",
+                "type": "query",
+                "description": "Return only multi-leg orders with the given common MultiLegOrderId."
+              },
+              {
+                "name": "Status",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Selects only a subset of open orders to be returned based on status of the open order. Default is \"Working\" (i.e. orders related to working orders are excluded)."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "You can use this operation to get all open orders across all accounts for the client to which the logged-in user belongs."
+        },
+        {
+          "info": {
+            "name": "Get a single open order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/port/v1/orders/:ClientKey/:OrderId",
+            "params": [
+              {
+                "name": "ClientKey",
+                "value": "U8SNV3JLdN4gzcQfmThXJA==",
+                "type": "path",
+                "description": "Unique id of the client."
+              },
+              {
+                "name": "FieldGroups",
+                "value": "",
+                "type": "query",
+                "description": "Optional. Specification of FieldGroups to be included in response model. Defaults to \"ExchangeInfo\" if not provided."
+              },
+              {
+                "name": "OrderId",
+                "value": "5007186409",
+                "type": "path",
+                "description": "Unique id of the order."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Call this operation to get a specific open order of a client."
+        },
+        {
+          "info": {
+            "name": "Get default values for a option multi-leg order strategies.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/multileg/defaults",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "01b64edf-da03-4145-bf33-ae21527d4c86",
+                "type": "query",
+                "description": "Unique key identifying the account used in retrieving the price.\n                Only required when calling context represents an authenticated user."
+              },
+              {
+                "name": "OptionRootId",
+                "value": "99",
+                "type": "query",
+                "description": "Id of the contract option root."
+              },
+              {
+                "name": "OptionsStrategyType",
+                "value": "Synthetic",
+                "type": "query",
+                "description": "The  to get."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of suggested orders/legs for the given option root and strategy."
+        },
+        {
+          "info": {
+            "name": "Cancel a multi-leg strategy order.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/multileg/:MultiLegOrderId",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "Unique key identifying the account."
+              },
+              {
+                "name": "MultiLegOrderId",
+                "value": "67762872",
+                "type": "path",
+                "description": "Unique identifier for the multi-leg order. Same for all legs."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancels all order legs in a combined multi-leg strategy order."
+        },
+        {
+          "info": {
+            "name": "Place a new multi-leg option strategy order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/multileg",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Places a combined order where all legs must be symmetrically filled by the exchange. Used to place custom and common option strategies such as CalendarSpreads, Strangles and Straddles. Only supported on certian options exchanges. Support is indicated by the CanParticipateInMultiLegOrder flag when looking up the option root in RefData.\n\n\nIt is also possible to place an multi-leg order on behalf of another client (for IBs). The account key property of the order determines the client account on whi"
+        },
+        {
+          "info": {
+            "name": "Change an existing multi-leg option strategy order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/multileg",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Change an existing multi-leg option strategy order."
+        },
+        {
+          "info": {
+            "name": "Pre-check a multileg options strategy order.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/multileg/precheck",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Preforms a pre-check on a single options strategy order."
+        },
+        {
+          "info": {
+            "name": "Pre-check orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/precheck",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Performs pre-check of a stand-alone order, a 3-way order or an OcO order pair."
+        },
+        {
+          "info": {
+            "name": "Cancel one or more orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders/:OrderIds",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "LZTc7DdejXODf-WSl2aCyQ==",
+                "type": "query",
+                "description": "Unique key identifying the account."
+              },
+              {
+                "name": "OrderIds",
+                "value": "67762872",
+                "type": "path",
+                "description": "Comma-delimited string of order ids to cancel."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancels one or more orders."
+        },
+        {
+          "info": {
+            "name": "Place a new order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The order can contain optional limit and stop orders, by adding them as child orders.\n\n\nIt is also possible to place an order on behalf of another client (for IBs).\n\n\nThe account key property of the order determines the client account on which the order is placed."
+        },
+        {
+          "info": {
+            "name": "Change one or more existing orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Changes one or more existing orders.&gt;"
+        },
+        {
+          "info": {
+            "name": "Cancels all orders for requested instrument and account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://gateway.saxobank.com/sim/openapi/trade/v2/orders",
+            "params": [
+              {
+                "name": "AccountKey",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "AssetType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Uic",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://sim.logonvalidation.net/authorize",
+              "accessTokenUrl": "https://sim.logonvalidation.net/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancels all orders for requested instrument and account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
