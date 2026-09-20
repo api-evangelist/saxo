@@ -1,0 +1,47 @@
+slug: saxo
+provider: Saxo Bank
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Support - Cases
+  spec_file: saxo-support-cases-api-openapi.yml
+  capability_id: BC-430.10
+  capability_id_l1: BC-430
+  capability_name: Customer Inquiry Management
+  confidence: 0.82
+  evidence: '"Facilitates an IB to create a new case on behalf of its client"; "Close a specific support
+    case"; schema CaseSummary, Note'
+  reason: Operations create, update, note and close support cases on behalf of clients — inbound support
+    case handling, i.e. customer inquiry/service management. Not a trading capability.
+- tag: Apps
+  spec_file: saxo-apps-api-openapi.yml
+  capability_id: BC-4270.40
+  capability_id_l1: BC-4270
+  capability_name: Developer Identity & Credential Management
+  confidence: 0.8
+  evidence: POST /developer/apps DeveloperAppCreateApp; GET /developer/apps/{AppKey}/redirecturis; GET
+    /developer/apps/{AppKey}/secrets/{SecretId} DeveloperSecretGetSecretById; schemas AppCreationRequest,
+    AppSecretDto
+  reason: Registration and lifecycle of third-party developer applications with OAuth redirect URIs and
+    client secrets — precisely Developer Identity & Credential Management within the developer platform
+    capability. Slight residual ambiguity with Developer Portal / Partner App programme sub-capabilities.
+- tag: Feature Flags
+  spec_file: saxo-feature-flags-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.7
+  evidence: GET /developer/featureflags  FeatureFlagsGetFlags
+  reason: Endpoint exposes named boolean feature flags (StringBooleanKeyValuePair) under a /developer
+    path, i.e. runtime feature-flag state retrieval, matching Feature Flag Management. Thin context (single
+    unsummarised operation) so moderate confidence.
