@@ -1,15 +1,15 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Signups API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
+  title: Services.ClientManagement Signups API
+  description: The Client Management service group provides services to signup and manage leads and clients.
+  version: 1.1.680+525085ced8
+  x-framework-version: 43.0.5+65c0bdc8ab
   x-machine: SIMOAWEB11-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: Signups
-  description: "The Signups resource is only implemented in LIVE environment. Implementation in simulation system only returns sample data and response.\n            \nFull client registrations.\n\nThe Signups resource is intended for an IB to upload complete details of a prospective client. \n            A signup is completed by first POSTing information to the signups endpoint. \n            Subsequently you may POST to the /signups/files endpoint to add files to the signup. \n\n\nA number of the fields on the signup resource are user selectable options. You can get a list of options\n            for all user selectable fields by calling the /signup/options endpoint."
+  description: The Signups resource is only implemented in LIVE environment.
 paths:
   /cm/v2/signups/verification/initiate/{ClientKey}:
     post:
@@ -308,6 +308,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         confidential: Write
+      summary: Sign up V2 attach file
+      x-summary-source: derived
   /cm/v1/signups/onboardingpdf/{ClientKey}:
     get:
       tags:
@@ -393,6 +395,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         confidential: Read
+      summary: Sign up V1 generate typed onboarding PDF
+      x-summary-source: derived
   /cm/v1/signups/verification/initiate/{ClientKey}:
     post:
       tags:
@@ -1152,166 +1156,50 @@ paths:
         confidential: Write
 components:
   schemas:
-    Models.PensionData:
-      title: Client information about pension
+    Models.BankInformation:
+      title: Bank information
       type: object
       properties:
-        AdditionalPensionData:
-          title: Additional pension data
+        BeneficiaryBankName:
+          title: Beneficiary bank name
           type: string
           example: stringValue
-        EmployerReference:
-          title: Employer refrerence ID
-          type: string
-          example: stringValue
-        PensionProductTypes:
-          title: Pension product types (can select multiple)
-          type: array
-          items:
-            $ref: '#/components/schemas/Models.PensionProductType'
-          example:
-          - EmployerPaidAlderssum
-      additionalProperties: false
-      example:
-        AdditionalPensionData: Additional pension data
-        EmployerReference: 4582HGF39
-        PensionProductTypes:
-        - EmployerPaidAlderssum
-    OnboardingStateType:
-      title: Onboarding State of user
-      enum:
-      - Approved
-      - ClientOnboarded
-      - InProgress
-      - Pending
-      - Rejected
-      - Waiting
-      type: string
-      example: ClientOnboarded
-      x-enum-descriptions:
-        ClientOnboarded: Onboarding request is complete
-        Waiting: Onboarding request is waiting to be picked up by Operations
-        InProgress: Onboarding request is being worked on
-        Pending: Onboarding request is waiting for information by user
-        Rejected: Onboarding request is rejected
-        Approved: Onboarding request is approved
-    Models.SwitzerlandData:
-      title: Client information for Switzerland onboarding
-      type: object
-      properties:
-        AnnualIncomeChf:
-          title: Annual income in CHF (from Options)
-          type: string
-          example: stringValue
-        NetWorthChf:
-          title: Net worth in CHF (from Options)
+        ReceivingCountryIsoCode:
+          title: Receiving country ISO code (from options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeChf: '4'
-        NetWorthChf: '2'
-    Models.SingaporeData:
-      title: Client information for Singapore onboarding
+        BeneficiaryBankName: BankName
+        ReceivingCountryIsoCode: DK
+    Models.ContactInformation:
+      title: Contact information
+      required:
+      - EmailAddress
       type: object
       properties:
-        AnnualIncomeSgd:
-          title: Annual income in SGD
+        EmailAddress:
+          title: Email address
+          maxLength: 100
           type: string
           example: stringValue
-        BrokersDeclinedBy:
-          title: Brokers declined by
-          type: string
-          example: stringValue
-        ClassificationRequired:
-          title: Is classification required?
-          type: boolean
-          example: false
-        DiplomaOrHigherQualification:
-          title: Diploma or higher Qualification
-          type: string
-          example: stringValue
-        ELearningAbsSasCfds:
-          title: E-learning (ABS-SAS, CFDs)
-          type: string
-          example: stringValue
-        ELearningAbsSasFx:
-          title: E-learning (ABS-SAS, Fx)
-          type: string
-          example: stringValue
-        ELearningPassed:
-          title: Has the client passed E-learning
-          type: string
-          example: stringValue
-        ELearningSgx:
-          title: E-learning (SGX)
-          type: boolean
-          example: false
-        ELearningSgxScore:
-          title: E-learning (SGX) score
-          type: string
-          example: stringValue
-        EducationalQualificationSatisfied:
-          title: Is the qualification of education satisfied?
-          type: boolean
-          example: false
-        FinanceWorkExperience:
-          title: Finance work experience
-          type: string
-          example: stringValue
-        InvestorProfile:
-          title: Type of investor profile
-          type: string
-          example: stringValue
-        ListedSips:
-          title: Does the client want to trade in listed SIPs?
-          type: boolean
-          example: false
-        NetWorthSgd:
-          title: Net worth in SGD
-          type: string
-          example: stringValue
-        PermanentResident:
-          title: Is the client a permanent resident of Singapore?
-          type: boolean
-          example: false
-        ProfessionalFinanceQualification:
-          title: Professional finance qualification
-          type: string
-          example: stringValue
-        SgxStocks:
-          title: Sgx stocks
-          type: string
-          example: stringValue
-        UnlistedSipsCfds:
-          title: Does the client want to trade unlisted SIPs (CFD)?
-          type: boolean
-          example: false
-        UnlistedSipsFx:
-          title: Does the client want to trade unlisted SIPs (Fx)?
-          type: boolean
-          example: false
+        PrimaryPhoneNumber:
+          title: Primary phone number
+          allOf:
+          - $ref: '#/components/schemas/Models.Api.v1.PhoneNumber'
+        SecondaryPhoneNumber:
+          title: Secondary phone number
+          allOf:
+          - $ref: '#/components/schemas/Models.Api.v1.PhoneNumber'
       additionalProperties: false
       example:
-        AnnualIncomeSgd: '3'
-        BrokersDeclinedBy: BrokersName
-        ClassificationRequired: true
-        DiplomaOrHigherQualification: '2'
-        EducationalQualificationSatisfied: true
-        ELearningAbsSasCfds: '3'
-        ELearningAbsSasFx: '2'
-        ELearningPassed: '4'
-        ELearningSgx: false
-        ELearningSgxScore: '20'
-        FinanceWorkExperience: '5'
-        InvestorProfile: '2'
-        ListedSips: true
-        NetWorthSgd: '5'
-        PermanentResident: true
-        ProfessionalFinanceQualification: '5'
-        SgxStocks: '2'
-        UnlistedSipsCfds: false
-        UnlistedSipsFx: false
+        EmailAddress: abc@test.com
+        PrimaryPhoneNumber:
+          CountryCode: US
+          Number: '1234567890'
+        SecondaryPhoneNumber:
+          CountryCode: IN
+          Number: '2134567890'
     Models.SignupFlowDocumentType:
       title: Document types accepted for signup
       enum:
@@ -1350,164 +1238,97 @@ components:
         PensionTransferRequest: Document detailing Pension Transfer Request
         TaxSavingAccount: Document detailing Tax Saving Account
         TaxSavingAccountWithTransfer: Tax saving account with transfer
-    Money:
-      title: Money Range
+    PersonalTradingProfile:
+      title: Client's trading profile
       type: object
       properties:
-        Currency:
-          title: Currency - (From Options)
+        KnowledgeOfFinancialInstruments:
+          title: Knowledge of financial instruments
           type: string
           example: stringValue
-        Value:
-          title: Value
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Currency: '2'
-        Value: 100000
-    Models.RegulatoryInformation:
-      title: Regulatory information
-      type: object
-      properties:
-        FatcaDeclaration:
-          title: USA foreign account tax compliance act
-          allOf:
-          - $ref: '#/components/schemas/Models.FatcaDeclaration'
-      additionalProperties: false
-      example:
-        FatcaDeclaration:
-          UnitedStatesCitizen: true
-          UnitedStatesProducts: true
-          UnitedStatesTaxId: '23456'
-          UnitedStatesTaxLiable: true
-    Models.ElectronicVerificationResult:
-      title: Electronic verification result
-      enum:
-      - Failed
-      - Passed
-      - Referred
-      - Unknown
-      type: string
-      example: Unknown
-      x-enum-descriptions:
-        Unknown: The electronic verification result is unknown
-        Passed: The electronic verification result is passed
-        Referred: The electronic verification result is referred
-        Failed: The electronic verification result is failed
-    Models.EmploymentInformation:
-      title: Clients employment information
-      type: object
-      properties:
-        AdditionalEmploymentRelations:
-          title: Additional employment relation details.
-          allOf:
-          - $ref: '#/components/schemas/Models.AdditionalEmploymentRelations'
-        EmployerName:
-          title: Employer name
-          maxLength: 100
-          type: string
-          example: stringValue
-        FinancialSectorEmployee:
-          title: Does client work in financial sector.
-          type: boolean
-          example: false
-        NatureOfBusiness:
-          title: The nature of business.
-          type: string
-          example: stringValue
-        OccupationTypes:
-          title: Occupation types (from Options, can select multiple)
+        ProductTradingExperience:
+          title: Product trading experience
           type: array
           items:
             type: string
             example: stringValue
           example:
           - stringValue
-        Position:
-          title: Position
-          maxLength: 250
+        TradesPerMonth:
+          title: Trades per month
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AdditionalEmploymentRelations:
-          CompanyNameInsider: CompanyNameInsider
-          CompanyNameMajorityInterest: CompanyNameMajorityInterest
-          ManagedOrManagingAssets: false
-        EmployerName: EmpName
-        FinancialSectorEmployee: false
-        NatureOfBusiness: '1'
-        OccupationTypes:
-        - '1'
+        KnowledgeOfFinancialInstruments: '2'
+        ProductTradingExperience:
+        - '3'
+        - '4'
+        - '5'
+        TradesPerMonth: '3'
+    Models.AnnualIncomeInformation:
+      title: Client annual income information
+      type: object
+      properties:
+        AnnualSalaryAfterTax:
+          title: Annual salary after tax (from Options)
+          type: string
+          example: stringValue
+        SecondaryIncomeOther:
+          title: Other sources of secondary income
+          type: string
+          example: stringValue
+        SecondarySourcesOfIncome:
+          title: Secondary sources of income (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        SecondarySourcesOfIncomeTotal:
+          title: Secondary sources of income total (from Options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualSalaryAfterTax: '1'
+        SecondaryIncomeOther: Other sources of secondary income
+        SecondarySourcesOfIncome:
         - '2'
-        Position: Position
-    OnboardingSubStateType:
-      title: Onboarding Sub State of user
-      enum:
-      - ManualHandling
-      type: string
-      example: ManualHandling
-      x-enum-descriptions:
-        ManualHandling: The onboarding request is being handled manually
-    Models.FatcaDeclaration:
-      title: USA Foreign Account Tax Compliance Act
+        SecondarySourcesOfIncomeTotal: '8'
+    InvestmentPurpose:
+      title: Client Investment Purpose
       type: object
       properties:
-        UnitedStatesCitizen:
-          title: Is the client a citizen of USA
-          type: boolean
-          example: false
-        UnitedStatesProducts:
-          title: Do you want to trade products in USA
-          type: boolean
-          example: false
-        UnitedStatesTaxId:
-          title: USA tax ID
-          maxLength: 20
-          type: string
-          example: stringValue
-        UnitedStatesTaxLiable:
-          title: Tax liable in USA
-          type: boolean
-          example: false
-      additionalProperties: false
-      example:
-        UnitedStatesCitizen: true
-        UnitedStatesProducts: true
-        UnitedStatesTaxId: '23456'
-        UnitedStatesTaxLiable: true
-    SignUpResponse:
-      title: Sign up response
-      type: object
-      properties:
-        ClientId:
-          title: Created clients ID
-          type: string
-          example: stringValue
-        ClientKey:
-          title: Client Key
-          type: string
-          example: stringValue
-        SignUpId:
-          title: Sign up ID
+        PurposeAndScope:
+          title: Purpose and scope (from Options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        ClientId: '2147279170'
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        SignUpId: 446d5238-dc6b-4c04-9b0e-7c061f93734e
-    VerificationProvider:
-      title: Verification Provider
-      enum:
-      - MyInfo
-      - SecureMe
-      type: string
-      example: SecureMe
-      x-enum-descriptions:
-        SecureMe: SecureMe
-        MyInfo: MyInfo
+        PurposeAndScope: '2'
+    CompleteApplication.AccountDetails:
+      title: Account details of client
+      type: object
+      properties:
+        AccountType:
+          title: Type of account
+          type: string
+          example: stringValue
+        CurrencyIsoCode:
+          title: Currency ISO code of account
+          type: string
+          example: stringValue
+        Iban:
+          title: Iban of account
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountType: Normal
+        CurrencyIsoCode: USD
+        Iban: DK43754335838392
     SignupFlowDocumentType:
       title: Document types accepted for signup
       enum:
@@ -1546,461 +1367,67 @@ components:
         PensionTransferRequest: Document detailing Pension Transfer Request
         TaxSavingAccount: Document detailing Tax Saving Account
         TaxSavingAccountWithTransfer: Tax saving account with transfer
-    ElectronicVerification:
-      title: Electronic Verification Information
+    Models.SignupDocument:
+      title: Sign up document
+      required:
+      - FileName
+      - Data
       type: object
       properties:
-        Done:
-          title: When was the electronic verification done?
+        Data:
+          title: Content or data of document in base64 format.
+          type: string
+          example: stringValue
+        DocumentType:
+          title: Type of document
+          allOf:
+          - $ref: '#/components/schemas/Models.SignupFlowDocumentType'
+        FileName:
+          title: Name of document
+          type: string
+          example: stringValue
+        RenewalDate:
+          title: Expiration date of document
           type: string
           format: date-time
           x-type-name: UtcDateTime
-        ExternalId:
-          title: External ID
-          type: string
-          example: stringValue
-        Result:
-          title: Result of electronic verification
-          allOf:
-          - $ref: '#/components/schemas/Models.ElectronicVerificationResult'
-        Score:
-          title: Score of electronic verification
+        Title:
+          title: Title of the document
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        Done: '2018-04-05T00:00:00.0000000+00:00'
-        ExternalId: ExternalId
-        Result: Passed
-        Score: '50'
-    Models.ProfileInformation:
-      title: Clients profile information
-      type: object
-      properties:
-        AnnualIncomeInformation:
-          title: Clients annual income information
-          allOf:
-          - $ref: '#/components/schemas/Models.AnnualIncomeInformation'
-        InvestableAssets:
-          title: Clients investable assets
-          allOf:
-          - $ref: '#/components/schemas/Models.InvestableAssets'
-        InvestmentPurpose:
-          title: Clients investment purpose
-          allOf:
-          - $ref: '#/components/schemas/InvestmentPurpose'
-        TradingProfile:
-          title: Clients trading profile
-          allOf:
-          - $ref: '#/components/schemas/Models.TradingProfile'
-      additionalProperties: false
-      example:
-        AnnualIncomeInformation:
-          AnnualSalaryAfterTax: '1'
-          SecondaryIncomeOther: Other sources of secondary income
-          SecondarySourcesOfIncome:
-          - '2'
-          SecondarySourcesOfIncomeTotal: '8'
-        InvestableAssets:
-          IntendToInvest: '5'
-          PrimarySourcesOfWealth:
-          - '1'
-          - '3'
-          SourceOfWealthOther: OtherWealthSource
-          ValueOfCashAndSecurities: '8'
-        InvestmentPurpose:
-          PurposeAndScope: '2'
-        TradingProfile:
-          SoleBoOfAssets: true
-    ApplicationStatus:
-      title: Compleet application status
-      enum:
-      - Failed
-      - InProgress
-      - Ok
-      type: string
-      example: InProgress
-      x-enum-descriptions:
-        InProgress: The process of complete application is in progress.
-        Ok: Application has been completed successfully.
-        Failed: Failed to complete application. Please reach out to Saxo Bank for further details.
-    InitiateVerificationRequest:
-      title: Initiate verification request
+        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+        DocumentType: ProofOfIdentity
+        FileName: ProofOfIdentity.pdf
+        RenewalDate: '2023-10-29T04:28:02.2299970+00:00'
+        Title: ProofOfIdentity
+    Models.AssetDetails:
+      title: Asset Details class
       required:
-      - RedirectUrl
+      - CurrencyCode
+      - Amount
+      - AmountDescription
       type: object
       properties:
-        RedirectUrl:
-          title: The url that the client wants to redirect back to after the process is over
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        RedirectUrl: http://openapi.validate.com
-    Models.BankInformation:
-      title: Bank information
-      type: object
-      properties:
-        BeneficiaryBankName:
-          title: Beneficiary bank name
-          type: string
-          example: stringValue
-        ReceivingCountryIsoCode:
-          title: Receiving country ISO code (from options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BeneficiaryBankName: BankName
-        ReceivingCountryIsoCode: DK
-    SignupDocuments:
-      title: Documents needed for onboarding
-      type: object
-      properties:
-        Documents:
-          title: An array of base64 encoded files, documenting the identity, residency etc of the applicant.
-          type: array
-          items:
-            $ref: '#/components/schemas/Models.SignupDocument'
-          example:
-          - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-            DocumentType: ProofOfIdentity
-            FileName: ProofOfIdentity.pdf
-            RenewalDate: '2023-10-29T04:28:02.231997Z'
-            Title: ProofOfIdentity
-      additionalProperties: false
-      example:
-        Documents:
-        - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-          DocumentType: ProofOfIdentity
-          FileName: ProofOfIdentity.pdf
-          RenewalDate: '2025-10-29T04:28:02.224997Z'
-          Title: ProofOfIdentity
-        - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-          DocumentType: ProofOfResidency
-          FileName: ProofOfResidency.doc
-          RenewalDate: '2024-10-29T04:28:02.224997Z'
-          Title: ProofOfResidency
-    OnboardingInformation:
-      title: Onboarding Information
-      type: object
-      properties:
-        ElectronicVerification:
-          title: Electronic Verification Information
+        Amount:
+          title: Amount value
+          type: integer
+          format: int32
+          example: 99
+        AmountDescription:
+          title: Amount description
           allOf:
-          - $ref: '#/components/schemas/ElectronicVerification'
-      additionalProperties: false
-      example:
-        ElectronicVerification:
-          Done: '2018-04-05T00:00:00Z'
-          ExternalId: ExternalId
-          Result: Passed
-          Score: '50'
-    AccountInformation:
-      title: Account information
-      type: object
-      properties:
-        AdditionalChoiceOfAccounts:
-          title: Additional choice of accounts
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        ClientCategoryId:
-          title: Guides the configuration of the client. Only set this field, if one of more values has been provided to you by Saxo Bank.
-          type: string
-          example: stringValue
+          - $ref: '#/components/schemas/Models.AmountDescriptionType'
         CurrencyCode:
           title: Currency code (from Options)
           type: string
           example: stringValue
-        DefaultChoiceOfAccount:
-          title: Default choice of account (from Options - ChoiceOfAccountDefault)
-          type: string
-          example: stringValue
-        IntendedCommissionGroupId:
-          title: Intended commission group ID
-          type: string
-          example: stringValue
-        IntendedTemplateId:
-          title: Intended template ID
-          type: string
-          example: stringValue
-        ModelId:
-          title: Guides the configuration of the client. Only set this field, if one of more values has been provided to you by Saxo Bank.
-          type: string
-          example: stringValue
-        OtherInstructions:
-          title: Other instructions
-          type: string
-          example: stringValue
       additionalProperties: false
       example:
-        AdditionalChoiceOfAccounts:
-        - '5'
-        ClientCategoryId: '1'
-        CurrencyCode: USD
-        DefaultChoiceOfAccount: '38'
-        IntendedCommissionGroupId: '1234'
-        IntendedTemplateId: '567'
-        OtherInstructions: Instruction1
-    ItalianData.ItalyData:
-      title: Client information for Italy onboarding
-      type: object
-      properties:
-        EmploymentInformation:
-          title: Employment information for Italy onboarding
-          allOf:
-          - $ref: '#/components/schemas/ItalianData.EmploymentInformation'
-        MailContactPreference:
-          title: Do you want to be contacted through mail?
-          type: boolean
-          example: false
-        ProfileInformation:
-          title: Profile information for Italy onboarding
-          allOf:
-          - $ref: '#/components/schemas/ItalianData.ProfileInformation'
-      additionalProperties: false
-      example:
-        EmploymentInformation:
-          CountryConcernedCode: IT
-          DetailedBusinessActivity: '005'
-          EmploymentName: Employer
-          OtherEmployment: Other employer description
-          PrevalentCorporateObject: Corporate object
-          ProvinceConcerned: Livorno
-          StatusOfEmployment: '125'
-        MailContactPreference: true
-        ProfileInformation:
-          AnnualIncomeInformation:
-            AnnualIncomeSource:
-            - '2'
-            TotalAnnualIncome: '1'
-          InvestableAssets:
-            IntendToInvest: '2'
-            NatureAndPurposeOfTheRelationship: '1'
-            SourceOfWealth:
-            - '3'
-            ValueOfTotalWealth: '4'
-    CompleteApplication.AccountDetails:
-      title: Account details of client
-      type: object
-      properties:
-        AccountType:
-          title: Type of account
-          type: string
-          example: stringValue
-        CurrencyIsoCode:
-          title: Currency ISO code of account
-          type: string
-          example: stringValue
-        Iban:
-          title: Iban of account
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountType: Normal
-        CurrencyIsoCode: USD
-        Iban: DK43754335838392
-    Models.AdditionalEmploymentRelations:
-      title: Type for Additional employment relations
-      type: object
-      properties:
-        CompanyNameInsider:
-          title: Company name Insider
-          maxLength: 250
-          type: string
-          example: stringValue
-        CompanyNameMajorityInterest:
-          title: Company name majority Interest
-          maxLength: 250
-          type: string
-          example: stringValue
-        ManagedOrManagingAssets:
-          title: Managed or managing Assets
-          type: boolean
-          example: false
-      additionalProperties: false
-      example:
-        CompanyNameInsider: CompanyNameInsider
-        CompanyNameMajorityInterest: CompanyNameMajorityInterest
-        ManagedOrManagingAssets: false
-    SecureMeUploadOption:
-      title: SecureMe upload option
-      enum:
-      - Camera
-      - File
-      type: string
-      example: Camera
-      x-enum-descriptions:
-        Camera: Camera
-        File: File
-    Models.FinlandData:
-      title: Client information for Finland onboarding
-      type: object
-      properties:
-        EuroclearJudicialForm:
-          title: Judicial form for Euroclear
-          type: string
-          example: stringValue
-        EuroclearSectorCode:
-          title: Sector code for Euroclear
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        EuroclearJudicialForm: '21'
-        EuroclearSectorCode: '10010'
-    ItalianData.InvestableAssets:
-      title: Investable assets for Italy
-      type: object
-      properties:
-        IntendToInvest:
-          title: Intend to invest - (from options)
-          type: string
-          example: stringValue
-        NatureAndPurposeOfTheRelationship:
-          title: Nature and purpose of relationship - (from options)
-          type: string
-          example: stringValue
-        SourceOfWealth:
-          title: Sources of wealth - (from options, can select multiple)
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        ValueOfTotalWealth:
-          title: Value of total wealth - (from options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        IntendToInvest: '2'
-        NatureAndPurposeOfTheRelationship: '1'
-        SourceOfWealth:
-        - '3'
-        ValueOfTotalWealth: '4'
-    SecureMeUploadOptions:
-      title: SecureMe upload options
-      type: object
-      properties:
-        Back:
-          title: Back side document option
-          allOf:
-          - $ref: '#/components/schemas/SecureMeUploadOption'
-        Front:
-          title: Front side document option
-          allOf:
-          - $ref: '#/components/schemas/SecureMeUploadOption'
-        Selfie:
-          title: Selfie option
-          allOf:
-          - $ref: '#/components/schemas/SecureMeUploadOption'
-      additionalProperties: false
-      example:
-        Back: Camera
-        Front: File
-        Selfie: File
-    Models.TradingProfile:
-      title: Client trading profile
-      type: object
-      properties:
-        SoleBoOfAssets:
-          title: Sole beneficial owner of the deposited assets
-          type: boolean
-          example: false
-      additionalProperties: false
-      example:
-        SoleBoOfAssets: true
-    PersonalTradingProfile:
-      title: Client's trading profile
-      type: object
-      properties:
-        KnowledgeOfFinancialInstruments:
-          title: Knowledge of financial instruments
-          type: string
-          example: stringValue
-        ProductTradingExperience:
-          title: Product trading experience
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        TradesPerMonth:
-          title: Trades per month
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        KnowledgeOfFinancialInstruments: '2'
-        ProductTradingExperience:
-        - '3'
-        - '4'
-        - '5'
-        TradesPerMonth: '3'
-    Models.TaxableCountry:
-      title: Taxable countries
-      type: object
-      properties:
-        CountryCode:
-          title: Country code (from Options)
-          type: string
-          example: stringValue
-        TaxId:
-          title: Tax Id, if TIN is available
-          type: string
-          example: stringValue
-        TinMissingReason:
-          title: Reason for not having TIN (from Options)
-          type: string
-          example: stringValue
-        TinNotAvailable:
-          title: Is TIN not available?
-          type: boolean
-          example: false
-        TinOtherMissingReason:
-          title: Any other reason for not having TIN
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryCode: DK
-        TaxId: '12334567'
-        TinNotAvailable: false
-    CompleteApplicationResponse:
-      type: object
-      properties:
-        AccountDetails:
-          title: List of accounts if application status is 'Ok'
-          type: array
-          items:
-            $ref: '#/components/schemas/CompleteApplication.AccountDetails'
-          example:
-          - AccountType: Normal
-            CurrencyIsoCode: USD
-            Iban: DK43754335838392
-        ApplicationStatus:
-          title: Complete application status
-          allOf:
-          - $ref: '#/components/schemas/ApplicationStatus'
-        ErrorMessage:
-          title: Error message if application status is 'Failed'
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountDetails:
-        - AccountType: Normal
-          CurrencyIsoCode: USD
-          Iban: DK43754335838392
-        ApplicationStatus: Ok
+        Amount: 100020
+        AmountDescription: Exact
+        CurrencyCode: DKK
     SignUpRequest:
       title: SignupRequest
       required:
@@ -2251,6 +1678,105 @@ components:
         SwitzerlandData:
           AnnualIncomeChf: '4'
           NetWorthChf: '2'
+    InitiateVerificationResponse:
+      title: Initaite verification response
+      type: object
+      properties:
+        IdentificationUrl:
+          title: The url that will redirect the client to the vendors site for verification
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        IdentificationUrl: https://test.signicat.com/target=http%3A%2F%2Fopenapi.validate.com%2Fopenapi%2Fv1%2Fverify%2F3c3685cf-85e3-4c11-8as7-c4f2dcc78hea
+    Models.TaxableCountry:
+      title: Taxable countries
+      type: object
+      properties:
+        CountryCode:
+          title: Country code (from Options)
+          type: string
+          example: stringValue
+        TaxId:
+          title: Tax Id, if TIN is available
+          type: string
+          example: stringValue
+        TinMissingReason:
+          title: Reason for not having TIN (from Options)
+          type: string
+          example: stringValue
+        TinNotAvailable:
+          title: Is TIN not available?
+          type: boolean
+          example: false
+        TinOtherMissingReason:
+          title: Any other reason for not having TIN
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: DK
+        TaxId: '12334567'
+        TinNotAvailable: false
+    ItalianData.ItalyData:
+      title: Client information for Italy onboarding
+      type: object
+      properties:
+        EmploymentInformation:
+          title: Employment information for Italy onboarding
+          allOf:
+          - $ref: '#/components/schemas/ItalianData.EmploymentInformation'
+        MailContactPreference:
+          title: Do you want to be contacted through mail?
+          type: boolean
+          example: false
+        ProfileInformation:
+          title: Profile information for Italy onboarding
+          allOf:
+          - $ref: '#/components/schemas/ItalianData.ProfileInformation'
+      additionalProperties: false
+      example:
+        EmploymentInformation:
+          CountryConcernedCode: IT
+          DetailedBusinessActivity: '005'
+          EmploymentName: Employer
+          OtherEmployment: Other employer description
+          PrevalentCorporateObject: Corporate object
+          ProvinceConcerned: Livorno
+          StatusOfEmployment: '125'
+        MailContactPreference: true
+        ProfileInformation:
+          AnnualIncomeInformation:
+            AnnualIncomeSource:
+            - '2'
+            TotalAnnualIncome: '1'
+          InvestableAssets:
+            IntendToInvest: '2'
+            NatureAndPurposeOfTheRelationship: '1'
+            SourceOfWealth:
+            - '3'
+            ValueOfTotalWealth: '4'
+    SecureMeUploadOptions:
+      title: SecureMe upload options
+      type: object
+      properties:
+        Back:
+          title: Back side document option
+          allOf:
+          - $ref: '#/components/schemas/SecureMeUploadOption'
+        Front:
+          title: Front side document option
+          allOf:
+          - $ref: '#/components/schemas/SecureMeUploadOption'
+        Selfie:
+          title: Selfie option
+          allOf:
+          - $ref: '#/components/schemas/SecureMeUploadOption'
+      additionalProperties: false
+      example:
+        Back: Camera
+        Front: File
+        Selfie: File
     SignUpStatusResponse:
       title: Signup onboarding status response
       type: object
@@ -2291,257 +1817,290 @@ components:
         ClientKey: d2-PzdC5wIPy1284wD-rRA==
         Message: Onboarding request complete. Account and client keys have been created
         OnboardingState: ClientOnboarded
-    Models.SignupDocument:
-      title: Sign up document
-      required:
-      - FileName
-      - Data
+    ItalianData.ProfileInformation:
+      title: Profile information for Italy
       type: object
       properties:
-        Data:
-          title: Content or data of document in base64 format.
-          type: string
-          example: stringValue
-        DocumentType:
-          title: Type of document
+        AnnualIncomeInformation:
+          title: Annual income information for Italy
           allOf:
-          - $ref: '#/components/schemas/Models.SignupFlowDocumentType'
-        FileName:
-          title: Name of document
-          type: string
-          example: stringValue
-        RenewalDate:
-          title: Expiration date of document
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        Title:
-          title: Title of the document
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-        DocumentType: ProofOfIdentity
-        FileName: ProofOfIdentity.pdf
-        RenewalDate: '2023-10-29T04:28:02.2299970+00:00'
-        Title: ProofOfIdentity
-    InitiateVerification.InitiateVerificationResponse:
-      title: Initaite verification response
-      type: object
-      properties:
-        IdentificationUrl:
-          title: The url that will redirect the client to the vendors site for verification
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        IdentificationUrl: https://secure-me.au10tixservicesstaging.com?token=oBVmsTzsSMGvYES0y9jj&api=aHR0cHM6Ly93ZXUtYXBpLmF1MTB0aXhzZXJ2aWNlc3N0YWdpbmcuY29tL3NlY3VyZS1tZS92MQ%3D%3D&locale=en-us
-    OnboardingStatePendingReason:
-      type: object
-      properties:
-        PendingField:
-          title: Field where pending action is required
-          type: string
-          example: stringValue
-        Reasons:
-          title: Pending reasons - action required by user
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-      additionalProperties: false
-      example:
-        PendingField: Proof of identity
-        Reasons:
-        - Expired
-        - Missing Date of Birth
-    Models.SignUpOption:
-      title: Possible sign up options
-      type: object
-      properties:
-        PropertyName:
-          title: Property name
-          type: string
-          example: stringValue
-        ValuePairs:
-          title: Key and value pairs of the property values
-          type: array
-          items:
-            $ref: '#/components/schemas/StringStringKeyValuePair'
-          example:
-          - Key: stringValue
-            Value: stringValue
-      additionalProperties: false
-      example:
-        PropertyName: stringValue
-        ValuePairs:
-        - Key: stringValue
-          Value: stringValue
-    InitiateVerification.InitiateVerificationRequest:
-      title: Initiate verification request
-      required:
-      - VerificationProviderType
-      type: object
-      properties:
-        MyInfoRequest:
-          title: MyInfo Request
+          - $ref: '#/components/schemas/ItalianData.AnnualIncomeInformation'
+        InvestableAssets:
+          title: Investable assets for Italy
           allOf:
-          - $ref: '#/components/schemas/MyInfoRequest'
-        SecureMeRequest:
-          title: Secure Me Request
-          allOf:
-          - $ref: '#/components/schemas/SecureMeRequest'
-        VerificationProviderType:
-          title: Type of verification provider requested
-          allOf:
-          - $ref: '#/components/schemas/VerificationProvider'
+          - $ref: '#/components/schemas/ItalianData.InvestableAssets'
       additionalProperties: false
       example:
-        SecureMeRequest:
-          CountryCode: UK
-          ErrorRedirectUrl: https://openapi.validate.com
-          ServiceLanguageCode: FR
-          SuccessRedirectUrl: https://openapi.validate.com
-          UploadOptions:
-            Back: File
-            Front: File
-            Selfie: Camera
-        VerificationProviderType: SecureMe
-    Models.PoliticallyExposedInformation:
-      title: Politically exposed person information
+        AnnualIncomeInformation:
+          AnnualIncomeSource:
+          - '2'
+          TotalAnnualIncome: '1'
+        InvestableAssets:
+          IntendToInvest: '2'
+          NatureAndPurposeOfTheRelationship: '1'
+          SourceOfWealth:
+          - '3'
+          ValueOfTotalWealth: '4'
+    Models.FatcaDeclaration:
+      title: USA Foreign Account Tax Compliance Act
       type: object
       properties:
-        PepPosition:
-          title: PEP Position
+        UnitedStatesCitizen:
+          title: Is the client a citizen of USA
+          type: boolean
+          example: false
+        UnitedStatesProducts:
+          title: Do you want to trade products in USA
+          type: boolean
+          example: false
+        UnitedStatesTaxId:
+          title: USA tax ID
+          maxLength: 20
           type: string
           example: stringValue
-        PepRelatedPersonName:
-          title: Name of PEP Related Person
+        UnitedStatesTaxLiable:
+          title: Tax liable in USA
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        UnitedStatesCitizen: true
+        UnitedStatesProducts: true
+        UnitedStatesTaxId: '23456'
+        UnitedStatesTaxLiable: true
+    Models.FinlandData:
+      title: Client information for Finland onboarding
+      type: object
+      properties:
+        EuroclearJudicialForm:
+          title: Judicial form for Euroclear
           type: string
           example: stringValue
-        PepRelatedPersonPosition:
-          title: Position of PEP Related Person
-          type: string
-          example: stringValue
-        PepType:
-          title: Type of PEP (from Options)
-          type: string
-          example: stringValue
-        RelationToPep:
-          title: Relation to PEP (from Options)
+        EuroclearSectorCode:
+          title: Sector code for Euroclear
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        PepPosition: stringValue
-        PepRelatedPersonName: stringValue
-        PepRelatedPersonPosition: stringValue
-        PepType: stringValue
-        RelationToPep: stringValue
-    Models.AmountDescriptionType:
-      title: Enum for AmountDescriptionType
-      enum:
-      - AboveThisAmount
-      - Exact
-      - Rounded
-      type: string
-      example: Exact
-      x-enum-descriptions:
-        Exact: Exact value provided.
-        Rounded: Nearby value provided.
-        AboveThisAmount: Value is above this amount.
-    Models.InvestableAssets:
-      title: Clients investable assets
+        EuroclearJudicialForm: '21'
+        EuroclearSectorCode: '10010'
+    ItalianData.InvestableAssets:
+      title: Investable assets for Italy
       type: object
       properties:
         IntendToInvest:
-          title: Intend to invest (from Options)
+          title: Intend to invest - (from options)
           type: string
           example: stringValue
-        PrimarySourcesOfWealth:
-          title: Primary sources of wealth (from Options, can select multiple)
+        NatureAndPurposeOfTheRelationship:
+          title: Nature and purpose of relationship - (from options)
+          type: string
+          example: stringValue
+        SourceOfWealth:
+          title: Sources of wealth - (from options, can select multiple)
           type: array
           items:
             type: string
             example: stringValue
           example:
           - stringValue
-        SourceOfWealthOther:
-          title: Other sources of wealth
-          type: string
-          example: stringValue
-        ValueOfCashAndSecurities:
-          title: Value of cash and securities (from Options)
+        ValueOfTotalWealth:
+          title: Value of total wealth - (from options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        IntendToInvest: '5'
-        PrimarySourcesOfWealth:
-        - '1'
+        IntendToInvest: '2'
+        NatureAndPurposeOfTheRelationship: '1'
+        SourceOfWealth:
         - '3'
-        SourceOfWealthOther: OtherWealthSource
-        ValueOfCashAndSecurities: '8'
-    Models.AnnualIncomeInformation:
-      title: Client annual income information
+        ValueOfTotalWealth: '4'
+    ItalianData.AnnualIncomeInformation:
+      title: Annual income information for Italy
       type: object
       properties:
-        AnnualSalaryAfterTax:
-          title: Annual salary after tax (from Options)
-          type: string
-          example: stringValue
-        SecondaryIncomeOther:
-          title: Other sources of secondary income
-          type: string
-          example: stringValue
-        SecondarySourcesOfIncome:
-          title: Secondary sources of income (from Options, can select multiple)
+        AnnualIncomeSource:
+          title: Annual income source - (from options, can select multiple)
           type: array
           items:
             type: string
             example: stringValue
           example:
           - stringValue
-        SecondarySourcesOfIncomeTotal:
-          title: Secondary sources of income total (from Options)
+        TotalAnnualIncome:
+          title: Total annual income - (from options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AnnualSalaryAfterTax: '1'
-        SecondaryIncomeOther: Other sources of secondary income
-        SecondarySourcesOfIncome:
+        AnnualIncomeSource:
         - '2'
-        SecondarySourcesOfIncomeTotal: '8'
-    Models.AssetDetails:
-      title: Asset Details class
-      required:
-      - CurrencyCode
-      - Amount
-      - AmountDescription
+        TotalAnnualIncome: '1'
+    Models.SwitzerlandData:
+      title: Client information for Switzerland onboarding
       type: object
       properties:
-        Amount:
-          title: Amount value
-          type: integer
-          format: int32
-          example: 99
-        AmountDescription:
-          title: Amount description
-          allOf:
-          - $ref: '#/components/schemas/Models.AmountDescriptionType'
-        CurrencyCode:
-          title: Currency code (from Options)
+        AnnualIncomeChf:
+          title: Annual income in CHF (from Options)
+          type: string
+          example: stringValue
+        NetWorthChf:
+          title: Net worth in CHF (from Options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        Amount: 100020
-        AmountDescription: Exact
-        CurrencyCode: DKK
+        AnnualIncomeChf: '4'
+        NetWorthChf: '2'
+    InitiateVerificationRequest:
+      title: Initiate verification request
+      required:
+      - RedirectUrl
+      type: object
+      properties:
+        RedirectUrl:
+          title: The url that the client wants to redirect back to after the process is over
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        RedirectUrl: http://openapi.validate.com
+    Models.ElectronicVerificationResult:
+      title: Electronic verification result
+      enum:
+      - Failed
+      - Passed
+      - Referred
+      - Unknown
+      type: string
+      example: Unknown
+      x-enum-descriptions:
+        Unknown: The electronic verification result is unknown
+        Passed: The electronic verification result is passed
+        Referred: The electronic verification result is referred
+        Failed: The electronic verification result is failed
+    SignupDocuments:
+      title: Documents needed for onboarding
+      type: object
+      properties:
+        Documents:
+          title: An array of base64 encoded files, documenting the identity, residency etc of the applicant.
+          type: array
+          items:
+            $ref: '#/components/schemas/Models.SignupDocument'
+          example:
+          - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+            DocumentType: ProofOfIdentity
+            FileName: ProofOfIdentity.pdf
+            RenewalDate: '2023-10-29T04:28:02.231997Z'
+            Title: ProofOfIdentity
+      additionalProperties: false
+      example:
+        Documents:
+        - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+          DocumentType: ProofOfIdentity
+          FileName: ProofOfIdentity.pdf
+          RenewalDate: '2025-10-29T04:28:02.224997Z'
+          Title: ProofOfIdentity
+        - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+          DocumentType: ProofOfResidency
+          FileName: ProofOfResidency.doc
+          RenewalDate: '2024-10-29T04:28:02.224997Z'
+          Title: ProofOfResidency
+    Models.RegulatoryInformation:
+      title: Regulatory information
+      type: object
+      properties:
+        FatcaDeclaration:
+          title: USA foreign account tax compliance act
+          allOf:
+          - $ref: '#/components/schemas/Models.FatcaDeclaration'
+      additionalProperties: false
+      example:
+        FatcaDeclaration:
+          UnitedStatesCitizen: true
+          UnitedStatesProducts: true
+          UnitedStatesTaxId: '23456'
+          UnitedStatesTaxLiable: true
+    StringStringKeyValuePair:
+      type: object
+      properties:
+        Key:
+          type: string
+          example: stringValue
+        Value:
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Key: stringValue
+        Value: stringValue
+    SecureMeRequest:
+      title: Secure Me Request
+      type: object
+      properties:
+        CountryCode:
+          title: Country ISO code (from Options)
+          type: string
+          example: stringValue
+        ErrorRedirectUrl:
+          title: Error redirect url
+          type: string
+          example: stringValue
+        ServiceLanguageCode:
+          title: Service language ISO code (from Options)
+          type: string
+          example: stringValue
+        SuccessRedirectUrl:
+          title: Success redirect url
+          type: string
+          example: stringValue
+        UploadOptions:
+          title: SecureMe upload options
+          allOf:
+          - $ref: '#/components/schemas/SecureMeUploadOptions'
+      additionalProperties: false
+      example:
+        CountryCode: stringValue
+        ErrorRedirectUrl: stringValue
+        ServiceLanguageCode: stringValue
+        SuccessRedirectUrl: stringValue
+        UploadOptions:
+          Back: File
+          Front: Camera
+          Selfie: Camera
+    Models.AdditionalEmploymentRelations:
+      title: Type for Additional employment relations
+      type: object
+      properties:
+        CompanyNameInsider:
+          title: Company name Insider
+          maxLength: 250
+          type: string
+          example: stringValue
+        CompanyNameMajorityInterest:
+          title: Company name majority Interest
+          maxLength: 250
+          type: string
+          example: stringValue
+        ManagedOrManagingAssets:
+          title: Managed or managing Assets
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        CompanyNameInsider: CompanyNameInsider
+        CompanyNameMajorityInterest: CompanyNameMajorityInterest
+        ManagedOrManagingAssets: false
+    OnboardingDocumentType:
+      enum:
+      - Switzerland501
+      - Switzerland901
+      type: string
+      example: Switzerland501
+      x-enum-descriptions:
+        Switzerland501: Account request document
+        Switzerland901: Account opening confirmation document
     Models.PersonalInformation:
       title: Clients personal information
       required:
@@ -2804,148 +2363,390 @@ components:
         ServiceLanguageCode: EN
         TaxId: '288392738'
         TinNotAvailable: false
-    Models.OnboardingAddress:
-      title: Client address
-      required:
-      - City
-      - CountryOfResidenceCode
-      - PostalCode
-      - StreetName
+    OnboardingStatePendingReason:
       type: object
       properties:
-        BuildingName:
-          title: Building name
-          maxLength: 128
+        PendingField:
+          title: Field where pending action is required
           type: string
           example: stringValue
-        BuildingNumber:
-          title: Building number
-          maxLength: 128
-          type: string
-          example: stringValue
-        City:
-          title: City
-          maxLength: 128
-          type: string
-          example: stringValue
-        CountryOfResidenceCode:
-          title: Country of residence ISO code  (from Options)
-          type: string
-          example: stringValue
-        PostalCode:
-          title: Postal code
-          maxLength: 128
-          type: string
-          example: stringValue
-        State:
-          title: State
-          maxLength: 50
-          type: string
-          example: stringValue
-        StreetName:
-          title: Street name
-          maxLength: 128
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BuildingName: Building Penhurst Park
-        BuildingNumber: Build# 34
-        City: Buffalo
-        CountryOfResidenceCode: US
-        PostalCode: '14202'
-        State: New York
-        StreetName: Niagara Square
-    StringStringKeyValuePair:
-      type: object
-      properties:
-        Key:
-          type: string
-          example: stringValue
-        Value:
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Key: stringValue
-        Value: stringValue
-    SecureMeRequest:
-      title: Secure Me Request
-      type: object
-      properties:
-        CountryCode:
-          title: Country ISO code (from Options)
-          type: string
-          example: stringValue
-        ErrorRedirectUrl:
-          title: Error redirect url
-          type: string
-          example: stringValue
-        ServiceLanguageCode:
-          title: Service language ISO code (from Options)
-          type: string
-          example: stringValue
-        SuccessRedirectUrl:
-          title: Success redirect url
-          type: string
-          example: stringValue
-        UploadOptions:
-          title: SecureMe upload options
-          allOf:
-          - $ref: '#/components/schemas/SecureMeUploadOptions'
-      additionalProperties: false
-      example:
-        CountryCode: stringValue
-        ErrorRedirectUrl: stringValue
-        ServiceLanguageCode: stringValue
-        SuccessRedirectUrl: stringValue
-        UploadOptions:
-          Back: File
-          Front: Camera
-          Selfie: Camera
-    ItalianData.AnnualIncomeInformation:
-      title: Annual income information for Italy
-      type: object
-      properties:
-        AnnualIncomeSource:
-          title: Annual income source - (from options, can select multiple)
+        Reasons:
+          title: Pending reasons - action required by user
           type: array
           items:
             type: string
             example: stringValue
           example:
           - stringValue
-        TotalAnnualIncome:
-          title: Total annual income - (from options)
-          type: string
-          example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeSource:
-        - '2'
-        TotalAnnualIncome: '1'
-    Models.Api.v1.PhoneNumber:
-      title: Phone number consisting of optional country code and number.
+        PendingField: Proof of identity
+        Reasons:
+        - Expired
+        - Missing Date of Birth
+    InitiateVerification.InitiateVerificationRequest:
+      title: Initiate verification request
+      required:
+      - VerificationProviderType
       type: object
       properties:
-        CountryCode:
-          title: The country ISO code (alpha-2) where the phone number is registered. If not specified the country of residence of the associated contact will be used (from Options).
+        MyInfoRequest:
+          title: MyInfo Request
+          allOf:
+          - $ref: '#/components/schemas/MyInfoRequest'
+        SecureMeRequest:
+          title: Secure Me Request
+          allOf:
+          - $ref: '#/components/schemas/SecureMeRequest'
+        VerificationProviderType:
+          title: Type of verification provider requested
+          allOf:
+          - $ref: '#/components/schemas/VerificationProvider'
+      additionalProperties: false
+      example:
+        SecureMeRequest:
+          CountryCode: UK
+          ErrorRedirectUrl: https://openapi.validate.com
+          ServiceLanguageCode: FR
+          SuccessRedirectUrl: https://openapi.validate.com
+          UploadOptions:
+            Back: File
+            Front: File
+            Selfie: Camera
+        VerificationProviderType: SecureMe
+    SignUpOption:
+      title: Possible sign up options
+      type: object
+      properties:
+        PropertyName:
+          title: Property name
           type: string
           example: stringValue
-        Number:
-          title: The actual phone number without formatting. Only numeric characters are allowed.
+        ValuePairs:
+          title: Key and value pairs
+          type: array
+          items:
+            $ref: '#/components/schemas/StringStringKeyValuePair'
+          example:
+          - Key: stringValue
+            Value: stringValue
+      additionalProperties: false
+      example:
+        PropertyName: ServiceLanguageCode
+        ValuePairs:
+        - Key: Arabic
+          Value: AR
+        - Key: Bulgarian
+          Value: BU
+        - Key: Chinese
+          Value: CH
+        - Key: Chinese Traditional
+          Value: CHT
+        - Key: Danish
+          Value: DA
+        - Key: English
+          Value: EN
+        - Key: Farsi
+          Value: FA
+        - Key: German
+          Value: DE
+    Models.ProfileInformation:
+      title: Clients profile information
+      type: object
+      properties:
+        AnnualIncomeInformation:
+          title: Clients annual income information
+          allOf:
+          - $ref: '#/components/schemas/Models.AnnualIncomeInformation'
+        InvestableAssets:
+          title: Clients investable assets
+          allOf:
+          - $ref: '#/components/schemas/Models.InvestableAssets'
+        InvestmentPurpose:
+          title: Clients investment purpose
+          allOf:
+          - $ref: '#/components/schemas/InvestmentPurpose'
+        TradingProfile:
+          title: Clients trading profile
+          allOf:
+          - $ref: '#/components/schemas/Models.TradingProfile'
+      additionalProperties: false
+      example:
+        AnnualIncomeInformation:
+          AnnualSalaryAfterTax: '1'
+          SecondaryIncomeOther: Other sources of secondary income
+          SecondarySourcesOfIncome:
+          - '2'
+          SecondarySourcesOfIncomeTotal: '8'
+        InvestableAssets:
+          IntendToInvest: '5'
+          PrimarySourcesOfWealth:
+          - '1'
+          - '3'
+          SourceOfWealthOther: OtherWealthSource
+          ValueOfCashAndSecurities: '8'
+        InvestmentPurpose:
+          PurposeAndScope: '2'
+        TradingProfile:
+          SoleBoOfAssets: true
+    Models.InvestableAssets:
+      title: Clients investable assets
+      type: object
+      properties:
+        IntendToInvest:
+          title: Intend to invest (from Options)
+          type: string
+          example: stringValue
+        PrimarySourcesOfWealth:
+          title: Primary sources of wealth (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        SourceOfWealthOther:
+          title: Other sources of wealth
+          type: string
+          example: stringValue
+        ValueOfCashAndSecurities:
+          title: Value of cash and securities (from Options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        CountryCode: US
-        Number: '1234567890'
+        IntendToInvest: '5'
+        PrimarySourcesOfWealth:
+        - '1'
+        - '3'
+        SourceOfWealthOther: OtherWealthSource
+        ValueOfCashAndSecurities: '8'
+    SignUpResponse:
+      title: Sign up response
+      type: object
+      properties:
+        ClientId:
+          title: Created clients ID
+          type: string
+          example: stringValue
+        ClientKey:
+          title: Client Key
+          type: string
+          example: stringValue
+        SignUpId:
+          title: Sign up ID
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ClientId: '2147279170'
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        SignUpId: 446d5238-dc6b-4c04-9b0e-7c061f93734e
+    Models.PoliticallyExposedInformation:
+      title: Politically exposed person information
+      type: object
+      properties:
+        PepPosition:
+          title: PEP Position
+          type: string
+          example: stringValue
+        PepRelatedPersonName:
+          title: Name of PEP Related Person
+          type: string
+          example: stringValue
+        PepRelatedPersonPosition:
+          title: Position of PEP Related Person
+          type: string
+          example: stringValue
+        PepType:
+          title: Type of PEP (from Options)
+          type: string
+          example: stringValue
+        RelationToPep:
+          title: Relation to PEP (from Options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        PepPosition: stringValue
+        PepRelatedPersonName: stringValue
+        PepRelatedPersonPosition: stringValue
+        PepType: stringValue
+        RelationToPep: stringValue
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    OnboardingStateType:
+      title: Onboarding State of user
+      enum:
+      - Approved
+      - ClientOnboarded
+      - InProgress
+      - Pending
+      - Rejected
+      - Waiting
+      type: string
+      example: ClientOnboarded
+      x-enum-descriptions:
+        ClientOnboarded: Onboarding request is complete
+        Waiting: Onboarding request is waiting to be picked up by Operations
+        InProgress: Onboarding request is being worked on
+        Pending: Onboarding request is waiting for information by user
+        Rejected: Onboarding request is rejected
+        Approved: Onboarding request is approved
+    MyInfoRequest:
+      title: MyInfo Request
+      type: object
+      properties:
+        RedirectUrl:
+          title: Redirect url to which the user will be redirected after verification is done
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        RedirectUrl: stringValue
+    ApplicationStatus:
+      title: Compleet application status
+      enum:
+      - Failed
+      - InProgress
+      - Ok
+      type: string
+      example: InProgress
+      x-enum-descriptions:
+        InProgress: The process of complete application is in progress.
+        Ok: Application has been completed successfully.
+        Failed: Failed to complete application. Please reach out to Saxo Bank for further details.
+    Models.GlobalFinancialInformation:
+      title: Global financial information
+      type: object
+      properties:
+        AnnualIncomeAfterTax:
+          title: Annual income after tax
+          allOf:
+          - $ref: '#/components/schemas/Models.AssetDetails'
+        IntendToInvest:
+          title: Intend to invest
+          allOf:
+          - $ref: '#/components/schemas/Models.AssetDetails'
+        InvestableAsset:
+          title: Investable asset
+          allOf:
+          - $ref: '#/components/schemas/Models.AssetDetails'
+      additionalProperties: false
+      example:
+        AnnualIncomeAfterTax:
+          Amount: 100020
+          AmountDescription: Exact
+          CurrencyCode: DKK
+        IntendToInvest:
+          Amount: 1000000
+          AmountDescription: AboveThisAmount
+          CurrencyCode: DKK
+        InvestableAsset:
+          Amount: 1000000
+          AmountDescription: Rounded
+          CurrencyCode: DKK
+    OnboardingInformation:
+      title: Onboarding Information
+      type: object
+      properties:
+        ElectronicVerification:
+          title: Electronic Verification Information
+          allOf:
+          - $ref: '#/components/schemas/ElectronicVerification'
+      additionalProperties: false
+      example:
+        ElectronicVerification:
+          Done: '2018-04-05T00:00:00Z'
+          ExternalId: ExternalId
+          Result: Passed
+          Score: '50'
+    VerificationProvider:
+      title: Verification Provider
+      enum:
+      - MyInfo
+      - SecureMe
+      type: string
+      example: SecureMe
+      x-enum-descriptions:
+        SecureMe: SecureMe
+        MyInfo: MyInfo
+    Money:
+      title: Money Range
+      type: object
+      properties:
+        Currency:
+          title: Currency - (From Options)
+          type: string
+          example: stringValue
+        Value:
+          title: Value
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: '2'
+        Value: 100000
+    InitiateVerification.InitiateVerificationResponse:
+      title: Initaite verification response
+      type: object
+      properties:
+        IdentificationUrl:
+          title: The url that will redirect the client to the vendors site for verification
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        IdentificationUrl: https://secure-me.au10tixservicesstaging.com?token=oBVmsTzsSMGvYES0y9jj&api=aHR0cHM6Ly93ZXUtYXBpLmF1MTB0aXhzZXJ2aWNlc3N0YWdpbmcuY29tL3NlY3VyZS1tZS92MQ%3D%3D&locale=en-us
+    Models.AmountDescriptionType:
+      title: Enum for AmountDescriptionType
+      enum:
+      - AboveThisAmount
+      - Exact
+      - Rounded
+      type: string
+      example: Exact
+      x-enum-descriptions:
+        Exact: Exact value provided.
+        Rounded: Nearby value provided.
+        AboveThisAmount: Value is above this amount.
+    Models.TradingProfile:
+      title: Client trading profile
+      type: object
+      properties:
+        SoleBoOfAssets:
+          title: Sole beneficial owner of the deposited assets
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        SoleBoOfAssets: true
+    Models.SignUpOption:
+      title: Possible sign up options
+      type: object
+      properties:
+        PropertyName:
+          title: Property name
+          type: string
+          example: stringValue
+        ValuePairs:
+          title: Key and value pairs of the property values
+          type: array
+          items:
+            $ref: '#/components/schemas/StringStringKeyValuePair'
+          example:
+          - Key: stringValue
+            Value: stringValue
+      additionalProperties: false
+      example:
+        PropertyName: stringValue
+        ValuePairs:
+        - Key: stringValue
+          Value: stringValue
     SignUpOptionListResult:
       type: object
       properties:
@@ -3002,162 +2803,33 @@ components:
             Value: IQ
           - Key: Germany
             Value: DE
-    InvestmentPurpose:
-      title: Client Investment Purpose
+    CompleteApplicationResponse:
       type: object
       properties:
-        PurposeAndScope:
-          title: Purpose and scope (from Options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        PurposeAndScope: '2'
-    MyInfoRequest:
-      title: MyInfo Request
-      type: object
-      properties:
-        RedirectUrl:
-          title: Redirect url to which the user will be redirected after verification is done
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        RedirectUrl: stringValue
-    Models.ContactInformation:
-      title: Contact information
-      required:
-      - EmailAddress
-      type: object
-      properties:
-        EmailAddress:
-          title: Email address
-          maxLength: 100
-          type: string
-          example: stringValue
-        PrimaryPhoneNumber:
-          title: Primary phone number
-          allOf:
-          - $ref: '#/components/schemas/Models.Api.v1.PhoneNumber'
-        SecondaryPhoneNumber:
-          title: Secondary phone number
-          allOf:
-          - $ref: '#/components/schemas/Models.Api.v1.PhoneNumber'
-      additionalProperties: false
-      example:
-        EmailAddress: abc@test.com
-        PrimaryPhoneNumber:
-          CountryCode: US
-          Number: '1234567890'
-        SecondaryPhoneNumber:
-          CountryCode: IN
-          Number: '2134567890'
-    ItalianData.EmploymentInformation:
-      title: Employment information for Italy
-      type: object
-      properties:
-        CountryConcernedCode:
-          title: Concerned country code
-          type: string
-          example: stringValue
-        DetailedBusinessActivity:
-          title: Business activityin detail
-          type: string
-          example: stringValue
-        EmploymentName:
-          title: Name of the employment
-          type: string
-          example: stringValue
-        OtherEmployment:
-          title: Name of the other employment
-          type: string
-          example: stringValue
-        PrevalentCorporateObject:
-          title: Prevalent corporate object
-          type: string
-          example: stringValue
-        ProvinceConcerned:
-          title: Concerned province
-          type: string
-          example: stringValue
-        StatusOfEmployment:
-          title: Status of employment
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryConcernedCode: IT
-        DetailedBusinessActivity: '005'
-        EmploymentName: Employer
-        OtherEmployment: Other employer description
-        PrevalentCorporateObject: Corporate object
-        ProvinceConcerned: Livorno
-        StatusOfEmployment: '125'
-    Models.PensionProductType:
-      title: Pension product type
-      enum:
-      - EmployerPaidAlderssum
-      - EmployerPaidKapitalPension
-      - EmployerPaidRatePension
-      - PrivatelyPaidAlderssum
-      - PrivatelyPaidKapitalPension
-      - PrivatelyPaidRatePension
-      type: string
-      example: EmployerPaidRatePension
-      x-enum-descriptions:
-        EmployerPaidRatePension: EmployerPaidRatePension
-        EmployerPaidAlderssum: EmployerPaidAlderssum
-        EmployerPaidKapitalPension: EmployerPaidKapitalPension
-        PrivatelyPaidRatePension: PrivatelyPaidRatePension
-        PrivatelyPaidAlderssum: PrivatelyPaidAlderssum
-        PrivatelyPaidKapitalPension: PrivatelyPaidKapitalPension
-    InitiateVerificationResponse:
-      title: Initaite verification response
-      type: object
-      properties:
-        IdentificationUrl:
-          title: The url that will redirect the client to the vendors site for verification
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        IdentificationUrl: https://test.signicat.com/target=http%3A%2F%2Fopenapi.validate.com%2Fopenapi%2Fv1%2Fverify%2F3c3685cf-85e3-4c11-8as7-c4f2dcc78hea
-    SignUpOption:
-      title: Possible sign up options
-      type: object
-      properties:
-        PropertyName:
-          title: Property name
-          type: string
-          example: stringValue
-        ValuePairs:
-          title: Key and value pairs
+        AccountDetails:
+          title: List of accounts if application status is 'Ok'
           type: array
           items:
-            $ref: '#/components/schemas/StringStringKeyValuePair'
+            $ref: '#/components/schemas/CompleteApplication.AccountDetails'
           example:
-          - Key: stringValue
-            Value: stringValue
+          - AccountType: Normal
+            CurrencyIsoCode: USD
+            Iban: DK43754335838392
+        ApplicationStatus:
+          title: Complete application status
+          allOf:
+          - $ref: '#/components/schemas/ApplicationStatus'
+        ErrorMessage:
+          title: Error message if application status is 'Failed'
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        PropertyName: ServiceLanguageCode
-        ValuePairs:
-        - Key: Arabic
-          Value: AR
-        - Key: Bulgarian
-          Value: BU
-        - Key: Chinese
-          Value: CH
-        - Key: Chinese Traditional
-          Value: CHT
-        - Key: Danish
-          Value: DA
-        - Key: English
-          Value: EN
-        - Key: Farsi
-          Value: FA
-        - Key: German
-          Value: DE
+        AccountDetails:
+        - AccountType: Normal
+          CurrencyIsoCode: USD
+          Iban: DK43754335838392
+        ApplicationStatus: Ok
     Models.SignUpOptionListResult:
       type: object
       properties:
@@ -3214,74 +2886,406 @@ components:
             Value: Iraq
           - Key: DE
             Value: Germany
-    Models.GlobalFinancialInformation:
-      title: Global financial information
+    ElectronicVerification:
+      title: Electronic Verification Information
       type: object
       properties:
-        AnnualIncomeAfterTax:
-          title: Annual income after tax
+        Done:
+          title: When was the electronic verification done?
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExternalId:
+          title: External ID
+          type: string
+          example: stringValue
+        Result:
+          title: Result of electronic verification
           allOf:
-          - $ref: '#/components/schemas/Models.AssetDetails'
-        IntendToInvest:
-          title: Intend to invest
-          allOf:
-          - $ref: '#/components/schemas/Models.AssetDetails'
-        InvestableAsset:
-          title: Investable asset
-          allOf:
-          - $ref: '#/components/schemas/Models.AssetDetails'
+          - $ref: '#/components/schemas/Models.ElectronicVerificationResult'
+        Score:
+          title: Score of electronic verification
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeAfterTax:
-          Amount: 100020
-          AmountDescription: Exact
-          CurrencyCode: DKK
-        IntendToInvest:
-          Amount: 1000000
-          AmountDescription: AboveThisAmount
-          CurrencyCode: DKK
-        InvestableAsset:
-          Amount: 1000000
-          AmountDescription: Rounded
-          CurrencyCode: DKK
-    ItalianData.ProfileInformation:
-      title: Profile information for Italy
+        Done: '2018-04-05T00:00:00.0000000+00:00'
+        ExternalId: ExternalId
+        Result: Passed
+        Score: '50'
+    ItalianData.EmploymentInformation:
+      title: Employment information for Italy
       type: object
       properties:
-        AnnualIncomeInformation:
-          title: Annual income information for Italy
-          allOf:
-          - $ref: '#/components/schemas/ItalianData.AnnualIncomeInformation'
-        InvestableAssets:
-          title: Investable assets for Italy
-          allOf:
-          - $ref: '#/components/schemas/ItalianData.InvestableAssets'
+        CountryConcernedCode:
+          title: Concerned country code
+          type: string
+          example: stringValue
+        DetailedBusinessActivity:
+          title: Business activityin detail
+          type: string
+          example: stringValue
+        EmploymentName:
+          title: Name of the employment
+          type: string
+          example: stringValue
+        OtherEmployment:
+          title: Name of the other employment
+          type: string
+          example: stringValue
+        PrevalentCorporateObject:
+          title: Prevalent corporate object
+          type: string
+          example: stringValue
+        ProvinceConcerned:
+          title: Concerned province
+          type: string
+          example: stringValue
+        StatusOfEmployment:
+          title: Status of employment
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeInformation:
-          AnnualIncomeSource:
-          - '2'
-          TotalAnnualIncome: '1'
-        InvestableAssets:
-          IntendToInvest: '2'
-          NatureAndPurposeOfTheRelationship: '1'
-          SourceOfWealth:
-          - '3'
-          ValueOfTotalWealth: '4'
-    OnboardingDocumentType:
+        CountryConcernedCode: IT
+        DetailedBusinessActivity: '005'
+        EmploymentName: Employer
+        OtherEmployment: Other employer description
+        PrevalentCorporateObject: Corporate object
+        ProvinceConcerned: Livorno
+        StatusOfEmployment: '125'
+    OnboardingSubStateType:
+      title: Onboarding Sub State of user
       enum:
-      - Switzerland501
-      - Switzerland901
+      - ManualHandling
       type: string
-      example: Switzerland501
+      example: ManualHandling
       x-enum-descriptions:
-        Switzerland501: Account request document
-        Switzerland901: Account opening confirmation document
+        ManualHandling: The onboarding request is being handled manually
+    SecureMeUploadOption:
+      title: SecureMe upload option
+      enum:
+      - Camera
+      - File
+      type: string
+      example: Camera
+      x-enum-descriptions:
+        Camera: Camera
+        File: File
+    Models.PensionProductType:
+      title: Pension product type
+      enum:
+      - EmployerPaidAlderssum
+      - EmployerPaidKapitalPension
+      - EmployerPaidRatePension
+      - PrivatelyPaidAlderssum
+      - PrivatelyPaidKapitalPension
+      - PrivatelyPaidRatePension
+      type: string
+      example: EmployerPaidRatePension
+      x-enum-descriptions:
+        EmployerPaidRatePension: EmployerPaidRatePension
+        EmployerPaidAlderssum: EmployerPaidAlderssum
+        EmployerPaidKapitalPension: EmployerPaidKapitalPension
+        PrivatelyPaidRatePension: PrivatelyPaidRatePension
+        PrivatelyPaidAlderssum: PrivatelyPaidAlderssum
+        PrivatelyPaidKapitalPension: PrivatelyPaidKapitalPension
+    Models.OnboardingAddress:
+      title: Client address
+      required:
+      - City
+      - CountryOfResidenceCode
+      - PostalCode
+      - StreetName
+      type: object
+      properties:
+        BuildingName:
+          title: Building name
+          maxLength: 128
+          type: string
+          example: stringValue
+        BuildingNumber:
+          title: Building number
+          maxLength: 128
+          type: string
+          example: stringValue
+        City:
+          title: City
+          maxLength: 128
+          type: string
+          example: stringValue
+        CountryOfResidenceCode:
+          title: Country of residence ISO code  (from Options)
+          type: string
+          example: stringValue
+        PostalCode:
+          title: Postal code
+          maxLength: 128
+          type: string
+          example: stringValue
+        State:
+          title: State
+          maxLength: 50
+          type: string
+          example: stringValue
+        StreetName:
+          title: Street name
+          maxLength: 128
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BuildingName: Building Penhurst Park
+        BuildingNumber: Build# 34
+        City: Buffalo
+        CountryOfResidenceCode: US
+        PostalCode: '14202'
+        State: New York
+        StreetName: Niagara Square
+    Models.Api.v1.PhoneNumber:
+      title: Phone number consisting of optional country code and number.
+      type: object
+      properties:
+        CountryCode:
+          title: The country ISO code (alpha-2) where the phone number is registered. If not specified the country of residence of the associated contact will be used (from Options).
+          type: string
+          example: stringValue
+        Number:
+          title: The actual phone number without formatting. Only numeric characters are allowed.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: US
+        Number: '1234567890'
+    Models.EmploymentInformation:
+      title: Clients employment information
+      type: object
+      properties:
+        AdditionalEmploymentRelations:
+          title: Additional employment relation details.
+          allOf:
+          - $ref: '#/components/schemas/Models.AdditionalEmploymentRelations'
+        EmployerName:
+          title: Employer name
+          maxLength: 100
+          type: string
+          example: stringValue
+        FinancialSectorEmployee:
+          title: Does client work in financial sector.
+          type: boolean
+          example: false
+        NatureOfBusiness:
+          title: The nature of business.
+          type: string
+          example: stringValue
+        OccupationTypes:
+          title: Occupation types (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Position:
+          title: Position
+          maxLength: 250
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AdditionalEmploymentRelations:
+          CompanyNameInsider: CompanyNameInsider
+          CompanyNameMajorityInterest: CompanyNameMajorityInterest
+          ManagedOrManagingAssets: false
+        EmployerName: EmpName
+        FinancialSectorEmployee: false
+        NatureOfBusiness: '1'
+        OccupationTypes:
+        - '1'
+        - '2'
+        Position: Position
+    Models.PensionData:
+      title: Client information about pension
+      type: object
+      properties:
+        AdditionalPensionData:
+          title: Additional pension data
+          type: string
+          example: stringValue
+        EmployerReference:
+          title: Employer refrerence ID
+          type: string
+          example: stringValue
+        PensionProductTypes:
+          title: Pension product types (can select multiple)
+          type: array
+          items:
+            $ref: '#/components/schemas/Models.PensionProductType'
+          example:
+          - EmployerPaidAlderssum
+      additionalProperties: false
+      example:
+        AdditionalPensionData: Additional pension data
+        EmployerReference: 4582HGF39
+        PensionProductTypes:
+        - EmployerPaidAlderssum
+    AccountInformation:
+      title: Account information
+      type: object
+      properties:
+        AdditionalChoiceOfAccounts:
+          title: Additional choice of accounts
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        ClientCategoryId:
+          title: Guides the configuration of the client. Only set this field, if one of more values has been provided to you by Saxo Bank.
+          type: string
+          example: stringValue
+        CurrencyCode:
+          title: Currency code (from Options)
+          type: string
+          example: stringValue
+        DefaultChoiceOfAccount:
+          title: Default choice of account (from Options - ChoiceOfAccountDefault)
+          type: string
+          example: stringValue
+        IntendedCommissionGroupId:
+          title: Intended commission group ID
+          type: string
+          example: stringValue
+        IntendedTemplateId:
+          title: Intended template ID
+          type: string
+          example: stringValue
+        ModelId:
+          title: Guides the configuration of the client. Only set this field, if one of more values has been provided to you by Saxo Bank.
+          type: string
+          example: stringValue
+        OtherInstructions:
+          title: Other instructions
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AdditionalChoiceOfAccounts:
+        - '5'
+        ClientCategoryId: '1'
+        CurrencyCode: USD
+        DefaultChoiceOfAccount: '38'
+        IntendedCommissionGroupId: '1234'
+        IntendedTemplateId: '567'
+        OtherInstructions: Instruction1
+    Models.SingaporeData:
+      title: Client information for Singapore onboarding
+      type: object
+      properties:
+        AnnualIncomeSgd:
+          title: Annual income in SGD
+          type: string
+          example: stringValue
+        BrokersDeclinedBy:
+          title: Brokers declined by
+          type: string
+          example: stringValue
+        ClassificationRequired:
+          title: Is classification required?
+          type: boolean
+          example: false
+        DiplomaOrHigherQualification:
+          title: Diploma or higher Qualification
+          type: string
+          example: stringValue
+        ELearningAbsSasCfds:
+          title: E-learning (ABS-SAS, CFDs)
+          type: string
+          example: stringValue
+        ELearningAbsSasFx:
+          title: E-learning (ABS-SAS, Fx)
+          type: string
+          example: stringValue
+        ELearningPassed:
+          title: Has the client passed E-learning
+          type: string
+          example: stringValue
+        ELearningSgx:
+          title: E-learning (SGX)
+          type: boolean
+          example: false
+        ELearningSgxScore:
+          title: E-learning (SGX) score
+          type: string
+          example: stringValue
+        EducationalQualificationSatisfied:
+          title: Is the qualification of education satisfied?
+          type: boolean
+          example: false
+        FinanceWorkExperience:
+          title: Finance work experience
+          type: string
+          example: stringValue
+        InvestorProfile:
+          title: Type of investor profile
+          type: string
+          example: stringValue
+        ListedSips:
+          title: Does the client want to trade in listed SIPs?
+          type: boolean
+          example: false
+        NetWorthSgd:
+          title: Net worth in SGD
+          type: string
+          example: stringValue
+        PermanentResident:
+          title: Is the client a permanent resident of Singapore?
+          type: boolean
+          example: false
+        ProfessionalFinanceQualification:
+          title: Professional finance qualification
+          type: string
+          example: stringValue
+        SgxStocks:
+          title: Sgx stocks
+          type: string
+          example: stringValue
+        UnlistedSipsCfds:
+          title: Does the client want to trade unlisted SIPs (CFD)?
+          type: boolean
+          example: false
+        UnlistedSipsFx:
+          title: Does the client want to trade unlisted SIPs (Fx)?
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        AnnualIncomeSgd: '3'
+        BrokersDeclinedBy: BrokersName
+        ClassificationRequired: true
+        DiplomaOrHigherQualification: '2'
+        EducationalQualificationSatisfied: true
+        ELearningAbsSasCfds: '3'
+        ELearningAbsSasFx: '2'
+        ELearningPassed: '4'
+        ELearningSgx: false
+        ELearningSgxScore: '20'
+        FinanceWorkExperience: '5'
+        InvestorProfile: '2'
+        ListedSips: true
+        NetWorthSgd: '5'
+        PermanentResident: true
+        ProfessionalFinanceQualification: '5'
+        SgxStocks: '2'
+        UnlistedSipsCfds: false
+        UnlistedSipsFx: false
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
   securitySchemes:

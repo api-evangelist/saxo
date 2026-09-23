@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Features API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.Root Features API
+  description: The root service group provides endpoints for central subscription management and session capabilities.
+  version: 2.3.192+a048287b46
+  x-framework-version: 43.0.5+65c0bdc8ab
+  x-machine: SIMOAWEB10-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -183,72 +183,41 @@ paths:
         restricted: Read
         community: Read
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    FeatureAvailabilitySubscriptionRequest:
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
+    FeatureAvailabilityArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/FeatureAvailability'
       example:
-        ContextId: '20221029043400381'
-        ReferenceId: Features
-        RefreshRate: 1000
-    FeatureAvailability:
-      required:
-      - Feature
-      type: object
-      properties:
-        Available:
-          title: Indicates whether the feature is available.
-          type: boolean
-          example: true
-        Feature:
-          title: The name identifying the feature.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Available: true
+      - Available: true
         Feature: Chart
     FeatureAvailabilitySubscriptionResponse:
       type: object
@@ -305,41 +274,72 @@ components:
         - Available: true
           Feature: Chart
         State: Active
-    FeatureAvailabilityArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/FeatureAvailability'
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    FeatureAvailability:
+      required:
+      - Feature
+      type: object
+      properties:
+        Available:
+          title: Indicates whether the feature is available.
+          type: boolean
+          example: true
+        Feature:
+          title: The name identifying the feature.
+          type: string
+          example: stringValue
+      additionalProperties: false
       example:
-      - Available: true
+        Available: true
         Feature: Chart
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    FeatureAvailabilitySubscriptionRequest:
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221029043400381'
+        ReferenceId: Features
+        RefreshRate: 1000
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

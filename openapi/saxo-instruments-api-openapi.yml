@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Instruments API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.ReferenceData Instruments API
+  description: The Reference Data service group provides reference data, such as instrument details, exchange info etc..
+  version: 2.3.361+88ada090e4
+  x-framework-version: 43.0.9+b005aba300
+  x-machine: SIMOAWEB8-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -177,7 +177,11 @@ paths:
       tags:
       - Instruments
       summary: Get option details and options space for specified option root
-      description: "Using the optionRoot as the \"key\" this resource lists common details about all contract options based on the same option root.\n            It further returns a subset, or the complete list, of all available expiration and strike prices which can be derived\n            from this root along with the uic needed to trade the specific Option."
+      description: 'Using the optionRoot as the "key" this resource lists common details about all contract options based on the same option root.
+
+        It further returns a subset, or the complete list, of all available expiration and strike prices which can be derived
+
+        from this root along with the uic needed to trade the specific Option.'
       operationId: InstrumentsV1GetContractOptionSpace
       parameters:
       - name: CanParticipateInMultiLegOrder
@@ -877,7 +881,15 @@ paths:
       tags:
       - Instruments
       summary: Search for instruments or contract option roots
-      description: "Returns a list of summary information for all instruments and options on the Saxo Trading platform restricted by the access rights of the user.\n            \n\n            The resource serves as the starting point for an application/user who wants to navigate the available universe of instruments and options.\n            Each entry therefore contains further references to instrument details or option roots, where the application can get further information about these entities.\n\nThis endpoint supports OData query operators: $top and $skip."
+      description: 'Returns a list of summary information for all instruments and options on the Saxo Trading platform restricted by the access rights of the user.
+
+
+        The resource serves as the starting point for an application/user who wants to navigate the available universe of instruments and options.
+
+        Each entry therefore contains further references to instrument details or option roots, where the application can get further information about these entities.
+
+
+        This endpoint supports OData query operators: $top and $skip.'
       operationId: InstrumentsV1GetSummaries
       parameters:
       - name: $skip
@@ -1135,28 +1147,86 @@ paths:
         restricted: Read
 components:
   schemas:
-    InstrumentSession:
+    TickSizeScheme:
+      title: The tick size scheme of an instrument. Relevant for shares, CFDs on shares and contract options.
       type: object
       properties:
-        EndTime:
-          title: UTC date and time of when the state ends
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        StartTime:
-          title: UTC date and time of when the state starts
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        State:
-          title: Gets the  for the specied  and
-          allOf:
-          - $ref: '#/components/schemas/InstrumentSessionState'
+        DefaultTickSize:
+          title: Use this tick size if price does not match any of the defined tick size elements.
+          type: number
+          example: 10
+        Elements:
+          title: The tick size scheme of the instrument. Relevant for shares, CFDs on shares and contract options.
+          type: array
+          items:
+            $ref: '#/components/schemas/TickSizeSchemeElement'
+          example:
+          - HighPrice: 10
+            TickSize: 10
       additionalProperties: false
       example:
-        EndTime: '9999-12-31T23:59:59.9999990+00:00'
-        StartTime: '9999-12-31T23:59:59.9999990+00:00'
-        State: AutomatedTrading
+        DefaultTickSize: 10
+        Elements:
+        - HighPrice: 10
+          TickSize: 10
+    IpoDetails:
+      title: Initial public offering details information
+      type: object
+      properties:
+        ActivationFrom:
+          title: Activation from date time of initial public offering
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ActivationTo:
+          title: Activation to date time of Initial public offering
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        AllotmentDate:
+          title: Allotment date of initial public offering
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Denominations:
+          type: array
+          items:
+            type: integer
+            format: int32
+            example: 99
+          example:
+          - 99
+        ListingDate:
+          title: Listing date of initial public offering
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        MarketDeadline:
+          title: Market deadline of initial public offering
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        MaxLeveragePct:
+          title: Maximum leverage percentage
+          type: integer
+          format: int32
+          example: 99
+        MaxLotSize:
+          title: Maximum lot size
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        ActivationFrom: '9999-12-31T23:59:59.9999990+00:00'
+        ActivationTo: '9999-12-31T23:59:59.9999990+00:00'
+        AllotmentDate: '9999-12-31T23:59:59.9999990+00:00'
+        Denominations:
+        - 99
+        ListingDate: '9999-12-31T23:59:59.9999990+00:00'
+        MarketDeadline: '9999-12-31T23:59:59.9999990+00:00'
+        MaxLeveragePct: 99
+        MaxLotSize: 99
     OrderDistances:
       title: Distance information for creating orders.
       type: object
@@ -1228,326 +1298,16 @@ components:
         TakeProfitDefaultDistance: 0.5
         TakeProfitDefaultDistanceType: Percentage
         TakeProfitDefaultEnabled: false
-    PlaceableOrderType:
-      title: Specifies supported order types placeable in the orders ticket.
+    BuySell:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
       enum:
-      - Algorithmic
-      - DealCapture
-      - GuaranteedStop
-      - Limit
-      - Market
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
+      - Buy
+      - Sell
       type: string
-      example: Limit
+      example: Sell
       x-enum-descriptions:
-        Market: Market Order.
-        Limit: Limit Order.
-        StopIfTraded: Stop if traded.
-        Stop: Stop Order.
-        StopLimit: Stop Limit Order.
-        TrailingStopIfTraded: Trailing stop if traded.
-        TrailingStop: Trailing stop.
-        Algorithmic: Algo order.
-        Switch: Switch order, Sell X and Buy Y with one order.
-        Traspaso: Traspaso. Specific type of switch order. Only available on select MutualFunds.
-        TraspasoIn: TraspasoIn. Specific type of switch order
-        GuaranteedStop: Order Type currently not supported.
-        TriggerLimit: Trigger limit order. Specific type for trigger orders.
-        TriggerStop: Trigger stop order. Specific type for trigger orders.
-        TriggerBreakout: Trigger breakout order. Specific type for trigger orders.
-        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on Exchange, into Saxo System. \n            Currently supported for selected partners only."
-    NonTradableReasons:
-      title: Non Tradable Reasons
-      enum:
-      - ETFsWithoutKIIDs
-      - ExpiredInstrument
-      - NonShortableInstrument
-      - None
-      - NotOnlineClientTradable
-      - OfflineTradableBonds
-      - OtherReason
-      - ReduceOnlyInstrument
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: None
-        NotOnlineClientTradable: This instrument is not tradable
-        ReduceOnlyInstrument: This instrument is not reduce-only
-        ExpiredInstrument: This instrument has expired
-        OfflineTradableBonds: This instrument is tradable offline
-        ETFsWithoutKIIDs: The issuer has not provided a Key Information Document (KID) for this instrument
-        NonShortableInstrument: Short selling is not available for this instrument
-        OtherReason: This instrument is not tradable
-    TickSizeScheme:
-      title: The tick size scheme of an instrument. Relevant for shares, CFDs on shares and contract options.
-      type: object
-      properties:
-        DefaultTickSize:
-          title: Use this tick size if price does not match any of the defined tick size elements.
-          type: number
-          example: 10
-        Elements:
-          title: The tick size scheme of the instrument. Relevant for shares, CFDs on shares and contract options.
-          type: array
-          items:
-            $ref: '#/components/schemas/TickSizeSchemeElement'
-          example:
-          - HighPrice: 10
-            TickSize: 10
-      additionalProperties: false
-      example:
-        DefaultTickSize: 10
-        Elements:
-        - HighPrice: 10
-          TickSize: 10
-    InstrumentFieldGroup:
-      title: Specification of field group to include additional data in results.
-      enum:
-      - OrderSetting
-      - SupportedOrderTypeSettings
-      - TradingSessions
-      type: string
-      example: MarketData
-      x-enum-descriptions:
-        OrderSetting: Adds information about the instrument's order setting.
-        TradingSessions: Adds information about the instrument's trading sessions.
-        SupportedOrderTypeSettings: Adds information about supported order types.
-    IpoDetails:
-      title: Initial public offering details information
-      type: object
-      properties:
-        ActivationFrom:
-          title: Activation from date time of initial public offering
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        ActivationTo:
-          title: Activation to date time of Initial public offering
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        AllotmentDate:
-          title: Allotment date of initial public offering
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        Denominations:
-          type: array
-          items:
-            type: integer
-            format: int32
-            example: 99
-          example:
-          - 99
-        ListingDate:
-          title: Listing date of initial public offering
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        MarketDeadline:
-          title: Market deadline of initial public offering
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        MaxLeveragePct:
-          title: Maximum leverage percentage
-          type: integer
-          format: int32
-          example: 99
-        MaxLotSize:
-          title: Maximum lot size
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        ActivationFrom: '9999-12-31T23:59:59.9999990+00:00'
-        ActivationTo: '9999-12-31T23:59:59.9999990+00:00'
-        AllotmentDate: '9999-12-31T23:59:59.9999990+00:00'
-        Denominations:
-        - 99
-        ListingDate: '9999-12-31T23:59:59.9999990+00:00'
-        MarketDeadline: '9999-12-31T23:59:59.9999990+00:00'
-        MaxLeveragePct: 99
-        MaxLotSize: 99
-    InstrumentSessionState:
-      title: The different states an instrument session can have
-      enum:
-      - Auction
-      - AutomatedTrading
-      - Break
-      - CallAuctionTrading
-      - Closed
-      - Halt
-      - OpeningAuction
-      - PitTrading
-      - PostAutomatedTrading
-      - PostMarket
-      - PostTrading
-      - PreAutomatedTrading
-      - PreMarket
-      - PreTrading
-      - Suspended
-      - TradingAtLast
-      - Undefined
-      type: string
-      example: Closed
-      x-enum-descriptions:
-        Undefined: The state of the Exchange is unknown
-        AutomatedTrading: Normal trading
-        Closed: Closed for trading
-        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        Break: Break in instrument opening hours
-        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
-        PostTrading: Extended trading session after normal opening hours
-        PreTrading: Extended trading session before normal opening hours
-        PostAutomatedTrading: Extended trading session after normal opening hours
-        PreAutomatedTrading: Extended trading session before normal opening hours
-        Suspended: Trading is suspended for an instrument
-        Halt: Trading is halted for an instrument
-        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        PreMarket: Extended trading session before normal opening hours
-        PostMarket: Extended trading session after normal opening hours
-        OpeningAuction: Opening auction exchange state
-        TradingAtLast: Orders collected at last price in absence of closing auction price
-    ExchangeSummary:
-      title: Name and id of an Exchange.
-      type: object
-      properties:
-        CountryCode:
-          title: The ISO 3166-2 country code of the exchange's country.
-          type: string
-          example: stringValue
-        ExchangeId:
-          title: The unique ID of the exchange.
-          type: string
-          example: stringValue
-        Name:
-          title: The name of the exchange.
-          type: string
-          description: This is the same as ShortDescription in the database.
-          example: stringValue
-        PriceSourceName:
-          title: The name of the price source.
-          type: string
-          description: This is the same as SourceAttributionDescription in the database.
-          example: stringValue
-        TimeZoneId:
-          title: Exchange's TimeZone
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryCode: DE
-        ExchangeId: EUREX
-        Name: Eurex
-        PriceSourceName: Eurex
-    BondType:
-      title: Enum to identify the type of bond
-      enum:
-      - Convertible
-      - DualCurrency
-      - FloatingRateNote
-      - InflationLinked
-      - NonInflationLinked
-      - Perpetual
-      type: string
-      example: NonInflationLinked
-      x-enum-descriptions:
-        NonInflationLinked: Non Inflation Linked Bond
-        InflationLinked: Inflation Linked Bond
-        Convertible: Convertible Bond
-        Perpetual: Perpetual Bond
-        FloatingRateNote: FloatingRateNote Bond
-        DualCurrency: DualCurrency Bond
-    LocalizedInfo:
-      title: Provides information about the localization.
-      type: object
-      properties:
-        Key:
-          title: Key identifier for the value.
-          type: string
-          example: stringValue
-        Value:
-          title: "A string value that represents the localized text. If the key is not found in specific language, it will be text of default language.\n            If the key is not found at all in localization resources, then key will be used in value itself."
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Key: stringValue
-        Value: stringValue
-    ContractOptionEntry:
-      title: Describes one specific option related to an option root.
-      type: object
-      properties:
-        DisplayDaysToExpiry:
-          title: The days to expiry to use for display purposes.
-          type: integer
-          format: int32
-          example: 99
-        DisplayDaysToLastTradeDate:
-          title: The days to Last Trade to use for display purposes.
-          type: integer
-          format: int32
-          example: 99
-        DisplayExpiry:
-          title: The expiry date to use for display purposes.
-          type: string
-          format: date
-          x-type-name: Date
-        Expiry:
-          title: The Expiry Date
-          type: string
-          format: date
-          x-type-name: Date
-        LastTradeDate:
-          title: The Last Trade Date
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        SpecificOptions:
-          title: "List of specific options for the specified expiry date.\n            This array will only be available for the dates specified in the request (OptionSpace, ExpiryDates)"
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractOption'
-          example:
-          - PutCall: Call
-            StrikePrice: 12750
-            TradingStatus: NotDefined
-            Uic: 6507156
-            UnderlyingUic: 1907570
-        TickSizeScheme:
-          title: The current tick size scheme of the expiry group.
-          allOf:
-          - $ref: '#/components/schemas/TickSizeScheme'
-      additionalProperties: false
-      example:
-        DisplayDaysToExpiry: 34
-        DisplayDaysToLastTradeDate: 0
-        DisplayExpiry: '2017-06-01'
-        Expiry: '2017-06-16'
-        LastTradeDate: '0001-01-01T00:00:00.0000000+00:00'
-        SpecificOptions:
-        - PutCall: Call
-          StrikePrice: 13500
-          TradingStatus: NotDefined
-          Uic: 6608098
-          UnderlyingUic: 1907570
-        - PutCall: Put
-          StrikePrice: 13500
-          TradingStatus: NotDefined
-          Uic: 6608101
-          UnderlyingUic: 1907570
+        Buy: Buy
+        Sell: Sell
     ContractOptionSpace:
       title: Detailed information of all options related to a specific option root
       type: object
@@ -1925,181 +1685,54 @@ components:
         - 76940INET1
         - 76940INET2
         UnderlyingAssetType: StockIndex
-    OrderDistanceType:
-      title: Defines how order distance is represented.
+    SettlementStyle:
+      title: Options for how a contract option is settled when exercised.
       enum:
-      - Percentage
-      - Pips
-      - Price
-      - Undefined
+      - CashDelivery
+      - PhysicalDelivery
       type: string
-      example: Percentage
+      example: CashDelivery
       x-enum-descriptions:
-        Percentage: '% +/- the current price'
-        Pips: +/- the current price.  Only applicable to Fx.
-        Price: Absolute price.
-    Class:
-      title: Contains instrument class filter flags
-      enum:
-      - Complex
-      - NonComplex
-      type: string
-      example: NonComplex
-      x-enum-descriptions:
-        NonComplex: Non-complex
-        Complex: Complex
-    RelatedOptionRoot:
-      title: Combination of OptionRootId and AssetType, so endpoint user knows the asset type of the option.
+        CashDelivery: The contract option is settled as cash.
+        PhysicalDelivery: The contract option is settled by physical delivery.
+    LocalizedInfo:
+      title: Provides information about the localization.
       type: object
       properties:
-        AssetType:
-          title: The type of the option root.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        OptionRootId:
-          title: Id of OptionRoot.
-          type: integer
-          format: int32
-          example: 99
-        SupportedStrategies:
-          title: Supported strategies for option root.
-          type: array
-          items:
-            $ref: '#/components/schemas/OptionsStrategyType'
-          example:
-          - BackRatio
-      additionalProperties: false
-      example:
-        AssetType: CfdIndexOption
-        OptionRootId: 99
-        SupportedStrategies:
-        - Custom
-    LotSizeType:
-      title: Lot size type.
-      enum:
-      - BuyOnly
-      - NotUsed
-      - OddLotsAllowed
-      - OddLotsNotAllowed
-      type: string
-      example: NotUsed
-      x-enum-descriptions:
-        NotUsed: Lot size not used.
-        OddLotsNotAllowed: Lot size must be respected = no odd lot support.
-        OddLotsAllowed: Lot size should be respected = odd lot support support exist.
-        BuyOnly: Lot size should be respected = for buy only
-    ContractOption:
-      title: Information about a specific option entry, where the expiration date is given by the enclosing ContractOptionEntry
-      type: object
-      properties:
-        PutCall:
-          title: Put or Call option
-          allOf:
-          - $ref: '#/components/schemas/Public.PutCall'
-        StrikePrice:
-          title: The strike price
-          type: number
-          example: 10
-        TradingStatus:
-          title: The trading status of the Contract option
-          allOf:
-          - $ref: '#/components/schemas/TradingStatus'
-        Uic:
-          title: The uic of this particular Option with expiry determined by parent structure, and strike and put/call as specified by the entry
-          type: integer
-          format: int32
-          example: 99
-        UnderlyingUic:
-          title: Uic of the underlying instrument for this particular option
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        PutCall: Call
-        StrikePrice: 12750
-        TradingStatus: NotDefined
-        Uic: 6507156
-        UnderlyingUic: 1907570
-    FuturesSpaceElement:
-      title: Contains futures space-relevant information about one element in the space.
-      type: object
-      properties:
-        DaysToExpiry:
-          title: Number of days until expiry.
-          type: integer
-          format: int32
-          example: 99
-        ExpiryDate:
-          title: Expiry date of the instrument. Futures only.
-          type: string
-          format: date
-          x-type-name: Date
-        Symbol:
-          title: Gets the symbol, which is the unique and global name for the instrument
+        Key:
+          title: Key identifier for the value.
           type: string
           example: stringValue
-        Uic:
-          title: Gets the UIC (Unique Instrument Code. Saxo Bank internal code for instruments)
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        DaysToExpiry: 64
-        ExpiryDate: '2017-07-14'
-        Symbol: WQ7
-        Uic: 3406797
-    FuturesSpace:
-      title: Represents a complete futures space.
-      type: object
-      properties:
-        BaseIdentifier:
-          title: The base id of the futures space.
+        Value:
+          title: "A string value that represents the localized text. If the key is not found in specific language, it will be text of default language.\n            If the key is not found at all in localization resources, then key will be used in value itself."
           type: string
           example: stringValue
-        Elements:
-          title: The elements of the futures space.
-          type: array
-          items:
-            $ref: '#/components/schemas/FuturesSpaceElement'
-          example:
-          - DaysToExpiry: 64
-            ExpiryDate: '2017-07-14'
-            Symbol: WQ7
-            Uic: 3406797
       additionalProperties: false
       example:
-        BaseIdentifier: W
-        Elements:
-        - DaysToExpiry: 64
-          ExpiryDate: '2017-07-14'
-          Symbol: WQ7
-          Uic: 3406797
-        - DaysToExpiry: 127
-          ExpiryDate: '2017-09-15'
-          Symbol: WV7
-          Uic: 3844782
-        - DaysToExpiry: 188
-          ExpiryDate: '2017-11-15'
-          Symbol: WZ7
-          Uic: 4239352
-        - DaysToExpiry: 278
-          ExpiryDate: '2018-02-13'
-          Symbol: WH8
-          Uic: 4895721
-        - DaysToExpiry: 337
-          ExpiryDate: '2018-04-13'
-          Symbol: WK8
-          Uic: 5352847
-        - DaysToExpiry: 431
-          ExpiryDate: '2018-07-16'
-          Symbol: WQ8
-          Uic: 6112156
-        - DaysToExpiry: 491
-          ExpiryDate: '2018-09-14'
-          Symbol: WV8
-          Uic: 6609171
+        Key: stringValue
+        Value: stringValue
+    InstrumentSession:
+      type: object
+      properties:
+        EndTime:
+          title: UTC date and time of when the state ends
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        StartTime:
+          title: UTC date and time of when the state starts
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        State:
+          title: Gets the  for the specied  and
+          allOf:
+          - $ref: '#/components/schemas/InstrumentSessionState'
+      additionalProperties: false
+      example:
+        EndTime: '9999-12-31T23:59:59.9999990+00:00'
+        StartTime: '9999-12-31T23:59:59.9999990+00:00'
+        State: AutomatedTrading
     OptionSpaceSegment:
       title: Specify how large a segment of the complete option space to return.
       enum:
@@ -2116,111 +1749,335 @@ components:
         None: Do not include the option space.
         SpecificDates: Return all options for specified strike days.
         UnderlyingUic: Used to specify filter to return all options for with specified underlying Uic.
-    SupportedOrderTypeSetting:
-      title: Represents the configuration of an instrument for a specific supported order type.
+    ContractOptionEntry:
+      title: Describes one specific option related to an option root.
       type: object
       properties:
-        DurationTypes:
-          title: Possible order duration types
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderDurationType'
-          example:
-          - DayOrder
-        OrderType:
-          title: Order Type
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-      additionalProperties: false
-      example:
-        DurationTypes:
-        - GoodForPeriod
-        OrderType: Stop
-    InstrumentTradeSessions:
-      title: Represents instrument's trading sessions
-      type: object
-      properties:
-        Sessions:
-          title: Gets instrument's trade sessions
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentSession'
-          example:
-          - EndTime: '9999-12-31T23:59:59.999999Z'
-            StartTime: '9999-12-31T23:59:59.999999Z'
-            State: CallAuctionTrading
-        TimeZone:
-          title: Gets the time zone of the exchange an instrument is traded on.
+        DisplayDaysToExpiry:
+          title: The days to expiry to use for display purposes.
           type: integer
           format: int32
           example: 99
-        TimeZoneAbbreviation:
-          title: Gets the time zone's abbreviation.
+        DisplayDaysToLastTradeDate:
+          title: The days to Last Trade to use for display purposes.
+          type: integer
+          format: int32
+          example: 99
+        DisplayExpiry:
+          title: The expiry date to use for display purposes.
           type: string
-          example: stringValue
-        TimeZoneOffset:
-          title: Gets the time zone offset, relative to UTC.
+          format: date
+          x-type-name: Date
+        Expiry:
+          title: The Expiry Date
           type: string
-          example: stringValue
+          format: date
+          x-type-name: Date
+        LastTradeDate:
+          title: The Last Trade Date
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        SpecificOptions:
+          title: "List of specific options for the specified expiry date.\n            This array will only be available for the dates specified in the request (OptionSpace, ExpiryDates)"
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractOption'
+          example:
+          - PutCall: Call
+            StrikePrice: 12750
+            TradingStatus: NotDefined
+            Uic: 6507156
+            UnderlyingUic: 1907570
+        TickSizeScheme:
+          title: The current tick size scheme of the expiry group.
+          allOf:
+          - $ref: '#/components/schemas/TickSizeScheme'
       additionalProperties: false
       example:
-        Sessions:
-        - EndTime: '9999-12-31T23:59:59.999999Z'
-          StartTime: '9999-12-31T23:59:59.999999Z'
-          State: Undefined
-        TimeZone: 99
-        TimeZoneAbbreviation: stringValue
-        TimeZoneOffset: '00:00:00.0000061'
-    Public.PutCall:
-      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+        DisplayDaysToExpiry: 34
+        DisplayDaysToLastTradeDate: 0
+        DisplayExpiry: '2017-06-01'
+        Expiry: '2017-06-16'
+        LastTradeDate: '0001-01-01T00:00:00.0000000+00:00'
+        SpecificOptions:
+        - PutCall: Call
+          StrikePrice: 13500
+          TradingStatus: NotDefined
+          Uic: 6608098
+          UnderlyingUic: 1907570
+        - PutCall: Put
+          StrikePrice: 13500
+          TradingStatus: NotDefined
+          Uic: 6608101
+          UnderlyingUic: 1907570
+    EntityType:
+      title: Type of the summary result element.
       enum:
-      - Call
+      - ContractOptionRoot
+      - Instrument
+      type: string
+      example: Instrument
+      x-enum-descriptions:
+        Instrument: This describes a real instrument.
+        ContractOptionRoot: This describes an optionroot (the basis for exchange tradec contract options).
+    SummaryInfoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryInfo'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - AssetType: CfdOnFutures
+          Description: US Crude June 2017
+          ExchangeId: ''
+          GroupId: 0
+          Identifier: 6456061
+          IsKeywordMatch: true
+          PrimaryListing: 6456061
+          SummaryType: Instrument
+          Symbol: OILUSJUN17
+          TradableAs:
+          - CfdOnFutures
+        - AssetType: CfdOnFutures
+          Description: US Crude July 2017
+          ExchangeId: ''
+          GroupId: 0
+          Identifier: 6665418
+          IsKeywordMatch: true
+          PrimaryListing: 6456061
+          SummaryType: Instrument
+          Symbol: OILUSJUL17
+          TradableAs:
+          - CfdOnFutures
+        - AssetType: CfdOnFutures
+          Description: Heating Oil June 2017
+          ExchangeId: ''
+          GroupId: 0
+          Identifier: 6559778
+          IsKeywordMatch: true
+          PrimaryListing: 6559778
+          SummaryType: Instrument
+          Symbol: HEATINGOILJUN17
+          TradableAs:
+          - CfdOnFutures
+    NonTradableReasons:
+      title: Non Tradable Reasons
+      enum:
+      - ETFsWithoutKIIDs
+      - ExpiredInstrument
+      - NonShortableInstrument
       - None
-      - Put
+      - NotOnlineClientTradable
+      - OfflineTradableBonds
+      - OtherReason
+      - ReduceOnlyInstrument
       type: string
       example: None
       x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    StrategyLeg:
-      title: Defines one leg in an exchange traded strategy.
+        None: None
+        NotOnlineClientTradable: This instrument is not tradable
+        ReduceOnlyInstrument: This instrument is not reduce-only
+        ExpiredInstrument: This instrument has expired
+        OfflineTradableBonds: This instrument is tradable offline
+        ETFsWithoutKIIDs: The issuer has not provided a Key Information Document (KID) for this instrument
+        NonShortableInstrument: Short selling is not available for this instrument
+        OtherReason: This instrument is not tradable
+    BondsCouponType:
+      title: The possible coupon types of a bond.
+      enum:
+      - Fixed
+      - None
+      - Other
+      - Variable
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: None.
+        Fixed: Fixed.
+        Variable: Variable.
+        Other: Other.
+    OptionsStrategyType:
+      title: Common exchange traded options strategies.
+      enum:
+      - BackRatio
+      - Butterfly
+      - CalendarSpread
+      - Combo
+      - Condor
+      - Custom
+      - Diagonal
+      - Gut
+      - IronButterfly
+      - IronCondor
+      - RiskReversal
+      - Straddle
+      - Strangle
+      - Synthetic
+      - Vertical
+      type: string
+      example: Vertical
+      x-enum-descriptions:
+        Custom: User defined custom strategy.
+        Vertical: A vertical spread has two legs. One is buy and one is sell with same expiration date, but with different strike prices.
+        BackRatio: Consists of two options, of same type and expiry, but with different amounts and strike prices.
+        Diagonal: A diagonal spread is two options of the same type, one buy and one sell, but with different expiry times and different strike prices. Essentially a combination of a Vertical and Calendar spread.
+        Condor: A condor strategy leverages four options with same expiry. A buy and a sell in the money, and a buy and a sell out of the money. Can also be characterized as two call spreads.
+        Butterfly: Non directional strategy that combines legs of same expiry, but with varying amounts and strike prices.
+        IronButterfly: Two overlapping vertical spreads. One of the verticals is on the call side and one is on the put side.
+        IronCondor: A combined put and call spread with same expiration but varying different strikes.
+        Straddle: A position in both a call and a put with the same underlier, strike price and maturity expiration date
+        Strangle: A position in both a call and put with different strike prices but with the same maturity and underlier
+        RiskReversal: One leg is an OTM put, the other leg is an OTM call.
+        CalendarSpread: A calendar spread is a long-short position is two calls or two puts. Both options have the same strike, but they have different expirations.
+        Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
+        Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
+        Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
+    InstrumentKey:
+      title: Combination of Uic and AssetType to uniquely identify an instrument.
       type: object
       properties:
         AssetType:
-          title: Assettype of the instrument identified by the UIC.
+          title: The type of the instrument.
           allOf:
           - $ref: '#/components/schemas/AssetType'
-        BuySell:
-          title: Will the UIC/asset be bought or sold?
-          allOf:
-          - $ref: '#/components/schemas/BuySell'
-        Description:
-          title: The description of the instrument this leg represents.
-          type: string
-          example: stringValue
-        LegNumber:
-          title: Number of this leg.
-          type: integer
-          format: int32
-          example: 99
-        Multiplier:
-          title: How many units will be transacted when buying or selling one unit of the main contract.
-          type: number
-          example: 10
         Uic:
-          title: Instrument identifer for this leg.
+          title: Unversal Instrument Code.
           type: integer
           format: int32
           example: 99
       additionalProperties: false
       example:
-        AssetType: Cash
-        BuySell: Buy
-        Description: stringValue
-        LegNumber: 99
-        Multiplier: 10
+        AssetType: StockIndex
         Uic: 99
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - AllowTwoDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
+        ModernFractions: "Display as modern faction, e.g. 1’07.5.\n            The Decimals field indicates the fraction demoninator as 1/(2^x). So if Decimals is 5, the value should represent the number of 1/32'ths"
+        Percentage: "Display as percentage, e.g. 12.34%. \n            The Decimals field indicates the number of decimals to show."
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+        Fractions: "Display as regular fraction i.e. 3 1/4 \n            The Decimals field indicates the fraction demoninator as 1/(2^x). \n            So if Decimals is 2, the value should represent the number of 1/4'ths."
+        AllowTwoDecimalPips: Display the last two digits as a smaller than the rest of the numbers.
+    PlaceableOrderType:
+      title: Specifies supported order types placeable in the orders ticket.
+      enum:
+      - Algorithmic
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - Market
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      type: string
+      example: Limit
+      x-enum-descriptions:
+        Market: Market Order.
+        Limit: Limit Order.
+        StopIfTraded: Stop if traded.
+        Stop: Stop Order.
+        StopLimit: Stop Limit Order.
+        TrailingStopIfTraded: Trailing stop if traded.
+        TrailingStop: Trailing stop.
+        Algorithmic: Algo order.
+        Switch: Switch order, Sell X and Buy Y with one order.
+        Traspaso: Traspaso. Specific type of switch order. Only available on select MutualFunds.
+        TraspasoIn: TraspasoIn. Specific type of switch order
+        GuaranteedStop: Order Type currently not supported.
+        TriggerLimit: Trigger limit order. Specific type for trigger orders.
+        TriggerStop: Trigger stop order. Specific type for trigger orders.
+        TriggerBreakout: Trigger breakout order. Specific type for trigger orders.
+        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on Exchange, into Saxo System. \n            Currently supported for selected partners only."
+    PriceDisplayFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: "Display format of barrier price.\n            One touch/no touch options only."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
+          type: integer
+          format: int32
+          example: 99
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        PriceCurrency:
+          title: Price currency of the instrument.
+          type: string
+          example: stringValue
+        StrikeDecimals:
+          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: "The price format to use when formatting strike price.\n            Only relevant for options."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+      additionalProperties: false
+      example:
+        Decimals: 4
+        Format: AllowDecimalPips
+        OrderDecimals: 4
+    StrategyType:
+      title: The type of strategy implemented by the contract.
+      enum:
+      - CalendarSpread
+      type: string
+      example: CalendarSpread
+      x-enum-descriptions:
+        CalendarSpread: A calendar spread strategy.
     SummaryInfo:
       title: Provides information about an instrument or contract option root.
       type: object
@@ -2309,495 +2166,6 @@ components:
         Symbol: "OILUS\tJUN17"
         TradableAs:
         - CfdOnFutures
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    SettlementStyle:
-      title: Options for how a contract option is settled when exercised.
-      enum:
-      - CashDelivery
-      - PhysicalDelivery
-      type: string
-      example: CashDelivery
-      x-enum-descriptions:
-        CashDelivery: The contract option is settled as cash.
-        PhysicalDelivery: The contract option is settled by physical delivery.
-    OptionsStrategyType:
-      title: Common exchange traded options strategies.
-      enum:
-      - BackRatio
-      - Butterfly
-      - CalendarSpread
-      - Combo
-      - Condor
-      - Custom
-      - Diagonal
-      - Gut
-      - IronButterfly
-      - IronCondor
-      - RiskReversal
-      - Straddle
-      - Strangle
-      - Synthetic
-      - Vertical
-      type: string
-      example: Vertical
-      x-enum-descriptions:
-        Custom: User defined custom strategy.
-        Vertical: A vertical spread has two legs. One is buy and one is sell with same expiration date, but with different strike prices.
-        BackRatio: Consists of two options, of same type and expiry, but with different amounts and strike prices.
-        Diagonal: A diagonal spread is two options of the same type, one buy and one sell, but with different expiry times and different strike prices. Essentially a combination of a Vertical and Calendar spread.
-        Condor: A condor strategy leverages four options with same expiry. A buy and a sell in the money, and a buy and a sell out of the money. Can also be characterized as two call spreads.
-        Butterfly: Non directional strategy that combines legs of same expiry, but with varying amounts and strike prices.
-        IronButterfly: Two overlapping vertical spreads. One of the verticals is on the call side and one is on the put side.
-        IronCondor: A combined put and call spread with same expiration but varying different strikes.
-        Straddle: A position in both a call and a put with the same underlier, strike price and maturity expiration date
-        Strangle: A position in both a call and put with different strike prices but with the same maturity and underlier
-        RiskReversal: One leg is an OTM put, the other leg is an OTM call.
-        CalendarSpread: A calendar spread is a long-short position is two calls or two puts. Both options have the same strike, but they have different expirations.
-        Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
-        Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
-        Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
-    SummaryInfoListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SummaryInfo'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - AssetType: CfdOnFutures
-          Description: US Crude June 2017
-          ExchangeId: ''
-          GroupId: 0
-          Identifier: 6456061
-          IsKeywordMatch: true
-          PrimaryListing: 6456061
-          SummaryType: Instrument
-          Symbol: OILUSJUN17
-          TradableAs:
-          - CfdOnFutures
-        - AssetType: CfdOnFutures
-          Description: US Crude July 2017
-          ExchangeId: ''
-          GroupId: 0
-          Identifier: 6665418
-          IsKeywordMatch: true
-          PrimaryListing: 6456061
-          SummaryType: Instrument
-          Symbol: OILUSJUL17
-          TradableAs:
-          - CfdOnFutures
-        - AssetType: CfdOnFutures
-          Description: Heating Oil June 2017
-          ExchangeId: ''
-          GroupId: 0
-          Identifier: 6559778
-          IsKeywordMatch: true
-          PrimaryListing: 6559778
-          SummaryType: Instrument
-          Symbol: HEATINGOILJUN17
-          TradableAs:
-          - CfdOnFutures
-    ExerciseStyle:
-      title: Indicates the type of the Options. Currently defined for European and American.
-      enum:
-      - American
-      - European
-      - None
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Option not defined.
-        American: American Option. Can be exercised prior to expiry date.
-        European: European Option. Must be exercised on expiry date.
-    EntityType:
-      title: Type of the summary result element.
-      enum:
-      - ContractOptionRoot
-      - Instrument
-      type: string
-      example: Instrument
-      x-enum-descriptions:
-        Instrument: This describes a real instrument.
-        ContractOptionRoot: This describes an optionroot (the basis for exchange tradec contract options).
-    InstrumentDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - AmountDecimals: 0
-          AssetType: FxSpot
-          CurrencyCode: AUD
-          DefaultAmount: 100000
-          DefaultSlippage: 0.01
-          DefaultSlippageType: Percentage
-          Description: British Pound/Australian Dollar
-          Exchange:
-            CountryCode: DK
-            ExchangeId: SBFX
-            Name: Inter Bank
-          Format:
-            Decimals: 4
-            Format: AllowDecimalPips
-            OrderDecimals: 4
-          FxForwardMaxForwardDate: '2018-05-08T00:00:00Z'
-          FxForwardMinForwardDate: '2017-05-03T00:00:00Z'
-          GroupId: 0
-          IncrementSize: 5000
-          IsTradable: true
-          NonTradableReason: None
-          OrderDistances:
-            EntryDefaultDistance: 0
-            EntryDefaultDistanceType: Percentage
-            LimitDefaultDistance: 0
-            LimitDefaultDistanceType: Percentage
-            StopLimitDefaultDistance: 5
-            StopLimitDefaultDistanceType: Pips
-            StopLossDefaultDistance: 0.5
-            StopLossDefaultDistanceType: Percentage
-            StopLossDefaultEnabled: false
-            StopLossDefaultOrderType: Stop
-            TakeProfitDefaultDistance: 0.5
-            TakeProfitDefaultDistanceType: Percentage
-            TakeProfitDefaultEnabled: false
-          StandardAmounts:
-          - 10000
-          - 50000
-          - 100000
-          - 250000
-          - 500000
-          - 1000000
-          - 2000000
-          - 5000000
-          - 10000000
-          - 20000000
-          SupportedOrderTypes:
-          - Market
-          - Limit
-          - Stop
-          - TrailingStop
-          - StopLimit
-          Symbol: GBPAUD
-          TickSize: 5E-05
-          TradableAs:
-          - FxSpot
-          - FxForwards
-          - FxVanillaOption
-          - FxKnockInOption
-          - FxKnockOutOption
-          TradableOn:
-          - 76940INET
-          - 76940INET1
-          - 76940INET2
-          - SAMGS*585220
-          TradingStatus: NotDefined
-          Uic: 22
-        - AmountDecimals: 0
-          AssetType: FxSpot
-          CurrencyCode: CAD
-          DefaultAmount: 100000
-          DefaultSlippage: 0.01
-          DefaultSlippageType: Percentage
-          Description: British Pound/Canadian Dollar
-          Exchange:
-            CountryCode: DK
-            ExchangeId: SBFX
-            Name: Inter Bank
-          Format:
-            Decimals: 4
-            Format: AllowDecimalPips
-            OrderDecimals: 4
-          FxForwardMaxForwardDate: '2018-05-07T00:00:00Z'
-          FxForwardMinForwardDate: '2017-05-02T00:00:00Z'
-          GroupId: 0
-          IncrementSize: 5000
-          IsTradable: true
-          NonTradableReason: None
-          OrderDistances:
-            EntryDefaultDistance: 0
-            EntryDefaultDistanceType: Percentage
-            LimitDefaultDistance: 0
-            LimitDefaultDistanceType: Percentage
-            StopLimitDefaultDistance: 5
-            StopLimitDefaultDistanceType: Pips
-            StopLossDefaultDistance: 0.5
-            StopLossDefaultDistanceType: Percentage
-            StopLossDefaultEnabled: false
-            StopLossDefaultOrderType: Stop
-            TakeProfitDefaultDistance: 0.5
-            TakeProfitDefaultDistanceType: Percentage
-            TakeProfitDefaultEnabled: false
-          StandardAmounts:
-          - 10000
-          - 50000
-          - 100000
-          - 250000
-          - 500000
-          - 1000000
-          - 2000000
-          - 5000000
-          - 10000000
-          - 20000000
-          SupportedOrderTypes:
-          - Market
-          - Limit
-          - Stop
-          - TrailingStop
-          - StopLimit
-          Symbol: GBPCAD
-          TickSize: 5E-05
-          TradableAs:
-          - FxSpot
-          - FxForwards
-          - FxVanillaOption
-          - FxKnockInOption
-          - FxKnockOutOption
-          TradableOn:
-          - 76940INET
-          - 76940INET1
-          - 76940INET2
-          - SAMGS*585220
-          TradingStatus: NotDefined
-          Uic: 23
-    OrderSetting:
-      title: Represents configurations of an instrument for an order
-      type: object
-      properties:
-        Currency:
-          title: Currency for order value thresholds.
-          type: string
-          example: stringValue
-        MaxOrderSize:
-          title: Orders cannot be placed with amount more than MaxOrderSize for both buy/sell. Applicable for Shares only.
-          type: integer
-          format: int32
-          example: 99
-        MaxOrderValue:
-          title: Maximum permissible order value.
-          type: integer
-          format: int32
-          example: 99
-        MinOrderValue:
-          title: Minimum permissible order value. Applicable for Bonds/Shares/CFDs(CFDOnShare).
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Currency: stringValue
-        MaxOrderSize: 99
-        MaxOrderValue: 99
-        MinOrderValue: 99
-    InstrumentKey:
-      title: Combination of Uic and AssetType to uniquely identify an instrument.
-      type: object
-      properties:
-        AssetType:
-          title: The type of the instrument.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Uic:
-          title: Unversal Instrument Code.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetType: StockIndex
-        Uic: 99
-    OrderDurationType:
-      title: An enum describing the different order duration types available for the order type.
-      enum:
-      - AtTheClose
-      - AtTheOpening
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      type: string
-      example: AtTheOpening
-      x-enum-descriptions:
-        AtTheClose: At the close of the trading session.
-        AtTheOpening: At the opening of the trading session.
-        DayOrder: Day Order - Valid for the trading session.
-        FillOrKill: Fill or Kill order.
-        GoodForPeriod: Good for Period.
-        GoodTillCancel: Good till Cancel.
-        GoodTillDate: Good till Date - Expiration Date must also be specified.
-        ImmediateOrCancel: Immediate or Cancel Order.
-    TickSizeSchemeElement:
-      title: Represents one element of a tick size scheme.
-      type: object
-      properties:
-        HighPrice:
-          title: The tick size of this element applies to prices less than or equal to this value.
-          type: number
-          example: 10
-        TickSize:
-          title: The tick size of this element.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        HighPrice: 10
-        TickSize: 10
-    BuySell:
-      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Sell
-      x-enum-descriptions:
-        Buy: Buy
-        Sell: Sell
     TradingStatus:
       title: Trading status of an instrument.
       enum:
@@ -2813,12 +2181,102 @@ components:
         NonTradable: Instrument is non tradable
         ReduceOnly: Instrument is Reduce only, which means client can only reduce the exposure by closing existing open position(s) and cannot open new position(s).
       x-type-warning: FlaggableEnum
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    ContractOption:
+      title: Information about a specific option entry, where the expiration date is given by the enclosing ContractOptionEntry
+      type: object
+      properties:
+        PutCall:
+          title: Put or Call option
+          allOf:
+          - $ref: '#/components/schemas/Public.PutCall'
+        StrikePrice:
+          title: The strike price
+          type: number
+          example: 10
+        TradingStatus:
+          title: The trading status of the Contract option
+          allOf:
+          - $ref: '#/components/schemas/TradingStatus'
+        Uic:
+          title: The uic of this particular Option with expiry determined by parent structure, and strike and put/call as specified by the entry
+          type: integer
+          format: int32
+          example: 99
+        UnderlyingUic:
+          title: Uic of the underlying instrument for this particular option
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        PutCall: Call
+        StrikePrice: 12750
+        TradingStatus: NotDefined
+        Uic: 6507156
+        UnderlyingUic: 1907570
+    InstrumentFieldGroup:
+      title: Specification of field group to include additional data in results.
+      enum:
+      - OrderSetting
+      - SupportedOrderTypeSettings
+      - TradingSessions
+      type: string
+      example: MarketData
+      x-enum-descriptions:
+        OrderSetting: Adds information about the instrument's order setting.
+        TradingSessions: Adds information about the instrument's trading sessions.
+        SupportedOrderTypeSettings: Adds information about supported order types.
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    OrderDistanceType:
+      title: Defines how order distance is represented.
+      enum:
+      - Percentage
+      - Pips
+      - Price
+      - Undefined
+      type: string
+      example: Percentage
+      x-enum-descriptions:
+        Percentage: '% +/- the current price'
+        Pips: +/- the current price.  Only applicable to Fx.
+        Price: Absolute price.
     InstrumentDetails:
       title: Provides detailed information about an instrument
       type: object
@@ -3269,128 +2727,653 @@ components:
         - SAMGS*585220
         TradingStatus: NotDefined
         Uic: 22
-    PriceDisplayFormat:
-      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+    StrategyLeg:
+      title: Defines one leg in an exchange traded strategy.
       type: object
       properties:
-        BarrierDecimals:
-          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
-          type: integer
-          format: int32
-          example: 99
-        BarrierFormat:
-          title: "Display format of barrier price.\n            One touch/no touch options only."
+        AssetType:
+          title: Assettype of the instrument identified by the UIC.
           allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Decimals:
-          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
-          type: integer
-          format: int32
-          example: 99
-        Format:
-          title: Format code specifying how price should be formatted.
+          - $ref: '#/components/schemas/AssetType'
+        BuySell:
+          title: Will the UIC/asset be bought or sold?
           allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        NumeratorDecimals:
-          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
-          type: integer
-          format: int32
-          example: 99
-        OrderDecimals:
-          title: The number of decimals trigger price for orders should be formatted with.
-          type: integer
-          format: int32
-          example: 99
-        PriceCurrency:
-          title: Price currency of the instrument.
+          - $ref: '#/components/schemas/BuySell'
+        Description:
+          title: The description of the instrument this leg represents.
           type: string
           example: stringValue
-        StrikeDecimals:
-          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
+        LegNumber:
+          title: Number of this leg.
           type: integer
           format: int32
           example: 99
-        StrikeFormat:
-          title: "The price format to use when formatting strike price.\n            Only relevant for options."
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Multiplier:
+          title: How many units will be transacted when buying or selling one unit of the main contract.
+          type: number
+          example: 10
+        Uic:
+          title: Instrument identifer for this leg.
+          type: integer
+          format: int32
+          example: 99
       additionalProperties: false
       example:
-        Decimals: 4
-        Format: AllowDecimalPips
-        OrderDecimals: 4
-    BondsCouponType:
-      title: The possible coupon types of a bond.
+        AssetType: Cash
+        BuySell: Buy
+        Description: stringValue
+        LegNumber: 99
+        Multiplier: 10
+        Uic: 99
+    LotSizeType:
+      title: Lot size type.
       enum:
-      - Fixed
+      - BuyOnly
+      - NotUsed
+      - OddLotsAllowed
+      - OddLotsNotAllowed
+      type: string
+      example: NotUsed
+      x-enum-descriptions:
+        NotUsed: Lot size not used.
+        OddLotsNotAllowed: Lot size must be respected = no odd lot support.
+        OddLotsAllowed: Lot size should be respected = odd lot support support exist.
+        BuyOnly: Lot size should be respected = for buy only
+    Class:
+      title: Contains instrument class filter flags
+      enum:
+      - Complex
+      - NonComplex
+      type: string
+      example: NonComplex
+      x-enum-descriptions:
+        NonComplex: Non-complex
+        Complex: Complex
+    OrderDurationType:
+      title: An enum describing the different order duration types available for the order type.
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: AtTheOpening
+      x-enum-descriptions:
+        AtTheClose: At the close of the trading session.
+        AtTheOpening: At the opening of the trading session.
+        DayOrder: Day Order - Valid for the trading session.
+        FillOrKill: Fill or Kill order.
+        GoodForPeriod: Good for Period.
+        GoodTillCancel: Good till Cancel.
+        GoodTillDate: Good till Date - Expiration Date must also be specified.
+        ImmediateOrCancel: Immediate or Cancel Order.
+    Public.PutCall:
+      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+      enum:
+      - Call
       - None
-      - Other
-      - Variable
+      - Put
       type: string
       example: None
       x-enum-descriptions:
-        None: None.
-        Fixed: Fixed.
-        Variable: Variable.
-        Other: Other.
-    DisplayHintType:
-      title: Display Hint Type.
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    ExerciseStyle:
+      title: Indicates the type of the Options. Currently defined for European and American.
       enum:
-      - Continuous
-      - CryptoCurrencies
+      - American
+      - European
+      - None
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Option not defined.
+        American: American Option. Can be exercised prior to expiry date.
+        European: European Option. Must be exercised on expiry date.
+    InstrumentDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - AmountDecimals: 0
+          AssetType: FxSpot
+          CurrencyCode: AUD
+          DefaultAmount: 100000
+          DefaultSlippage: 0.01
+          DefaultSlippageType: Percentage
+          Description: British Pound/Australian Dollar
+          Exchange:
+            CountryCode: DK
+            ExchangeId: SBFX
+            Name: Inter Bank
+          Format:
+            Decimals: 4
+            Format: AllowDecimalPips
+            OrderDecimals: 4
+          FxForwardMaxForwardDate: '2018-05-08T00:00:00Z'
+          FxForwardMinForwardDate: '2017-05-03T00:00:00Z'
+          GroupId: 0
+          IncrementSize: 5000
+          IsTradable: true
+          NonTradableReason: None
+          OrderDistances:
+            EntryDefaultDistance: 0
+            EntryDefaultDistanceType: Percentage
+            LimitDefaultDistance: 0
+            LimitDefaultDistanceType: Percentage
+            StopLimitDefaultDistance: 5
+            StopLimitDefaultDistanceType: Pips
+            StopLossDefaultDistance: 0.5
+            StopLossDefaultDistanceType: Percentage
+            StopLossDefaultEnabled: false
+            StopLossDefaultOrderType: Stop
+            TakeProfitDefaultDistance: 0.5
+            TakeProfitDefaultDistanceType: Percentage
+            TakeProfitDefaultEnabled: false
+          StandardAmounts:
+          - 10000
+          - 50000
+          - 100000
+          - 250000
+          - 500000
+          - 1000000
+          - 2000000
+          - 5000000
+          - 10000000
+          - 20000000
+          SupportedOrderTypes:
+          - Market
+          - Limit
+          - Stop
+          - TrailingStop
+          - StopLimit
+          Symbol: GBPAUD
+          TickSize: 5E-05
+          TradableAs:
+          - FxSpot
+          - FxForwards
+          - FxVanillaOption
+          - FxKnockInOption
+          - FxKnockOutOption
+          TradableOn:
+          - 76940INET
+          - 76940INET1
+          - 76940INET2
+          - SAMGS*585220
+          TradingStatus: NotDefined
+          Uic: 22
+        - AmountDecimals: 0
+          AssetType: FxSpot
+          CurrencyCode: CAD
+          DefaultAmount: 100000
+          DefaultSlippage: 0.01
+          DefaultSlippageType: Percentage
+          Description: British Pound/Canadian Dollar
+          Exchange:
+            CountryCode: DK
+            ExchangeId: SBFX
+            Name: Inter Bank
+          Format:
+            Decimals: 4
+            Format: AllowDecimalPips
+            OrderDecimals: 4
+          FxForwardMaxForwardDate: '2018-05-07T00:00:00Z'
+          FxForwardMinForwardDate: '2017-05-02T00:00:00Z'
+          GroupId: 0
+          IncrementSize: 5000
+          IsTradable: true
+          NonTradableReason: None
+          OrderDistances:
+            EntryDefaultDistance: 0
+            EntryDefaultDistanceType: Percentage
+            LimitDefaultDistance: 0
+            LimitDefaultDistanceType: Percentage
+            StopLimitDefaultDistance: 5
+            StopLimitDefaultDistanceType: Pips
+            StopLossDefaultDistance: 0.5
+            StopLossDefaultDistanceType: Percentage
+            StopLossDefaultEnabled: false
+            StopLossDefaultOrderType: Stop
+            TakeProfitDefaultDistance: 0.5
+            TakeProfitDefaultDistanceType: Percentage
+            TakeProfitDefaultEnabled: false
+          StandardAmounts:
+          - 10000
+          - 50000
+          - 100000
+          - 250000
+          - 500000
+          - 1000000
+          - 2000000
+          - 5000000
+          - 10000000
+          - 20000000
+          SupportedOrderTypes:
+          - Market
+          - Limit
+          - Stop
+          - TrailingStop
+          - StopLimit
+          Symbol: GBPCAD
+          TickSize: 5E-05
+          TradableAs:
+          - FxSpot
+          - FxForwards
+          - FxVanillaOption
+          - FxKnockInOption
+          - FxKnockOutOption
+          TradableOn:
+          - 76940INET
+          - 76940INET1
+          - 76940INET2
+          - SAMGS*585220
+          TradingStatus: NotDefined
+          Uic: 23
+    RelatedOptionRoot:
+      title: Combination of OptionRootId and AssetType, so endpoint user knows the asset type of the option.
+      type: object
+      properties:
+        AssetType:
+          title: The type of the option root.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        OptionRootId:
+          title: Id of OptionRoot.
+          type: integer
+          format: int32
+          example: 99
+        SupportedStrategies:
+          title: Supported strategies for option root.
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionsStrategyType'
+          example:
+          - BackRatio
+      additionalProperties: false
+      example:
+        AssetType: CfdIndexOption
+        OptionRootId: 99
+        SupportedStrategies:
+        - Custom
+    ExchangeSummary:
+      title: Name and id of an Exchange.
+      type: object
+      properties:
+        CountryCode:
+          title: The ISO 3166-2 country code of the exchange's country.
+          type: string
+          example: stringValue
+        ExchangeId:
+          title: The unique ID of the exchange.
+          type: string
+          example: stringValue
+        Name:
+          title: The name of the exchange.
+          type: string
+          description: This is the same as ShortDescription in the database.
+          example: stringValue
+        PriceSourceName:
+          title: The name of the price source.
+          type: string
+          description: This is the same as SourceAttributionDescription in the database.
+          example: stringValue
+        TimeZoneId:
+          title: Exchange's TimeZone
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: DE
+        ExchangeId: EUREX
+        Name: Eurex
+        PriceSourceName: Eurex
+    OrderSetting:
+      title: Represents configurations of an instrument for an order
+      type: object
+      properties:
+        Currency:
+          title: Currency for order value thresholds.
+          type: string
+          example: stringValue
+        MaxOrderSize:
+          title: Orders cannot be placed with amount more than MaxOrderSize for both buy/sell. Applicable for Shares only.
+          type: integer
+          format: int32
+          example: 99
+        MaxOrderValue:
+          title: Maximum permissible order value.
+          type: integer
+          format: int32
+          example: 99
+        MinOrderValue:
+          title: Minimum permissible order value. Applicable for Bonds/Shares/CFDs(CFDOnShare).
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Currency: stringValue
+        MaxOrderSize: 99
+        MaxOrderValue: 99
+        MinOrderValue: 99
+    InstrumentSessionState:
+      title: The different states an instrument session can have
+      enum:
+      - Auction
+      - AutomatedTrading
+      - Break
+      - CallAuctionTrading
+      - Closed
+      - Halt
+      - OpeningAuction
+      - PitTrading
+      - PostAutomatedTrading
+      - PostMarket
+      - PostTrading
+      - PreAutomatedTrading
+      - PreMarket
+      - PreTrading
+      - Suspended
+      - TradingAtLast
+      - Undefined
+      type: string
+      example: Closed
+      x-enum-descriptions:
+        Undefined: The state of the Exchange is unknown
+        AutomatedTrading: Normal trading
+        Closed: Closed for trading
+        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        Break: Break in instrument opening hours
+        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
+        PostTrading: Extended trading session after normal opening hours
+        PreTrading: Extended trading session before normal opening hours
+        PostAutomatedTrading: Extended trading session after normal opening hours
+        PreAutomatedTrading: Extended trading session before normal opening hours
+        Suspended: Trading is suspended for an instrument
+        Halt: Trading is halted for an instrument
+        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        PreMarket: Extended trading session before normal opening hours
+        PostMarket: Extended trading session after normal opening hours
+        OpeningAuction: Opening auction exchange state
+        TradingAtLast: Orders collected at last price in absence of closing auction price
+    SupportedOrderTypeSetting:
+      title: Represents the configuration of an instrument for a specific supported order type.
+      type: object
+      properties:
+        DurationTypes:
+          title: Possible order duration types
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDurationType'
+          example:
+          - DayOrder
+        OrderType:
+          title: Order Type
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+      additionalProperties: false
+      example:
+        DurationTypes:
+        - GoodForPeriod
+        OrderType: Stop
+    FuturesSpace:
+      title: Represents a complete futures space.
+      type: object
+      properties:
+        BaseIdentifier:
+          title: The base id of the futures space.
+          type: string
+          example: stringValue
+        Elements:
+          title: The elements of the futures space.
+          type: array
+          items:
+            $ref: '#/components/schemas/FuturesSpaceElement'
+          example:
+          - DaysToExpiry: 64
+            ExpiryDate: '2017-07-14'
+            Symbol: WQ7
+            Uic: 3406797
+      additionalProperties: false
+      example:
+        BaseIdentifier: W
+        Elements:
+        - DaysToExpiry: 64
+          ExpiryDate: '2017-07-14'
+          Symbol: WQ7
+          Uic: 3406797
+        - DaysToExpiry: 127
+          ExpiryDate: '2017-09-15'
+          Symbol: WV7
+          Uic: 3844782
+        - DaysToExpiry: 188
+          ExpiryDate: '2017-11-15'
+          Symbol: WZ7
+          Uic: 4239352
+        - DaysToExpiry: 278
+          ExpiryDate: '2018-02-13'
+          Symbol: WH8
+          Uic: 4895721
+        - DaysToExpiry: 337
+          ExpiryDate: '2018-04-13'
+          Symbol: WK8
+          Uic: 5352847
+        - DaysToExpiry: 431
+          ExpiryDate: '2018-07-16'
+          Symbol: WQ8
+          Uic: 6112156
+        - DaysToExpiry: 491
+          ExpiryDate: '2018-09-14'
+          Symbol: WV8
+          Uic: 6609171
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
       - Etc
       - Etf
       - Etn
-      - Forex
       - Fund
-      - Interests
-      - None
-      - PreciousMetal
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
       - Rights
-      - StockIndices
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
       - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
       type: string
-      example: None
+      example: FxForwards
       x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    TickSizeSchemeElement:
+      title: Represents one element of a tick size scheme.
+      type: object
+      properties:
+        HighPrice:
+          title: The tick size of this element applies to prices less than or equal to this value.
+          type: number
+          example: 10
+        TickSize:
+          title: The tick size of this element.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        HighPrice: 10
+        TickSize: 10
+    InstrumentTradeSessions:
+      title: Represents instrument's trading sessions
+      type: object
+      properties:
+        Sessions:
+          title: Gets instrument's trade sessions
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentSession'
+          example:
+          - EndTime: '9999-12-31T23:59:59.999999Z'
+            StartTime: '9999-12-31T23:59:59.999999Z'
+            State: CallAuctionTrading
+        TimeZone:
+          title: Gets the time zone of the exchange an instrument is traded on.
+          type: integer
+          format: int32
+          example: 99
+        TimeZoneAbbreviation:
+          title: Gets the time zone's abbreviation.
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: Gets the time zone offset, relative to UTC.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Sessions:
+        - EndTime: '9999-12-31T23:59:59.999999Z'
+          StartTime: '9999-12-31T23:59:59.999999Z'
+          State: Undefined
+        TimeZone: 99
+        TimeZoneAbbreviation: stringValue
+        TimeZoneOffset: '00:00:00.0000061'
+    BondType:
+      title: Enum to identify the type of bond
       enum:
-      - AllowDecimalPips
-      - AllowTwoDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
+      - Convertible
+      - DualCurrency
+      - FloatingRateNote
+      - InflationLinked
+      - NonInflationLinked
+      - Perpetual
       type: string
-      example: Normal
+      example: NonInflationLinked
       x-enum-descriptions:
-        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
-        ModernFractions: "Display as modern faction, e.g. 1’07.5.\n            The Decimals field indicates the fraction demoninator as 1/(2^x). So if Decimals is 5, the value should represent the number of 1/32'ths"
-        Percentage: "Display as percentage, e.g. 12.34%. \n            The Decimals field indicates the number of decimals to show."
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
-        Fractions: "Display as regular fraction i.e. 3 1/4 \n            The Decimals field indicates the fraction demoninator as 1/(2^x). \n            So if Decimals is 2, the value should represent the number of 1/4'ths."
-        AllowTwoDecimalPips: Display the last two digits as a smaller than the rest of the numbers.
-    StrategyType:
-      title: The type of strategy implemented by the contract.
-      enum:
-      - CalendarSpread
-      type: string
-      example: CalendarSpread
-      x-enum-descriptions:
-        CalendarSpread: A calendar spread strategy.
+        NonInflationLinked: Non Inflation Linked Bond
+        InflationLinked: Inflation Linked Bond
+        Convertible: Convertible Bond
+        Perpetual: Perpetual Bond
+        FloatingRateNote: FloatingRateNote Bond
+        DualCurrency: DualCurrency Bond
     DefaultSlippageType:
       title: Default slippage type (price tolerance type).
       enum:
@@ -3403,11 +3386,40 @@ components:
         Percentage: Slippage is defined as a percentage of the price.
         Pips: Slippage is defined as a number of additional pips of the price.
         Ticks: Slippage is defined as a number of additional ticks of the price.
+    FuturesSpaceElement:
+      title: Contains futures space-relevant information about one element in the space.
+      type: object
+      properties:
+        DaysToExpiry:
+          title: Number of days until expiry.
+          type: integer
+          format: int32
+          example: 99
+        ExpiryDate:
+          title: Expiry date of the instrument. Futures only.
+          type: string
+          format: date
+          x-type-name: Date
+        Symbol:
+          title: Gets the symbol, which is the unique and global name for the instrument
+          type: string
+          example: stringValue
+        Uic:
+          title: Gets the UIC (Unique Instrument Code. Saxo Bank internal code for instruments)
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        DaysToExpiry: 64
+        ExpiryDate: '2017-07-14'
+        Symbol: WQ7
+        Uic: 3406797
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
   securitySchemes:

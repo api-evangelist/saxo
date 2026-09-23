@@ -1,10 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Orders API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Saxo Orders API
+  x-refined-note:
+  - x-framework-version differs across the merged source definitions and was not carried
+  - x-machine differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Orders across 2 of this provider''s published API definitions: port.yaml, trade.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -52,6 +53,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders/subscriptions/{ContextId}:
     delete:
       tags:
@@ -92,6 +95,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders/subscriptions:
     post:
       tags:
@@ -256,12 +261,16 @@ paths:
         community: Subscribe
       x-streaming-type:
         $ref: '#/components/schemas/OrderResponseArray'
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders/{OrderId}/details:
     get:
       tags:
       - Orders
       summary: Get detailed information for a open order
-      description: "Obsolete Gets detailed information about a single open order as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/orders/{OrderId}."
+      description: 'Obsolete Gets detailed information about a single open order as specified by the query parameters.
+
+        NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/orders/{OrderId}.'
       operationId: OrdersV1GetOpenOrderDetails
       parameters:
       - name: AccountGroupKey
@@ -369,6 +378,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders:
     get:
       tags:
@@ -526,6 +537,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders/me:
     get:
       tags:
@@ -618,6 +631,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/orders/{ClientKey}/{OrderId}:
     get:
       tags:
@@ -718,11 +733,13 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/multileg/defaults:
     get:
       tags:
       - Orders
-      summary: Get default values for a option multi-leg order strategies.
+      summary: Get default values for a option multi-leg order strategies
       description: Returns a list of suggested orders/legs for the given option root and strategy.
       operationId: OrdersV2GetMultiLegOrderStrategyDefaults
       parameters:
@@ -810,11 +827,13 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/multileg/{MultiLegOrderId}:
     delete:
       tags:
       - Orders
-      summary: Cancel a multi-leg strategy order.
+      summary: Cancel a multi-leg strategy order
       description: Cancels all order legs in a combined multi-leg strategy order.
       operationId: OrdersV2CancelMultiLegStrategyOrder
       parameters:
@@ -911,13 +930,14 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/multileg:
     post:
       tags:
       - Orders
       summary: Place a new multi-leg option strategy order
       description: 'Places a combined order where all legs must be symmetrically filled by the exchange. Used to place custom and common option strategies such as CalendarSpreads, Strangles and Straddles. Only supported on certian options exchanges. Support is indicated by the CanParticipateInMultiLegOrder flag when looking up the option root in RefData.
-
 
 
         It is also possible to place an multi-leg order on behalf of another client (for IBs). The account key property of the order determines the client account on which the order is placed. It is the same for all legs.'
@@ -1311,11 +1331,13 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/multileg/precheck:
     post:
       tags:
       - Orders
-      summary: Pre-check a multileg options strategy order.
+      summary: Pre-check a multileg options strategy order
       description: Preforms a pre-check on a single options strategy order.
       operationId: OrdersV2PreCheckMultilegOrder
       requestBody:
@@ -1541,6 +1563,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/precheck:
     post:
       tags:
@@ -1788,6 +1812,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders/{OrderIds}:
     delete:
       tags:
@@ -1901,6 +1927,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v2/orders:
     post:
       tags:
@@ -1909,9 +1937,7 @@ paths:
       description: 'The order can contain optional limit and stop orders, by adding them as child orders.
 
 
-
         It is also possible to place an order on behalf of another client (for IBs).
-
 
 
         The account key property of the order determines the client account on which the order is placed.'
@@ -2286,7 +2312,7 @@ paths:
       tags:
       - Orders
       summary: Change one or more existing orders
-      description: Changes one or more existing orders.&gt;
+      description: Changes one or more existing orders.>
       operationId: OrdersV2ChangeOrder
       requestBody:
         content:
@@ -2481,288 +2507,122 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
 components:
   schemas:
-    OpenOrderRelation:
-      title: Description of the order relation.
+    OrderResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderResponse'
+      example:
+      - AccountId: 192134INET
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        Amount: 250000
+        AssetType: FxSpot
+        BuySell: Buy
+        CalculationReliability: Ok
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        CurrentPrice: 1.09062
+        CurrentPriceDelayMinutes: 0
+        CurrentPriceType: Ask
+        DistanceToMarket: 0.04062
+        Duration:
+          DurationType: GoodTillCancel
+        IsForceOpen: false
+        IsMarketOpen: false
+        MarketPrice: 1.09062
+        NonTradableReason: None
+        OpenOrderType: Limit
+        OrderAmountType: Quantity
+        OrderId: '49318458'
+        OrderRelation: StandAlone
+        OrderTime: '2017-04-12T07:56:00Z'
+        Price: 1.05
+        Status: Working
+        Uic: 21
+    CorrelationType:
+      title: Specificies the type of correlation identified by the CorrelationKey. In OpenAPI we only expose a subset of all system internal correlation types.
       enum:
-      - IfDoneMaster
-      - IfDoneSlave
-      - IfDoneSlaveOco
-      - Oco
-      - StandAlone
+      - Allocation
+      - Assignment
+      - AutoAssignment
+      - AutoExercise
+      - AutoTrade
+      - CopyTrade
+      - Exercise
       type: string
-      example: Oco
+      example: Allocation
       x-enum-descriptions:
-        StandAlone: Standalone. No relations to other orders.
-        Oco: One cancels other. Relation between two orders. When one is filled, the other is cancelled.
-        IfDoneMaster: If done master. Relation between two or three orders. The slave orders are released only if the master order is filled.
-        IfDoneSlave: If done slave. Relation between two orders. The other is always IfDoneMaster.
-        IfDoneSlaveOco: "If done slave OCO. Relation between three orders. One is always IfDoneMaster and the other is always also IfDoneSlaveOCO.\n            The OCO relation is between the two slave orders."
-    PlaceMultiLegStrategyOrderRequest:
-      title: Request contract for placing an multi-leg strategy order.
+        Allocation: Entity is part of a trade allocation
+        Exercise: Entity originated from an options exercise.
+        AutoExercise: Entity originated from an automatic options exercise.
+        Assignment: Entitiy originated for an options assignment.
+        AutoAssignment: Entitiy originated for an automatic options assignment.
+        CopyTrade: Entity originated from a CopyTrade
+        AutoTrade: Entity originated from an AutoTrade
+    BuySell:
+      title: Describes the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Sell
+      x-enum-descriptions:
+        Buy: Buy.
+        Sell: Sell.
+    RelatedOrderInfo:
+      title: Information about related order to be shown on order list.
       required:
-      - OrderType
-      - Legs
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account to place the order on.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ExternalReference:
-          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
-          type: string
-          example: stringValue
-        Legs:
-          title: List of orders in the batch that are to be filled symmetrically.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderLeg'
-          example:
-          - Amount: 10
-            AssetType: CfdOnEtn
-            BuySell: Buy
-            ToOpenClose: ToClose
-            Uic: 99
-        ManualOrder:
-          title: Optional indicator for whether order is placed automatically or manually.
-          type: boolean
-          example: true
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderPrice:
-          title: Order Price. Optional for market orders.
-          type: number
-          example: 10
-        OrderType:
-          title: Order type.
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-        TraderId:
-          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        ExternalReference: stringValue
-        Legs:
-        - Amount: 10
-          AssetType: CfdOnRights
-          BuySell: Buy
-          ToOpenClose: ToOpen
-          Uic: 99
-        ManualOrder: true
-        OrderDuration:
-          DurationType: GoodTillDate
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2022-11-09T14:00:00'
-        OrderPrice: 10
-        OrderType: TriggerBreakout
-        TraderId: stringValue
-    Greeks:
-      title: Describes the sensitivity of the value of an option or instrument to a change in a given underlying parameter.
-      type: object
-      properties:
-        Delta:
-          title: Shows the equivalent FX Spot exposure of a given position. This is the sensitivity of a position’s value with respect to the spot rate.
-          type: number
-          example: 10
-        DeltaCurrency:
-          title: Currency of Delta.
-          type: string
-          example: stringValue
-        Gamma:
-          title: This is the second derivative of the position value with respect to spot, i.e. it shows how much the delta changes when spot changes (i.e. how much will the delta change when spot moves up by one percentage point.
-          type: number
-          example: 10
-        GammaCurrency:
-          title: Currency of Gamma.
-          type: string
-          example: stringValue
-        InstrumentDelta:
-          title: Delta for the instrument.
-          type: number
-          example: 10
-        InstrumentGamma:
-          title: Gamma for the instrument.
-          type: number
-          example: 10
-        InstrumentTheta:
-          title: Theta for the instrument.
-          type: number
-          example: 10
-        InstrumentVega:
-          title: Vega for the instrument.
-          type: number
-          example: 10
-        MidVol:
-          title: The mid rate for the implied volatility used in pricing this option
-          type: number
-          example: 10
-        Phi:
-          title: Phi
-          type: number
-          example: 10
-        Rho:
-          title: Interest rate sensitivity indicator. Derivative of the option value with and risk free interest rate.
-          type: number
-          example: 10
-        TheoreticalPrice:
-          title: The theoretical price.
-          type: number
-          example: 10
-        Theta:
-          title: Also known as time decay. This shows by how much the position will increase or decrease in value from one day to the next.
-          type: number
-          example: 10
-        ThetaCurrency:
-          title: Currency of Theta.
-          type: string
-          example: stringValue
-        Vega:
-          title: Sensitivity of a position with respect to the implied volatility used to price FX Options. This shows how much money is made (positive number) or lost (negative number) when volatility goes up by one percentage point.
-          type: number
-          example: 10
-        VegaCurrency:
-          title: Currency of Vega.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Delta: 10
-        DeltaCurrency: stringValue
-        Gamma: 10
-        GammaCurrency: stringValue
-        InstrumentDelta: 10
-        InstrumentGamma: 10
-        InstrumentTheta: 10
-        InstrumentVega: 10
-        MidVol: 10
-        Phi: 10
-        Rho: 10
-        TheoreticalPrice: 10
-        Theta: 10
-        ThetaCurrency: stringValue
-        Vega: 10
-        VegaCurrency: stringValue
-    MultiLegOrderDetails:
-      title: Contains common properties for multi-leg (strategy) orders.
+      - OrderId
       type: object
       properties:
         Amount:
-          title: Amount for the multi-leg order. Each leg may have independent amounts.
+          title: Order size
           type: number
           example: 10
-        BuySell:
-          title: Buy/sell direction for the multi-leg order. Each leg may point in independent directions.
+        Duration:
+          title: The time frame during which the order is valid.
           allOf:
-          - $ref: '#/components/schemas/BuySell'
-        CurrentPrice:
-          title: The user specific(delayed/realtime) current market price of the multi-leg order.
-          type: number
-          example: 10
-        Description:
-          title: Description of the multi-leg order.
+          - $ref: '#/components/schemas/OrderDuration'
+        OpenOrderType:
+          title: The order type.
+          allOf:
+          - $ref: '#/components/schemas/OrderType'
+        OrderId:
+          title: The orderId.
           type: string
           example: stringValue
-        DistanceToMarket:
-          title: Distance to market for this multi-leg order. (Dynamically updating)
+        OrderPrice:
+          title: Price at which the order is triggered.
           type: number
           example: 10
-        FilledAmount:
-          title: Amount for the multi-leg order that has already been filled.
+        StopLimitPrice:
+          title: Stop limit price for stop limit order.
           type: number
           example: 10
-        LegCount:
-          title: Number of orders that make up the multi-leg order.
-          type: integer
-          format: int32
-          example: 99
-        MultiLegOrderId:
-          title: Unique identifier for the multi-leg order. Same for all legs.
-          type: string
-          example: stringValue
-        Price:
-          title: Overall limit price for the multi-leg order.
+        TrailingStopDistanceToMarket:
+          title: Distance to market for a trailing stop order.
           type: number
           example: 10
-        StrategyType:
-          title: The enumeration If the legs match a common options strategy.
-          allOf:
-          - $ref: '#/components/schemas/OptionsStrategyType'
+        TrailingStopStep:
+          title: Step size for trailing stop order.
+          type: number
+          example: 10
       additionalProperties: false
       example:
         Amount: 10
-        BuySell: Buy
-        CurrentPrice: 10
-        Description: stringValue
-        DistanceToMarket: 10
-        FilledAmount: 10
-        LegCount: 99
-        MultiLegOrderId: stringValue
-        Price: 10
-        StrategyType: Vertical
-    OrderDuration:
-      title: "The time frame during which the order is valid.\n            If the OrderDurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
-      type: object
-      properties:
-        DurationType:
-          title: Gets the order duration type.
-          allOf:
-          - $ref: '#/components/schemas/OrderDurationType'
-        ExpirationDate:
-          title: Obsolete. The ExpirationDate, if the Order Type is GoodTillDate. The field has been obsoleted and will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
-          type: string
-          format: date-time
-          deprecated: true
-          x-deprecated-date: '2022-11-01'
-          x-type-name: UtcDateTime
-        ExpirationDateContainsTime:
-          title: Gets the value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type.
-          type: boolean
-          example: true
-        ExpirationDateTime:
-          title: Gets the expiration date and (optionally) time if the order duration type is GoodTillDate.
-          type: string
-          description: If the field contains a time, it will always be expressed in the exchange local time. No time zone indication will be added.
-          example: stringValue
-      additionalProperties: false
-      example:
-        DurationType: GoodTillCancel
-        ExpirationDate: '2020-12-04T06:36:30.1014980+00:00'
-        ExpirationDateContainsTime: true
-        ExpirationDateTime: '2020-12-04T06:36:30.1014983'
-    OrderStatus:
-      title: Indicates the visible status of an order.
-      enum:
-      - Filled
-      - LockedPlacementPending
-      - NotWorking
-      - NotWorkingLockedCancelPending
-      - NotWorkingLockedChangePending
-      - Parked
-      - Unknown
-      - Working
-      - WorkingLockedCancelPending
-      - WorkingLockedChangePending
-      type: string
-      example: Working
-      x-enum-descriptions:
-        Unknown: Unknown
-        Working: Working
-        LockedPlacementPending: Locked. Placement pending.
-        WorkingLockedChangePending: Working. Locked. Change Pending.
-        WorkingLockedCancelPending: Working. Locked. Cancel Pending.
-        Filled: Filled
-        NotWorking: Not Working
-        NotWorkingLockedChangePending: Locked. Change pending.
-        NotWorkingLockedCancelPending: Locked. Cancel pending.
-        Parked: Parked orders are in inactive state, can't be filled, but remain available in so they can be made active at any time. Clients can manually 'park' and 'activate' an order.
+        Duration:
+          DurationType: DayOrder
+          ExpirationDate: '2023-11-17T01:00:56.411915Z'
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2023-11-17T01:00:56.4119159'
+        OpenOrderType: Limit
+        OrderId: stringValue
+        OrderPrice: 10
+        StopLimitPrice: 10
+        TrailingStopDistanceToMarket: 10
+        TrailingStopStep: 10
     OrderResponse:
       title: Describes an open order.
       required:
@@ -3109,221 +2969,246 @@ components:
         Price: 1.05
         Status: Working
         Uic: 21
-    PutCall:
-      title: Describes the direction of an option.
+    OrderAmountType:
+      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
       enum:
-      - Call
+      - CashAmount
+      - Quantity
+      type: string
+      example: CashAmount
+      x-enum-descriptions:
+        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
+        CashAmount: Order amount is specified as a monetary value.
+    MarketState:
+      title: Defines the possible states of the Market.
+      enum:
+      - Closed
+      - ClosingAuction
+      - IntraDayAuction
+      - Open
+      - OpeningAuction
+      - PostMarket
+      - PreMarket
+      - TradingAtLast
+      type: string
+      example: Closed
+      x-enum-descriptions:
+        Open: Market is open for trades (Automatic Trading, usually).
+        Closed: Market is closed
+        PreMarket: Market is in Pre Market Auction state
+        PostMarket: Market is in Post Market Auction state
+        IntraDayAuction: "Market is temporary out of normal Trading. In an Auction state This state is\n            for Intraday Auction. We have 2 specific states for Opening and Closing Auction"
+        OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
+        ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
+        TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
+    InstrumentExchangeDetails:
+      title: Information about an exchange and its trading hours.
+      type: object
+      properties:
+        Description:
+          title: Full name/description of the exchange
+          type: string
+          example: stringValue
+        ExchangeId:
+          title: Short exchange code.
+          type: string
+          example: stringValue
+        IsOpen:
+          title: Indicates if the exchange is currently open for trading
+          type: boolean
+          example: true
+        TimeZoneId:
+          title: Exchange's TimeZone
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: stringValue
+        ExchangeId: stringValue
+        IsOpen: true
+        TimeZoneId: stringValue
+    PriceType:
+      title: Used to describe the type of the price
+      enum:
+      - Ask
+      - Bid
+      - Close
+      - High
+      - Indicative
+      - LastTraded
+      - Low
+      - Mid
       - None
-      - Put
+      - Open
+      - Synthetic
       type: string
-      example: Put
+      example: Ask
       x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    CorrelationType:
-      title: Specificies the type of correlation identified by the CorrelationKey. In OpenAPI we only expose a subset of all system internal correlation types.
+        Bid: Highest price from buyer.
+        Ask: Best offer from seller (offer price)
+        Mid: The price between the best price of the sellers (bid) and best offer from the buyers (ask).
+        LastTraded: Price at which instrument was last traded.
+        Close: Official price of instrument at the end of trading session.
+        Open: Official price of instrument at the start of trading session.
+        Synthetic: Computed price of instrument.
+        High: Highest traded price in period.
+        Low: Lowest traded price in period.
+        Indicative: Best estimate price based on market conditions. Used mainly in low liquidity markets, where Bid/Ask/LastTraded/Close may not be available.
+        None: Unknown/No value set
+    Greeks:
+      title: Describes the sensitivity of the value of an option or instrument to a change in a given underlying parameter.
+      type: object
+      properties:
+        Delta:
+          title: Shows the equivalent FX Spot exposure of a given position. This is the sensitivity of a position’s value with respect to the spot rate.
+          type: number
+          example: 10
+        DeltaCurrency:
+          title: Currency of Delta.
+          type: string
+          example: stringValue
+        Gamma:
+          title: This is the second derivative of the position value with respect to spot, i.e. it shows how much the delta changes when spot changes (i.e. how much will the delta change when spot moves up by one percentage point.
+          type: number
+          example: 10
+        GammaCurrency:
+          title: Currency of Gamma.
+          type: string
+          example: stringValue
+        InstrumentDelta:
+          title: Delta for the instrument.
+          type: number
+          example: 10
+        InstrumentGamma:
+          title: Gamma for the instrument.
+          type: number
+          example: 10
+        InstrumentTheta:
+          title: Theta for the instrument.
+          type: number
+          example: 10
+        InstrumentVega:
+          title: Vega for the instrument.
+          type: number
+          example: 10
+        MidVol:
+          title: The mid rate for the implied volatility used in pricing this option
+          type: number
+          example: 10
+        Phi:
+          title: Phi
+          type: number
+          example: 10
+        Rho:
+          title: Interest rate sensitivity indicator. Derivative of the option value with and risk free interest rate.
+          type: number
+          example: 10
+        TheoreticalPrice:
+          title: The theoretical price.
+          type: number
+          example: 10
+        Theta:
+          title: Also known as time decay. This shows by how much the position will increase or decrease in value from one day to the next.
+          type: number
+          example: 10
+        ThetaCurrency:
+          title: Currency of Theta.
+          type: string
+          example: stringValue
+        Vega:
+          title: Sensitivity of a position with respect to the implied volatility used to price FX Options. This shows how much money is made (positive number) or lost (negative number) when volatility goes up by one percentage point.
+          type: number
+          example: 10
+        VegaCurrency:
+          title: Currency of Vega.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Delta: 10
+        DeltaCurrency: stringValue
+        Gamma: 10
+        GammaCurrency: stringValue
+        InstrumentDelta: 10
+        InstrumentGamma: 10
+        InstrumentTheta: 10
+        InstrumentVega: 10
+        MidVol: 10
+        Phi: 10
+        Rho: 10
+        TheoreticalPrice: 10
+        Theta: 10
+        ThetaCurrency: stringValue
+        Vega: 10
+        VegaCurrency: stringValue
+    OrderType:
+      title: Specifies under what conditions an order should be triggered.
       enum:
-      - Allocation
-      - Assignment
-      - AutoAssignment
-      - AutoExercise
-      - AutoTrade
-      - CopyTrade
-      - Exercise
+      - BreakoutTrigger
+      - CallLimit
+      - CallStop
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - MarketDefault
+      - MarketExpiry
+      - MarketRollover
+      - MarketStopOut
+      - PreviouslyQuoted
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - TrailingStopLimit
+      - Traspaso
+      - TraspasoIn
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      - Unknown
       type: string
-      example: Allocation
+      example: Market
+      x-enum-deprecated:
+      - LimitTrigger
+      - StopTrigger
+      - BreakoutTrigger
+      x-enum-deprecated-date:
+        LimitTrigger: '2022-10-01'
+        StopTrigger: '2022-10-01'
+        BreakoutTrigger: '2022-10-01'
       x-enum-descriptions:
-        Allocation: Entity is part of a trade allocation
-        Exercise: Entity originated from an options exercise.
-        AutoExercise: Entity originated from an automatic options exercise.
-        Assignment: Entitiy originated for an options assignment.
-        AutoAssignment: Entitiy originated for an automatic options assignment.
-        CopyTrade: Entity originated from a CopyTrade
-        AutoTrade: Entity originated from an AutoTrade
-    RelatedOrderInfo:
-      title: Information about related order to be shown on order list.
-      required:
-      - OrderId
-      type: object
-      properties:
-        Amount:
-          title: Order size
-          type: number
-          example: 10
-        Duration:
-          title: The time frame during which the order is valid.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration'
-        OpenOrderType:
-          title: The order type.
-          allOf:
-          - $ref: '#/components/schemas/OrderType'
-        OrderId:
-          title: The orderId.
-          type: string
-          example: stringValue
-        OrderPrice:
-          title: Price at which the order is triggered.
-          type: number
-          example: 10
-        StopLimitPrice:
-          title: Stop limit price for stop limit order.
-          type: number
-          example: 10
-        TrailingStopDistanceToMarket:
-          title: Distance to market for a trailing stop order.
-          type: number
-          example: 10
-        TrailingStopStep:
-          title: Step size for trailing stop order.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Amount: 10
-        Duration:
-          DurationType: DayOrder
-          ExpirationDate: '2023-11-17T01:00:56.411915Z'
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2023-11-17T01:00:56.4119159'
-        OpenOrderType: Limit
-        OrderId: stringValue
-        OrderPrice: 10
-        StopLimitPrice: 10
-        TrailingStopDistanceToMarket: 10
-        TrailingStopStep: 10
-    StringStringKeyValuePair:
-      type: object
-      properties:
-        Key:
-          type: string
-          example: stringValue
-        Value:
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Key: stringValue
-        Value: stringValue
-    OrderLeg:
-      title: Represents a single leg/order in the strategy or batch.
-      type: object
-      properties:
-        Amount:
-          title: Order size.
-          type: number
-          example: 10
-        AssetType:
-          title: The Instruments AssetType.
-          allOf:
-          - $ref: '#/components/schemas/AssetType_2'
-        BuySell:
-          title: The direction of the order; buy or sell.
-          allOf:
-          - $ref: '#/components/schemas/Domain.BuySell'
-        ToOpenClose:
-          title: Whether the order should be created to open/increase or close/decrease a position. (Only relevant for options)
-          allOf:
-          - $ref: '#/components/schemas/ToOpenClose_2'
-        Uic:
-          title: Unique id of the instrument to place the order for.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Amount: 10
-        AssetType: CfdOnEtc
-        BuySell: Sell
-        ToOpenClose: ToOpen
-        Uic: 99
-    OrderSubscriptionRequest:
-      title: Public request contract for setting up a subscription on orders for a client.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/OpenOrdersRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        ContextId: '20221030064905457'
-        Format: application/json
-        ReferenceId: O40952
-        RefreshRate: 5
-        Tag: PAGE1
-    DisplayHintType:
-      title: Display Hint Type.
-      enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
-      type: string
-      example: Continuous
-      x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
+        Unknown: Unknown
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        MarketStopOut: Market StopOut
+        CallLimit: Call Limit
+        CallStop: Call Stop
+        MarketExpiry: Market Expiry
+        TrailingStopIfTraded: Trailing stop if traded
+        TrailingStop: Trailing stop
+        TrailingStopLimit: Trailing Stop Limit
+        PreviouslyQuoted: Previously Quoted.
+        MarketDefault: Market Default.
+        Switch: Switch order, Sell X and Buy Y with one order.
+        Traspaso: Specific type of switch order. Only available on select MutualFunds.
+        TraspasoIn: Specific type of switch order. Only available on select MutualFunds.
+        GuaranteedStop: Guaranteed Stop. Currently not supported.
+        MarketRollover: Market Rollover orders are used to automate the process of closing out open positions in soon to expire contracts in favour of contracts with later expiration dates.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        DealCapture: Deal capture order
+        TriggerBreakout: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TriggerLimit: If the price moves above or below the trigger price, then place related order.
+        TriggerStop: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
     SleepingOrderCondition:
       title: Represent trigger order ( or condition on sleeping order)
       required:
@@ -3532,243 +3417,141 @@ components:
         TriggerPriceType: LastTraded
         Uic: 99
         ValueDate: '9999-12-31T23:59:59.9999990+00:00'
-    InstrumentExchangeDetails:
-      title: Information about an exchange and its trading hours.
+    MultiLegOrderDetails:
+      title: Contains common properties for multi-leg (strategy) orders.
       type: object
       properties:
-        Description:
-          title: Full name/description of the exchange
-          type: string
-          example: stringValue
-        ExchangeId:
-          title: Short exchange code.
-          type: string
-          example: stringValue
-        IsOpen:
-          title: Indicates if the exchange is currently open for trading
-          type: boolean
-          example: true
-        TimeZoneId:
-          title: Exchange's TimeZone
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Description: stringValue
-        ExchangeId: stringValue
-        IsOpen: true
-        TimeZoneId: stringValue
-    OrderAmountType:
-      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
-      enum:
-      - CashAmount
-      - Quantity
-      type: string
-      example: CashAmount
-      x-enum-descriptions:
-        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
-        CashAmount: Order amount is specified as a monetary value.
-    ChangeOrderRequest:
-      title: A request to change one or more orders.
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        AlgoOrderData:
-          title: 'Specification of StrategyName and parameters for AlgoOrders. Note: AlgoOrders are only supported on the live system.'
-          allOf:
-          - $ref: '#/components/schemas/AlgorithmicOrderData'
         Amount:
-          title: Order size.
+          title: Amount for the multi-leg order. Each leg may have independent amounts.
           type: number
           example: 10
-        AssetType:
-          title: "The Instruments AssetType. \n            This field is only used for validation of other fields of the change request, and will not \n            be checked against the original order, nor used to change the instrument type."
+        BuySell:
+          title: Buy/sell direction for the multi-leg order. Each leg may point in independent directions.
           allOf:
-          - $ref: '#/components/schemas/AssetType_2'
-        IsForceOpen:
-          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
-          type: boolean
-          example: true
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderId:
-          title: Id of order to change.
+          - $ref: '#/components/schemas/BuySell'
+        CurrentPrice:
+          title: The user specific(delayed/realtime) current market price of the multi-leg order.
+          type: number
+          example: 10
+        Description:
+          title: Description of the multi-leg order.
           type: string
           example: stringValue
-        OrderPrice:
-          title: Order Price. Optional for market orders.
+        DistanceToMarket:
+          title: Distance to market for this multi-leg order. (Dynamically updating)
           type: number
           example: 10
-        OrderType:
-          title: The Order Type.
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-        Orders:
-          title: Related or OCO orders to change.
-          type: array
-          items:
-            $ref: '#/components/schemas/Orders.RelatedOrOcoOrder'
-          example:
-          - AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-            Amount: 10
-            AssetType: CfdIndexOption
-            IsForceOpen: false
-            OrderDuration:
-              DurationType: GoodTillDate
-              ExpirationDateContainsTime: true
-              ExpirationDateTime: '2022-11-09T14:00:00'
-            OrderId: stringValue
-            OrderPrice: 10
-            OrderType: GuaranteedStop
-            StopLimitPrice: 10
-            TrailingStopDistanceToMarket: 10
-            TrailingStopStep: 10
-        StopLimitPrice:
-          title: Stop limit price for Stop Limit order.
+        FilledAmount:
+          title: Amount for the multi-leg order that has already been filled.
           type: number
           example: 10
-        TraderId:
-          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
+        LegCount:
+          title: Number of orders that make up the multi-leg order.
+          type: integer
+          format: int32
+          example: 99
+        MultiLegOrderId:
+          title: Unique identifier for the multi-leg order. Same for all legs.
           type: string
           example: stringValue
-        TrailingStopDistanceToMarket:
-          title: Distance to market for a trailing stop order.
+        Price:
+          title: Overall limit price for the multi-leg order.
           type: number
           example: 10
-        TrailingStopStep:
-          title: Step size for trailing stop order.
-          type: number
-          example: 10
+        StrategyType:
+          title: The enumeration If the legs match a common options strategy.
+          allOf:
+          - $ref: '#/components/schemas/OptionsStrategyType'
       additionalProperties: false
       example:
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        Amount: 100000
-        AssetType: FxSpot
-        OrderType: Limit
-    OptionsStrategyType_2:
-      title: Common exchange traded options strategies.
-      enum:
-      - BackRatio
-      - Butterfly
-      - CalendarSpread
-      - Combo
-      - Condor
-      - Custom
-      - Diagonal
-      - Gut
-      - IronButterfly
-      - IronCondor
-      - RiskReversal
-      - Straddle
-      - Strangle
-      - Synthetic
-      - Vertical
-      type: string
-      example: Synthetic
-      x-enum-descriptions:
-        Custom: User defined custom strategy.
-        Vertical: A vertical spread has two legs. One is buy and one is sell with same expiration date, but with different strike prices.
-        BackRatio: Consists of two options, of same type and expiry, but with different amounts and strike prices.
-        Diagonal: A diagonal spread is two options of the same type, one buy and one sell, but with different expiry times and different strike prices. Essentially a combination of a Vertical and Calendar spread.
-        Condor: A condor strategy leverages four options with same expiry. A buy and a sell in the money, and a buy and a sell out of the money. Can also be characterized as two call spreads.
-        Butterfly: Non directional strategy that combines legs of same expiry, but with varying amounts and strike prices.
-        IronButterfly: Two overlapping vertical spreads. One of the verticals is on the call side and one is on the put side.
-        IronCondor: A combined put and call spread with same expiration but varying different strikes.
-        Straddle: A position in both a call and a put with the same underlier, strike price and maturity expiration date
-        Strangle: A position in both a call and put with different strike prices but with the same maturity and underlier
-        RiskReversal: One leg is an OTM put, the other leg is an OTM call.
-        CalendarSpread: A calendar spread is a long-short position is two calls or two puts. Both options have the same strike, but they have different expirations.
-        Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
-        Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
-        Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
-    PreCheckOrderSpec:
-      title: Specification of field-sets to include in results.
-      enum:
-      - AllocationMarginImpact
-      - Costs
-      - MarginImpact
-      - MarginImpactBuySell
-      type: string
-      example: AllocationMarginImpact
-      x-enum-deprecated:
-      - MarginImpact
-      x-enum-descriptions:
-        MarginImpact: (Obsolete) Margin impact fields are returned in result. Will not be available from 1. October 2018, use MarginImpactBuySell instead.
-        MarginImpactBuySell: Margin impact fields are returned in result.
-        Costs: Cost data fields are returned in result.
-        AllocationMarginImpact: Allocation Margin Impact for all sub client(s) are returned in result.It is applicable for IB orders with allocationKey request.
-      x-type-warning: FlaggableEnum
-    OpenOrdersRequest:
-      title: "Represents a request for one or more open orders.\n            At least one of the following must be specified."
-      required:
-      - ClientKey
+        Amount: 10
+        BuySell: Buy
+        CurrentPrice: 10
+        Description: stringValue
+        DistanceToMarket: 10
+        FilledAmount: 10
+        LegCount: 99
+        MultiLegOrderId: stringValue
+        Price: 10
+        StrategyType: Vertical
+    StringStringKeyValuePair:
       type: object
       properties:
-        AccountGroupKey:
-          title: The key of the account group to which the order belongs.
-          minLength: 1
+        Key:
           type: string
-          x-type-name: AccountGroupKey
-        AccountKey:
-          title: Unique key identifying the account that owns the orders.
-          minLength: 1
+          example: stringValue
+        Value:
           type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: Unique key identifying the client that owns the orders.
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        FieldGroups:
-          title: Specifies which data to return. Default is empty, meaning Display and Formatting information is not included.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderFieldGroup'
-        OrderId:
-          title: The id of the order
-          type: string
-        Status:
-          title: Selects only a subset of open orders to be returned. Default is to return working orders only.
-          allOf:
-          - $ref: '#/components/schemas/OrderStatusFilter'
-        WatchlistId:
-          title: Selects only orders those instruments belongs to the given watchlist id
-          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-    CalculationReliability:
-      title: To what extent can the calculated values and P/L be trusted
+        Key: stringValue
+        Value: stringValue
+    OrderFieldGroup:
+      title: Specification of the additional fields to be included in the result.
       enum:
-      - ApproximatedPrice
-      - CurrencyConversionFailed
-      - FailedToCalculateCollateral
-      - NoMarketAccess
-      - Ok
-      - OkWithConditions
-      - PricePending
-      - SystemError
-      - UnknownPrice
+      - DisplayAndFormat
+      - ExchangeInfo
+      - Greeks
       type: string
-      example: UnknownPrice
+      example: DisplayAndFormat
       x-enum-descriptions:
-        Ok: Ok - calculation successful
-        UnknownPrice: Unknown price
-        CurrencyConversionFailed: Currency conversion failed
-        FailedToCalculateCollateral: Failed to calculate collateral
-        OkWithConditions: Calculation was ok given some conditions
-        PricePending: Calculation depends on a price that is currently unavailable.
-        NoMarketAccess: No Market Access for price.
-        SystemError: General error due to system or client configuration.
-        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+        DisplayAndFormat: Adds information about the instrument, which is useful for display and formatting. This includes Currency Code, Decimals, Instrument Description, Display Decimals, Price format and Symbol
+        ExchangeInfo: Adds information about the instrument's exchange. This includes Exchange name, exchange code and open status.
+        Greeks: Greeks for Option(s), only applicable to Fx Options , Contract Options and Contract options CFD
+      x-type-warning: FlaggableEnum
+    OrderDuration:
+      title: "The time frame during which the order is valid.\n            If the OrderDurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
+      type: object
+      properties:
+        DurationType:
+          title: Gets the order duration type.
+          allOf:
+          - $ref: '#/components/schemas/OrderDurationType'
+        ExpirationDate:
+          title: Obsolete. The ExpirationDate, if the Order Type is GoodTillDate. The field has been obsoleted and will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
+          type: string
+          format: date-time
+          deprecated: true
+          x-deprecated-date: '2022-11-01'
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: Gets the value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type.
+          type: boolean
+          example: true
+        ExpirationDateTime:
+          title: Gets the expiration date and (optionally) time if the order duration type is GoodTillDate.
+          type: string
+          description: If the field contains a time, it will always be expressed in the exchange local time. No time zone indication will be added.
+          example: stringValue
+      additionalProperties: false
+      example:
+        DurationType: GoodTillCancel
+        ExpirationDate: '2020-12-04T06:36:30.1014980+00:00'
+        ExpirationDateContainsTime: true
+        ExpirationDateTime: '2020-12-04T06:36:30.1014983'
+    NonTradableReasons:
+      title: Non Tradable Reasons
+      enum:
+      - ETFsWithoutKIIDs
+      - ExpiredInstrument
+      - NonShortableInstrument
+      - None
+      - NotOnlineClientTradable
+      - OfflineTradableBonds
+      - OtherReason
+      - ReduceOnlyInstrument
+      type: string
+      example: NotOnlineClientTradable
+      x-enum-descriptions:
+        None: None
+        NotOnlineClientTradable: This instrument is not tradable
+        ReduceOnlyInstrument: This instrument is not reduce-only
+        ExpiredInstrument: This instrument has expired
+        OfflineTradableBonds: This instrument is tradable offline
+        ETFsWithoutKIIDs: The issuer has not provided a Key Information Document (KID) for this instrument
+        NonShortableInstrument: Short selling is not available for this instrument
+        OtherReason: This instrument is not tradable
     OptionsStrategyType:
       title: Common exchange traded options strategies.
       enum:
@@ -3805,178 +3588,48 @@ components:
         Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
         Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
         Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
-    Orders.Domain.RelatedOrOcoOrder:
-      title: Response for related or OCO order.
-      type: object
-      properties:
-        Cost:
-          title: Expected cost of executing the order.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        CostInAccountCurrency:
-          title: Expected cost of executing the order in account currency.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        ErrorInfo:
-          title: Contains error info when placement of order failed.
-          allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-        EstimatedCashRequired:
-          title: Estimated cash required.
-          type: number
-          example: 10
-        EstimatedCashRequiredCurrency:
-          title: Estimated cash required currency.
-          type: string
-          example: stringValue
-        EstimatedTotalCost:
-          title: Expected total cost of executing the order in instrument currency.
-          type: number
-          example: 10
-        EstimatedTotalCostInAccountCurrency:
-          title: Estimated total cost currency.
-          type: number
-          example: 10
-        ExternalReference:
-          title: Optional reference supplied when placing the order. Max. 50 characters.
-          type: string
-          example: stringValue
-        InstrumentToAccountConversionRate:
-          title: Rate used to convert from instrument currency to the account currency.
-          type: number
-          example: 10
-        MarginImpactBuySell:
-          title: Expected Margin Impact, including initial, maintenance and currency.
-          allOf:
-          - $ref: '#/components/schemas/MarginImpactBuySell'
-      additionalProperties: false
-      example:
-        Cost:
-          Commission: 1000
-          ExchangeFee: 0
-          GuaranteedStopFee: 0
-          StampDuty: 0
-        CostInAccountCurrency:
-          Commission: 1000
-          ExchangeFee: 0
-          GuaranteedStopFee: 0
-          StampDuty: 0
-        ErrorInfo:
-          ErrorCode: stringValue
-          Message: stringValue
-        EstimatedCashRequired: 10
-        EstimatedCashRequiredCurrency: stringValue
-        EstimatedTotalCost: 10
-        EstimatedTotalCostInAccountCurrency: 10
-        ExternalReference: stringValue
-        InstrumentToAccountConversionRate: 10
-        MarginImpactBuySell:
-          Currency: USD
-          InitialMarginAvailableBuy: 10447
-          InitialMarginAvailableCurrent: 10470
-          InitialMarginBuy: 12
-          MaintenanceMarginBuy: 11
-    InstrumentDisplayAndFormat:
-      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
-      type: object
-      properties:
-        BarrierDecimals:
-          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
-          type: integer
-          format: int32
-          example: 99
-        BarrierFormat:
-          title: "Display format of barrier price.\n            One touch/no touch options only."
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Currency:
-          title: The ISO currency code of the instrument.
-          type: string
-          example: stringValue
-        Decimals:
-          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x).\n            Same as DisplayDecimals."
-          type: integer
-          format: int32
-          example: 99
-        Description:
-          title: Description of instrument (DAX Index - Nov 2013), in English.
-          type: string
-          example: stringValue
-        DisplayHint:
-          title: Hint to the client application about how it should display the instrument.
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        Format:
-          title: Format code specifying how price should be formatted.
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        NumeratorDecimals:
-          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
-          type: integer
-          format: int32
-          example: 99
-        OrderDecimals:
-          title: The number of decimals trigger price for orders should be formatted with.
-          type: integer
-          format: int32
-          example: 99
-        StrikeDecimals:
-          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
-          type: integer
-          format: int32
-          example: 99
-        StrikeFormat:
-          title: "The price format to use when formatting strike price.\n            Only relevant for options."
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Symbol:
-          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
-          type: string
-          example: stringValue
-        UnderlyingInstrumentDescription:
-          title: Common full name of the underlying instrument. Only used for options and is the same as the option root description.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BarrierDecimals: 99
-        BarrierFormat: Normal
-        Currency: stringValue
-        Decimals: 99
-        Description: stringValue
-        DisplayHint: PreciousMetal
-        Format: Percentage
-        NumeratorDecimals: 99
-        OrderDecimals: 99
-        StrikeDecimals: 99
-        StrikeFormat: AllowDecimalPips
-        Symbol: stringValue
-        UnderlyingInstrumentDescription: stringValue
-    OrderStatusFilter:
-      title: Used to select only a subset of open orders to be returned.
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
       enum:
-      - All
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Fractions
+      x-enum-descriptions:
+        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
+        Fractions: Display as regular fraction i.e. 3 1/4
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    OrderStatus:
+      title: Indicates the visible status of an order.
+      enum:
+      - Filled
+      - LockedPlacementPending
+      - NotWorking
+      - NotWorkingLockedCancelPending
+      - NotWorkingLockedChangePending
+      - Parked
+      - Unknown
       - Working
+      - WorkingLockedCancelPending
+      - WorkingLockedChangePending
       type: string
       example: Working
       x-enum-descriptions:
-        Working: Returns only top level orders and OCO orders. Stop/Limit orders details are available in the RelatedOrders properties.
-        All: Returns all orders regardless of type
-    StringErrorResponse:
-      type: object
-      properties:
-        ErrorCode:
-          title: ErrorCode
-          type: string
-          example: stringValue
-        Message:
-          title: Optional Textual information about the error to aid the developer.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        ErrorCode: stringValue
-        Message: stringValue
+        Unknown: Unknown
+        Working: Working
+        LockedPlacementPending: Locked. Placement pending.
+        WorkingLockedChangePending: Working. Locked. Change Pending.
+        WorkingLockedCancelPending: Working. Locked. Cancel Pending.
+        Filled: Filled
+        NotWorking: Not Working
+        NotWorkingLockedChangePending: Locked. Change pending.
+        NotWorkingLockedCancelPending: Locked. Cancel pending.
+        Parked: Parked orders are in inactive state, can't be filled, but remain available in so they can be made active at any time. Clients can manually 'park' and 'activate' an order.
     OrderSubscriptionResponse:
       title: Public response contract returned after setting up a subscription on orders for a client.
       type: object
@@ -4054,395 +3707,223 @@ components:
             Status: Working
             Uic: 21
         State: Active
-    PutCall_2:
-      title: Describes the direction of an option.
-      enum:
-      - Call
-      - None
-      - Put
-      type: string
-      example: Call
-      x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    Order:
-      title: Info about cancellation of an order.
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
       type: object
       properties:
-        ErrorInfo:
-          title: Contains error info when cancel of order failed.
+        BarrierDecimals:
+          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: "Display format of barrier price.\n            One touch/no touch options only."
           allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-        MultiLegOrderId:
-          title: Unique identifier for the multi-leg order.Same for all legs.
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
           type: string
           example: stringValue
-        OrderId:
-          title: Id of order.
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x).\n            Same as DisplayDecimals."
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: "The price format to use when formatting strike price.\n            Only relevant for options."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+        UnderlyingInstrumentDescription:
+          title: Common full name of the underlying instrument. Only used for options and is the same as the option root description.
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        ErrorInfo:
-          ErrorCode: Unknown
-          Message: Order request rejected
-    PreCheckOrderResponse:
-      title: A response to pre-check single order.
+        BarrierDecimals: 99
+        BarrierFormat: Normal
+        Currency: stringValue
+        Decimals: 99
+        Description: stringValue
+        DisplayHint: PreciousMetal
+        Format: Percentage
+        NumeratorDecimals: 99
+        OrderDecimals: 99
+        StrikeDecimals: 99
+        StrikeFormat: AllowDecimalPips
+        Symbol: stringValue
+        UnderlyingInstrumentDescription: stringValue
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    TradingStatus:
+      title: Trading status of an instrument.
+      enum:
+      - NonTradable
+      - NotDefined
+      - ReduceOnly
+      - Tradable
+      type: string
+      example: NotDefined
+      x-enum-descriptions:
+        NotDefined: Not Defined
+        Tradable: Instrument is tradable
+        NonTradable: Instrument is non tradable
+        ReduceOnly: Instrument is Reduce only, which means client can only reduce the exposure by closing existing open position(s) and cannot open new position(s).
+      x-type-warning: FlaggableEnum
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CalculationReliability:
+      title: To what extent can the calculated values and P/L be trusted
+      enum:
+      - ApproximatedPrice
+      - CurrencyConversionFailed
+      - FailedToCalculateCollateral
+      - NoMarketAccess
+      - Ok
+      - OkWithConditions
+      - PricePending
+      - SystemError
+      - UnknownPrice
+      type: string
+      example: UnknownPrice
+      x-enum-descriptions:
+        Ok: Ok - calculation successful
+        UnknownPrice: Unknown price
+        CurrencyConversionFailed: Currency conversion failed
+        FailedToCalculateCollateral: Failed to calculate collateral
+        OkWithConditions: Calculation was ok given some conditions
+        PricePending: Calculation depends on a price that is currently unavailable.
+        NoMarketAccess: No Market Access for price.
+        SystemError: General error due to system or client configuration.
+        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+    OrderTriggerPriceType:
+      title: Type of price chosen to trigger a conditional order.
+      enum:
+      - Ask
+      - Bid
+      - Close
+      - LastTraded
+      - Open
+      type: string
+      example: Open
+      x-enum-descriptions:
+        LastTraded: Last traded price
+        Open: Market open price
+        Close: Closing price
+        Bid: Bid
+        Ask: Ask
+    OrderResponseListResult:
       type: object
       properties:
-        Cost:
-          title: Expected cost of executing the order.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        CostInAccountCurrency:
-          title: Expected cost of executing the order in account currency.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        ErrorInfo:
-          title: Contains error info when order pre-check has failed.
-          allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-        EstimatedCashRequired:
-          title: Estimated cash required.
-          type: number
-          example: 10
-        EstimatedCashRequiredCurrency:
-          title: Estimated cash required currency.
-          type: string
-          example: stringValue
-        EstimatedTotalCost:
-          title: Expected total cost of executing the order in instrument currency.
-          type: number
-          example: 10
-        EstimatedTotalCostInAccountCurrency:
-          title: Estimated total cost currency.
-          type: number
-          example: 10
-        InstrumentToAccountConversionRate:
-          title: Rate used to convert from instrument currency to the account currency.
-          type: number
-          example: 10
-        MarginImpactBuySell:
-          title: Expected Margin Impact, including initial, maintenance and currency.
-          allOf:
-          - $ref: '#/components/schemas/MarginImpactBuySell'
-        Orders:
-          title: List of resulting orders.
+        Data:
           type: array
           items:
-            $ref: '#/components/schemas/Orders.Domain.RelatedOrOcoOrder'
-          example:
-          - Cost:
-              Commission: 1000
-              ExchangeFee: 0
-              GuaranteedStopFee: 0
-              StampDuty: 0
-            CostInAccountCurrency:
-              Commission: 1000
-              ExchangeFee: 0
-              GuaranteedStopFee: 0
-              StampDuty: 0
-            ErrorInfo:
-              ErrorCode: stringValue
-              Message: stringValue
-            EstimatedCashRequired: 10
-            EstimatedCashRequiredCurrency: stringValue
-            EstimatedTotalCost: 10
-            EstimatedTotalCostInAccountCurrency: 10
-            ExternalReference: stringValue
-            InstrumentToAccountConversionRate: 10
-            MarginImpactBuySell:
-              Currency: USD
-              InitialMarginAvailableBuy: 10447
-              InitialMarginAvailableCurrent: 10470
-              InitialMarginBuy: 12
-              MaintenanceMarginBuy: 11
-        PreCheckResult:
-          title: Overall operation result.
+            $ref: '#/components/schemas/OrderResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
           type: string
-          example: stringValue
+          description: The link for the next page of items in the feed.
       additionalProperties: false
       example:
-        Cost:
-          Commission: 1000
-          ExchangeFee: 0
-          GuaranteedStopFee: 0
-          StampDuty: 0
-        EstimatedCashRequired: 1500000
-        EstimatedCashRequiredCurrency: EUR
-        EstimatedTotalCost: 1500000
-        EstimatedTotalCostInAccountCurrency: 1500000
-        InstrumentToAccountConversionRate: 1
-        MarginImpactBuySell:
-          Currency: USD
-          InitialMarginAvailableBuy: 10447
-          InitialMarginAvailableCurrent: 10470
-          InitialMarginBuy: 12
-          MaintenanceMarginBuy: 11
-        PreCheckResult: Ok
-    ChangeMultiLegStrategyOrderRequest:
-      title: A request to change a multi-leg strategy order.
-      required:
-      - AccountKey
-      - MultiLegOrderId
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        MultiLegAmount:
-          title: "New number of strategies to trade. Will adjust all order leg amounts maintaining thier original ratio. \n            Changing the original leg ratio would change the basis for OrderPrice, so that cannot be changed."
-          type: number
-          example: 10
-        MultiLegOrderId:
-          title: Id of multi-leg combination/strategy order to change.
-          type: string
-          example: stringValue
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderPrice:
-          title: Order price. The sum price of a single strategy of order legs in a given ratio.
-          type: number
-          example: 10
-        TraderId:
-          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        MultiLegAmount: 10
-        MultiLegOrderId: stringValue
-        OrderDuration:
-          DurationType: GoodTillDate
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2022-11-09T14:00:00'
-        OrderPrice: 10
-        TraderId: stringValue
-    MarketState:
-      title: Defines the possible states of the Market.
-      enum:
-      - Closed
-      - ClosingAuction
-      - IntraDayAuction
-      - Open
-      - OpeningAuction
-      - PostMarket
-      - PreMarket
-      - TradingAtLast
-      type: string
-      example: Closed
-      x-enum-descriptions:
-        Open: Market is open for trades (Automatic Trading, usually).
-        Closed: Market is closed
-        PreMarket: Market is in Pre Market Auction state
-        PostMarket: Market is in Post Market Auction state
-        IntraDayAuction: "Market is temporary out of normal Trading. In an Auction state This state is\n            for Intraday Auction. We have 2 specific states for Opening and Closing Auction"
-        OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
-        ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
-        TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
-    PlaceableOrderType:
-      title: Specifies supported order types placeable in the orders ticket.
-      enum:
-      - Algorithmic
-      - DealCapture
-      - GuaranteedStop
-      - Limit
-      - Market
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
-      type: string
-      example: Switch
-      x-enum-descriptions:
-        Market: Market Order.
-        Limit: Limit Order.
-        StopIfTraded: Stop if traded.
-        Stop: Stop Order.
-        StopLimit: Stop Limit Order.
-        TrailingStopIfTraded: Trailing stop if traded.
-        TrailingStop: Trailing stop.
-        Algorithmic: Algo order.
-        Switch: Switch order, Sell X and Buy Y with one order.
-        Traspaso: Traspaso. Specific type of switch order. Only available on select MutualFunds.
-        TraspasoIn: TraspasoIn. Specific type of switch order
-        GuaranteedStop: Order Type currently not supported.
-        TriggerLimit: Trigger limit order. Specific type for trigger orders.
-        TriggerStop: Trigger stop order. Specific type for trigger orders.
-        TriggerBreakout: Trigger breakout order. Specific type for trigger orders.
-        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on Exchange, into Saxo System. \n            Currently supported for selected partners only."
-    PlaceRelatedOrOcoOrder:
-      title: A related or OCO order.
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account to place the order on.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        AllocationKeyId:
-          title: Set AllocationKey if block trade on IB account.
-          type: string
-          example: stringValue
-        Amount:
-          title: Order size.
-          type: number
-          example: 10
-        AmountType:
-          title: "Indicates if the order Amount is specified as lots/shares/contracts or as a monetary purchase amount in instrument currency. If CurrencyAmount, then use CashAmount.\n            Defaults to Quantity\n            Currently only supported on MutualFunds"
-          allOf:
-          - $ref: '#/components/schemas/OrderAmountType_2'
-        AppHint:
-          title: Optional informational id, which will be added to the order for statistics purposes. Only relevant for Saxo applications
-          type: integer
-          format: int32
-          example: 99
-        AssetType:
-          title: The Instruments AssetType.
-          allOf:
-          - $ref: '#/components/schemas/AssetType_2'
-        BuySell:
-          title: The direction of the order; buy or sell.
-          allOf:
-          - $ref: '#/components/schemas/Domain.BuySell'
-        ExternalReference:
-          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
-          type: string
-          example: stringValue
-        ForwardDate:
-          title: Forward date that is only used for FxForward entry orders when no master order exists (but has PositionId or OrderId)
-          type: string
-          format: date
-          x-type-name: Date
-        IsForceOpen:
-          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
-          type: boolean
-          example: true
-        ManualOrder:
-          title: Optional indicator for whether order is placed automatically or manually.
-          type: boolean
-          example: true
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderId:
-          title: "Order Id for the first related order, used ONLY in \n            the case of adding a second related order to a position or order.\n            This field is used but having a related order contain just the orderId, and nothing else."
-          type: string
-          example: stringValue
-        OrderPrice:
-          title: Order Price. Optional for market orders.
-          type: number
-          example: 10
-        OrderType:
-          title: Order type.
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-        StopLimitPrice:
-          title: Stop limit price for Stop Limit order
-          type: number
-          example: 10
-        SwitchInstrumentUic:
-          title: The Uic of the instrument to be used for Switch And Traspaso orders, Mutual Funds Specific
-          type: integer
-          format: int32
-          example: 99
-        ToOpenClose:
-          title: Whether the order should be created to open/increase or close/decrease a position. (Only relevant for options)
-          allOf:
-          - $ref: '#/components/schemas/ToOpenClose_2'
-        TrailingStopDistanceToMarket:
-          title: Distance to market for a trailing stop order.
-          type: number
-          example: 10
-        TrailingStopStep:
-          title: Step size for trailing stop order.
-          type: number
-          example: 10
-        TraspasoIn:
-          title: Information about Traspaso in external source instrument
-          allOf:
-          - $ref: '#/components/schemas/TraspasoInDetails'
-        Uic:
-          title: Unique id of the instrument to place the order for.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        Amount: 100000
-        AssetType: FxSpot
-        BuySell: Sell
-        OrderDuration:
-          DurationType: GoodTillCancel
-        OrderPrice: 1.13
-        OrderType: Limit
-        Uic: 21
-    RelatedOrOcoOrder:
-      title: Response for related or OCO order.
-      type: object
-      properties:
-        ErrorInfo:
-          title: Contains error info when placement of order failed.
-          allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-        ExternalReference:
-          title: Optional reference supplied when placing the order. Max. 50 characters.
-          type: string
-          example: stringValue
-        OrderId:
-          title: Id of related or OCO order. No value provided if placement of order failed.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        OrderId: '67762872'
-    OrderResponseArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderResponse'
-      example:
-      - AccountId: 192134INET
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        Amount: 250000
-        AssetType: FxSpot
-        BuySell: Buy
-        CalculationReliability: Ok
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        CurrentPrice: 1.09062
-        CurrentPriceDelayMinutes: 0
-        CurrentPriceType: Ask
-        DistanceToMarket: 0.04062
-        Duration:
-          DurationType: GoodTillCancel
-        IsForceOpen: false
-        IsMarketOpen: false
-        MarketPrice: 1.09062
-        NonTradableReason: None
-        OpenOrderType: Limit
-        OrderAmountType: Quantity
-        OrderId: '49318458'
-        OrderRelation: StandAlone
-        OrderTime: '2017-04-12T07:56:00Z'
-        Price: 1.05
-        Status: Working
-        Uic: 21
-    OrderDurationType_2:
-      title: An enum describing the different order duration types available for the order type.
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - AccountId: 192134INET
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          Amount: 250000
+          AssetType: FxSpot
+          BuySell: Buy
+          CalculationReliability: Ok
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          CurrentPrice: 1.09062
+          CurrentPriceDelayMinutes: 0
+          CurrentPriceType: Ask
+          DistanceToMarket: 0.04062
+          Duration:
+            DurationType: GoodTillCancel
+          IsForceOpen: false
+          IsMarketOpen: false
+          MarketPrice: 1.09062
+          NonTradableReason: None
+          OpenOrderType: Limit
+          OrderAmountType: Quantity
+          OrderId: '49318458'
+          OrderRelation: StandAlone
+          OrderTime: '2017-04-12T07:56:00Z'
+          Price: 1.05
+          Status: Working
+          Uic: 21
+    OrderDurationType:
+      title: "An enum describing the different order duration types.\n            Note that not all order types are possible for all asset types."
       enum:
       - AtTheClose
       - AtTheOpening
@@ -4459,64 +3940,10 @@ components:
         AtTheOpening: At the opening of the trading session.
         DayOrder: Day Order - Valid for the trading session.
         FillOrKill: Fill or Kill order.
-        GoodForPeriod: Good for Period.
-        GoodTillCancel: Good till Cancel.
-        GoodTillDate: Good till Date - Expiration Date must also be specified.
+        GoodForPeriod: Good for a specified period.
+        GoodTillCancel: Good til Cancel.
+        GoodTillDate: Good til Date - Expiration Date must also be specified.
         ImmediateOrCancel: Immediate or Cancel Order.
-    MultiLegOrderStrategyDefault:
-      title: Represents Algo Strategy object
-      type: object
-      properties:
-        Legs:
-          title: List of suggested order legs for this option root and strategy.
-          type: array
-          items:
-            $ref: '#/components/schemas/MultiLegOrderLeg'
-          example:
-          - Amount: 10
-            AssetType: Etn
-            BuySell: Sell
-            OptionData:
-              ExpiryDate: '2022-11-14T08:37:36.3854586'
-              PutCall: Call
-              StrikePrice: 10
-            Uic: 99
-        StrategyType:
-          title: String identification
-          allOf:
-          - $ref: '#/components/schemas/OptionsStrategyType_2'
-      additionalProperties: false
-      example:
-        Legs:
-        - Amount: 10
-          AssetType: Etf
-          BuySell: Sell
-          OptionData:
-            ExpiryDate: '2023-03-22T16:40:01.7806301'
-            PutCall: Call
-            StrikePrice: 10
-          Uic: 99
-        StrategyType: Custom
-    ShortTrading:
-      title: Indicates whether short trading is allowed or not.
-      enum:
-      - Allowed
-      - NotAllowed
-      type: string
-      example: Allowed
-      x-enum-descriptions:
-        Allowed: Short trading is possible for instrument.
-        NotAllowed: Short trading is not possible for instrument.
-    Domain.BuySell:
-      title: Describes the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Buy.
-        Sell: Sell.
     ToOpenClose:
       title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
       enum:
@@ -4529,6 +3956,267 @@ components:
         Undefined: Undefined.
         ToOpen: Order/Position is ToOpen.
         ToClose: Order/Position is ToClose.
+    OrderSubscriptionRequest:
+      title: Public request contract for setting up a subscription on orders for a client.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/OpenOrdersRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ContextId: '20221030064905457'
+        Format: application/json
+        ReferenceId: O40952
+        RefreshRate: 5
+        Tag: PAGE1
+    ShortTrading:
+      title: Indicates whether short trading is allowed or not.
+      enum:
+      - Allowed
+      - NotAllowed
+      type: string
+      example: Allowed
+      x-enum-descriptions:
+        Allowed: Short trading is possible for instrument.
+        NotAllowed: Short trading is not possible for instrument.
+    OpenOrderRelation:
+      title: Description of the order relation.
+      enum:
+      - IfDoneMaster
+      - IfDoneSlave
+      - IfDoneSlaveOco
+      - Oco
+      - StandAlone
+      type: string
+      example: Oco
+      x-enum-descriptions:
+        StandAlone: Standalone. No relations to other orders.
+        Oco: One cancels other. Relation between two orders. When one is filled, the other is cancelled.
+        IfDoneMaster: If done master. Relation between two or three orders. The slave orders are released only if the master order is filled.
+        IfDoneSlave: If done slave. Relation between two orders. The other is always IfDoneMaster.
+        IfDoneSlaveOco: "If done slave OCO. Relation between three orders. One is always IfDoneMaster and the other is always also IfDoneSlaveOCO.\n            The OCO relation is between the two slave orders."
+    OrderStatusFilter:
+      title: Used to select only a subset of open orders to be returned.
+      enum:
+      - All
+      - Working
+      type: string
+      example: Working
+      x-enum-descriptions:
+        Working: Returns only top level orders and OCO orders. Stop/Limit orders details are available in the RelatedOrders properties.
+        All: Returns all orders regardless of type
+    OpenOrdersRequest:
+      title: "Represents a request for one or more open orders.\n            At least one of the following must be specified."
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the order belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: Unique key identifying the account that owns the orders.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: Unique key identifying the client that owns the orders.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: Specifies which data to return. Default is empty, meaning Display and Formatting information is not included.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderFieldGroup'
+        OrderId:
+          title: The id of the order
+          type: string
+        Status:
+          title: Selects only a subset of open orders to be returned. Default is to return working orders only.
+          allOf:
+          - $ref: '#/components/schemas/OrderStatusFilter'
+        WatchlistId:
+          title: Selects only orders those instruments belongs to the given watchlist id
+          type: string
+      additionalProperties: false
+      example:
+        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Put
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
     OrderOptionsData:
       title: Data specific to options, warrants and warrant derivatives in the orders list.
       type: object
@@ -4551,151 +4239,6 @@ components:
         ExpiryDate: '9999-12-31T23:59:59.9999990+00:00'
         PutCall: None
         Strike: 10
-    ToOpenClose_2:
-      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
-      enum:
-      - ToClose
-      - ToOpen
-      - Undefined
-      type: string
-      example: Undefined
-      x-enum-descriptions:
-        Undefined: Undefined.
-        ToOpen: Order/Position is ToOpen.
-        ToClose: Order/Position is ToClose.
-    PriceType:
-      title: Used to describe the type of the price
-      enum:
-      - Ask
-      - Bid
-      - Close
-      - High
-      - Indicative
-      - LastTraded
-      - Low
-      - Mid
-      - None
-      - Open
-      - Synthetic
-      type: string
-      example: Ask
-      x-enum-descriptions:
-        Bid: Highest price from buyer.
-        Ask: Best offer from seller (offer price)
-        Mid: The price between the best price of the sellers (bid) and best offer from the buyers (ask).
-        LastTraded: Price at which instrument was last traded.
-        Close: Official price of instrument at the end of trading session.
-        Open: Official price of instrument at the start of trading session.
-        Synthetic: Computed price of instrument.
-        High: Highest traded price in period.
-        Low: Lowest traded price in period.
-        Indicative: Best estimate price based on market conditions. Used mainly in low liquidity markets, where Bid/Ask/LastTraded/Close may not be available.
-        None: Unknown/No value set
-    BuySell:
-      title: Describes the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Sell
-      x-enum-descriptions:
-        Buy: Buy.
-        Sell: Sell.
-    TradingStatus:
-      title: Trading status of an instrument.
-      enum:
-      - NonTradable
-      - NotDefined
-      - ReduceOnly
-      - Tradable
-      type: string
-      example: NotDefined
-      x-enum-descriptions:
-        NotDefined: Not Defined
-        Tradable: Instrument is tradable
-        NonTradable: Instrument is non tradable
-        ReduceOnly: Instrument is Reduce only, which means client can only reduce the exposure by closing existing open position(s) and cannot open new position(s).
-      x-type-warning: FlaggableEnum
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    PreCheckMultiLegOrderRequest:
-      title: A request to pre-check a multileg strategy order.
-      required:
-      - OrderType
-      - Legs
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account to place the order on.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ExternalReference:
-          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
-          type: string
-          example: stringValue
-        FieldGroups:
-          title: Specification of fields to return in results
-          type: array
-          items:
-            $ref: '#/components/schemas/PreCheckOrderSpec'
-          example:
-          - MarginImpact
-        Legs:
-          title: List of orders in the batch that are to be filled symmetrically.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderLeg'
-          example:
-          - Amount: 10
-            AssetType: CfdOnEtn
-            BuySell: Buy
-            ToOpenClose: ToClose
-            Uic: 99
-        ManualOrder:
-          title: Optional indicator for whether order is placed automatically or manually.
-          type: boolean
-          example: true
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderPrice:
-          title: Order Price. Optional for market orders.
-          type: number
-          example: 10
-        OrderType:
-          title: Order type.
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-        TraderId:
-          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        ExternalReference: stringValue
-        FieldGroups:
-        - MarginImpactBuySell
-        Legs:
-        - Amount: 10
-          AssetType: CfdOnEtf
-          BuySell: Buy
-          ToOpenClose: Undefined
-          Uic: 99
-        ManualOrder: false
-        OrderDuration:
-          DurationType: GoodTillDate
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2022-11-09T14:00:00'
-        OrderPrice: 10
-        OrderType: TriggerLimit
-        TraderId: stringValue
     PreCheckOrderRequest:
       title: A request to pre-check single order.
       type: object
@@ -4824,142 +4367,6 @@ components:
           ExpirationDateTime: '2022-11-09T14:00:00'
         OrderType: Market
         Uic: 15521
-    TraspasoInDetails:
-      title: Information about external instrument
-      type: object
-      properties:
-        FullSurrender:
-          title: TraspasoIn trade type
-          allOf:
-          - $ref: '#/components/schemas/TraspasoInSurrender'
-        SourceBroker:
-          title: Broker handling the external instrument.
-          type: string
-          example: stringValue
-        SourceExternalClientId:
-          title: '&gt;Clients ID at the external broker.'
-          type: string
-          example: stringValue
-        SourceIsinCode:
-          title: External instruments ISIN code.
-          type: string
-          example: stringValue
-        SourceNumberOfUnits:
-          title: The source order amount, null if it the order is "full surrender"
-          type: number
-          example: 2.55
-        SourceSymbolCode:
-          title: External instruments symbol code.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        FullSurrender: Partial
-        SourceBroker: stringValue
-        SourceExternalClientId: stringValue
-        SourceIsinCode: stringValue
-        SourceNumberOfUnits: 2.55
-        SourceSymbolCode: stringValue
-    NonTradableReasons:
-      title: Non Tradable Reasons
-      enum:
-      - ETFsWithoutKIIDs
-      - ExpiredInstrument
-      - NonShortableInstrument
-      - None
-      - NotOnlineClientTradable
-      - OfflineTradableBonds
-      - OtherReason
-      - ReduceOnlyInstrument
-      type: string
-      example: NotOnlineClientTradable
-      x-enum-descriptions:
-        None: None
-        NotOnlineClientTradable: This instrument is not tradable
-        ReduceOnlyInstrument: This instrument is not reduce-only
-        ExpiredInstrument: This instrument has expired
-        OfflineTradableBonds: This instrument is tradable offline
-        ETFsWithoutKIIDs: The issuer has not provided a Key Information Document (KID) for this instrument
-        NonShortableInstrument: Short selling is not available for this instrument
-        OtherReason: This instrument is not tradable
-    OrderType:
-      title: Specifies under what conditions an order should be triggered.
-      enum:
-      - BreakoutTrigger
-      - CallLimit
-      - CallStop
-      - DealCapture
-      - GuaranteedStop
-      - Limit
-      - LimitTrigger
-      - Market
-      - MarketDefault
-      - MarketExpiry
-      - MarketRollover
-      - MarketStopOut
-      - PreviouslyQuoted
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - StopTrigger
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - TrailingStopLimit
-      - Traspaso
-      - TraspasoIn
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
-      - Unknown
-      type: string
-      example: Market
-      x-enum-deprecated:
-      - LimitTrigger
-      - StopTrigger
-      - BreakoutTrigger
-      x-enum-deprecated-date:
-        LimitTrigger: '2022-10-01'
-        StopTrigger: '2022-10-01'
-        BreakoutTrigger: '2022-10-01'
-      x-enum-descriptions:
-        Unknown: Unknown
-        Market: Market.
-        Limit: Limit.
-        StopIfTraded: Stop if traded.
-        Stop: Stop.
-        StopLimit: Stop Limit.
-        MarketStopOut: Market StopOut
-        CallLimit: Call Limit
-        CallStop: Call Stop
-        MarketExpiry: Market Expiry
-        TrailingStopIfTraded: Trailing stop if traded
-        TrailingStop: Trailing stop
-        TrailingStopLimit: Trailing Stop Limit
-        PreviouslyQuoted: Previously Quoted.
-        MarketDefault: Market Default.
-        Switch: Switch order, Sell X and Buy Y with one order.
-        Traspaso: Specific type of switch order. Only available on select MutualFunds.
-        TraspasoIn: Specific type of switch order. Only available on select MutualFunds.
-        GuaranteedStop: Guaranteed Stop. Currently not supported.
-        MarketRollover: Market Rollover orders are used to automate the process of closing out open positions in soon to expire contracts in favour of contracts with later expiration dates.
-        LimitTrigger: If the price moves above or below the trigger price, then place related order.
-        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        DealCapture: Deal capture order
-        TriggerBreakout: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        TriggerLimit: If the price moves above or below the trigger price, then place related order.
-        TriggerStop: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-    TraspasoInSurrender:
-      title: To specify if the traspaso in order is a full surrender
-      enum:
-      - Full
-      - Partial
-      type: string
-      example: Full
-      x-enum-descriptions:
-        Partial: order to sell amount units of fund A and switch into B
-        Full: Order for full surrender of fund A and switch to B
     GenericOrderResponse:
       title: Response to a place, change or cancel order request.
       type: object
@@ -4988,554 +4395,6 @@ components:
         OrderId: '67762872'
         Orders:
         - OrderId: '67762872'
-    CancelAllOrderResponse:
-      title: Response to cancel all orders
-      type: object
-      properties:
-        ErrorInfo:
-          title: Contains error info when cancel of order failed.
-          allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-      additionalProperties: false
-      example:
-        ErrorInfo:
-          ErrorCode: stringValue
-          Message: stringValue
-    BuySell_2:
-      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Buy
-        Sell: Sell
-    AssetType_2:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxKnockOutOption
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    OrderFieldGroup:
-      title: Specification of the additional fields to be included in the result.
-      enum:
-      - DisplayAndFormat
-      - ExchangeInfo
-      - Greeks
-      type: string
-      example: DisplayAndFormat
-      x-enum-descriptions:
-        DisplayAndFormat: Adds information about the instrument, which is useful for display and formatting. This includes Currency Code, Decimals, Instrument Description, Display Decimals, Price format and Symbol
-        ExchangeInfo: Adds information about the instrument's exchange. This includes Exchange name, exchange code and open status.
-        Greeks: Greeks for Option(s), only applicable to Fx Options , Contract Options and Contract options CFD
-      x-type-warning: FlaggableEnum
-    OrderAmountType_2:
-      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
-      enum:
-      - CashAmount
-      - Quantity
-      type: string
-      example: Quantity
-      x-enum-descriptions:
-        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
-        CashAmount: Order amount is specified as a monetary value.
-    CancelOrderResponse:
-      title: Response to cancel of orders.
-      type: object
-      properties:
-        Orders:
-          title: Info about each order that was requested to be cancelled.
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-          example:
-          - ErrorInfo:
-              ErrorCode: Unknown
-              Message: Order request rejected
-      additionalProperties: false
-      example:
-        Orders:
-        - ErrorInfo:
-            ErrorCode: Unknown
-            Message: Order request rejected
-    OrderTriggerPriceType:
-      title: Type of price chosen to trigger a conditional order.
-      enum:
-      - Ask
-      - Bid
-      - Close
-      - LastTraded
-      - Open
-      type: string
-      example: Open
-      x-enum-descriptions:
-        LastTraded: Last traded price
-        Open: Market open price
-        Close: Closing price
-        Bid: Bid
-        Ask: Ask
-    AlgorithmicOrderData:
-      title: Data for specifying a strategy and its parameters for AlgoOrders
-      required:
-      - StrategyName
-      - Arguments
-      type: object
-      properties:
-        Arguments:
-          title: A set of Key/Value pairs specifying the Algo parameters
-          type: array
-          items:
-            $ref: '#/components/schemas/StringStringKeyValuePair'
-          example:
-            stringValue: stringValue
-        StrategyName:
-          title: The Strategy Identifier
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Arguments:
-          DisplayQuantity: '100'
-        StrategyName: Iceberg
-    MarginImpactBuySell:
-      title: The impact on the clients margin if the trade is executed
-      type: object
-      properties:
-        Currency:
-          title: Currency for margin impacts.
-          type: string
-          example: stringValue
-        InitialMarginAvailableBuy:
-          title: The initial margin available if instrument is bought.
-          type: number
-          example: 10
-        InitialMarginAvailableCurrent:
-          title: The current initial margin available.
-          type: number
-          example: 10
-        InitialMarginAvailableSell:
-          title: The initial margin available if instrument is sold.
-          type: number
-          example: 10
-        InitialMarginBuy:
-          title: The initial margin to pay if instrument is bought.
-          type: number
-          example: 10
-        InitialMarginSell:
-          title: The initial margin to pay if instrument is sold.
-          type: number
-          example: 10
-        InitialSpendingPower:
-          title: The initial spending power available.
-          type: number
-          example: 10
-        MaintenanceMarginBuy:
-          title: The maintenance margin to pay if instrument is bought.
-          type: number
-          example: 10
-        MaintenanceMarginSell:
-          title: The maintenance margin to pay if instrument is sold.
-          type: number
-          example: 10
-        MaintenanceSpendingPower:
-          title: The maintenance spending power available.
-          type: number
-          example: 10
-        MarginBuy:
-          title: The margin to pay if instrument is bought.
-          type: number
-          example: 10
-        MarginSell:
-          title: The margin to pay if instrument is sold.
-          type: number
-          example: 10
-        SpendingPower:
-          title: The current spending power available.
-          type: number
-          example: 10
-          deprecated: true
-      additionalProperties: false
-      example:
-        Currency: USD
-        InitialMarginAvailableBuy: 10447
-        InitialMarginAvailableCurrent: 10470
-        InitialMarginBuy: 12
-        MaintenanceMarginBuy: 11
-    OrderDuration_2:
-      title: "The time frame during which the order is valid.\n            If the DurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
-      required:
-      - DurationType
-      type: object
-      properties:
-        DurationType:
-          title: The order duration type.
-          allOf:
-          - $ref: '#/components/schemas/OrderDurationType_2'
-        ExpirationDate:
-          title: Obsolete. The expiration date, should only be set if the duration type is GoodTillDate. This field will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
-          type: string
-          format: date-time
-          deprecated: true
-          x-deprecated-date: '2022-11-01'
-          x-type-name: UtcDateTime
-        ExpirationDateContainsTime:
-          title: The value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type and the time must be provided in the ExpirationDateTime.
-          type: boolean
-          example: true
-        ExpirationDateTime:
-          title: "The expiration date (and optionally exchange time). This field should only be set if the duration type is GoodTillDate.\n            If the field contains the time, it must always be expressed in the exchange local time and the ExpirationDateContainsTime property must be set to true. \n            Time zone indication must never be added. The time part should be in the following format:\n            HH:mm, where HH is 24 hour clock. Seconds and milliseconds are rejected if set to a value other than 0."
-          type: string
-          example: stringValue
-        ExpiryTimeOnExchange:
-          title: "Obsolete. Expiry time for GoodTillDate order, Format can be \"HH:mm, where HH is 24 hour clock.\".\n            The field has been obsoleted and should not be used. To specify the time, set the ExpirationDateContainsTime to True and use ExpirationDateTime to pass a date and time."
-          type: string
-          example: stringValue
-          deprecated: true
-          x-deprecated-date: '2022-11-01'
-      additionalProperties: false
-      example:
-        DurationType: GoodTillDate
-        ExpirationDateContainsTime: true
-        ExpirationDateTime: '2022-11-09T14:00:00'
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    Orders.RelatedOrOcoOrder:
-      title: A change to a related or OCO order.
-      type: object
-      properties:
-        AccountKey:
-          title: Unique key identifying the account.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        Amount:
-          title: Order size.
-          type: number
-          example: 10
-        AssetType:
-          title: The Instruments AssetType.
-          allOf:
-          - $ref: '#/components/schemas/AssetType_2'
-        IsForceOpen:
-          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
-          type: boolean
-          example: true
-        OrderDuration:
-          title: The Order Duration.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration_2'
-        OrderId:
-          title: Id of order to change.
-          type: string
-          example: stringValue
-        OrderPrice:
-          title: Order Price. Optional for market orders.
-          type: number
-          example: 10
-        OrderType:
-          title: The Order Type.
-          allOf:
-          - $ref: '#/components/schemas/PlaceableOrderType'
-        StopLimitPrice:
-          title: Stop limit price for Stop Limit order.
-          type: number
-          example: 10
-        TrailingStopDistanceToMarket:
-          title: Distance to market for a trailing stop order.
-          type: number
-          example: 10
-        TrailingStopStep:
-          title: Step size for trailing stop order.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        Amount: 10
-        AssetType: MutualFund
-        IsForceOpen: false
-        OrderDuration:
-          DurationType: GoodTillDate
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2022-11-09T14:00:00'
-        OrderId: stringValue
-        OrderPrice: 10
-        OrderType: TraspasoIn
-        StopLimitPrice: 10
-        TrailingStopDistanceToMarket: 10
-        TrailingStopStep: 10
-    MultiLegOrderOptionData:
-      title: Contains option details for a single leg in a multi-leg order.
-      type: object
-      properties:
-        ExpiryDate:
-          title: The suggested option expiry.
-          type: string
-          example: stringValue
-        PutCall:
-          title: Indicates whether the options is a put option or a call option.
-          allOf:
-          - $ref: '#/components/schemas/PutCall_2'
-        StrikePrice:
-          title: The suggested strike price.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        ExpiryDate: '2020-12-17T07:43:57.8602003'
-        PutCall: Put
-        StrikePrice: 10
-    OrderDurationType:
-      title: "An enum describing the different order duration types.\n            Note that not all order types are possible for all asset types."
-      enum:
-      - AtTheClose
-      - AtTheOpening
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      type: string
-      example: AtTheClose
-      x-enum-descriptions:
-        AtTheClose: At the close of the trading session.
-        AtTheOpening: At the opening of the trading session.
-        DayOrder: Day Order - Valid for the trading session.
-        FillOrKill: Fill or Kill order.
-        GoodForPeriod: Good for a specified period.
-        GoodTillCancel: Good til Cancel.
-        GoodTillDate: Good til Date - Expiration Date must also be specified.
-        ImmediateOrCancel: Immediate or Cancel Order.
     CostData:
       title: Cost Data
       type: object
@@ -5562,56 +4421,21 @@ components:
         ExchangeFee: 0
         GuaranteedStopFee: 0
         StampDuty: 0
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
-      enum:
-      - AllowDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
-      type: string
-      example: Fractions
-      x-enum-descriptions:
-        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
-        Fractions: Display as regular fraction i.e. 3 1/4
-        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
-        Percentage: Display as percentage, e.g. 12.34%.
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
-    MultiLegOrderLeg:
-      title: The order default values for a single order leg in a multi-leg order (strategy).
+    StringErrorResponse:
       type: object
       properties:
-        Amount:
-          title: Sum volume of positions in instrument.
-          type: number
-          example: 10
-        AssetType:
-          title: AssetType.
-          allOf:
-          - $ref: '#/components/schemas/AssetType_2'
-        BuySell:
-          title: Is the option to be bought or sold?
-          allOf:
-          - $ref: '#/components/schemas/BuySell_2'
-        OptionData:
-          allOf:
-          - $ref: '#/components/schemas/MultiLegOrderOptionData'
-        Uic:
-          title: Instrument identifer for this leg.
-          type: integer
-          format: int32
-          example: 99
+        ErrorCode:
+          title: ErrorCode
+          type: string
+          example: stringValue
+        Message:
+          title: Optional Textual information about the error to aid the developer.
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        Amount: 10
-        AssetType: Etc
-        BuySell: Buy
-        OptionData:
-          ExpiryDate: '2023-04-18T13:30:42.8688433'
-          PutCall: None
-          StrikePrice: 10
-        Uic: 99
+        ErrorCode: stringValue
+        Message: stringValue
     PlaceOrderRequest:
       title: Request contract for "Place order"
       type: object
@@ -5773,59 +4597,1257 @@ components:
           OrderPrice: 1.03
           OrderType: Stop
           Uic: 21
-    OrderResponseListResult:
+    Orders.Domain.RelatedOrOcoOrder:
+      title: Response for related or OCO order.
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
+        Cost:
+          title: Expected cost of executing the order.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        CostInAccountCurrency:
+          title: Expected cost of executing the order in account currency.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        ErrorInfo:
+          title: Contains error info when placement of order failed.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+        EstimatedCashRequired:
+          title: Estimated cash required.
           type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
+          example: 10
+        EstimatedCashRequiredCurrency:
+          title: Estimated cash required currency.
           type: string
-          description: The link for the next page of items in the feed.
+          example: stringValue
+        EstimatedTotalCost:
+          title: Expected total cost of executing the order in instrument currency.
+          type: number
+          example: 10
+        EstimatedTotalCostInAccountCurrency:
+          title: Estimated total cost currency.
+          type: number
+          example: 10
+        ExternalReference:
+          title: Optional reference supplied when placing the order. Max. 50 characters.
+          type: string
+          example: stringValue
+        InstrumentToAccountConversionRate:
+          title: Rate used to convert from instrument currency to the account currency.
+          type: number
+          example: 10
+        MarginImpactBuySell:
+          title: Expected Margin Impact, including initial, maintenance and currency.
+          allOf:
+          - $ref: '#/components/schemas/MarginImpactBuySell'
       additionalProperties: false
       example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - AccountId: 192134INET
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          Amount: 250000
-          AssetType: FxSpot
+        Cost:
+          Commission: 1000
+          ExchangeFee: 0
+          GuaranteedStopFee: 0
+          StampDuty: 0
+        CostInAccountCurrency:
+          Commission: 1000
+          ExchangeFee: 0
+          GuaranteedStopFee: 0
+          StampDuty: 0
+        ErrorInfo:
+          ErrorCode: stringValue
+          Message: stringValue
+        EstimatedCashRequired: 10
+        EstimatedCashRequiredCurrency: stringValue
+        EstimatedTotalCost: 10
+        EstimatedTotalCostInAccountCurrency: 10
+        ExternalReference: stringValue
+        InstrumentToAccountConversionRate: 10
+        MarginImpactBuySell:
+          Currency: USD
+          InitialMarginAvailableBuy: 10447
+          InitialMarginAvailableCurrent: 10470
+          InitialMarginBuy: 12
+          MaintenanceMarginBuy: 11
+    CancelAllOrderResponse:
+      title: Response to cancel all orders
+      type: object
+      properties:
+        ErrorInfo:
+          title: Contains error info when cancel of order failed.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+      additionalProperties: false
+      example:
+        ErrorInfo:
+          ErrorCode: stringValue
+          Message: stringValue
+    BuySell_2:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy
+        Sell: Sell
+    OrderLeg:
+      title: Represents a single leg/order in the strategy or batch.
+      type: object
+      properties:
+        Amount:
+          title: Order size.
+          type: number
+          example: 10
+        AssetType:
+          title: The Instruments AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType_2'
+        BuySell:
+          title: The direction of the order; buy or sell.
+          allOf:
+          - $ref: '#/components/schemas/Domain.BuySell'
+        ToOpenClose:
+          title: Whether the order should be created to open/increase or close/decrease a position. (Only relevant for options)
+          allOf:
+          - $ref: '#/components/schemas/ToOpenClose_2'
+        Uic:
+          title: Unique id of the instrument to place the order for.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Amount: 10
+        AssetType: CfdOnEtc
+        BuySell: Sell
+        ToOpenClose: ToOpen
+        Uic: 99
+    CancelOrderResponse:
+      title: Response to cancel of orders.
+      type: object
+      properties:
+        Orders:
+          title: Info about each order that was requested to be cancelled.
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+          example:
+          - ErrorInfo:
+              ErrorCode: Unknown
+              Message: Order request rejected
+      additionalProperties: false
+      example:
+        Orders:
+        - ErrorInfo:
+            ErrorCode: Unknown
+            Message: Order request rejected
+    TraspasoInDetails:
+      title: Information about external instrument
+      type: object
+      properties:
+        FullSurrender:
+          title: TraspasoIn trade type
+          allOf:
+          - $ref: '#/components/schemas/TraspasoInSurrender'
+        SourceBroker:
+          title: Broker handling the external instrument.
+          type: string
+          example: stringValue
+        SourceExternalClientId:
+          title: '&gt;Clients ID at the external broker.'
+          type: string
+          example: stringValue
+        SourceIsinCode:
+          title: External instruments ISIN code.
+          type: string
+          example: stringValue
+        SourceNumberOfUnits:
+          title: The source order amount, null if it the order is "full surrender"
+          type: number
+          example: 2.55
+        SourceSymbolCode:
+          title: External instruments symbol code.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        FullSurrender: Partial
+        SourceBroker: stringValue
+        SourceExternalClientId: stringValue
+        SourceIsinCode: stringValue
+        SourceNumberOfUnits: 2.55
+        SourceSymbolCode: stringValue
+    OrderAmountType_2:
+      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
+      enum:
+      - CashAmount
+      - Quantity
+      type: string
+      example: Quantity
+      x-enum-descriptions:
+        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
+        CashAmount: Order amount is specified as a monetary value.
+    MarginImpactBuySell:
+      title: The impact on the clients margin if the trade is executed
+      type: object
+      properties:
+        Currency:
+          title: Currency for margin impacts.
+          type: string
+          example: stringValue
+        InitialMarginAvailableBuy:
+          title: The initial margin available if instrument is bought.
+          type: number
+          example: 10
+        InitialMarginAvailableCurrent:
+          title: The current initial margin available.
+          type: number
+          example: 10
+        InitialMarginAvailableSell:
+          title: The initial margin available if instrument is sold.
+          type: number
+          example: 10
+        InitialMarginBuy:
+          title: The initial margin to pay if instrument is bought.
+          type: number
+          example: 10
+        InitialMarginSell:
+          title: The initial margin to pay if instrument is sold.
+          type: number
+          example: 10
+        InitialSpendingPower:
+          title: The initial spending power available.
+          type: number
+          example: 10
+        MaintenanceMarginBuy:
+          title: The maintenance margin to pay if instrument is bought.
+          type: number
+          example: 10
+        MaintenanceMarginSell:
+          title: The maintenance margin to pay if instrument is sold.
+          type: number
+          example: 10
+        MaintenanceSpendingPower:
+          title: The maintenance spending power available.
+          type: number
+          example: 10
+        MarginBuy:
+          title: The margin to pay if instrument is bought.
+          type: number
+          example: 10
+        MarginSell:
+          title: The margin to pay if instrument is sold.
+          type: number
+          example: 10
+        SpendingPower:
+          title: The current spending power available.
+          type: number
+          example: 10
+          deprecated: true
+      additionalProperties: false
+      example:
+        Currency: USD
+        InitialMarginAvailableBuy: 10447
+        InitialMarginAvailableCurrent: 10470
+        InitialMarginBuy: 12
+        MaintenanceMarginBuy: 11
+    MultiLegOrderLeg:
+      title: The order default values for a single order leg in a multi-leg order (strategy).
+      type: object
+      properties:
+        Amount:
+          title: Sum volume of positions in instrument.
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType_2'
+        BuySell:
+          title: Is the option to be bought or sold?
+          allOf:
+          - $ref: '#/components/schemas/BuySell_2'
+        OptionData:
+          allOf:
+          - $ref: '#/components/schemas/MultiLegOrderOptionData'
+        Uic:
+          title: Instrument identifer for this leg.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Amount: 10
+        AssetType: Etc
+        BuySell: Buy
+        OptionData:
+          ExpiryDate: '2023-04-18T13:30:42.8688433'
+          PutCall: None
+          StrikePrice: 10
+        Uic: 99
+    PreCheckOrderSpec:
+      title: Specification of field-sets to include in results.
+      enum:
+      - AllocationMarginImpact
+      - Costs
+      - MarginImpact
+      - MarginImpactBuySell
+      type: string
+      example: AllocationMarginImpact
+      x-enum-deprecated:
+      - MarginImpact
+      x-enum-descriptions:
+        MarginImpact: (Obsolete) Margin impact fields are returned in result. Will not be available from 1. October 2018, use MarginImpactBuySell instead.
+        MarginImpactBuySell: Margin impact fields are returned in result.
+        Costs: Cost data fields are returned in result.
+        AllocationMarginImpact: Allocation Margin Impact for all sub client(s) are returned in result.It is applicable for IB orders with allocationKey request.
+      x-type-warning: FlaggableEnum
+    PlaceRelatedOrOcoOrder:
+      title: A related or OCO order.
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account to place the order on.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        AllocationKeyId:
+          title: Set AllocationKey if block trade on IB account.
+          type: string
+          example: stringValue
+        Amount:
+          title: Order size.
+          type: number
+          example: 10
+        AmountType:
+          title: "Indicates if the order Amount is specified as lots/shares/contracts or as a monetary purchase amount in instrument currency. If CurrencyAmount, then use CashAmount.\n            Defaults to Quantity\n            Currently only supported on MutualFunds"
+          allOf:
+          - $ref: '#/components/schemas/OrderAmountType_2'
+        AppHint:
+          title: Optional informational id, which will be added to the order for statistics purposes. Only relevant for Saxo applications
+          type: integer
+          format: int32
+          example: 99
+        AssetType:
+          title: The Instruments AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType_2'
+        BuySell:
+          title: The direction of the order; buy or sell.
+          allOf:
+          - $ref: '#/components/schemas/Domain.BuySell'
+        ExternalReference:
+          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
+          type: string
+          example: stringValue
+        ForwardDate:
+          title: Forward date that is only used for FxForward entry orders when no master order exists (but has PositionId or OrderId)
+          type: string
+          format: date
+          x-type-name: Date
+        IsForceOpen:
+          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
+          type: boolean
+          example: true
+        ManualOrder:
+          title: Optional indicator for whether order is placed automatically or manually.
+          type: boolean
+          example: true
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderId:
+          title: "Order Id for the first related order, used ONLY in \n            the case of adding a second related order to a position or order.\n            This field is used but having a related order contain just the orderId, and nothing else."
+          type: string
+          example: stringValue
+        OrderPrice:
+          title: Order Price. Optional for market orders.
+          type: number
+          example: 10
+        OrderType:
+          title: Order type.
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+        StopLimitPrice:
+          title: Stop limit price for Stop Limit order
+          type: number
+          example: 10
+        SwitchInstrumentUic:
+          title: The Uic of the instrument to be used for Switch And Traspaso orders, Mutual Funds Specific
+          type: integer
+          format: int32
+          example: 99
+        ToOpenClose:
+          title: Whether the order should be created to open/increase or close/decrease a position. (Only relevant for options)
+          allOf:
+          - $ref: '#/components/schemas/ToOpenClose_2'
+        TrailingStopDistanceToMarket:
+          title: Distance to market for a trailing stop order.
+          type: number
+          example: 10
+        TrailingStopStep:
+          title: Step size for trailing stop order.
+          type: number
+          example: 10
+        TraspasoIn:
+          title: Information about Traspaso in external source instrument
+          allOf:
+          - $ref: '#/components/schemas/TraspasoInDetails'
+        Uic:
+          title: Unique id of the instrument to place the order for.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        Amount: 100000
+        AssetType: FxSpot
+        BuySell: Sell
+        OrderDuration:
+          DurationType: GoodTillCancel
+        OrderPrice: 1.13
+        OrderType: Limit
+        Uic: 21
+    Domain.BuySell:
+      title: Describes the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy.
+        Sell: Sell.
+    ChangeMultiLegStrategyOrderRequest:
+      title: A request to change a multi-leg strategy order.
+      required:
+      - AccountKey
+      - MultiLegOrderId
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        MultiLegAmount:
+          title: "New number of strategies to trade. Will adjust all order leg amounts maintaining thier original ratio. \n            Changing the original leg ratio would change the basis for OrderPrice, so that cannot be changed."
+          type: number
+          example: 10
+        MultiLegOrderId:
+          title: Id of multi-leg combination/strategy order to change.
+          type: string
+          example: stringValue
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderPrice:
+          title: Order price. The sum price of a single strategy of order legs in a given ratio.
+          type: number
+          example: 10
+        TraderId:
+          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        MultiLegAmount: 10
+        MultiLegOrderId: stringValue
+        OrderDuration:
+          DurationType: GoodTillDate
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2022-11-09T14:00:00'
+        OrderPrice: 10
+        TraderId: stringValue
+    OrderDuration_2:
+      title: "The time frame during which the order is valid.\n            If the DurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
+      required:
+      - DurationType
+      type: object
+      properties:
+        DurationType:
+          title: The order duration type.
+          allOf:
+          - $ref: '#/components/schemas/OrderDurationType_2'
+        ExpirationDate:
+          title: Obsolete. The expiration date, should only be set if the duration type is GoodTillDate. This field will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
+          type: string
+          format: date-time
+          deprecated: true
+          x-deprecated-date: '2022-11-01'
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: The value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type and the time must be provided in the ExpirationDateTime.
+          type: boolean
+          example: true
+        ExpirationDateTime:
+          title: "The expiration date (and optionally exchange time). This field should only be set if the duration type is GoodTillDate.\n            If the field contains the time, it must always be expressed in the exchange local time and the ExpirationDateContainsTime property must be set to true. \n            Time zone indication must never be added. The time part should be in the following format:\n            HH:mm, where HH is 24 hour clock. Seconds and milliseconds are rejected if set to a value other than 0."
+          type: string
+          example: stringValue
+        ExpiryTimeOnExchange:
+          title: "Obsolete. Expiry time for GoodTillDate order, Format can be \"HH:mm, where HH is 24 hour clock.\".\n            The field has been obsoleted and should not be used. To specify the time, set the ExpirationDateContainsTime to True and use ExpirationDateTime to pass a date and time."
+          type: string
+          example: stringValue
+          deprecated: true
+          x-deprecated-date: '2022-11-01'
+      additionalProperties: false
+      example:
+        DurationType: GoodTillDate
+        ExpirationDateContainsTime: true
+        ExpirationDateTime: '2022-11-09T14:00:00'
+    RelatedOrOcoOrder:
+      title: Response for related or OCO order.
+      type: object
+      properties:
+        ErrorInfo:
+          title: Contains error info when placement of order failed.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+        ExternalReference:
+          title: Optional reference supplied when placing the order. Max. 50 characters.
+          type: string
+          example: stringValue
+        OrderId:
+          title: Id of related or OCO order. No value provided if placement of order failed.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        OrderId: '67762872'
+    OptionsStrategyType_2:
+      title: Common exchange traded options strategies.
+      enum:
+      - BackRatio
+      - Butterfly
+      - CalendarSpread
+      - Combo
+      - Condor
+      - Custom
+      - Diagonal
+      - Gut
+      - IronButterfly
+      - IronCondor
+      - RiskReversal
+      - Straddle
+      - Strangle
+      - Synthetic
+      - Vertical
+      type: string
+      example: Synthetic
+      x-enum-descriptions:
+        Custom: User defined custom strategy.
+        Vertical: A vertical spread has two legs. One is buy and one is sell with same expiration date, but with different strike prices.
+        BackRatio: Consists of two options, of same type and expiry, but with different amounts and strike prices.
+        Diagonal: A diagonal spread is two options of the same type, one buy and one sell, but with different expiry times and different strike prices. Essentially a combination of a Vertical and Calendar spread.
+        Condor: A condor strategy leverages four options with same expiry. A buy and a sell in the money, and a buy and a sell out of the money. Can also be characterized as two call spreads.
+        Butterfly: Non directional strategy that combines legs of same expiry, but with varying amounts and strike prices.
+        IronButterfly: Two overlapping vertical spreads. One of the verticals is on the call side and one is on the put side.
+        IronCondor: A combined put and call spread with same expiration but varying different strikes.
+        Straddle: A position in both a call and a put with the same underlier, strike price and maturity expiration date
+        Strangle: A position in both a call and put with different strike prices but with the same maturity and underlier
+        RiskReversal: One leg is an OTM put, the other leg is an OTM call.
+        CalendarSpread: A calendar spread is a long-short position is two calls or two puts. Both options have the same strike, but they have different expirations.
+        Gut: Buy a call and then buy a put at a higher strike price, Sell a call and then sell a put at higher strike price. 1:1 ratio
+        Synthetic: Buy a call, sell a put at the same strike. Sell a call, buy a put at the same strike. 1:1 ratio
+        Combo: Sell call, buy put at lower strike. Buy call, Sell put at lower strike (1:1 ratio).
+    PreCheckOrderResponse:
+      title: A response to pre-check single order.
+      type: object
+      properties:
+        Cost:
+          title: Expected cost of executing the order.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        CostInAccountCurrency:
+          title: Expected cost of executing the order in account currency.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        ErrorInfo:
+          title: Contains error info when order pre-check has failed.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+        EstimatedCashRequired:
+          title: Estimated cash required.
+          type: number
+          example: 10
+        EstimatedCashRequiredCurrency:
+          title: Estimated cash required currency.
+          type: string
+          example: stringValue
+        EstimatedTotalCost:
+          title: Expected total cost of executing the order in instrument currency.
+          type: number
+          example: 10
+        EstimatedTotalCostInAccountCurrency:
+          title: Estimated total cost currency.
+          type: number
+          example: 10
+        InstrumentToAccountConversionRate:
+          title: Rate used to convert from instrument currency to the account currency.
+          type: number
+          example: 10
+        MarginImpactBuySell:
+          title: Expected Margin Impact, including initial, maintenance and currency.
+          allOf:
+          - $ref: '#/components/schemas/MarginImpactBuySell'
+        Orders:
+          title: List of resulting orders.
+          type: array
+          items:
+            $ref: '#/components/schemas/Orders.Domain.RelatedOrOcoOrder'
+          example:
+          - Cost:
+              Commission: 1000
+              ExchangeFee: 0
+              GuaranteedStopFee: 0
+              StampDuty: 0
+            CostInAccountCurrency:
+              Commission: 1000
+              ExchangeFee: 0
+              GuaranteedStopFee: 0
+              StampDuty: 0
+            ErrorInfo:
+              ErrorCode: stringValue
+              Message: stringValue
+            EstimatedCashRequired: 10
+            EstimatedCashRequiredCurrency: stringValue
+            EstimatedTotalCost: 10
+            EstimatedTotalCostInAccountCurrency: 10
+            ExternalReference: stringValue
+            InstrumentToAccountConversionRate: 10
+            MarginImpactBuySell:
+              Currency: USD
+              InitialMarginAvailableBuy: 10447
+              InitialMarginAvailableCurrent: 10470
+              InitialMarginBuy: 12
+              MaintenanceMarginBuy: 11
+        PreCheckResult:
+          title: Overall operation result.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Cost:
+          Commission: 1000
+          ExchangeFee: 0
+          GuaranteedStopFee: 0
+          StampDuty: 0
+        EstimatedCashRequired: 1500000
+        EstimatedCashRequiredCurrency: EUR
+        EstimatedTotalCost: 1500000
+        EstimatedTotalCostInAccountCurrency: 1500000
+        InstrumentToAccountConversionRate: 1
+        MarginImpactBuySell:
+          Currency: USD
+          InitialMarginAvailableBuy: 10447
+          InitialMarginAvailableCurrent: 10470
+          InitialMarginBuy: 12
+          MaintenanceMarginBuy: 11
+        PreCheckResult: Ok
+    PlaceableOrderType:
+      title: Specifies supported order types placeable in the orders ticket.
+      enum:
+      - Algorithmic
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - Market
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      type: string
+      example: Switch
+      x-enum-descriptions:
+        Market: Market Order.
+        Limit: Limit Order.
+        StopIfTraded: Stop if traded.
+        Stop: Stop Order.
+        StopLimit: Stop Limit Order.
+        TrailingStopIfTraded: Trailing stop if traded.
+        TrailingStop: Trailing stop.
+        Algorithmic: Algo order.
+        Switch: Switch order, Sell X and Buy Y with one order.
+        Traspaso: Traspaso. Specific type of switch order. Only available on select MutualFunds.
+        TraspasoIn: TraspasoIn. Specific type of switch order
+        GuaranteedStop: Order Type currently not supported.
+        TriggerLimit: Trigger limit order. Specific type for trigger orders.
+        TriggerStop: Trigger stop order. Specific type for trigger orders.
+        TriggerBreakout: Trigger breakout order. Specific type for trigger orders.
+        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on Exchange, into Saxo System. \n            Currently supported for selected partners only."
+    PreCheckMultiLegOrderRequest:
+      title: A request to pre-check a multileg strategy order.
+      required:
+      - OrderType
+      - Legs
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account to place the order on.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ExternalReference:
+          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
+          type: string
+          example: stringValue
+        FieldGroups:
+          title: Specification of fields to return in results
+          type: array
+          items:
+            $ref: '#/components/schemas/PreCheckOrderSpec'
+          example:
+          - MarginImpact
+        Legs:
+          title: List of orders in the batch that are to be filled symmetrically.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderLeg'
+          example:
+          - Amount: 10
+            AssetType: CfdOnEtn
+            BuySell: Buy
+            ToOpenClose: ToClose
+            Uic: 99
+        ManualOrder:
+          title: Optional indicator for whether order is placed automatically or manually.
+          type: boolean
+          example: true
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderPrice:
+          title: Order Price. Optional for market orders.
+          type: number
+          example: 10
+        OrderType:
+          title: Order type.
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+        TraderId:
+          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ExternalReference: stringValue
+        FieldGroups:
+        - MarginImpactBuySell
+        Legs:
+        - Amount: 10
+          AssetType: CfdOnEtf
           BuySell: Buy
-          CalculationReliability: Ok
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-          CurrentPrice: 1.09062
-          CurrentPriceDelayMinutes: 0
-          CurrentPriceType: Ask
-          DistanceToMarket: 0.04062
-          Duration:
-            DurationType: GoodTillCancel
-          IsForceOpen: false
-          IsMarketOpen: false
-          MarketPrice: 1.09062
-          NonTradableReason: None
-          OpenOrderType: Limit
-          OrderAmountType: Quantity
-          OrderId: '49318458'
-          OrderRelation: StandAlone
-          OrderTime: '2017-04-12T07:56:00Z'
-          Price: 1.05
-          Status: Working
-          Uic: 21
+          ToOpenClose: Undefined
+          Uic: 99
+        ManualOrder: false
+        OrderDuration:
+          DurationType: GoodTillDate
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2022-11-09T14:00:00'
+        OrderPrice: 10
+        OrderType: TriggerLimit
+        TraderId: stringValue
+    MultiLegOrderOptionData:
+      title: Contains option details for a single leg in a multi-leg order.
+      type: object
+      properties:
+        ExpiryDate:
+          title: The suggested option expiry.
+          type: string
+          example: stringValue
+        PutCall:
+          title: Indicates whether the options is a put option or a call option.
+          allOf:
+          - $ref: '#/components/schemas/PutCall_2'
+        StrikePrice:
+          title: The suggested strike price.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ExpiryDate: '2020-12-17T07:43:57.8602003'
+        PutCall: Put
+        StrikePrice: 10
+    PutCall_2:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Call
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    Order:
+      title: Info about cancellation of an order.
+      type: object
+      properties:
+        ErrorInfo:
+          title: Contains error info when cancel of order failed.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+        MultiLegOrderId:
+          title: Unique identifier for the multi-leg order.Same for all legs.
+          type: string
+          example: stringValue
+        OrderId:
+          title: Id of order.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ErrorInfo:
+          ErrorCode: Unknown
+          Message: Order request rejected
+    OrderDurationType_2:
+      title: An enum describing the different order duration types available for the order type.
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: AtTheClose
+      x-enum-descriptions:
+        AtTheClose: At the close of the trading session.
+        AtTheOpening: At the opening of the trading session.
+        DayOrder: Day Order - Valid for the trading session.
+        FillOrKill: Fill or Kill order.
+        GoodForPeriod: Good for Period.
+        GoodTillCancel: Good till Cancel.
+        GoodTillDate: Good till Date - Expiration Date must also be specified.
+        ImmediateOrCancel: Immediate or Cancel Order.
+    ToOpenClose_2:
+      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
+      enum:
+      - ToClose
+      - ToOpen
+      - Undefined
+      type: string
+      example: Undefined
+      x-enum-descriptions:
+        Undefined: Undefined.
+        ToOpen: Order/Position is ToOpen.
+        ToClose: Order/Position is ToClose.
+    AlgorithmicOrderData:
+      title: Data for specifying a strategy and its parameters for AlgoOrders
+      required:
+      - StrategyName
+      - Arguments
+      type: object
+      properties:
+        Arguments:
+          title: A set of Key/Value pairs specifying the Algo parameters
+          type: array
+          items:
+            $ref: '#/components/schemas/StringStringKeyValuePair'
+          example:
+            stringValue: stringValue
+        StrategyName:
+          title: The Strategy Identifier
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Arguments:
+          DisplayQuantity: '100'
+        StrategyName: Iceberg
+    MultiLegOrderStrategyDefault:
+      title: Represents Algo Strategy object
+      type: object
+      properties:
+        Legs:
+          title: List of suggested order legs for this option root and strategy.
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLegOrderLeg'
+          example:
+          - Amount: 10
+            AssetType: Etn
+            BuySell: Sell
+            OptionData:
+              ExpiryDate: '2022-11-14T08:37:36.3854586'
+              PutCall: Call
+              StrikePrice: 10
+            Uic: 99
+        StrategyType:
+          title: String identification
+          allOf:
+          - $ref: '#/components/schemas/OptionsStrategyType_2'
+      additionalProperties: false
+      example:
+        Legs:
+        - Amount: 10
+          AssetType: Etf
+          BuySell: Sell
+          OptionData:
+            ExpiryDate: '2023-03-22T16:40:01.7806301'
+            PutCall: Call
+            StrikePrice: 10
+          Uic: 99
+        StrategyType: Custom
+    TraspasoInSurrender:
+      title: To specify if the traspaso in order is a full surrender
+      enum:
+      - Full
+      - Partial
+      type: string
+      example: Full
+      x-enum-descriptions:
+        Partial: order to sell amount units of fund A and switch into B
+        Full: Order for full surrender of fund A and switch to B
+    AssetType_2:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxKnockOutOption
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PlaceMultiLegStrategyOrderRequest:
+      title: Request contract for placing an multi-leg strategy order.
+      required:
+      - OrderType
+      - Legs
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account to place the order on.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ExternalReference:
+          title: "Optional reference from the client app, to correlate orders with Saxo Bank issues order IDs.\n            Maximum length: 50 characters. The order will be rejected if the reference is too long.\n            This reference doesn’t have to be unique."
+          type: string
+          example: stringValue
+        Legs:
+          title: List of orders in the batch that are to be filled symmetrically.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderLeg'
+          example:
+          - Amount: 10
+            AssetType: CfdOnEtn
+            BuySell: Buy
+            ToOpenClose: ToClose
+            Uic: 99
+        ManualOrder:
+          title: Optional indicator for whether order is placed automatically or manually.
+          type: boolean
+          example: true
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderPrice:
+          title: Order Price. Optional for market orders.
+          type: number
+          example: 10
+        OrderType:
+          title: Order type.
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+        TraderId:
+          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ExternalReference: stringValue
+        Legs:
+        - Amount: 10
+          AssetType: CfdOnRights
+          BuySell: Buy
+          ToOpenClose: ToOpen
+          Uic: 99
+        ManualOrder: true
+        OrderDuration:
+          DurationType: GoodTillDate
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2022-11-09T14:00:00'
+        OrderPrice: 10
+        OrderType: TriggerBreakout
+        TraderId: stringValue
+    ChangeOrderRequest:
+      title: A request to change one or more orders.
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        AlgoOrderData:
+          title: 'Specification of StrategyName and parameters for AlgoOrders. Note: AlgoOrders are only supported on the live system.'
+          allOf:
+          - $ref: '#/components/schemas/AlgorithmicOrderData'
+        Amount:
+          title: Order size.
+          type: number
+          example: 10
+        AssetType:
+          title: "The Instruments AssetType. \n            This field is only used for validation of other fields of the change request, and will not \n            be checked against the original order, nor used to change the instrument type."
+          allOf:
+          - $ref: '#/components/schemas/AssetType_2'
+        IsForceOpen:
+          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
+          type: boolean
+          example: true
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderId:
+          title: Id of order to change.
+          type: string
+          example: stringValue
+        OrderPrice:
+          title: Order Price. Optional for market orders.
+          type: number
+          example: 10
+        OrderType:
+          title: The Order Type.
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+        Orders:
+          title: Related or OCO orders to change.
+          type: array
+          items:
+            $ref: '#/components/schemas/Orders.RelatedOrOcoOrder'
+          example:
+          - AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+            Amount: 10
+            AssetType: CfdIndexOption
+            IsForceOpen: false
+            OrderDuration:
+              DurationType: GoodTillDate
+              ExpirationDateContainsTime: true
+              ExpirationDateTime: '2022-11-09T14:00:00'
+            OrderId: stringValue
+            OrderPrice: 10
+            OrderType: GuaranteedStop
+            StopLimitPrice: 10
+            TrailingStopDistanceToMarket: 10
+            TrailingStopStep: 10
+        StopLimitPrice:
+          title: Stop limit price for Stop Limit order.
+          type: number
+          example: 10
+        TraderId:
+          title: Trader Id, Used only if the application is configured for supporting it with length of 2-16 chars.
+          type: string
+          example: stringValue
+        TrailingStopDistanceToMarket:
+          title: Distance to market for a trailing stop order.
+          type: number
+          example: 10
+        TrailingStopStep:
+          title: Step size for trailing stop order.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        Amount: 100000
+        AssetType: FxSpot
+        OrderType: Limit
+    Orders.RelatedOrOcoOrder:
+      title: A change to a related or OCO order.
+      type: object
+      properties:
+        AccountKey:
+          title: Unique key identifying the account.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Amount:
+          title: Order size.
+          type: number
+          example: 10
+        AssetType:
+          title: The Instruments AssetType.
+          allOf:
+          - $ref: '#/components/schemas/AssetType_2'
+        IsForceOpen:
+          title: If true, the order's resulting position will only be netted with positions in the opposite direction when explicitly closed.
+          type: boolean
+          example: true
+        OrderDuration:
+          title: The Order Duration.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration_2'
+        OrderId:
+          title: Id of order to change.
+          type: string
+          example: stringValue
+        OrderPrice:
+          title: Order Price. Optional for market orders.
+          type: number
+          example: 10
+        OrderType:
+          title: The Order Type.
+          allOf:
+          - $ref: '#/components/schemas/PlaceableOrderType'
+        StopLimitPrice:
+          title: Stop limit price for Stop Limit order.
+          type: number
+          example: 10
+        TrailingStopDistanceToMarket:
+          title: Distance to market for a trailing stop order.
+          type: number
+          example: 10
+        TrailingStopStep:
+          title: Step size for trailing stop order.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        Amount: 10
+        AssetType: MutualFund
+        IsForceOpen: false
+        OrderDuration:
+          DurationType: GoodTillDate
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2022-11-09T14:00:00'
+        OrderId: stringValue
+        OrderPrice: 10
+        OrderType: TraspasoIn
+        StopLimitPrice: 10
+        TrailingStopDistanceToMarket: 10
+        TrailingStopStep: 10
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -5847,6 +5869,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
@@ -5859,3 +5887,6 @@ components:
           authorizationUrl: https://sim.logonvalidation.net/authorize
           tokenUrl: https://sim.logonvalidation.net/token
           scopes: {}
+x-refined-from:
+- port.yaml
+- trade.yaml

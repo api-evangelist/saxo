@@ -1,10 +1,14 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Elections API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.CorporateActions Elections API
+  description: 'The Corporate Actions service group provides end points for getting voluntary/mandatory events, electing on events, & setting standing instructions for future events.
+
+    Note:
+
+    This service is subject to special licensing agreements and not generally available to all OpenAPI applications.'
+  version: 2.2.18+afabea7a32
+  x-framework-version: 40.0.6+1b67a0140e
+  x-machine: SIMOAWEB10-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -16,7 +20,9 @@ paths:
       tags:
       - Elections
       summary: Send bulk election instructions
-      description: "Sends instructions about elections to make for given accounts and event.\r\n            When posting these instructions to elect, all previous elections for the specified accounts/event are overwritten."
+      description: 'Sends instructions about elections to make for given accounts and event.
+
+        When posting these instructions to elect, all previous elections for the specified accounts/event are overwritten.'
       operationId: ElectionBulkElectAsync
       requestBody:
         content:
@@ -107,7 +113,9 @@ paths:
       tags:
       - Elections
       summary: Send election instruction
-      description: "Sends an instruction about elections to make for a given account and event.\r\n            When posting an instruction to elect, all previous elections for the specified account/event are overwritten."
+      description: 'Sends an instruction about elections to make for a given account and event.
+
+        When posting an instruction to elect, all previous elections for the specified account/event are overwritten.'
       operationId: ElectionElectAsync
       requestBody:
         content:
@@ -276,7 +284,89 @@ paths:
       x-required-permissions:
         confidential: Write
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
+    StatusCode:
+      title: Status
+      enum:
+      - Accepted
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Accepted
+        Rejected: Rejected
+    BulkElectionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkElectionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Account:
+      title: Account key wrapper
+      required:
+      - AccountKey
+      type: object
+      properties:
+        AccountKey:
+          title: Account key
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      additionalProperties: false
+    BulkElectionResponse:
+      title: Bulk election response
+      type: object
+      properties:
+        AccountId:
+          title: Account id
+          type: string
+        Message:
+          title: Message
+          type: string
+        Status:
+          title: Status
+          allOf:
+          - $ref: '#/components/schemas/StatusCode'
+      additionalProperties: false
+    BulkOptionInstruction:
+      title: Election instruction on option for bulk election
+      required:
+      - OptionId
+      - AmountPct
+      type: object
+      properties:
+        AmountPct:
+          title: Quantity to be elected, in percentage
+          type: number
+        OptionId:
+          title: Option on which election is to be made
+          pattern: ^\d*$
+          type: string
+      additionalProperties: false
     ElectionRequest:
       title: Election instruction
       required:
@@ -299,45 +389,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OptionInstruction'
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    OptionInstruction:
-      title: Election instruction on option
-      required:
-      - OptionId
-      - Amount
-      type: object
-      properties:
-        Amount:
-          title: Quantity to be elected
-          type: number
-        OptionId:
-          title: Option on which election is to be made
-          pattern: ^\d*$
-          type: string
-        Remarks:
-          title: Remarks by client
-          type: string
-      additionalProperties: false
-    BulkElectionResponse:
-      title: Bulk election response
-      type: object
-      properties:
-        AccountId:
-          title: Account id
-          type: string
-        Message:
-          title: Message
-          type: string
-        Status:
-          title: Status
-          allOf:
-          - $ref: '#/components/schemas/StatusCode'
       additionalProperties: false
     BulkElectionRequest:
       title: Bulk election instruction
@@ -362,67 +413,24 @@ components:
           items:
             $ref: '#/components/schemas/BulkOptionInstruction'
       additionalProperties: false
-    StatusCode:
-      title: Status
-      enum:
-      - Accepted
-      - Rejected
-      type: string
-      x-enum-descriptions:
-        Accepted: Accepted
-        Rejected: Rejected
-    Account:
-      title: Account key wrapper
-      required:
-      - AccountKey
-      type: object
-      properties:
-        AccountKey:
-          title: Account key
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-      additionalProperties: false
-    BulkElectionResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkElectionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    BulkOptionInstruction:
-      title: Election instruction on option for bulk election
+    OptionInstruction:
+      title: Election instruction on option
       required:
       - OptionId
-      - AmountPct
+      - Amount
       type: object
       properties:
-        AmountPct:
-          title: Quantity to be elected, in percentage
+        Amount:
+          title: Quantity to be elected
           type: number
         OptionId:
           title: Option on which election is to be made
           pattern: ^\d*$
           type: string
+        Remarks:
+          title: Remarks by client
+          type: string
       additionalProperties: false
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

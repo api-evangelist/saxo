@@ -1,10 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Accounts API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Saxo Accounts API
+  x-refined-note:
+  - x-framework-version differs across the merged source definitions and was not carried
+  - x-machine differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: cm.yaml, port.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -91,6 +92,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         confidential: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/subscriptions/{ContextId}/{ReferenceId}:
     delete:
       tags:
@@ -132,6 +135,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/subscriptions/{ContextId}:
     delete:
       tags:
@@ -172,6 +177,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/subscriptions:
     post:
       tags:
@@ -304,6 +311,8 @@ paths:
         community: Subscribe
       x-streaming-type:
         $ref: '#/components/schemas/AccountResponseArray'
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/{AccountKey}/reset:
     put:
       tags:
@@ -367,6 +376,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts:
     get:
       tags:
@@ -475,6 +486,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/me:
     get:
       tags:
@@ -567,6 +580,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/accounts/{AccountKey}:
     get:
       tags:
@@ -720,26 +735,80 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    AccountSubType:
-      title: Describes the sub type of the account.
-      enum:
-      - EquitySaving
-      - None
-      - NorwayASK
-      - PEA
-      - PEA_PME
-      - SwedenISK
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Default , used for None.
-        EquitySaving: Equity Saving Account.
-        PEA: PEA.
-        PEA_PME: PEA-PME.
-        NorwayASK: Norway ASK ( Tax saving Account).
-        SwedenISK: Sweden ISK ( Tax Saving Account).
+    Models.AccountDetails:
+      title: Account Details
+      type: object
+      properties:
+        AccountId:
+          title: Account Id
+          type: string
+          example: stringValue
+        AccountKey:
+          title: Account Key
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: '2147279960'
+        AccountKey: BxS0VWLta8lJ3SBpjGBQjw==
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Models.CreateAccount:
+      title: Create Account
+      required:
+      - ClientKey
+      - ChoiceOfAccount
+      type: object
+      properties:
+        ChoiceOfAccount:
+          title: Choice Of Account (from Options)
+          type: string
+          example: stringValue
+        ClientKey:
+          title: Client Key of the user for which new account is to be created
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      additionalProperties: false
+      example:
+        ChoiceOfAccount: '65'
+        ClientKey: BxS0VWLta8lJ3SBpjGBQjw==
     ManagementType:
       title: Account Management Type
       enum:
@@ -762,157 +831,24 @@ components:
         SelfPeriodicInvestment: Client can schedule periodic investments on one or multiple Instruments
         Discretionary: The account is managed by partner. Client (beneficial owner of the account) cannot trade on this account but authorized dealers can. Client will not receive any trade notifications.
         Advisory: The account is managed by partner. Client (beneficial owner of the account) cannot trade on this account but authorized dealers can. However, client will get trade notifications.
-    AccountResponseArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/AccountResponse'
-      example:
-      - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountId: 192134INET
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountType: Normal
-        Active: true
-        CanUseCashPositionsAsMarginCollateral: false
-        CfdBorrowingCostsActive: false
-        ClientId: '654321'
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        CreationDate: '2017-01-01T13:00:00Z'
-        Currency: EUR
-        CurrencyDecimals: 2
-        DirectMarketAccess: false
-        FractionalOrderEnabled: false
-        IndividualMargining: false
-        IsCurrencyConversionAtSettlementTime: false
-        IsMarginTradingAllowed: true
-        IsShareable: true
-        IsTrialAccount: false
-        LegalAssetTypes:
-        - FxSpot
-        - Stock
-        - ContractFutures
-        ManagementType: Client
-        MarginCalculationMethod: Default
-        MarginLendingEnabled: None
-        PortfolioBasedMarginEnabled: false
-        Sharing:
-        - TradingFloor
-        SupportsAccountValueProtectionLimit: false
-        UseCashPositionsAsMarginCollateral: false
-    AccountBenchmarkInstrument:
-      title: Sets the instrument to be used as comparison then evaluating account performance.
-      required:
-      - BenchmarkInstrumentUic
-      type: object
-      properties:
-        BenchmarkInstrumentAssetType:
-          title: The instrument asset type of the benchmark instrument.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        BenchmarkInstrumentUic:
-          title: The instrument identifier of the benchmark instrument.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        BenchmarkInstrumentAssetType: FxKnockOutOption
-        BenchmarkInstrumentUic: 99
-    AccountsSubscriptionResponse:
-      title: Public response contract returned after setting up a subscription on accounts for a client.
-      type: object
-      properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-          example: application/json
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-          example: 0
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-          example: 0
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          allOf:
-          - $ref: '#/components/schemas/AccountResponseListResult'
-        State:
-          title: The value "Active".
-          type: string
-          description: This property is kept for backwards compatibility.
-          example: Active
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        ContextId: '20221030064905073'
-        Format: application/json
-        InactivityTimeout: 1500
-        ReferenceId: A70755
-        RefreshRate: 500
-        Snapshot:
-          Data:
-          - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-            AccountId: 192134INET
-            AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-            AccountType: Normal
-            Active: true
-            CanUseCashPositionsAsMarginCollateral: false
-            CfdBorrowingCostsActive: false
-            ClientId: '654321'
-            ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-            CreationDate: '2017-01-01T13:00:00Z'
-            Currency: EUR
-            CurrencyDecimals: 2
-            DirectMarketAccess: false
-            FractionalOrderEnabled: false
-            IndividualMargining: false
-            IsCurrencyConversionAtSettlementTime: false
-            IsMarginTradingAllowed: true
-            IsShareable: true
-            IsTrialAccount: false
-            LegalAssetTypes:
-            - FxSpot
-            - Stock
-            - ContractFutures
-            ManagementType: Client
-            MarginCalculationMethod: Default
-            MarginLendingEnabled: None
-            PortfolioBasedMarginEnabled: false
-            Sharing:
-            - TradingFloor
-            SupportsAccountValueProtectionLimit: false
-            UseCashPositionsAsMarginCollateral: false
-        State: Active
-        Tag: MyAccountRelatedSubscriptions
-    AccountResetRequest:
-      title: A parameter wrapper for Account Reset operations. queries
-      required:
-      - NewBalance
-      type: object
-      properties:
-        NewBalance:
-          title: The new balance. 0 is minimum and 10.000.000 is maximum.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        NewBalance: 50000000
+    AccountSubType:
+      title: Describes the sub type of the account.
+      enum:
+      - EquitySaving
+      - None
+      - NorwayASK
+      - PEA
+      - PEA_PME
+      - SwedenISK
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Default , used for None.
+        EquitySaving: Equity Saving Account.
+        PEA: PEA.
+        PEA_PME: PEA-PME.
+        NorwayASK: Norway ASK ( Tax saving Account).
+        SwedenISK: Sweden ISK ( Tax Saving Account).
     AccountResponse:
       title: Data contract for an account.
       required:
@@ -1105,6 +1041,277 @@ components:
         - TradingFloor
         SupportsAccountValueProtectionLimit: false
         UseCashPositionsAsMarginCollateral: false
+    AccountsSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription on accounts for a client.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/AccountResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030064905073'
+        Format: application/json
+        InactivityTimeout: 1500
+        ReferenceId: A70755
+        RefreshRate: 500
+        Snapshot:
+          Data:
+          - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+            AccountId: 192134INET
+            AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+            AccountType: Normal
+            Active: true
+            CanUseCashPositionsAsMarginCollateral: false
+            CfdBorrowingCostsActive: false
+            ClientId: '654321'
+            ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+            CreationDate: '2017-01-01T13:00:00Z'
+            Currency: EUR
+            CurrencyDecimals: 2
+            DirectMarketAccess: false
+            FractionalOrderEnabled: false
+            IndividualMargining: false
+            IsCurrencyConversionAtSettlementTime: false
+            IsMarginTradingAllowed: true
+            IsShareable: true
+            IsTrialAccount: false
+            LegalAssetTypes:
+            - FxSpot
+            - Stock
+            - ContractFutures
+            ManagementType: Client
+            MarginCalculationMethod: Default
+            MarginLendingEnabled: None
+            PortfolioBasedMarginEnabled: false
+            Sharing:
+            - TradingFloor
+            SupportsAccountValueProtectionLimit: false
+            UseCashPositionsAsMarginCollateral: false
+        State: Active
+        Tag: MyAccountRelatedSubscriptions
+    MarginLendingEnabled:
+      title: Margin Lending Enabled.
+      enum:
+      - false
+      - None
+      - true
+      type: string
+      example: true
+      x-enum-descriptions:
+        None: Default. Margin Lending is not applicable.
+        true: Margin Lending is enabled.
+        false: Margin Lending is disabled.
+    AccountsSubscriptionRequest:
+      title: Public request contract for setting up a subscription on accounts for a client.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/AccountsRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ContextId: '20221030064905067'
+        Format: application/json
+        ReferenceId: A21312
+        RefreshRate: 500
+        Tag: MyAccountRelatedSubscriptions
+    AccountResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountId: 192134INET
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountType: Normal
+          Active: true
+          CanUseCashPositionsAsMarginCollateral: false
+          CfdBorrowingCostsActive: false
+          ClientId: '654321'
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          CreationDate: '2017-01-01T13:00:00Z'
+          Currency: EUR
+          CurrencyDecimals: 2
+          DirectMarketAccess: false
+          FractionalOrderEnabled: false
+          IndividualMargining: false
+          IsCurrencyConversionAtSettlementTime: false
+          IsMarginTradingAllowed: true
+          IsShareable: true
+          IsTrialAccount: false
+          LegalAssetTypes:
+          - FxSpot
+          - Stock
+          - ContractFutures
+          ManagementType: Client
+          MarginCalculationMethod: Default
+          MarginLendingEnabled: None
+          PortfolioBasedMarginEnabled: false
+          Sharing:
+          - TradingFloor
+          SupportsAccountValueProtectionLimit: false
+          UseCashPositionsAsMarginCollateral: false
+    AccountBenchmarkInstrument:
+      title: Sets the instrument to be used as comparison then evaluating account performance.
+      required:
+      - BenchmarkInstrumentUic
+      type: object
+      properties:
+        BenchmarkInstrumentAssetType:
+          title: The instrument asset type of the benchmark instrument.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BenchmarkInstrumentUic:
+          title: The instrument identifier of the benchmark instrument.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        BenchmarkInstrumentAssetType: FxKnockOutOption
+        BenchmarkInstrumentUic: 99
+    AccountType:
+      title: Describes the type of account.
+      enum:
+      - AutoTradingFollower
+      - AutoTradingLeader
+      - BlockTrading
+      - Collateral
+      - Commission
+      - Funding
+      - Interest
+      - MarginLending
+      - Normal
+      - Omnibus
+      - Other
+      - Pension
+      - Settlement
+      - SettlementTrading
+      - Tax
+      - TaxFavoredAccount
+      type: string
+      example: BlockTrading
+      x-enum-descriptions:
+        Normal: Default. Used for normal client accounts.
+        BlockTrading: Account used for allocating large block orders.
+        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
+        Collateral: Account used to hold collateral assets. Not used for trading.
+        Funding: Account used to transfer funds between client accounts. Not used for trading.
+        Commission: Booking account for comissions only. Not used for trading.
+        Interest: Booking account for interest only. Not used for trading.
+        Omnibus: Partner account used to execute and clear client trades.
+        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
+        Tax: Retention account for accumulating or withholding taxes. Not used for trading.
+        AutoTradingLeader: Account Type for AutoTrading leader accounts.
+        AutoTradingFollower: Account Type for AutoTrading follower accounts.
+        TaxFavoredAccount: Tax favored account.
+        MarginLending: Margin Lending.
+        Pension: Pension account.
+        Other: Account type not mapped.
+    AccountResetRequest:
+      title: A parameter wrapper for Account Reset operations. queries
+      required:
+      - NewBalance
+      type: object
+      properties:
+        NewBalance:
+          title: The new balance. 0 is minimum and 10.000.000 is maximum.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        NewBalance: 50000000
     AccountsRequest:
       title: "Represents a request for one or more accounts.\n            At least one of the following must be specified."
       type: object
@@ -1247,100 +1454,42 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    PortfolioMarginMethod:
-      title: Specifies the margin calculaion method for the given entity.
-      enum:
-      - Default
-      - JanusMarginReplication
-      - SpanForFutures
-      - SpanForFuturesAndOptions
-      type: string
-      example: SpanForFutures
-      x-enum-descriptions:
-        Default: Uses Saxo exposure based margin.
-        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
-        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
-        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
-    AccountResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
+    AccountResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountResponse'
       example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountId: 192134INET
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountType: Normal
-          Active: true
-          CanUseCashPositionsAsMarginCollateral: false
-          CfdBorrowingCostsActive: false
-          ClientId: '654321'
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-          CreationDate: '2017-01-01T13:00:00Z'
-          Currency: EUR
-          CurrencyDecimals: 2
-          DirectMarketAccess: false
-          FractionalOrderEnabled: false
-          IndividualMargining: false
-          IsCurrencyConversionAtSettlementTime: false
-          IsMarginTradingAllowed: true
-          IsShareable: true
-          IsTrialAccount: false
-          LegalAssetTypes:
-          - FxSpot
-          - Stock
-          - ContractFutures
-          ManagementType: Client
-          MarginCalculationMethod: Default
-          MarginLendingEnabled: None
-          PortfolioBasedMarginEnabled: false
-          Sharing:
-          - TradingFloor
-          SupportsAccountValueProtectionLimit: false
-          UseCashPositionsAsMarginCollateral: false
-    MarginLendingEnabled:
-      title: Margin Lending Enabled.
-      enum:
-      - false
-      - None
-      - true
-      type: string
-      example: true
-      x-enum-descriptions:
-        None: Default. Margin Lending is not applicable.
-        true: Margin Lending is enabled.
-        false: Margin Lending is disabled.
-    Models.AccountDetails:
-      title: Account Details
-      type: object
-      properties:
-        AccountId:
-          title: Account Id
-          type: string
-          example: stringValue
-        AccountKey:
-          title: Account Key
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountId: '2147279960'
-        AccountKey: BxS0VWLta8lJ3SBpjGBQjw==
+      - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountId: 192134INET
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountType: Normal
+        Active: true
+        CanUseCashPositionsAsMarginCollateral: false
+        CfdBorrowingCostsActive: false
+        ClientId: '654321'
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        CreationDate: '2017-01-01T13:00:00Z'
+        Currency: EUR
+        CurrencyDecimals: 2
+        DirectMarketAccess: false
+        FractionalOrderEnabled: false
+        IndividualMargining: false
+        IsCurrencyConversionAtSettlementTime: false
+        IsMarginTradingAllowed: true
+        IsShareable: true
+        IsTrialAccount: false
+        LegalAssetTypes:
+        - FxSpot
+        - Stock
+        - ContractFutures
+        ManagementType: Client
+        MarginCalculationMethod: Default
+        MarginLendingEnabled: None
+        PortfolioBasedMarginEnabled: false
+        Sharing:
+        - TradingFloor
+        SupportsAccountValueProtectionLimit: false
+        UseCashPositionsAsMarginCollateral: false
     AccountUpdateRequest:
       title: A parameter wrapper for Account update operations.
       type: object
@@ -1364,152 +1513,20 @@ components:
       additionalProperties: false
       example:
         DisplayName: Trading Account
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    AccountsSubscriptionRequest:
-      title: Public request contract for setting up a subscription on accounts for a client.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/AccountsRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        ContextId: '20221030064905067'
-        Format: application/json
-        ReferenceId: A21312
-        RefreshRate: 500
-        Tag: MyAccountRelatedSubscriptions
-    Models.CreateAccount:
-      title: Create Account
-      required:
-      - ClientKey
-      - ChoiceOfAccount
-      type: object
-      properties:
-        ChoiceOfAccount:
-          title: Choice Of Account (from Options)
-          type: string
-          example: stringValue
-        ClientKey:
-          title: Client Key of the user for which new account is to be created
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-      additionalProperties: false
-      example:
-        ChoiceOfAccount: '65'
-        ClientKey: BxS0VWLta8lJ3SBpjGBQjw==
-    AccountType:
-      title: Describes the type of account.
+    PortfolioMarginMethod:
+      title: Specifies the margin calculaion method for the given entity.
       enum:
-      - AutoTradingFollower
-      - AutoTradingLeader
-      - BlockTrading
-      - Collateral
-      - Commission
-      - Funding
-      - Interest
-      - MarginLending
-      - Normal
-      - Omnibus
-      - Other
-      - Pension
-      - Settlement
-      - SettlementTrading
-      - Tax
-      - TaxFavoredAccount
+      - Default
+      - JanusMarginReplication
+      - SpanForFutures
+      - SpanForFuturesAndOptions
       type: string
-      example: BlockTrading
+      example: SpanForFutures
       x-enum-descriptions:
-        Normal: Default. Used for normal client accounts.
-        BlockTrading: Account used for allocating large block orders.
-        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
-        Collateral: Account used to hold collateral assets. Not used for trading.
-        Funding: Account used to transfer funds between client accounts. Not used for trading.
-        Commission: Booking account for comissions only. Not used for trading.
-        Interest: Booking account for interest only. Not used for trading.
-        Omnibus: Partner account used to execute and clear client trades.
-        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
-        Tax: Retention account for accumulating or withholding taxes. Not used for trading.
-        AutoTradingLeader: Account Type for AutoTrading leader accounts.
-        AutoTradingFollower: Account Type for AutoTrading follower accounts.
-        TaxFavoredAccount: Tax favored account.
-        MarginLending: Margin Lending.
-        Pension: Pension account.
-        Other: Account type not mapped.
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
+        Default: Uses Saxo exposure based margin.
+        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
+        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
+        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
@@ -1522,3 +1539,6 @@ components:
           authorizationUrl: https://sim.logonvalidation.net/authorize
           tokenUrl: https://sim.logonvalidation.net/token
           scopes: {}
+x-refined-from:
+- cm.yaml
+- port.yaml

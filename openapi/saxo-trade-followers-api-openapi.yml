@@ -1,7 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Trade Followers API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  title: Services.AutoTrading Trade Followers API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.
+
+    Note:
+
+    This service is subject to special licensing agreements and not generally available to all OpenAPI applications.'
   version: 2.4.138+710c760591
   x-framework-version: 38.0.2+439c5b0ec3
   x-machine: SIMOAWEB11-DK2
@@ -15,7 +19,7 @@ paths:
     get:
       tags:
       - Trade Followers
-      summary: Gets the auto trading terms and conditions acceptance status of a client.
+      summary: Gets the auto trading terms and conditions acceptance status of a client
       description: Get the status of whether a client has accepted terms and conditions.
       operationId: GET_TradeFollowerV3GetTermsAndConditions
       responses:
@@ -61,7 +65,7 @@ paths:
     put:
       tags:
       - Trade Followers
-      summary: Updates the auto trading terms and conditions acceptance status of a client.
+      summary: Updates the auto trading terms and conditions acceptance status of a client
       description: Updates the status of a client for terms and conditions.
       operationId: TradeFollowerV3UpdateTermsAndConditions
       responses:
@@ -102,7 +106,7 @@ paths:
     get:
       tags:
       - Trade Followers
-      summary: Get the terms and conditions acceptance status of a client.
+      summary: Get the terms and conditions acceptance status of a client
       description: Get the status of whether a client has accepted terms and conditions.
       operationId: TradeFollowerV3GetTermsAndConditions
       parameters:
@@ -157,7 +161,7 @@ paths:
     put:
       tags:
       - Trade Followers
-      summary: Sets the terms and conditions acceptance status of a client.
+      summary: Sets the terms and conditions acceptance status of a client
       description: Set the status of whether a client has accepted terms and conditions.
       operationId: TradeFollowerV3PutClientTermsAndConditions
       parameters:
@@ -214,7 +218,7 @@ paths:
     get:
       tags:
       - Trade Followers
-      summary: Get the suitability status of a client.
+      summary: Get the suitability status of a client
       description: Gets the suitability status of a client, which determines what product areas are suitable for the client, as well as the overall suitability of the client.
       operationId: TradeFollowerV3GetSuitabilityStatus
       parameters:
@@ -282,7 +286,7 @@ paths:
     put:
       tags:
       - Trade Followers
-      summary: Update the suitability status of a client.
+      summary: Update the suitability status of a client
       description: Sets the suitability status of a client, to define what product areas are suitable for the client, as well as the overall suitability of the client.
       operationId: TradeFollowerV3PutSuitabilityStatus
       parameters:
@@ -425,8 +429,64 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+      summary: Trade follower V3 get trade followers
+      x-summary-source: derived
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
+    PutClientTermsAndConditionsRequest:
+      title: Request to update the terms and conditions status of a client.
+      required:
+      - Accepted
+      type: object
+      properties:
+        Accepted:
+          title: Set Accepted to true if the client has accepted terms and conditions, and false otherwise.
+          type: boolean
+      additionalProperties: false
+    EsgType:
+      title: ESG Type
+      enum:
+      - All
+      - Any
+      - Environmental
+      - Governance
+      - None
+      - Social
+      type: string
+      x-enum-descriptions:
+        None: no ESG
+        Environmental: Only specific esg environmental
+        Social: Only specific esg social
+        Governance: Only specific esg governance
+        Any: any esg type
+        All: should be all
     PutClientSuitabilityStatusRequest:
       title: The suitability status of a client.
       required:
@@ -444,6 +504,77 @@ components:
           items:
             $ref: '#/components/schemas/ProductArea'
       additionalProperties: false
+    ClientSuitabilityStatusResponse:
+      title: Response type used suitability status.
+      type: object
+      properties:
+        CanGiveSuitabilityTest:
+          title: Field will reflect whether user is allowed to give suitability test or not.
+          type: boolean
+        EsgPriority:
+          title: ESG Priority to select e.g. Low, Medium, High
+          allOf:
+          - $ref: '#/components/schemas/EsgPriority'
+        EsgType:
+          title: ESG Type for investment e.g. Environmental,Science,Governance etc
+          allOf:
+          - $ref: '#/components/schemas/EsgType'
+        ForcedIgnoreESGPreference:
+          title: A boolean to indicate ignore ESG score
+          type: boolean
+        LastSuitabilityCheckDate:
+          title: Last Suitability Check Date And Time
+          type: string
+        OverallSuitability:
+          title: The overall suitablity score for the client.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+        ProductAreaSuitability:
+          title: The list of product areas for which the client has passed suitability test.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductArea'
+      additionalProperties: false
+    EsgPriority:
+      enum:
+      - High
+      - Low
+      - Medium
+      type: string
+    AutoTradingTermsAndConditionsStatus:
+      title: Enumeration AutoTradingTermsAndConditionsStatus.
+      enum:
+      - Accepted
+      - NotAccepted
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: The status is unknown
+        Accepted: Your request has been accepted
+        NotAccepted: Your request has not been accepted
+    GetClientTermsAndConditionsResponse:
+      title: Response to getting the terms and conditions status of a client.
+      type: object
+      properties:
+        Accepted:
+          title: Accepted is true if the client has accepted terms and conditions, and false otherwise.
+          type: boolean
+      additionalProperties: false
+    AutoTradingTermsAndConditionsResponse:
+      title: AutoTradingTermsAndConditionsResponse
+      type: object
+      properties:
+        AutoTradingTermsAndConditionsStatus:
+          title: Accepted terms and conditions status for the client.
+          allOf:
+          - $ref: '#/components/schemas/AutoTradingTermsAndConditionsStatus'
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     TradeFollowerContract:
       title: Reperesents information of a Follower.
       type: object
@@ -498,12 +629,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/SuitabilityLevel'
       additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     SuitabilityLevel:
       title: SuitabilityLevel - used by AutoTrading
       enum:
@@ -636,98 +761,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    GetClientTermsAndConditionsResponse:
-      title: Response to getting the terms and conditions status of a client.
-      type: object
-      properties:
-        Accepted:
-          title: Accepted is true if the client has accepted terms and conditions, and false otherwise.
-          type: boolean
-      additionalProperties: false
-    ClientSuitabilityStatusResponse:
-      title: Response type used suitability status.
-      type: object
-      properties:
-        CanGiveSuitabilityTest:
-          title: Field will reflect whether user is allowed to give suitability test or not.
-          type: boolean
-        EsgPriority:
-          title: ESG Priority to select e.g. Low, Medium, High
-          allOf:
-          - $ref: '#/components/schemas/EsgPriority'
-        EsgType:
-          title: ESG Type for investment e.g. Environmental,Science,Governance etc
-          allOf:
-          - $ref: '#/components/schemas/EsgType'
-        ForcedIgnoreESGPreference:
-          title: A boolean to indicate ignore ESG score
-          type: boolean
-        LastSuitabilityCheckDate:
-          title: Last Suitability Check Date And Time
-          type: string
-        OverallSuitability:
-          title: The overall suitablity score for the client.
-          allOf:
-          - $ref: '#/components/schemas/SuitabilityLevel'
-        ProductAreaSuitability:
-          title: The list of product areas for which the client has passed suitability test.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductArea'
-      additionalProperties: false
-    AutoTradingTermsAndConditionsStatus:
-      title: Enumeration AutoTradingTermsAndConditionsStatus.
-      enum:
-      - Accepted
-      - NotAccepted
-      - Unknown
-      type: string
-      x-enum-descriptions:
-        Unknown: The status is unknown
-        Accepted: Your request has been accepted
-        NotAccepted: Your request has not been accepted
-    EsgType:
-      title: ESG Type
-      enum:
-      - All
-      - Any
-      - Environmental
-      - Governance
-      - None
-      - Social
-      type: string
-      x-enum-descriptions:
-        None: no ESG
-        Environmental: Only specific esg environmental
-        Social: Only specific esg social
-        Governance: Only specific esg governance
-        Any: any esg type
-        All: should be all
-    EsgPriority:
-      enum:
-      - High
-      - Low
-      - Medium
-      type: string
-    AutoTradingTermsAndConditionsResponse:
-      title: AutoTradingTermsAndConditionsResponse
-      type: object
-      properties:
-        AutoTradingTermsAndConditionsStatus:
-          title: Accepted terms and conditions status for the client.
-          allOf:
-          - $ref: '#/components/schemas/AutoTradingTermsAndConditionsStatus'
-      additionalProperties: false
-    PutClientTermsAndConditionsRequest:
-      title: Request to update the terms and conditions status of a client.
-      required:
-      - Accepted
-      type: object
-      properties:
-        Accepted:
-          title: Set Accepted to true if the client has accepted terms and conditions, and false otherwise.
-          type: boolean
-      additionalProperties: false
     ProductArea:
       title: Product areas are groupings of asset types (products) areas as needed by Mifid classifications and client suitability evaluations.
       enum:
@@ -745,7 +778,7 @@ components:
       x-enum-descriptions:
         FXSpot: Forex Spot. The Forex Spot product area includes the asset type FxSpot.
         FXForwards: Forex Forwards. The FXForwards product area includes the asset type FxForwards.
-        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\r\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
+        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
         Futures: Futures. The Futures product area includes the asset types FuturesStrategy and ContractFutures.
         ContractOptions: Contract Options. The Contract Options product area includes the asset types FuturesOption, StockOption and StockIndexOption.
         CFDs: CFDs. The CFDs product area includes the asset types CfdOnStock and CfdOnIndex.
@@ -753,33 +786,6 @@ components:
         Bonds: Bonds. The Bonds product area includes the asset type Bond.
         MutualFunds: Mutual Funds. The Mutual Funds product area include the asset type MutualFund.
         CfdCommodities: Cfds on Commodities. The Cfds on Commodities include the asset types CfdOnFutures and CfdOnIndex.
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

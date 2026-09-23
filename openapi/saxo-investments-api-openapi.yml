@@ -1,7 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Investments API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
+  title: Services.AutoTrading Investments API
+  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.
+
+    Note:
+
+    This service is subject to special licensing agreements and not generally available to all OpenAPI applications.'
   version: 2.4.138+710c760591
   x-framework-version: 38.0.2+439c5b0ec3
   x-machine: SIMOAWEB11-DK2
@@ -138,7 +142,9 @@ paths:
       tags:
       - Investments
       summary: Create a session wide suggestion subscription
-      description: "Sets up a new session wide suggestion subscription. The data stream will deliver updates from this point.\r\n            Provides updates on all investments that one could possibly participate in."
+      description: 'Sets up a new session wide suggestion subscription. The data stream will deliver updates from this point.
+
+        Provides updates on all investments that one could possibly participate in.'
       operationId: InvestmentsV3AddSuggestionSubscriptionAsync
       requestBody:
         content:
@@ -242,7 +248,9 @@ paths:
       tags:
       - Investments
       summary: Create a session wide subscription
-      description: "Sets up a new session wide subscription. The data stream will deliver updates from this point.\r\n            Provides updates on the investments that one actively participating in."
+      description: 'Sets up a new session wide subscription. The data stream will deliver updates from this point.
+
+        Provides updates on the investments that one actively participating in.'
       operationId: InvestmentsV3AddSubscription
       requestBody:
         content:
@@ -383,7 +391,9 @@ paths:
     get:
       tags:
       - Investments
-      description: "Gets the investment information for all clients under the given client combined with the investments of client itself and this information\r\n            is grouped according to the leaders."
+      description: 'Gets the investment information for all clients under the given client combined with the investments of client itself and this information
+
+        is grouped according to the leaders.'
       operationId: InvestmentsV3GetInvestmentsummariesAsync
       responses:
         '200':
@@ -471,6 +481,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+      summary: Investments V3 get investmentsummaries async
+      x-summary-source: derived
   /at/v3/investments/{InvestmentId}/maxWithdrawalAmount:
     get:
       tags:
@@ -555,6 +567,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Read
+      summary: Investments V3 get max withdrawal amount async
+      x-summary-source: derived
   /at/v3/investments/{InvestmentId}/withdraw:
     put:
       tags:
@@ -642,6 +656,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+      summary: Investments V3 put investment async
+      x-summary-source: derived
   /at/v3/investments/{InvestmentId}:
     patch:
       tags:
@@ -712,6 +728,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+      summary: Investments V3 patch investment async
+      x-summary-source: derived
   /at/v3/investments:
     get:
       tags:
@@ -813,6 +831,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+      summary: Investments V3 get investment by leader
+      x-summary-source: derived
     post:
       tags:
       - Investments
@@ -903,6 +923,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+      summary: Investments V3 post investment
+      x-summary-source: derived
   /at/v3/investments/me:
     get:
       tags:
@@ -984,315 +1006,10 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+      summary: Investments V3 get investments
+      x-summary-source: derived
 components:
   schemas:
-    LeaderState:
-      title: Enum for the state of leader
-      enum:
-      - Disabled
-      - Ready
-      - Suspended
-      - Unknown
-      type: string
-      x-enum-descriptions:
-        Unknown: Unknown state
-        Ready: Ready State
-        Suspended: Suspended State
-        Disabled: Disabled State
-    InvestmentContractInvestmentsSubscriptionResponse:
-      type: object
-      properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          type: array
-          items:
-            $ref: '#/components/schemas/InvestmentContract'
-        State:
-          title: The value "Active".
-          type: string
-          description: This property is kept for backwards compatibility.
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
-          type: string
-      additionalProperties: false
-    InvestmentSuggestionContractInvestmentsSubscriptionResponse:
-      type: object
-      properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          type: array
-          items:
-            $ref: '#/components/schemas/InvestmentSuggestionContract'
-        State:
-          title: The value "Active".
-          type: string
-          description: This property is kept for backwards compatibility.
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
-          type: string
-      additionalProperties: false
-    InvestmentSummary:
-      title: Returns the investment brief information under a leader
-      type: object
-      properties:
-        AccountId:
-          title: Follower Account ID
-          type: string
-        AccountValue:
-          title: Follower Account value.
-          type: number
-        ClientId:
-          title: Gets the client id of the investment.
-          minimum: 1
-          type: integer
-          x-type-name: ClientId
-        Currency:
-          title: Account currency
-          type: string
-        InitialFunding:
-          title: The initial funding amount.
-          type: number
-        InvestmentStartDateTime:
-          title: Date on which the given investment was created.
-          type: string
-        IsActive:
-          title: Tells if the given investment is active.
-          type: boolean
-        PendingFunding:
-          title: Any pending funding.
-          type: number
-        StateName:
-          title: Description of the state this  is in.
-          type: string
-        SuitabilityLevel:
-          title: Gives the suitability level of the follower who made this investment.
-          allOf:
-          - $ref: '#/components/schemas/SuitabilityLevel'
-        TimeWhenStateModified:
-          title: Tells the time when state was last modified.
-          type: string
-      additionalProperties: false
-    InvestmentContractIEnumerable:
-      type: array
-      items:
-        $ref: '#/components/schemas/InvestmentContract'
-    InvestmentWithdraw:
-      title: Represnts Investment withdraw parameters.
-      required:
-      - Amount
-      - TargetAccountKey
-      type: object
-      properties:
-        Amount:
-          title: The withdrawal amount
-          type: number
-        TargetAccountKey:
-          title: The target account for transfer of amount withdrawn.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-      additionalProperties: false
-    InvestmentsSubscriptionArguments:
-      title: The arugments for the session wide subscription request (none at the moment).
-      type: object
-      additionalProperties: false
-    InvestmentCreateResponse:
-      title: "An Investment represents the relationship between leaders and followers.\r\n            An investment can either be active, historic or a potential investment opportunity"
-      required:
-      - InvestmentId
-      type: object
-      properties:
-        AccountId:
-          title: "Account Id of this \r\n            This property is obsolete."
-          type: string
-          deprecated: true
-        AccountKey:
-          title: "Account Key of this \r\n            This property is obsolete."
-          type: string
-          deprecated: true
-        AutoTradingPartnerLeaderId:
-          title: Unique Identifier for Partner Leader Combination
-          type: string
-        ClientId:
-          title: Gets the client id of the investment.
-          minimum: 1
-          type: integer
-          x-type-name: ClientId
-        Currency:
-          title: Account currency
-          type: string
-        DisplayName:
-          title: User defined name of investment. If not specified then it defaults to
-          type: string
-        DisplayState:
-          title: "SaxoInternal - States are bundled in DisplayStates for UI guidance.\r\n            Only relevant for Saxo applications"
-          type: integer
-          format: int32
-        EntryGateResult:
-          title: Entry Gate Test Result
-          allOf:
-          - $ref: '#/components/schemas/EntryGateResult'
-        ErrorCode:
-          title: Error Code
-          allOf:
-          - $ref: '#/components/schemas/ErrorCode'
-        ErrorNumber:
-          title: "Error number if this  is in error state\r\n            This property is obsolete, please use"
-          type: integer
-          format: int32
-        InitialFunding:
-          title: The initial funding amount.
-          type: number
-        InvestmentId:
-          title: Investment Item identifier
-          type: string
-        InvestmentProcessState:
-          title: Investment process state
-          allOf:
-          - $ref: '#/components/schemas/InvestmentProcessState'
-        InvestmentShieldAmount:
-          title: Investment shield amount (drawdown protection level).
-          type: number
-        InvestmentStateId:
-          title: State Id of this
-          type: integer
-          format: int32
-        IsAuthorizedToFollow:
-          title: Reflects legal aspects of client (suitability and terms/conditions)
-          type: boolean
-        IsFollowAllowed:
-          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\r\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\r\n            And verifies leader is enabled for any of followers owner(s)."
-          type: boolean
-        IsFollowing:
-          title: Indicates if this  is actively following.
-          type: boolean
-        IsOpenForFollowers:
-          title: Indicates if additional followers can join.
-          type: boolean
-          description: Expresses if follower amount has exceeded limit.
-        IsReadyForTrading:
-          title: Indictes if this  is ready for trading.
-          type: boolean
-        IsTradeFollowerReady:
-          title: Indicates Trade Follower created, active and passed suitability test
-          type: boolean
-        IsWithdrawalInProgress:
-          title: Indicates if cash wtihdrawal is in progress.
-          type: boolean
-        MinimumFunding:
-          title: The minimum funding amount.
-          type: number
-        PendingFunding:
-          title: Any pending funding.
-          type: number
-        ReservedAmount:
-          title: Any amount marked as reserved for withdrawl
-          type: number
-        ReturnPercentage:
-          title: Account Performance return fraction
-          type: number
-        StateName:
-          title: Description of the state this  is in
-          type: string
-        StrategyName:
-          title: Name of the strategy.
-          type: string
-        TradeLeaderId:
-          title: identifier.
-          type: string
-      additionalProperties: false
-    InvestmentTimestamp:
-      title: Tells about the time of state of the investment
-      type: object
-      properties:
-        AccountId:
-          title: Account Id of this investment.
-          type: string
-        ClientId:
-          title: Gets the client id of the investment.
-          minimum: 1
-          type: integer
-          x-type-name: ClientId
-        TimeWhenStateModified:
-          title: Tells the time when state was last modified.
-          type: string
-      additionalProperties: false
-    InvestmentsSubscriptionRequest:
-      title: The request object required to setup a investments subscription.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\r\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\r\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/InvestmentsSubscriptionArguments'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\r\n            Currently only application/json and application/x-protobuf is supported.\r\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\r\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\r\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-      additionalProperties: false
     TradeLeaderSummary:
       title: Brief leader information under which clients of a given WLC have invested
       type: object
@@ -1351,6 +1068,19 @@ components:
           allOf:
           - $ref: '#/components/schemas/TradeLeaderOptions'
       additionalProperties: false
+    ErrorCode:
+      title: Error Code
+      enum:
+      - JointInactive
+      - NotSuitable
+      type: string
+      x-enum-descriptions:
+        NotSuitable: Not Suitable
+        JointInactive: Joint Inactive
+    InvestmentsSubscriptionArguments:
+      title: The arugments for the session wide subscription request (none at the moment).
+      type: object
+      additionalProperties: false
     InvestmentSuggestionContract:
       title: An investment suggestion represents a potential investment in a tradeleader.
       required:
@@ -1372,7 +1102,7 @@ components:
           title: Reflects legal aspects of client (suitability and terms/conditions)
           type: boolean
         IsFollowAllowed:
-          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\r\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\r\n            And verifies leader is enabled for any of followers owner(s)."
+          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\n            And verifies leader is enabled for any of followers owner(s)."
           type: boolean
         IsFollowing:
           title: Indicates if this  is actively following.
@@ -1397,6 +1127,150 @@ components:
           title: identifier.
           type: string
       additionalProperties: false
+    TradeLeaderOptions:
+      title: "Defines options specific for a Saxo Select strategy\n            values in Mits AutoTradingLeaders table"
+      enum:
+      - FixedInvestmentAmount
+      - FutureToCfd
+      - JointExecutionModel
+      - None
+      - UsExchanges
+      type: string
+      x-enum-descriptions:
+        None: No special options should be used on this strategy
+        FutureToCfd: Trade Leaders future trades are mapped to equivalent CFD trades on Follower accounts
+        FixedInvestmentAmount: Trade Leader may only be followed with a fixed investment amount
+        JointExecutionModel: Trade Leader order is executed in the same block as followers
+        UsExchanges: Access to US exchange instruments
+      x-type-warning: FlaggableEnum
+    InvestmentSuggestionContractInvestmentsSubscriptionResponse:
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          type: array
+          items:
+            $ref: '#/components/schemas/InvestmentSuggestionContract'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+      additionalProperties: false
+    InvestmentContractInvestmentsSubscriptionResponse:
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          type: array
+          items:
+            $ref: '#/components/schemas/InvestmentContract'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+      additionalProperties: false
+    InvestmentContractIEnumerable:
+      type: array
+      items:
+        $ref: '#/components/schemas/InvestmentContract'
+    WithdrawalAmountContract:
+      title: Represents max amount currently available for withdrawal
+      type: object
+      properties:
+        MaxWithdrawalAmount:
+          title: Max amount currently available for withdrawal
+          type: number
+      additionalProperties: false
+    EntryGateResult:
+      title: Defines the values of entry gate test result for a Saxo Select Strategy.
+      enum:
+      - Failed
+      - NA
+      - Passed
+      type: string
+      x-enum-descriptions:
+        NA: Entry gate test not applicable
+        Passed: Entry gate test is passed
+        Failed: Entry gate test is failed.
+    InvestmentWithdraw:
+      title: Represnts Investment withdraw parameters.
+      required:
+      - Amount
+      - TargetAccountKey
+      type: object
+      properties:
+        Amount:
+          title: The withdrawal amount
+          type: number
+        TargetAccountKey:
+          title: The target account for transfer of amount withdrawn.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      additionalProperties: false
+    InvestmentProcessState:
+      title: Investment process state.
+      enum:
+      - Active
+      - Error
+      - Processing
+      - Retry
+      - Starting
+      - Stopped
+      - Stopping
+      type: string
+      x-enum-descriptions:
+        Active: Ready.
+        Processing: Processing - Intermediate state.
+        Retry: Recoverable error - User can Retry.
+        Error: FatalError - User cannot proceed.
+        Stopped: Portfolio item is Inactive.
+        Starting: Starting.
+        Stopping: Stopping.
     InvestmentEdit:
       title: Reperesents Investment's Edit parameters.
       type: object
@@ -1425,19 +1299,115 @@ components:
           title: Option to close or keep positions on deactivation (not available to all)
           type: boolean
       additionalProperties: false
-    EntryGateResult:
-      title: Defines the values of entry gate test result for a Saxo Select Strategy.
+    InvestmentsSubscriptionRequest:
+      title: The request object required to setup a investments subscription.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/InvestmentsSubscriptionArguments'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+      additionalProperties: false
+    SuitabilityLevel:
+      title: SuitabilityLevel - used by AutoTrading
       enum:
-      - Failed
-      - NA
-      - Passed
+      - High
+      - Low
+      - Medium
+      - Unknown
+      - VeryHigh
       type: string
       x-enum-descriptions:
-        NA: Entry gate test not applicable
-        Passed: Entry gate test is passed
-        Failed: Entry gate test is failed.
+        Unknown: Not specified
+        VeryHigh: '10: Very high risk / suitability required'
+        High: '20: High risk / suitability required'
+        Medium: '30: Medium risk / suitability required'
+        Low: '40: Low risk / suitability required'
+    InvestmentSummary:
+      title: Returns the investment brief information under a leader
+      type: object
+      properties:
+        AccountId:
+          title: Follower Account ID
+          type: string
+        AccountValue:
+          title: Follower Account value.
+          type: number
+        ClientId:
+          title: Gets the client id of the investment.
+          minimum: 1
+          type: integer
+          x-type-name: ClientId
+        Currency:
+          title: Account currency
+          type: string
+        InitialFunding:
+          title: The initial funding amount.
+          type: number
+        InvestmentStartDateTime:
+          title: Date on which the given investment was created.
+          type: string
+        IsActive:
+          title: Tells if the given investment is active.
+          type: boolean
+        PendingFunding:
+          title: Any pending funding.
+          type: number
+        StateName:
+          title: Description of the state this  is in.
+          type: string
+        SuitabilityLevel:
+          title: Gives the suitability level of the follower who made this investment.
+          allOf:
+          - $ref: '#/components/schemas/SuitabilityLevel'
+        TimeWhenStateModified:
+          title: Tells the time when state was last modified.
+          type: string
+      additionalProperties: false
+    LeaderState:
+      title: Enum for the state of leader
+      enum:
+      - Disabled
+      - Ready
+      - Suspended
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: Unknown state
+        Ready: Ready State
+        Suspended: Suspended State
+        Disabled: Disabled State
     InvestmentContract:
-      title: "An Investment represents the relationship between leaders and followers.\r\n            An investment can either be active, historic or a potential investment opportunity"
+      title: "An Investment represents the relationship between leaders and followers.\n            An investment can either be active, historic or a potential investment opportunity"
       required:
       - InvestmentId
       type: object
@@ -1463,7 +1433,7 @@ components:
           title: User defined name of investment. If not specified then it defaults to
           type: string
         DisplayState:
-          title: "SaxoInternal - States are bundled in DisplayStates for UI guidance.\r\n            Only relevant for Saxo applications"
+          title: "SaxoInternal - States are bundled in DisplayStates for UI guidance.\n            Only relevant for Saxo applications"
           type: integer
           format: int32
         EntryGateResult:
@@ -1475,7 +1445,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/ErrorCode'
         ErrorNumber:
-          title: "Error number if this  is in error state\r\n            This property is obsolete, please use"
+          title: "Error number if this  is in error state\n            This property is obsolete, please use"
           type: integer
           format: int32
         InitialFunding:
@@ -1502,7 +1472,7 @@ components:
           title: Information about whether the funds would be auto transferred in case of investment stop.
           type: boolean
         IsFollowAllowed:
-          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\r\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\r\n            And verifies leader is enabled for any of followers owner(s)."
+          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\n            And verifies leader is enabled for any of followers owner(s)."
           type: boolean
         IsFollowing:
           title: Indicates if this  is actively following.
@@ -1548,76 +1518,110 @@ components:
           title: identifier.
           type: string
       additionalProperties: false
-    InvestmentContractListResult:
+    InvestmentCreateResponse:
+      title: "An Investment represents the relationship between leaders and followers.\n            An investment can either be active, historic or a potential investment opportunity"
+      required:
+      - InvestmentId
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InvestmentContract'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
+        AccountId:
+          title: "Account Id of this \n            This property is obsolete."
           type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    InvestmentProcessState:
-      title: Investment process state.
-      enum:
-      - Active
-      - Error
-      - Processing
-      - Retry
-      - Starting
-      - Stopped
-      - Stopping
-      type: string
-      x-enum-descriptions:
-        Active: Ready.
-        Processing: Processing - Intermediate state.
-        Retry: Recoverable error - User can Retry.
-        Error: FatalError - User cannot proceed.
-        Stopped: Portfolio item is Inactive.
-        Starting: Starting.
-        Stopping: Stopping.
-    TradeLeaderOptions:
-      title: "Defines options specific for a Saxo Select strategy\r\n            values in Mits AutoTradingLeaders table"
-      enum:
-      - FixedInvestmentAmount
-      - FutureToCfd
-      - JointExecutionModel
-      - None
-      - UsExchanges
-      type: string
-      x-enum-descriptions:
-        None: No special options should be used on this strategy
-        FutureToCfd: Trade Leaders future trades are mapped to equivalent CFD trades on Follower accounts
-        FixedInvestmentAmount: Trade Leader may only be followed with a fixed investment amount
-        JointExecutionModel: Trade Leader order is executed in the same block as followers
-        UsExchanges: Access to US exchange instruments
-      x-type-warning: FlaggableEnum
-    TradeLeaderSummaryListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradeLeaderSummary'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
+          deprecated: true
+        AccountKey:
+          title: "Account Key of this \n            This property is obsolete."
           type: string
-          description: The link for the next page of items in the feed.
+          deprecated: true
+        AutoTradingPartnerLeaderId:
+          title: Unique Identifier for Partner Leader Combination
+          type: string
+        ClientId:
+          title: Gets the client id of the investment.
+          minimum: 1
+          type: integer
+          x-type-name: ClientId
+        Currency:
+          title: Account currency
+          type: string
+        DisplayName:
+          title: User defined name of investment. If not specified then it defaults to
+          type: string
+        DisplayState:
+          title: "SaxoInternal - States are bundled in DisplayStates for UI guidance.\n            Only relevant for Saxo applications"
+          type: integer
+          format: int32
+        EntryGateResult:
+          title: Entry Gate Test Result
+          allOf:
+          - $ref: '#/components/schemas/EntryGateResult'
+        ErrorCode:
+          title: Error Code
+          allOf:
+          - $ref: '#/components/schemas/ErrorCode'
+        ErrorNumber:
+          title: "Error number if this  is in error state\n            This property is obsolete, please use"
+          type: integer
+          format: int32
+        InitialFunding:
+          title: The initial funding amount.
+          type: number
+        InvestmentId:
+          title: Investment Item identifier
+          type: string
+        InvestmentProcessState:
+          title: Investment process state
+          allOf:
+          - $ref: '#/components/schemas/InvestmentProcessState'
+        InvestmentShieldAmount:
+          title: Investment shield amount (drawdown protection level).
+          type: number
+        InvestmentStateId:
+          title: State Id of this
+          type: integer
+          format: int32
+        IsAuthorizedToFollow:
+          title: Reflects legal aspects of client (suitability and terms/conditions)
+          type: boolean
+        IsFollowAllowed:
+          title: "Indicates whether user is allowed to follow current leaders instrument types and instruments.\n            Also evaluates if follower passes any applied country filter or client group restrictions on leader.\n            And verifies leader is enabled for any of followers owner(s)."
+          type: boolean
+        IsFollowing:
+          title: Indicates if this  is actively following.
+          type: boolean
+        IsOpenForFollowers:
+          title: Indicates if additional followers can join.
+          type: boolean
+          description: Expresses if follower amount has exceeded limit.
+        IsReadyForTrading:
+          title: Indictes if this  is ready for trading.
+          type: boolean
+        IsTradeFollowerReady:
+          title: Indicates Trade Follower created, active and passed suitability test
+          type: boolean
+        IsWithdrawalInProgress:
+          title: Indicates if cash wtihdrawal is in progress.
+          type: boolean
+        MinimumFunding:
+          title: The minimum funding amount.
+          type: number
+        PendingFunding:
+          title: Any pending funding.
+          type: number
+        ReservedAmount:
+          title: Any amount marked as reserved for withdrawl
+          type: number
+        ReturnPercentage:
+          title: Account Performance return fraction
+          type: number
+        StateName:
+          title: Description of the state this  is in
+          type: string
+        StrategyName:
+          title: Name of the strategy.
+          type: string
+        TradeLeaderId:
+          title: identifier.
+          type: string
       additionalProperties: false
     ModelStateDictionary:
       type: object
@@ -1625,33 +1629,6 @@ components:
         type: array
         items:
           type: string
-    SuitabilityLevel:
-      title: SuitabilityLevel - used by AutoTrading
-      enum:
-      - High
-      - Low
-      - Medium
-      - Unknown
-      - VeryHigh
-      type: string
-      x-enum-descriptions:
-        Unknown: Not specified
-        VeryHigh: '10: Very high risk / suitability required'
-        High: '20: High risk / suitability required'
-        Medium: '30: Medium risk / suitability required'
-        Low: '40: Low risk / suitability required'
-    WithdrawalAmountContract:
-      title: Represents max amount currently available for withdrawal
-      type: object
-      properties:
-        MaxWithdrawalAmount:
-          title: Max amount currently available for withdrawal
-          type: number
-      additionalProperties: false
-    InvestmentSuggestionContractIEnumerable:
-      type: array
-      items:
-        $ref: '#/components/schemas/InvestmentSuggestionContract'
     InvestmentCreate:
       title: Reperesents Investment's  start parameters.
       required:
@@ -1683,22 +1660,63 @@ components:
           title: The id of the trade leader to invest in.
           type: string
       additionalProperties: false
-    ErrorCode:
-      title: Error Code
-      enum:
-      - JointInactive
-      - NotSuitable
-      type: string
-      x-enum-descriptions:
-        NotSuitable: Not Suitable
-        JointInactive: Joint Inactive
+    InvestmentSuggestionContractIEnumerable:
+      type: array
+      items:
+        $ref: '#/components/schemas/InvestmentSuggestionContract'
+    InvestmentTimestamp:
+      title: Tells about the time of state of the investment
+      type: object
+      properties:
+        AccountId:
+          title: Account Id of this investment.
+          type: string
+        ClientId:
+          title: Gets the client id of the investment.
+          minimum: 1
+          type: integer
+          x-type-name: ClientId
+        TimeWhenStateModified:
+          title: Tells the time when state was last modified.
+          type: string
+      additionalProperties: false
+    TradeLeaderSummaryListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeLeaderSummary'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    InvestmentContractListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvestmentContract'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -1719,6 +1737,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

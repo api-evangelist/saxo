@@ -1,10 +1,12 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Partner - Cash Transfer Limits API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.AssetTransfers Partner - Cash Transfer Limits API
+  description: 'AssetTransfers provide endpoints for asset transfer
+
+    NOTE: This is a BETA version. It is currently only made available to select partners.'
+  version: 1.0.158+26ad4ac04f
+  x-framework-version: 41.0.16+ebca281e1f
+  x-machine: SIMOAWEB9-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -95,6 +97,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         confidential: Read
+      summary: Partner cash transfer limit get cash transfers limits async
+      x-summary-source: derived
   /atr/v1/partner/cashtransferlimits:
     get:
       tags:
@@ -189,7 +193,14 @@ paths:
       x-deprecated-date: '2023-01-01'
       x-required-permissions:
         confidential: Read
+      summary: Partner cash transfer limit get cash transfers limits
+      x-summary-source: derived
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   schemas:
     ModelStateDictionary:
       type: object
@@ -220,29 +231,6 @@ components:
         AccountKey: dIm75edbgnW6aBK3CIc-sw==
         ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
         MaxAllowedWithdrawalAmount: 2.55
-    PartnerCashTransferLimitListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PartnerCashTransferLimit'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
-          ClientKey: W-CgwnsUEpETkiR8MPJalA==
-          MaxAllowedWithdrawalAmount: 100
     PartnerAccountCashTransferLimit:
       title: Cash transfer limit
       type: object
@@ -266,11 +254,29 @@ components:
         AccountKey: sUyiJbnf57ayjlcoNp1RkA==
         CashTransferLimit: 100
         Currency: USD
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    PartnerCashTransferLimitListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerCashTransferLimit'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
+          ClientKey: W-CgwnsUEpETkiR8MPJalA==
+          MaxAllowedWithdrawalAmount: 100
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

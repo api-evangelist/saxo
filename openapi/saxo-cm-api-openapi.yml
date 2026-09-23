@@ -1,9 +1,9 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Cm API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
+  title: Services.ClientManagement Cm API
+  description: The Client Management service group provides services to signup and manage leads and clients.
+  version: 1.1.680+525085ced8
+  x-framework-version: 43.0.5+65c0bdc8ab
   x-machine: SIMOAWEB11-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
@@ -34,25 +34,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       tags:
       - Cm
+      summary: Deep health check get
+      x-summary-source: derived
 components:
-  schemas:
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Service:
-      enum:
-      - ClientRenewal
-      - Signup
-      type: string
-      example: Signup
   responses:
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -74,8 +63,21 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+  schemas:
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Service:
+      enum:
+      - ClientRenewal
+      - Signup
+      type: string
+      example: Signup
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

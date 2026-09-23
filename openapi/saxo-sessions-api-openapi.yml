@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Sessions API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.Root Sessions API
+  description: The root service group provides endpoints for central subscription management and session capabilities.
+  version: 2.3.192+a048287b46
+  x-framework-version: 43.0.5+65c0bdc8ab
+  x-machine: SIMOAWEB10-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -234,7 +234,7 @@ paths:
     get:
       tags:
       - Sessions
-      summary: Get the sessions capabilities.
+      summary: Get the sessions capabilities
       description: Get the sessions capabilities.
       operationId: SessionsV1GetCapabilities
       responses:
@@ -283,7 +283,7 @@ paths:
     put:
       tags:
       - Sessions
-      summary: Change the sessions capabilities.
+      summary: Change the sessions capabilities
       description: Change sessions capabilities.
       operationId: SessionsV1SetCapabilities
       requestBody:
@@ -331,7 +331,7 @@ paths:
     patch:
       tags:
       - Sessions
-      summary: Change the sessions capabilities.
+      summary: Change the sessions capabilities
       description: Change sessions capabilities.
       operationId: SessionsV1PatchCapabilities
       requestBody:
@@ -377,7 +377,55 @@ paths:
       x-required-permissions:
         personal: Read
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
+    AuthenticationLevel:
+      title: Represents levels of authentication
+      enum:
+      - Authenticated
+      - Elevated
+      type: string
+      example: Authenticated
+      x-enum-descriptions:
+        Authenticated: Indicates that the user does not have elevated authentication.
+        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
+    DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
     CapabilitiesResponse:
       title: Response object holding current session capabilities.
       type: object
@@ -452,43 +500,6 @@ components:
           DataLevel: Standard
           TradeLevel: OrdersOnly
         State: Active
-    AuthenticationLevel:
-      title: Represents levels of authentication
-      enum:
-      - Authenticated
-      - Elevated
-      type: string
-      example: Authenticated
-      x-enum-descriptions:
-        Authenticated: Indicates that the user does not have elevated authentication.
-        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    DataLevel:
-      title: Enumeration of allowed data levels for a user using a client application.
-      enum:
-      - Premium
-      - Standard
-      type: string
-      example: Standard
-      x-enum-descriptions:
-        Standard: Default trade level, where average prices are served.
-        Premium: Live up-to-date prices are served.
-    PutCapabilitiesRequest:
-      title: Represents a request to set all session capabilities.
-      type: object
-      properties:
-        TradeLevel:
-          title: Determines ability to trade on quote and receive real time data.
-          allOf:
-          - $ref: '#/components/schemas/TradeLevel'
-      additionalProperties: false
-      example:
-        TradeLevel: OrdersOnly
     Model.AuthenticationLevel:
       title: Represents levels of authentication
       enum:
@@ -499,18 +510,8 @@ components:
       x-enum-descriptions:
         Authenticated: Indicates that the user is authenticated but does not have elevated authentication.
         Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
-    TradeLevel:
-      title: Enumeration of allowed trade levels for a user using a client application.
-      enum:
-      - FullTradingAndChat
-      - OrdersOnly
-      type: string
-      example: OrdersOnly
-      x-enum-descriptions:
-        OrdersOnly: Orders only.
-        FullTradingAndChat: Full Trading and access to real time data.
-    PatchCapabilitiesRequest:
-      title: Represents a request to change session capabilities.
+    PutCapabilitiesRequest:
+      title: Represents a request to set all session capabilities.
       type: object
       properties:
         TradeLevel:
@@ -530,6 +531,23 @@ components:
       x-enum-descriptions:
         Standard: Default trade level, where average prices are served.
         Premium: Live up-to-date prices are served.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    PatchCapabilitiesRequest:
+      title: Represents a request to change session capabilities.
+      type: object
+      properties:
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        TradeLevel: OrdersOnly
     SessionSubscriptionRequest:
       title: The request object required to setup a session wide subscription.
       required:
@@ -606,34 +624,16 @@ components:
       x-enum-descriptions:
         OrdersOnly: Orders only.
         FullTradingAndChat: Full Trading.
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading and access to real time data.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

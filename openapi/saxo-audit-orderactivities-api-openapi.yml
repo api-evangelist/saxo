@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Audit - OrderActivities API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.ClientServices Audit - OrderActivities API
+  description: The Client Services service group provides end points for getting reports, managing subscriptions, Mifid and transferring funds.
+  version: 2.1.996+1d7a9aed11
+  x-framework-version: 41.0.17+46f32c3eb1
+  x-machine: SIMOAWEB9-DK1
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -19,9 +19,7 @@ paths:
       description: 'Query Order activities history
 
 
-
         The __nextPoll link is present when relevant and MUST be used for continuously polling
-
 
 
         Our preferred option for continuously fetching order activities is to stream it out of ENS'
@@ -225,210 +223,31 @@ paths:
         personal: Read
 components:
   schemas:
-    OpenOrderRelation:
-      title: Description of the order relation
+    BuySell:
+      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
       enum:
-      - IfDoneMaster
-      - IfDoneSlave
-      - IfDoneSlaveOco
-      - Oco
-      - StandAlone
+      - Buy
+      - Sell
       type: string
-      example: Oco
+      example: Buy
       x-enum-descriptions:
-        StandAlone: '0: Standalone. No relations to other orders.'
-        Oco: '1: One cancels other. Relation between two orders. When one is filled, the other is cancelled.'
-        IfDoneMaster: "2: If done master. Relation between two or three orders.\n            The slave orders are released only if the master order is filled."
-        IfDoneSlave: '3: If done slave. Relation between two orders. The other is always IfDoneMaster.'
-        IfDoneSlaveOco: "4: If done slave OCO. Relation between three orders. \n            One is always IfDoneMaster and the other is always also IfDoneSlaveOCO. \n            The OCO relation is between the two slave orders."
-    OrderLogStatus:
+        Buy: Buy
+        Sell: Sell
+    TriggerPriceType:
       enum:
-      - Cancelled
-      - Changed
-      - DoneForDay
-      - Expired
-      - Fill
-      - FinalFill
-      - Placed
-      - Working
+      - Ask
+      - Bid
+      - Close
+      - LastTraded
+      - Open
       type: string
-      example: Placed
+      example: LastTraded
       x-enum-descriptions:
-        Placed: New order placement.
-        Working: System or dealer initiated order placement in external OMS of existing order.
-        Changed: Order change.
-        Cancelled: Order cancel initiated by client or dealer.
-        Fill: Order fill - (Also used for trade on quote in OrderLog)
-        FinalFill: Order fill - final fill of an open order.
-        DoneForDay: Order is done for day in external OMS.
-        Expired: Order has expired.
-    OrderCondition:
-      type: object
-      properties:
-        BreakoutTriggerDownPrice:
-          title: Breakout Trigger Down Price
-          type: number
-          example: 10
-        BreakoutTriggerUpPrice:
-          title: Breakout Trigger Up Price
-          type: number
-          example: 10
-        BuySell:
-          title: Buy or Sell
-          allOf:
-          - $ref: '#/components/schemas/BuySell'
-        ConditionId:
-          title: Order condition Id
-          type: string
-          example: stringValue
-        Duration:
-          title: Order duration
-          allOf:
-          - $ref: '#/components/schemas/Domain.OrderDuration'
-        OrderType:
-          title: The OrderType (enum)
-          allOf:
-          - $ref: '#/components/schemas/OpenOrderType'
-        Price:
-          title: Order price.
-          type: number
-          example: 10
-        Status:
-          title: OrderStatusType example Placed/Working/Fill/Cancelled
-          allOf:
-          - $ref: '#/components/schemas/OrderLogStatus'
-        SubStatus:
-          title: The OrderSubStatus identifies the sub status of an order.
-          allOf:
-          - $ref: '#/components/schemas/Domain.OrderSubStatus'
-        Symbol:
-          title: Symbol
-          type: string
-          example: stringValue
-        TrailingStopDistanceToMarket:
-          title: Trailing Stop Distance To Market
-          type: number
-          example: 10
-        TriggerPriceType:
-          title: Trigger Price Type
-          allOf:
-          - $ref: '#/components/schemas/TriggerPriceType'
-        Uic:
-          title: Uic of instrument traded
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        BreakoutTriggerDownPrice: 150.1
-        BreakoutTriggerUpPrice: 160.6
-        BuySell: Buy
-        ConditionId: '114485191'
-        Duration:
-          DurationType: DayOrder
-        OrderType: LimitTrigger
-        Price: 16000.01
-        Status: Placed
-        SubStatus: Confirmed
-        Symbol: NAS100.I
-        TrailingStopDistanceToMarket: 10.1
-        TriggerPriceType: Ask
-        Uic: 1909050
-    OpenOrderDuration:
-      title: Order durations
-      enum:
-      - AtTheClose
-      - AtTheOpening
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      - Unknown
-      type: string
-      example: Unknown
-      x-enum-descriptions:
-        Unknown: Unspecified duration
-        GoodTillCancel: Good Till Cancel - working until explicitly cancelled
-        DayOrder: Day order - working in all session until trade date roll
-        FillOrKill: Fill or kill
-        ImmediateOrCancel: Fill or fill partially and cancel remaining
-        AtTheOpening: Working at the opening auction only
-        AtTheClose: Working at the closing auction only
-        GoodTillDate: Working untill specified date
-        GoodForPeriod: Working for specified period
-    Models.OrderActivitiesResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Models.OrderActivitiesResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skiptoken=1
-        Data:
-        - AccountId: 120602INET
-          ActivityTime: '2017-12-28T08:20:19Z'
-          Amount: 300
-          AssetType: CfdOnStock
-          BuySell: Buy
-          ClientId: '3031269'
-          CorrelationKey: bb6bfb96-606d-45d6-95f5-efa443192f5c
-          DisplayAndFormat:
-            BarrierFormat: Normal
-            Currency: DKK
-            Decimals: 3
-            Description: Genmab A/S
-            Format: Normal
-            OrderDecimals: 2
-            StrikeFormat: Normal
-            Symbol: GEN:xcse
-          Duration:
-            DurationType: DayOrder
-          HandledBy: '3031269'
-          LogId: '260971'
-          OrderId: '234728341'
-          OrderRelation: StandAlone
-          OrderType: Market
-          Price: 1048.2
-          SleepingOrderCondition:
-            BreakoutTriggerDownPrice: 150.1
-            BreakoutTriggerUpPrice: 160.6
-            BuySell: Buy
-            ConditionId: '114485191'
-            Duration:
-              DurationType: DayOrder
-            OrderType: LimitTrigger
-            Price: 16000.01
-            Status: Placed
-            SubStatus: Confirmed
-            Symbol: NAS100.I
-            TrailingStopDistanceToMarket: 10.1
-            TriggerPriceType: Ask
-            Uic: 1909050
-          Status: Placed
-          SubStatus: Requested
-          Uic: 2090
-    Models.OrderActivityFieldGroup:
-      enum:
-      - DisplayAndFormat
-      type: string
-      example: DisplayAndFormat
-      x-enum-descriptions:
-        DisplayAndFormat: Display and Format.
-      x-type-warning: FlaggableEnum
+        LastTraded: Last traded price.
+        Open: Open price.
+        Close: Closing price.
+        Bid: Bid price.
+        Ask: Ask price.
     Models.OrderActivitiesResponse:
       type: object
       properties:
@@ -626,6 +445,371 @@ components:
         SubStatus: Requested
         Uic: 99
         UserId: stringValue
+    OrderLogStatus:
+      enum:
+      - Cancelled
+      - Changed
+      - DoneForDay
+      - Expired
+      - Fill
+      - FinalFill
+      - Placed
+      - Working
+      type: string
+      example: Placed
+      x-enum-descriptions:
+        Placed: New order placement.
+        Working: System or dealer initiated order placement in external OMS of existing order.
+        Changed: Order change.
+        Cancelled: Order cancel initiated by client or dealer.
+        Fill: Order fill - (Also used for trade on quote in OrderLog)
+        FinalFill: Order fill - final fill of an open order.
+        DoneForDay: Order is done for day in external OMS.
+        Expired: Order has expired.
+    Models.OrderActivityFieldGroup:
+      enum:
+      - DisplayAndFormat
+      type: string
+      example: DisplayAndFormat
+      x-enum-descriptions:
+        DisplayAndFormat: Display and Format.
+      x-type-warning: FlaggableEnum
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: No special display format for this price.
+        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: Optional separate display information for option barrier prices
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: Optional separate display information for option barrier prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
+          type: integer
+          description: Decimals and DisplayDecimals have the same value. Moving forward, DisplayDecimals will be removed.
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: Optional separate display information for option strike prices
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: Optional separate display information for option strike prices
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BarrierFormat: Normal
+        Currency: USD
+        Decimals: 4
+        Description: Euro/US Dollar
+        Format: Normal
+        OrderDecimals: 2
+        StrikeFormat: Normal
+        Symbol: EURUSD
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    Domain.OrderDuration:
+      type: object
+      properties:
+        DurationType:
+          title: The Order Type.
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderDuration'
+        ExpirationDate:
+          title: The ExpirationDate, if the Order Type is GTD.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: In some instance, GTD orders are allowed to include an expiration time. This field indicates if the ExpirationDate can contain a time component.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        DurationType: AtTheClose
+        ExpirationDate: '9999-12-31T23:59:59.9999990+00:00'
+        ExpirationDateContainsTime: true
+    OpenOrderDuration:
+      title: Order durations
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      - Unknown
+      type: string
+      example: Unknown
+      x-enum-descriptions:
+        Unknown: Unspecified duration
+        GoodTillCancel: Good Till Cancel - working until explicitly cancelled
+        DayOrder: Day order - working in all session until trade date roll
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Fill or fill partially and cancel remaining
+        AtTheOpening: Working at the opening auction only
+        AtTheClose: Working at the closing auction only
+        GoodTillDate: Working untill specified date
+        GoodForPeriod: Working for specified period
+    Domain.OrderSubStatus:
+      title: The OrderSubStatus identifies the sub status of an order.
+      enum:
+      - Confirmed
+      - Rejected
+      - Requested
+      - RouteRequestPending
+      - RouteRequested
+      - WaitCondition
+      type: string
+      example: RouteRequested
+      x-enum-descriptions:
+        Requested: Order request received by a client or dealer facing service.
+        RouteRequested: Order request is routed to exchange/broker interface (a.k.a. STP server).
+        RouteRequestPending: Order request is pending at exchange/broker.
+        Confirmed: Order request is confirmed by the order manager, exchange or broker.
+        Rejected: Order request is rejected by client facing service, order manager or externally by exchange or broker.
+        WaitCondition: Order request is waiting to meet conditon
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OrderCondition:
+      type: object
+      properties:
+        BreakoutTriggerDownPrice:
+          title: Breakout Trigger Down Price
+          type: number
+          example: 10
+        BreakoutTriggerUpPrice:
+          title: Breakout Trigger Up Price
+          type: number
+          example: 10
+        BuySell:
+          title: Buy or Sell
+          allOf:
+          - $ref: '#/components/schemas/BuySell'
+        ConditionId:
+          title: Order condition Id
+          type: string
+          example: stringValue
+        Duration:
+          title: Order duration
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderDuration'
+        OrderType:
+          title: The OrderType (enum)
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderType'
+        Price:
+          title: Order price.
+          type: number
+          example: 10
+        Status:
+          title: OrderStatusType example Placed/Working/Fill/Cancelled
+          allOf:
+          - $ref: '#/components/schemas/OrderLogStatus'
+        SubStatus:
+          title: The OrderSubStatus identifies the sub status of an order.
+          allOf:
+          - $ref: '#/components/schemas/Domain.OrderSubStatus'
+        Symbol:
+          title: Symbol
+          type: string
+          example: stringValue
+        TrailingStopDistanceToMarket:
+          title: Trailing Stop Distance To Market
+          type: number
+          example: 10
+        TriggerPriceType:
+          title: Trigger Price Type
+          allOf:
+          - $ref: '#/components/schemas/TriggerPriceType'
+        Uic:
+          title: Uic of instrument traded
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        BreakoutTriggerDownPrice: 150.1
+        BreakoutTriggerUpPrice: 160.6
+        BuySell: Buy
+        ConditionId: '114485191'
+        Duration:
+          DurationType: DayOrder
+        OrderType: LimitTrigger
+        Price: 16000.01
+        Status: Placed
+        SubStatus: Confirmed
+        Symbol: NAS100.I
+        TrailingStopDistanceToMarket: 10.1
+        TriggerPriceType: Ask
+        Uic: 1909050
+    Models.OrderActivitiesResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Models.OrderActivitiesResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skiptoken=1
+        Data:
+        - AccountId: 120602INET
+          ActivityTime: '2017-12-28T08:20:19Z'
+          Amount: 300
+          AssetType: CfdOnStock
+          BuySell: Buy
+          ClientId: '3031269'
+          CorrelationKey: bb6bfb96-606d-45d6-95f5-efa443192f5c
+          DisplayAndFormat:
+            BarrierFormat: Normal
+            Currency: DKK
+            Decimals: 3
+            Description: Genmab A/S
+            Format: Normal
+            OrderDecimals: 2
+            StrikeFormat: Normal
+            Symbol: GEN:xcse
+          Duration:
+            DurationType: DayOrder
+          HandledBy: '3031269'
+          LogId: '260971'
+          OrderId: '234728341'
+          OrderRelation: StandAlone
+          OrderType: Market
+          Price: 1048.2
+          SleepingOrderCondition:
+            BreakoutTriggerDownPrice: 150.1
+            BreakoutTriggerUpPrice: 160.6
+            BuySell: Buy
+            ConditionId: '114485191'
+            Duration:
+              DurationType: DayOrder
+            OrderType: LimitTrigger
+            Price: 16000.01
+            Status: Placed
+            SubStatus: Confirmed
+            Symbol: NAS100.I
+            TrailingStopDistanceToMarket: 10.1
+            TriggerPriceType: Ask
+            Uic: 1909050
+          Status: Placed
+          SubStatus: Requested
+          Uic: 2090
+    OpenOrderRelation:
+      title: Description of the order relation
+      enum:
+      - IfDoneMaster
+      - IfDoneSlave
+      - IfDoneSlaveOco
+      - Oco
+      - StandAlone
+      type: string
+      example: Oco
+      x-enum-descriptions:
+        StandAlone: '0: Standalone. No relations to other orders.'
+        Oco: '1: One cancels other. Relation between two orders. When one is filled, the other is cancelled.'
+        IfDoneMaster: "2: If done master. Relation between two or three orders.\n            The slave orders are released only if the master order is filled."
+        IfDoneSlave: '3: If done slave. Relation between two orders. The other is always IfDoneMaster.'
+        IfDoneSlaveOco: "4: If done slave OCO. Relation between three orders. \n            One is always IfDoneMaster and the other is always also IfDoneSlaveOCO. \n            The OCO relation is between the two slave orders."
     OpenOrderType:
       title: Open order type enum
       enum:
@@ -817,95 +1001,6 @@ components:
         None: Not specified.
         Put: Put.
         Call: Call.
-    InstrumentDisplayAndFormat:
-      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
-      type: object
-      properties:
-        BarrierDecimals:
-          title: Optional separate display information for option barrier prices
-          type: integer
-          format: int32
-          example: 99
-        BarrierFormat:
-          title: Optional separate display information for option barrier prices
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Currency:
-          title: The ISO currency code of the instrument.
-          type: string
-          example: stringValue
-        Decimals:
-          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x)."
-          type: integer
-          description: Decimals and DisplayDecimals have the same value. Moving forward, DisplayDecimals will be removed.
-          format: int32
-          example: 99
-        Description:
-          title: Description of instrument (DAX Index - Nov 2013), in English.
-          type: string
-          example: stringValue
-        DisplayHint:
-          title: Hint to the client application about how it should display the instrument.
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        Format:
-          title: Format code specifying how price should be formatted.
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        NumeratorDecimals:
-          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
-          type: integer
-          format: int32
-          example: 99
-        OrderDecimals:
-          title: The number of decimals trigger price for orders should be formatted with.
-          type: integer
-          format: int32
-          example: 99
-        StrikeDecimals:
-          title: Optional separate display information for option strike prices
-          type: integer
-          format: int32
-          example: 99
-        StrikeFormat:
-          title: Optional separate display information for option strike prices
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Symbol:
-          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BarrierFormat: Normal
-        Currency: USD
-        Decimals: 4
-        Description: Euro/US Dollar
-        Format: Normal
-        OrderDecimals: 2
-        StrikeFormat: Normal
-        Symbol: EURUSD
-    Domain.OrderDuration:
-      type: object
-      properties:
-        DurationType:
-          title: The Order Type.
-          allOf:
-          - $ref: '#/components/schemas/OpenOrderDuration'
-        ExpirationDate:
-          title: The ExpirationDate, if the Order Type is GTD.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        ExpirationDateContainsTime:
-          title: In some instance, GTD orders are allowed to include an expiration time. This field indicates if the ExpirationDate can contain a time component.
-          type: boolean
-          example: true
-      additionalProperties: false
-      example:
-        DurationType: AtTheClose
-        ExpirationDate: '9999-12-31T23:59:59.9999990+00:00'
-        ExpirationDateContainsTime: true
     Models.OrderEntryType:
       enum:
       - All
@@ -915,108 +1010,11 @@ components:
       x-enum-descriptions:
         Last: 'EntryType:- Last: Only return the latest state of an order.'
         All: 'EntryType:- All: Return all entries pertaining to any order.'
-    BuySell:
-      title: "BuySell indicator \n            Note: Values are *NOT* identical to the values of the _BuySellTypes defined in ClmTradeEnums.idl\n            If we should align this then we should coordinate with web trader which have taken a dependency on the \n            actual values of this enum."
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Buy
-        Sell: Sell
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Domain.OrderSubStatus:
-      title: The OrderSubStatus identifies the sub status of an order.
-      enum:
-      - Confirmed
-      - Rejected
-      - Requested
-      - RouteRequestPending
-      - RouteRequested
-      - WaitCondition
-      type: string
-      example: RouteRequested
-      x-enum-descriptions:
-        Requested: Order request received by a client or dealer facing service.
-        RouteRequested: Order request is routed to exchange/broker interface (a.k.a. STP server).
-        RouteRequestPending: Order request is pending at exchange/broker.
-        Confirmed: Order request is confirmed by the order manager, exchange or broker.
-        Rejected: Order request is rejected by client facing service, order manager or externally by exchange or broker.
-        WaitCondition: Order request is waiting to meet conditon
-    TriggerPriceType:
-      enum:
-      - Ask
-      - Bid
-      - Close
-      - LastTraded
-      - Open
-      type: string
-      example: LastTraded
-      x-enum-descriptions:
-        LastTraded: Last traded price.
-        Open: Open price.
-        Close: Closing price.
-        Bid: Bid price.
-        Ask: Ask price.
-    DisplayHintType:
-      title: Display Hint Type.
-      enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
-      enum:
-      - AllowDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
-      type: string
-      example: Normal
-      x-enum-descriptions:
-        Normal: No special display format for this price.
-        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
-        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
-        Percentage: Display as percentage, e.g. 12.34%.
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
   securitySchemes:

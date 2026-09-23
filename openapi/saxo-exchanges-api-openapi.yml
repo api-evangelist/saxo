@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Exchanges API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.ReferenceData Exchanges API
+  description: The Reference Data service group provides reference data, such as instrument details, exchange info etc..
+  version: 2.3.361+88ada090e4
+  x-framework-version: 43.0.9+b005aba300
+  x-machine: SIMOAWEB8-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -81,7 +81,9 @@ paths:
       tags:
       - Exchanges
       summary: Get all exchanges
-      description: "This operation retrieves a list of exchanges with detailed information about each.\n            The response also contains links to other relevant data, such as their trade statuses."
+      description: 'This operation retrieves a list of exchanges with detailed information about each.
+
+        The response also contains links to other relevant data, such as their trade statuses.'
       operationId: ExchangesV1GetAllExchanges
       parameters:
       - name: $skip
@@ -138,13 +140,33 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     ExchangeSession:
       title: Responsible for carrying information about an Exchange session.
       type: object
@@ -236,6 +258,12 @@ components:
           Name: London Metal Exchange
           TimeZone: 1
           TimeZoneOffset: 00:00:00
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     ExchangeDetails:
       title: Public data contract for an exchange.
       type: object
@@ -305,32 +333,6 @@ components:
         Name: London Metal Exchange
         TimeZone: 1
         TimeZoneOffset: 00:00:00
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

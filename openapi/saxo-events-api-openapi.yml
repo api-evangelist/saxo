@@ -1,10 +1,14 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Events API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.CorporateActions Events API
+  description: 'The Corporate Actions service group provides end points for getting voluntary/mandatory events, electing on events, & setting standing instructions for future events.
+
+    Note:
+
+    This service is subject to special licensing agreements and not generally available to all OpenAPI applications.'
+  version: 2.2.18+afabea7a32
+  x-framework-version: 40.0.6+1b67a0140e
+  x-machine: SIMOAWEB10-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -715,283 +719,69 @@ paths:
         confidential: Read
 components:
   schemas:
-    PayoutBreakdownComponent:
-      title: Payout breakdown compoment
+    CashMovement:
+      title: Cash movement
       type: object
       properties:
         Amount:
-          title: Amount in component
+          title: Amount
           type: number
-        Component:
-          title: Component name and description
+        CashMovementType:
+          title: Cash movement type
           allOf:
-          - $ref: '#/components/schemas/CodeDescription'
+          - $ref: '#/components/schemas/MovementType'
         Currency:
           title: Currency
           type: string
+        DeemedRate:
+          title: Deemed rate
+          type: number
+        GrossDividend:
+          title: Gross dividend
+          type: number
+        InterestRate:
+          title: Interest rate
+          type: number
+        NetDividend:
+          title: Net dividend
+          type: number
+        OfferPrice:
+          title: Offer price
+          type: number
+        PriceType:
+          title: Price type
+          allOf:
+          - $ref: '#/components/schemas/ValueType'
+        Quantity:
+          title: Quantity
+          type: number
+        SubscriptionPrice:
+          title: Subscription price
+          type: number
       additionalProperties: false
-    InformationToComply:
-      title: Information to comply with
-      enum:
-      - RestrictionsMayApply
-      type: string
-      x-enum-descriptions:
-        RestrictionsMayApply: Restriction may apply
-    Holding:
-      title: Event Holding
+    CodeDescription:
+      title: Code/Description
       type: object
       properties:
-        AccountDisplayName:
-          title: Account display name
+        Code:
+          title: Code
           type: string
-        AccountId:
-          title: Account id
+        Description:
+          title: Description
           type: string
-        AccountKey:
-          title: Account key
+        Name:
+          title: Name
           type: string
-        Amount:
-          title: Eligible holding
-          type: number
-        CashReserved:
-          title: Cash reserved after electing on corresponding option
-          allOf:
-          - $ref: '#/components/schemas/PriceAndRate'
-        ClientId:
-          title: Client Id
-          type: string
-        ClientKey:
-          title: Client key
-          type: string
-        ClientName:
-          title: Client name
-          type: string
-        ElectedAmount:
-          title: The amount of positions that have already been elected on
-          type: number
-        ElectionStatus:
-          title: Election status
-          allOf:
-          - $ref: '#/components/schemas/ElectionStatus'
-        EventId:
-          title: Corporate action event Id
-          type: string
-        Options:
-          title: List of previously instructed options and their status
-          type: array
-          items:
-            $ref: '#/components/schemas/HoldingOption'
-        OwnerId:
-          title: Owner Id
-          type: string
-        StandingInstructionStatus:
-          title: Indicates if there is a standing instruction created for this holding
-          allOf:
-          - $ref: '#/components/schemas/StandingInstructionStatus'
       additionalProperties: false
-    OptionStatus:
-      title: Option Status
+    ElectionType:
+      title: Election type
       enum:
-      - Cancelled
-      - Inactive
-      - Unknown
+      - Auto
+      - Manual
       type: string
       x-enum-descriptions:
-        Unknown: Unknown
-        Inactive: Inactive
-        Cancelled: Cancelled
-    EventListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    Model.CorporateActionType:
-      title: Corporate action type
-      enum:
-      - Mandatory
-      - Voluntary
-      type: string
-      x-enum-descriptions:
-        Mandatory: 'Mandatory event: Event where no response is required and action is applied automatically.'
-        Voluntary: 'Voluntary event: Event where a response is required. If no response is received before the reply deadline, the option marked as Default will be applied.'
-    DateTimeAndStatus:
-      title: Date or date status
-      type: object
-      properties:
-        Date:
-          title: Date value
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        Status:
-          title: Date status
-          allOf:
-          - $ref: '#/components/schemas/DateStatus'
-      additionalProperties: false
-    MovementType:
-      title: Movement type
-      enum:
-      - Credit
-      - Debit
-      - Unknown
-      type: string
-      x-enum-descriptions:
-        Unknown: Unknown
-        Credit: Credit
-        Debit: Debit
-    EventStatus:
-      title: Event status
-      enum:
-      - Active
-      - Past
-      - Upcoming
-      type: string
-      x-enum-descriptions:
-        Active: Active events
-        Past: Past events
-        Upcoming: Upcoming events
-    Event:
-      title: Event details
-      type: object
-      properties:
-        AffectedAccounts:
-          title: "Number of accounts on which correspondng event is applicable.\r\n            Available when IncludeSubAccounts is set to true in the request."
-          type: integer
-          format: int32
-        AssetType:
-          title: Asset type
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        BidIntervalRate:
-          title: Acceptable price increment used for submitting a bid
-          allOf:
-          - $ref: '#/components/schemas/PriceAndRate'
-        ClaimPeriod:
-          title: Claim period
-          allOf:
-          - $ref: '#/components/schemas/DatePeriod'
-        CorporateActionType:
-          title: Corporate action type
-          allOf:
-          - $ref: '#/components/schemas/Model.CorporateActionType'
-        DisplayAndFormat:
-          title: Instrument additional properties
-          allOf:
-          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
-        Effective:
-          title: Date at which an event is officially effective from the issuer's perspective
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-        Electable:
-          title: Indicates whether this event is electable
-          allOf:
-          - $ref: '#/components/schemas/Electable'
-        ElectionStatus:
-          title: Election status
-          allOf:
-          - $ref: '#/components/schemas/ElectionStatus'
-        EligibleHoldings:
-          title: "Total holding amount, across accounts, eligible for corresponding event.\r\n            Available when IncludeSubAccounts is set to true in the request."
-          type: number
-        EventId:
-          title: Corporate action event Id
-          type: string
-        EventIndicators:
-          title: Event indicators
-          type: array
-          items:
-            $ref: '#/components/schemas/IndicatorDetail'
-        EventState:
-          title: Current state of the event
-          allOf:
-          - $ref: '#/components/schemas/EventState'
-        EventStatus:
-          title: Event status
-          allOf:
-          - $ref: '#/components/schemas/EventStatus'
-        EventType:
-          title: Type of event
-          allOf:
-          - $ref: '#/components/schemas/CodeDescription'
-        Ex:
-          title: Execution date of event
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-        Holdings:
-          title: "Client holdings on an event\r\n            Available when IncludeSubAccounts is set to false in the request."
-          type: array
-          items:
-            $ref: '#/components/schemas/Holding'
-        InformationToComply:
-          title: Indicates whether restrictions apply to the event
-          allOf:
-          - $ref: '#/components/schemas/InformationToComply'
-        InterestPeriod:
-          title: Period during which the interest rate has been applied
-          allOf:
-          - $ref: '#/components/schemas/DatePeriod'
-        MaxPrice:
-          title: Maximum or cap price at which a holder can bid, for example on a Dutch auction offer
-          allOf:
-          - $ref: '#/components/schemas/PriceAndRate'
-        MaxQuantitySought:
-          title: Maximum quantity sought
-          type: number
-        MinPrice:
-          title: Minimum or floor price at which a holder can bid, for example on a Dutch auction offer
-          allOf:
-          - $ref: '#/components/schemas/PriceAndRate'
-        MinQuantitySought:
-          title: Minimum quantity sought
-          type: number
-        Narrative:
-          title: Event narrative
-          type: string
-        NewBoardLotQuantity:
-          title: Quantity of equity that makes up the new board lot
-          type: number
-        NewDenominationQuantity:
-          title: New Denomination of the equity following, for example, an increase or decrease in nominal value
-          type: number
-        NumberofDaysAccrued:
-          title: Number of days used for calculating the accrued interest amount
-          type: integer
-          format: int32
-        Options:
-          title: Event options
-          type: array
-          items:
-            $ref: '#/components/schemas/EventOption'
-        Record:
-          title: Record date of event
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-        StrikePrice:
-          title: Strike price
-          allOf:
-          - $ref: '#/components/schemas/PriceAndRate'
-        TradingSuspended:
-          title: Date at which trading of a security is suspended as the result of an event
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-        Uic:
-          title: Instrument uic
-          type: integer
-          format: int32
-      additionalProperties: false
+        Auto: Auto elections made through standing instructions
+        Manual: Manual elections
     SecurityMovement:
       title: Security movement
       type: object
@@ -1039,121 +829,20 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    LookupFieldGroups:
-      title: Field groups available for lookup
-      enum:
-      - All
-      - AssetTypes
-      - EventTypes
-      type: string
-      x-enum-descriptions:
-        AssetTypes: Specifies that AssetTypes lookups will be included in the response.
-        EventTypes: Specifies that EventTypes lookups will be included in the response.
-        All: Specifies that all the lookups will be available in the response.
-      x-type-warning: FlaggableEnum
-    ValueType:
-      title: Price type
-      enum:
-      - Actual
-      - Percentage
-      type: string
-      x-enum-descriptions:
-        Actual: Actual value
-        Percentage: Percentage
-    ElectionType:
-      title: Election type
-      enum:
-      - Auto
-      - Manual
-      type: string
-      x-enum-descriptions:
-        Auto: Auto elections made through standing instructions
-        Manual: Manual elections
-    LookupListResult:
+    Lookup:
+      title: Lookup values
       type: object
       properties:
-        Data:
+        FieldGroup:
+          title: Specifies the field for which lookup values are loaded in this lookup
+          allOf:
+          - $ref: '#/components/schemas/LookupFieldGroups'
+        Values:
+          title: Lookup codes and names
           type: array
           items:
-            $ref: '#/components/schemas/Lookup'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
+            $ref: '#/components/schemas/CodeDescription'
       additionalProperties: false
-    DatePeriod:
-      title: Time period
-      type: object
-      properties:
-        End:
-          title: End date/time
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-        Start:
-          title: Start date/time
-          allOf:
-          - $ref: '#/components/schemas/DateAndStatus'
-      additionalProperties: false
-    Electable:
-      title: Indicates if event is electable
-      enum:
-      - Electable
-      - NotElectable
-      type: string
-      x-enum-descriptions:
-        Electable: Election is applicable on event
-        NotElectable: Election is not applicable on event
-    AssetType:
-      title: Allowed asset types for corporate actions.
-      enum:
-      - Bond
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CompanyWarrant
-      - MiniFuture
-      - MutualFund
-      - Stock
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      x-enum-descriptions:
-        Stock: Stock.
-        Bond: Bond.
-        MutualFund: Mutual Fund.
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: "Guarantees a percentage increase of the underlying asset's value above the issue\r\n            price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection\r\n            percentage."
-        CertificateCappedCapitalProtected: "Guarantees a capped percentage increase of the underlying asset's value above\r\n            the issue price at expiry/maturity. Max loss is the amount invested multiplied\r\n            by the CapitalProtection percentage."
-        CertificateDiscount: "Yields a capped return if the underlying asset's value is above the specified\r\n            cap level at expiry. If the underlying's value is below the strike at expiry,\r\n            the investor received the underlying or equivalent value. Offers direct exposure\r\n            in underlying at a lower price (discount) with a capped potential profit and\r\n            limited loss."
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: "A certificate that mirrors the price movement of the underlying instrument. Often\r\n            used to trade movements in indicies. Movements can be a fixed ratio of the underlying\r\n            and can be inverted for bearish/short speculation. Risk is equivalent to owning\r\n            the underlying."
-        CertificateUncappedOutperformance: "Provides leveraged returns when the underlying price exceeds the threshold strike\r\n            price. The amount leverage is defined by the Participation %. When the underlying\r\n            is below the strike price, the certificate mirrors the underlying price 1:1."
-        CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\r\n            price exceeds the defined barrier. If the certificate expires below the barrier,\r\n            it offers partial protection/return of investment."
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
     IndicatorDetail:
       title: Indicator with its values
       type: object
@@ -1168,170 +857,30 @@ components:
           items:
             $ref: '#/components/schemas/CodeDescription'
       additionalProperties: false
-    StandingInstructionStatus:
-      title: Standing instruction status
+    MovementType:
+      title: Movement type
       enum:
-      - Created
-      - NotCreated
+      - Credit
+      - Debit
+      - Unknown
       type: string
       x-enum-descriptions:
-        Created: Indicates that standing instruction is created
-        NotCreated: Indicates that standing instruction is not created
-    InstrumentDisplayAndFormat:
-      title: Instrument additional properties
-      type: object
-      properties:
-        Description:
-          title: Instrument description
-          type: string
-        IsinCode:
-          title: Instrument isin code
-          type: string
-        Symbol:
-          title: Instrument symbol
-          type: string
-      additionalProperties: false
-    Indicator:
-      title: Indicators
-      enum:
-      - AdditionalBusinessProcess
-      - BidRange
-      - CertificationBreakdown
-      - Change
-      - Consent
-      - Dividend
-      - Offer
-      - RenounceableStatusofEntitlement
-      - Sequence
-      type: string
-      x-enum-descriptions:
-        Dividend: Payment of a dividend, less the amounts already paid through interim dividends
-        Sequence: "FINAL: This is the final event in a series of successive events.\r\n            INTERIM: This is an interim event in a series of successive events"
-        Offer: "Dissenter's Rights: Securities' holder has the right to disagree with a mandatory event. This right is not inherent in all offers and therefore must be noted in announcements only when applicable.\r\n            Restriction Exchange: Exchange of Restricted to Unrestricted(or vice versa).\r\n            First Come First Served: Securities will be accepted in the order they have been submitted until the target number of quantity sought is reached.\r\n            Final Offer: Final or last offer to holders subject to offer conditions being reached, for example, 50% accepted on a tender.\r\n            Partial Offer: Partial offer .\r\n            Squeeze Out Bid: Offer launched by a company, in possession of a large number of the shares (90% - 95%) of a company(generally as a result of a tender offer), in order to acquire the remaining shares of that company"
-        RenounceableStatusofEntitlement: "Non Renounceable: Intermediate securities cannot be sold.\r\n            Renounceable: Intermediate securities can be sold"
-        AdditionalBusinessProcess: The issuer only allows a single option to be selected per designated holding
-        Change: "Bearer to Registered: Change from bearer into registered form.\r\n            Certificates: Change of all instruments into certificates.\r\n            Decimalisation: Process of changing the accounting method of a security, for example, mutual fund, from units to a quantity with decimals.\r\n            Dematerialised to Physical: Change from dematerialised into physical form.\r\n            Global Permanent to Physical: Change from global permanent to physical form.\r\n            Global Temporary to Global Permanent: Change from global temporary to global permanent form.\r\n            Global Temporary to Physical: Change from global temporary to physical form.\r\n            NAME: Change of the issuing company's name. Event shows the change from old name to new name and may involve surrendering physical shares with the old name to the registrar.\r\n            Physical to Dematerialised: Change from physical into dematerialised form.\r\n            Registered to Bearer: Change from registered into bearer form.\r\n            Terms: Change in the terms of the security"
-        Consent: "Change in Terms: This is a change in the terms and conditions of the bond.\r\n            Due and Payable: This is a change in the due and payable conditions"
-        CertificationBreakdown: Certification breakdown type indicator
-        BidRange: Specifies the type of acceptable bid range values.
-    DateAndStatus:
+        Unknown: Unknown
+        Credit: Credit
+        Debit: Debit
+    DateTimeAndStatus:
       title: Date or date status
       type: object
       properties:
         Date:
           title: Date value
           type: string
-          format: date
-          x-type-name: Date
+          format: date-time
+          x-type-name: UtcDateTime
         Status:
           title: Date status
           allOf:
           - $ref: '#/components/schemas/DateStatus'
-      additionalProperties: false
-    ElectionStatus:
-      title: Election status
-      enum:
-      - Elected
-      - NotElected
-      - PartialElected
-      type: string
-      x-enum-descriptions:
-        Elected: Elected
-        PartialElected: Partially elected
-        NotElected: Not elected
-    EventState:
-      title: State of the event
-      enum:
-      - Approved
-      - Confirmed
-      - Preliminary
-      - Withdrawn
-      type: string
-      x-enum-descriptions:
-        Approved: Event in approved state
-        Confirmed: Event in confirmed state
-        Preliminary: Event in preliminary state
-        Withdrawn: Event in withdrawn state
-    SortType:
-      title: Sort type
-      enum:
-      - Asc
-      - Desc
-      type: string
-      x-enum-descriptions:
-        Asc: Ascending sort
-        Desc: Descending sort
-    HoldingOption:
-      title: Indicates previous elections made on a corporate action event for positions in an account
-      type: object
-      properties:
-        ElectedAmount:
-          title: The amount elected
-          type: number
-        ElectionType:
-          title: Indicates if election was auto or manual
-          allOf:
-          - $ref: '#/components/schemas/ElectionType'
-        Instruction:
-          title: Instruction status
-          allOf:
-          - $ref: '#/components/schemas/Event.Instruction'
-        OptionId:
-          title: The event option id instructed on
-          type: string
-        Remarks:
-          title: Remarks by client
-          type: string
-      additionalProperties: false
-    InstructionStatus:
-      title: Instruction status
-      enum:
-      - Accepted
-      - InProgress
-      - Rejected
-      type: string
-      x-enum-descriptions:
-        Accepted: Election instruction accepted
-        InProgress: Election instruction in progress
-        Rejected: Election instruction rejected
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Model.SortColumn:
-      title: Sort columns for events
-      enum:
-      - AffectedAccounts
-      - CorporateActionType
-      - Date
-      - EligibleHoldings
-      - EventId
-      - EventType
-      - InstrumentDescription
-      type: string
-      x-enum-descriptions:
-        AffectedAccounts: Sort by number of accounts affected
-        CorporateActionType: Sort by corporate action type
-        Date: Sort by Date
-        EligibleHoldings: Sort by total amount in holdings
-        EventId: Sort by event identifier
-        EventType: Sort by event type name
-        InstrumentDescription: Sort by Instrument name/description
-    CodeDescription:
-      title: Code/Description
-      type: object
-      properties:
-        Code:
-          title: Code
-          type: string
-        Description:
-          title: Description
-          type: string
-        Name:
-          title: Name
-          type: string
       additionalProperties: false
     EventOption:
       title: Event Options
@@ -1415,7 +964,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/DateAndStatus'
         PayoutBreakdown:
-          title: "Lists all the components in payout breakdown. \r\n            This field is only available for Australian market."
+          title: "Lists all the components in payout breakdown. \n            This field is only available for Australian market."
           type: array
           items:
             $ref: '#/components/schemas/PayoutBreakdownComponent'
@@ -1429,72 +978,469 @@ components:
           allOf:
           - $ref: '#/components/schemas/DatePeriod'
       additionalProperties: false
-    CashMovement:
-      title: Cash movement
+    SortType:
+      title: Sort type
+      enum:
+      - Asc
+      - Desc
+      type: string
+      x-enum-descriptions:
+        Asc: Ascending sort
+        Desc: Descending sort
+    OptionStatus:
+      title: Option Status
+      enum:
+      - Cancelled
+      - Inactive
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: Unknown
+        Inactive: Inactive
+        Cancelled: Cancelled
+    Holding:
+      title: Event Holding
+      type: object
+      properties:
+        AccountDisplayName:
+          title: Account display name
+          type: string
+        AccountId:
+          title: Account id
+          type: string
+        AccountKey:
+          title: Account key
+          type: string
+        Amount:
+          title: Eligible holding
+          type: number
+        CashReserved:
+          title: Cash reserved after electing on corresponding option
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        ClientId:
+          title: Client Id
+          type: string
+        ClientKey:
+          title: Client key
+          type: string
+        ClientName:
+          title: Client name
+          type: string
+        ElectedAmount:
+          title: The amount of positions that have already been elected on
+          type: number
+        ElectionStatus:
+          title: Election status
+          allOf:
+          - $ref: '#/components/schemas/ElectionStatus'
+        EventId:
+          title: Corporate action event Id
+          type: string
+        Options:
+          title: List of previously instructed options and their status
+          type: array
+          items:
+            $ref: '#/components/schemas/HoldingOption'
+        OwnerId:
+          title: Owner Id
+          type: string
+        StandingInstructionStatus:
+          title: Indicates if there is a standing instruction created for this holding
+          allOf:
+          - $ref: '#/components/schemas/StandingInstructionStatus'
+      additionalProperties: false
+    InstrumentDisplayAndFormat:
+      title: Instrument additional properties
+      type: object
+      properties:
+        Description:
+          title: Instrument description
+          type: string
+        IsinCode:
+          title: Instrument isin code
+          type: string
+        Symbol:
+          title: Instrument symbol
+          type: string
+      additionalProperties: false
+    PayoutBreakdownComponent:
+      title: Payout breakdown compoment
       type: object
       properties:
         Amount:
-          title: Amount
+          title: Amount in component
           type: number
-        CashMovementType:
-          title: Cash movement type
+        Component:
+          title: Component name and description
           allOf:
-          - $ref: '#/components/schemas/MovementType'
+          - $ref: '#/components/schemas/CodeDescription'
         Currency:
           title: Currency
           type: string
-        DeemedRate:
-          title: Deemed rate
-          type: number
-        GrossDividend:
-          title: Gross dividend
-          type: number
-        InterestRate:
-          title: Interest rate
-          type: number
-        NetDividend:
-          title: Net dividend
-          type: number
-        OfferPrice:
-          title: Offer price
-          type: number
-        PriceType:
-          title: Price type
-          allOf:
-          - $ref: '#/components/schemas/ValueType'
-        Quantity:
-          title: Quantity
-          type: number
-        SubscriptionPrice:
-          title: Subscription price
-          type: number
       additionalProperties: false
-    Lookup:
-      title: Lookup values
+    InformationToComply:
+      title: Information to comply with
+      enum:
+      - RestrictionsMayApply
+      type: string
+      x-enum-descriptions:
+        RestrictionsMayApply: Restriction may apply
+    EventListResult:
       type: object
       properties:
-        FieldGroup:
-          title: Specifies the field for which lookup values are loaded in this lookup
-          allOf:
-          - $ref: '#/components/schemas/LookupFieldGroups'
-        Values:
-          title: Lookup codes and names
+        Data:
           type: array
           items:
-            $ref: '#/components/schemas/CodeDescription'
+            $ref: '#/components/schemas/Event'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
       additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Event:
+      title: Event details
+      type: object
+      properties:
+        AffectedAccounts:
+          title: "Number of accounts on which correspondng event is applicable.\n            Available when IncludeSubAccounts is set to true in the request."
+          type: integer
+          format: int32
+        AssetType:
+          title: Asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BidIntervalRate:
+          title: Acceptable price increment used for submitting a bid
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        ClaimPeriod:
+          title: Claim period
+          allOf:
+          - $ref: '#/components/schemas/DatePeriod'
+        CorporateActionType:
+          title: Corporate action type
+          allOf:
+          - $ref: '#/components/schemas/Model.CorporateActionType'
+        DisplayAndFormat:
+          title: Instrument additional properties
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        Effective:
+          title: Date at which an event is officially effective from the issuer's perspective
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+        Electable:
+          title: Indicates whether this event is electable
+          allOf:
+          - $ref: '#/components/schemas/Electable'
+        ElectionStatus:
+          title: Election status
+          allOf:
+          - $ref: '#/components/schemas/ElectionStatus'
+        EligibleHoldings:
+          title: "Total holding amount, across accounts, eligible for corresponding event.\n            Available when IncludeSubAccounts is set to true in the request."
+          type: number
+        EventId:
+          title: Corporate action event Id
+          type: string
+        EventIndicators:
+          title: Event indicators
+          type: array
+          items:
+            $ref: '#/components/schemas/IndicatorDetail'
+        EventState:
+          title: Current state of the event
+          allOf:
+          - $ref: '#/components/schemas/EventState'
+        EventStatus:
+          title: Event status
+          allOf:
+          - $ref: '#/components/schemas/EventStatus'
+        EventType:
+          title: Type of event
+          allOf:
+          - $ref: '#/components/schemas/CodeDescription'
+        Ex:
+          title: Execution date of event
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+        Holdings:
+          title: "Client holdings on an event\n            Available when IncludeSubAccounts is set to false in the request."
+          type: array
+          items:
+            $ref: '#/components/schemas/Holding'
+        InformationToComply:
+          title: Indicates whether restrictions apply to the event
+          allOf:
+          - $ref: '#/components/schemas/InformationToComply'
+        InterestPeriod:
+          title: Period during which the interest rate has been applied
+          allOf:
+          - $ref: '#/components/schemas/DatePeriod'
+        MaxPrice:
+          title: Maximum or cap price at which a holder can bid, for example on a Dutch auction offer
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        MaxQuantitySought:
+          title: Maximum quantity sought
+          type: number
+        MinPrice:
+          title: Minimum or floor price at which a holder can bid, for example on a Dutch auction offer
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        MinQuantitySought:
+          title: Minimum quantity sought
+          type: number
+        Narrative:
+          title: Event narrative
+          type: string
+        NewBoardLotQuantity:
+          title: Quantity of equity that makes up the new board lot
+          type: number
+        NewDenominationQuantity:
+          title: New Denomination of the equity following, for example, an increase or decrease in nominal value
+          type: number
+        NumberofDaysAccrued:
+          title: Number of days used for calculating the accrued interest amount
+          type: integer
+          format: int32
+        Options:
+          title: Event options
+          type: array
+          items:
+            $ref: '#/components/schemas/EventOption'
+        Record:
+          title: Record date of event
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+        StrikePrice:
+          title: Strike price
+          allOf:
+          - $ref: '#/components/schemas/PriceAndRate'
+        TradingSuspended:
+          title: Date at which trading of a security is suspended as the result of an event
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+        Uic:
+          title: Instrument uic
+          type: integer
+          format: int32
+      additionalProperties: false
+    DateStatus:
+      title: Date status
+      enum:
+      - Ongoing
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: Unknown
+        Ongoing: Ongoing
+    StandingInstructionStatus:
+      title: Standing instruction status
+      enum:
+      - Created
+      - NotCreated
+      type: string
+      x-enum-descriptions:
+        Created: Indicates that standing instruction is created
+        NotCreated: Indicates that standing instruction is not created
+    ElectionStatus:
+      title: Election status
+      enum:
+      - Elected
+      - NotElected
+      - PartialElected
+      type: string
+      x-enum-descriptions:
+        Elected: Elected
+        PartialElected: Partially elected
+        NotElected: Not elected
+    Model.SortColumn:
+      title: Sort columns for events
+      enum:
+      - AffectedAccounts
+      - CorporateActionType
+      - Date
+      - EligibleHoldings
+      - EventId
+      - EventType
+      - InstrumentDescription
+      type: string
+      x-enum-descriptions:
+        AffectedAccounts: Sort by number of accounts affected
+        CorporateActionType: Sort by corporate action type
+        Date: Sort by Date
+        EligibleHoldings: Sort by total amount in holdings
+        EventId: Sort by event identifier
+        EventType: Sort by event type name
+        InstrumentDescription: Sort by Instrument name/description
     Event.Instruction:
       title: Instruction
       type: object
       properties:
         Reason:
-          title: "Election instruction status's reason\r\n            A detailed reason code for any errors related to the election.\r\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+          title: "Election instruction status's reason\n            A detailed reason code for any errors related to the election.\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
           type: string
         Status:
-          title: "Election instruction status\r\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+          title: "Election instruction status\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
           allOf:
           - $ref: '#/components/schemas/InstructionStatus'
       additionalProperties: false
+    LookupFieldGroups:
+      title: Field groups available for lookup
+      enum:
+      - All
+      - AssetTypes
+      - EventTypes
+      type: string
+      x-enum-descriptions:
+        AssetTypes: Specifies that AssetTypes lookups will be included in the response.
+        EventTypes: Specifies that EventTypes lookups will be included in the response.
+        All: Specifies that all the lookups will be available in the response.
+      x-type-warning: FlaggableEnum
+    Indicator:
+      title: Indicators
+      enum:
+      - AdditionalBusinessProcess
+      - BidRange
+      - CertificationBreakdown
+      - Change
+      - Consent
+      - Dividend
+      - Offer
+      - RenounceableStatusofEntitlement
+      - Sequence
+      type: string
+      x-enum-descriptions:
+        Dividend: Payment of a dividend, less the amounts already paid through interim dividends
+        Sequence: "FINAL: This is the final event in a series of successive events.\n            INTERIM: This is an interim event in a series of successive events"
+        Offer: "Dissenter's Rights: Securities' holder has the right to disagree with a mandatory event. This right is not inherent in all offers and therefore must be noted in announcements only when applicable.\n            Restriction Exchange: Exchange of Restricted to Unrestricted(or vice versa).\n            First Come First Served: Securities will be accepted in the order they have been submitted until the target number of quantity sought is reached.\n            Final Offer: Final or last offer to holders subject to offer conditions being reached, for example, 50% accepted on a tender.\n            Partial Offer: Partial offer .\n            Squeeze Out Bid: Offer launched by a company, in possession of a large number of the shares (90% - 95%) of a company(generally as a result of a tender offer), in order to acquire the remaining shares of that company"
+        RenounceableStatusofEntitlement: "Non Renounceable: Intermediate securities cannot be sold.\n            Renounceable: Intermediate securities can be sold"
+        AdditionalBusinessProcess: The issuer only allows a single option to be selected per designated holding
+        Change: "Bearer to Registered: Change from bearer into registered form.\n            Certificates: Change of all instruments into certificates.\n            Decimalisation: Process of changing the accounting method of a security, for example, mutual fund, from units to a quantity with decimals.\n            Dematerialised to Physical: Change from dematerialised into physical form.\n            Global Permanent to Physical: Change from global permanent to physical form.\n            Global Temporary to Global Permanent: Change from global temporary to global permanent form.\n            Global Temporary to Physical: Change from global temporary to physical form.\n            NAME: Change of the issuing company's name. Event shows the change from old name to new name and may involve surrendering physical shares with the old name to the registrar.\n            Physical to Dematerialised: Change from physical into dematerialised form.\n            Registered to Bearer: Change from registered into bearer form.\n            Terms: Change in the terms of the security"
+        Consent: "Change in Terms: This is a change in the terms and conditions of the bond.\n            Due and Payable: This is a change in the due and payable conditions"
+        CertificationBreakdown: Certification breakdown type indicator
+        BidRange: Specifies the type of acceptable bid range values.
+    LookupListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lookup'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    EventStatus:
+      title: Event status
+      enum:
+      - Active
+      - Past
+      - Upcoming
+      type: string
+      x-enum-descriptions:
+        Active: Active events
+        Past: Past events
+        Upcoming: Upcoming events
+    Model.CorporateActionType:
+      title: Corporate action type
+      enum:
+      - Mandatory
+      - Voluntary
+      type: string
+      x-enum-descriptions:
+        Mandatory: 'Mandatory event: Event where no response is required and action is applied automatically.'
+        Voluntary: 'Voluntary event: Event where a response is required. If no response is received before the reply deadline, the option marked as Default will be applied.'
+    DateAndStatus:
+      title: Date or date status
+      type: object
+      properties:
+        Date:
+          title: Date value
+          type: string
+          format: date
+          x-type-name: Date
+        Status:
+          title: Date status
+          allOf:
+          - $ref: '#/components/schemas/DateStatus'
+      additionalProperties: false
+    DatePeriod:
+      title: Time period
+      type: object
+      properties:
+        End:
+          title: End date/time
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+        Start:
+          title: Start date/time
+          allOf:
+          - $ref: '#/components/schemas/DateAndStatus'
+      additionalProperties: false
+    ValueType:
+      title: Price type
+      enum:
+      - Actual
+      - Percentage
+      type: string
+      x-enum-descriptions:
+        Actual: Actual value
+        Percentage: Percentage
+    HoldingOption:
+      title: Indicates previous elections made on a corporate action event for positions in an account
+      type: object
+      properties:
+        ElectedAmount:
+          title: The amount elected
+          type: number
+        ElectionType:
+          title: Indicates if election was auto or manual
+          allOf:
+          - $ref: '#/components/schemas/ElectionType'
+        Instruction:
+          title: Instruction status
+          allOf:
+          - $ref: '#/components/schemas/Event.Instruction'
+        OptionId:
+          title: The event option id instructed on
+          type: string
+        Remarks:
+          title: Remarks by client
+          type: string
+      additionalProperties: false
+    InstructionStatus:
+      title: Instruction status
+      enum:
+      - Accepted
+      - InProgress
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Election instruction accepted
+        InProgress: Election instruction in progress
+        Rejected: Election instruction rejected
     PriceAndRate:
       title: Price and rate
       type: object
@@ -1510,22 +1456,74 @@ components:
           title: Price
           type: number
       additionalProperties: false
-    DateStatus:
-      title: Date status
+    AssetType:
+      title: Allowed asset types for corporate actions.
       enum:
-      - Ongoing
-      - Unknown
+      - Bond
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CompanyWarrant
+      - MiniFuture
+      - MutualFund
+      - Stock
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
       type: string
       x-enum-descriptions:
-        Unknown: Unknown
-        Ongoing: Ongoing
+        Stock: Stock.
+        Bond: Bond.
+        MutualFund: Mutual Fund.
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: "Guarantees a percentage increase of the underlying asset's value above the issue\n            price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection\n            percentage."
+        CertificateCappedCapitalProtected: "Guarantees a capped percentage increase of the underlying asset's value above\n            the issue price at expiry/maturity. Max loss is the amount invested multiplied\n            by the CapitalProtection percentage."
+        CertificateDiscount: "Yields a capped return if the underlying asset's value is above the specified\n            cap level at expiry. If the underlying's value is below the strike at expiry,\n            the investor received the underlying or equivalent value. Offers direct exposure\n            in underlying at a lower price (discount) with a capped potential profit and\n            limited loss."
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: "A certificate that mirrors the price movement of the underlying instrument. Often\n            used to trade movements in indicies. Movements can be a fixed ratio of the underlying\n            and can be inverted for bearish/short speculation. Risk is equivalent to owning\n            the underlying."
+        CertificateUncappedOutperformance: "Provides leveraged returns when the underlying price exceeds the threshold strike\n            price. The amount leverage is defined by the Participation %. When the underlying\n            is below the strike price, the certificate mirrors the underlying price 1:1."
+        CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\n            price exceeds the defined barrier. If the certificate expires below the barrier,\n            it offers partial protection/return of investment."
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+    EventState:
+      title: State of the event
+      enum:
+      - Approved
+      - Confirmed
+      - Preliminary
+      - Withdrawn
+      type: string
+      x-enum-descriptions:
+        Approved: Event in approved state
+        Confirmed: Event in confirmed state
+        Preliminary: Event in preliminary state
+        Withdrawn: Event in withdrawn state
+    Electable:
+      title: Indicates if event is electable
+      enum:
+      - Electable
+      - NotElectable
+      type: string
+      x-enum-descriptions:
+        Electable: Election is applicable on event
+        NotElectable: Election is not applicable on event
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -1546,6 +1544,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -1,15 +1,15 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values ClosedPositions API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.Portfolio Closed Positions API
+  description: The Portfolio service group provides services and end points that serves information about the clients current portfolio, such as account balance, open positions etc.
+  version: 2.4.82+77577352f2
+  x-framework-version: 41.0.17+46f32c3eb1
+  x-machine: SIMOAWEB8-DK1
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: ClosedPositions
-  description: "Read only end points serving closed positions and the underlying closed positions making up the net closed position.\n            The set of closed positions is restricted by the supplied query parameters as well as whether or not the identity \n            represented by the authorization token has access to the account on which the positions are posted.\n\n*   A user of a client will have access to accounts under that client\n*   A user of an IB or WLC will have access to accounts on that client or clients there under \n*   An employee has access to all accounts\n*   A request containing a TradingFloor \"Federated Access\" token will have access to the account specified in that token.\n*   If access is granted on the basis of the TradingFloor \"Federated Access\" token, then the number of fields will be a subset \n                of the full set of fields shown in the specification for the response."
+  description: Read only end points serving closed positions and the underlying closed positions making up the net closed position.
 paths:
   /port/v1/closedpositions/subscriptions/{ContextId}:
     delete:
@@ -282,7 +282,9 @@ paths:
       tags:
       - ClosedPositions
       summary: Get detailed information for a single position
-      description: "Obsolete Gets detailed information about a single position as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/closedpositions/{ClosedPositionId}."
+      description: 'Obsolete Gets detailed information about a single position as specified by the query parameters.
+
+        NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/closedpositions/{ClosedPositionId}.'
       operationId: ClosedPositionsV1GetPositionDetails
       parameters:
       - name: AccountGroupKey
@@ -741,18 +743,215 @@ paths:
         community: Read
 components:
   schemas:
-    PositionPagingSubscriptionUpdateRequest:
-      title: A parameter wrapper for position subscription paging update operations.
+    FXOptionsBaseData:
+      title: FXOptions Base
       type: object
       properties:
-        NewPageSize:
-          title: Extends or reduces the page size, number of positions shown, on a running positions subscription.
-          type: integer
-          format: int32
-          example: 99
+        BarrierEventOccurred:
+          title: True if the barrier event has occurred for the option
+          type: boolean
+          example: true
+        ExpiryCut:
+          title: ExpiryCut.
+          allOf:
+          - $ref: '#/components/schemas/ExpiryCut'
+        ExpiryDate:
+          title: The ExpiryDate.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LowerBarrier:
+          title: LowerBarrier for digital option.
+          type: number
+          example: 10
+        PutCall:
+          title: The Put/Call value of the option.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        Strike:
+          title: The strike price of the option.
+          type: number
+          example: 10
+        UpperBarrier:
+          title: UpperBarrier for digital option.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        NewPageSize: 99
+        BarrierEventOccurred: true
+        ExpiryCut: Moscow
+        ExpiryDate: '9999-12-31T23:59:59.9999990+00:00'
+        LowerBarrier: 10
+        PutCall: Call
+        Strike: 10
+        UpperBarrier: 10
+    ClosedPositionRequest:
+      title: "Represents a request for one or more netpositions.\n            At least one of the following must be specified."
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the closed positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account to which the closed positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: The key of the client to which the closesd positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        ClosedPositionId:
+          title: The id of the closed position to which the closedposition belongs
+          type: string
+        FieldGroups:
+          title: Specifies which data to return. Default is [ClosedPosition]
+          type: array
+          items:
+            $ref: '#/components/schemas/ClosedPositionFieldGroup'
+      additionalProperties: false
+      example:
+        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ClosedPositionId: 139597294-139694249
+        FieldGroups:
+        - ClosedPosition
+    CostData:
+      title: Trading costs associated with opening/closing a position or net position
+      type: object
+      properties:
+        AdditionalTransactionCosts:
+          title: Additional Transaction Costs.
+          type: number
+          example: 10
+        Commission:
+          title: Transaction commission costs.
+          type: number
+          example: 10
+        ExchangeFee:
+          title: Transaction fee as charged by the underlying exchange.
+          type: number
+          example: 10
+        ExternalCharges:
+          title: Transaction charges added by external facilitators.
+          type: number
+          example: 10
+        PerformanceFee:
+          title: Fee or commission based on profit/loss of position.
+          type: number
+          example: 10
+        StampDuty:
+          title: National transaction duty/tax, where applicable.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AdditionalTransactionCosts: 10
+        Commission: 10
+        ExchangeFee: 10
+        ExternalCharges: 10
+        PerformanceFee: 10
+        StampDuty: 10
+    PositionClosingMethod:
+      title: Intra day netting modes
+      enum:
+      - Explicit
+      - Fifo
+      - Unknown
+      type: string
+      example: Fifo
+      x-enum-descriptions:
+        Explicit: Explicit closed
+        Fifo: Netting Closed
+        Unknown: Unknown
+    BuySell:
+      title: Describes the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Sell
+      x-enum-descriptions:
+        Buy: Buy.
+        Sell: Sell.
+    ClosedPositionsSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription on net position.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/ClosedPositionResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Format: application/json
+        InactivityTimeout: 120
+        ReferenceId: CP50382
+        RefreshRate: 1000
+        Snapshot:
+          Data:
+          - ClosedPosition:
+              AccountId: 192134INET
+              Amount: 300000
+              AssetType: FxSpot
+              BuyOrSell: Buy
+              ClientId: '654321'
+              ClosedProfitLoss: 9597
+              ClosedProfitLossInBaseCurrency: 9597
+              ClosingMarketValue: 0
+              ClosingMarketValueInBaseCurrency: 0
+              ClosingMethod: Explicit
+              ClosingPositionId: '139694249'
+              ClosingPrice: 1.09139
+              ConversionRateInstrumentToBaseSettledClosing: false
+              ConversionRateInstrumentToBaseSettledOpening: true
+              ExecutionTimeClose: '2017-05-02T00:00:00Z'
+              ExecutionTimeOpen: '2017-04-12T00:00:00Z'
+              OpeningPositionId: '139597294'
+              OpenPrice: 1.0594
+              Uic: 21
+            ClosedPositionUniqueId: 139597294-139694249
+            NetPositionId: EURUSD_FxSpot
+        State: Active
     InstrumentExchangeDetails:
       title: Information about an exchange and its trading hours.
       type: object
@@ -779,8 +978,20 @@ components:
         ExchangeId: stringValue
         IsOpen: true
         TimeZoneId: stringValue
-    ClosedPositionDetailedResponse:
-      title: Describes an open position in detail
+    PositionPagingSubscriptionUpdateRequest:
+      title: A parameter wrapper for position subscription paging update operations.
+      type: object
+      properties:
+        NewPageSize:
+          title: Extends or reduces the page size, number of positions shown, on a running positions subscription.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        NewPageSize: 99
+    ClosedPositionResponse:
+      title: Information for a closed position
       required:
       - ClosedPositionUniqueId
       type: object
@@ -789,10 +1000,6 @@ components:
           title: ClosedPosition info
           allOf:
           - $ref: '#/components/schemas/ClosedPosition'
-        ClosedPositionDetails:
-          title: Additional details related to the position.
-          allOf:
-          - $ref: '#/components/schemas/ClosedPositionDetails'
         ClosedPositionUniqueId:
           title: Unique id of the closed position based on OpeningPositionId and ClosingPositionId - Required for subscription to provide a key.
           type: string
@@ -831,60 +1038,24 @@ components:
           OpeningPositionId: '139597294'
           OpenPrice: 1.0594
           Uic: 21
-        ClosedPositionDetails:
-          CurrencyConversionRateInstrumentToBaseClosing: 1
-          CurrencyConversionRateInstrumentToBaseOpening: 1
-          ValueDateClose: '2017-05-04T00:00:00Z'
-          ValueDateOpen: '2017-05-04T00:00:00Z'
         ClosedPositionUniqueId: 139597294-139694249
-        DisplayAndFormat:
-          Currency: USD
-          Decimals: 4
-          Description: Euro/US Dollar
-          Format: AllowDecimalPips
-          Symbol: EURUSD
-        Exchange:
-          Description: Inter Bank
-          ExchangeId: SBFX
-          IsOpen: true
         NetPositionId: EURUSD_FxSpot
-    ClosedPositionRequest:
-      title: "Represents a request for one or more netpositions.\n            At least one of the following must be specified."
-      required:
-      - ClientKey
-      type: object
-      properties:
-        AccountGroupKey:
-          title: The key of the account group to which the closed positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: AccountGroupKey
-        AccountKey:
-          title: The key of the account to which the closed positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: The key of the client to which the closesd positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        ClosedPositionId:
-          title: The id of the closed position to which the closedposition belongs
-          type: string
-        FieldGroups:
-          title: Specifies which data to return. Default is [ClosedPosition]
-          type: array
-          items:
-            $ref: '#/components/schemas/ClosedPositionFieldGroup'
-      additionalProperties: false
-      example:
-        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        ClosedPositionId: 139597294-139694249
-        FieldGroups:
-        - ClosedPosition
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Fractions
+      x-enum-descriptions:
+        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
+        Fractions: Display as regular fraction i.e. 3 1/4
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
     ClosedPositionDetails:
       title: Detailed information about a closed position, which is only available as a snapshot.
       type: object
@@ -977,339 +1148,6 @@ components:
         OpenPremiumInBaseCurrency: 10
         ValueDateClose: '9999-12-31T23:59:59.9999990+00:00'
         ValueDateOpen: '9999-12-31T23:59:59.9999990+00:00'
-    ExpiryCut:
-      title: Specifies the type of cut-time used in option expiration.
-      enum:
-      - Budapest
-      - Mexico
-      - Moscow
-      - NY
-      - None
-      - PreciousMetals
-      - TK
-      - Turkey
-      - Unknown
-      - Warsaw
-      type: string
-      description: "Expiry cuts are associated to string values (indicators) from ExpiryCuts MITS DB table.\n            This enum should be updated each time when ExpiryCuts MITS DB table updated."
-      example: TK
-      x-enum-descriptions:
-        None: Not specified. Usually option trade with this type of expiration has invalid state or not initialized.
-        NY: Option will be expired on the New-York time.
-        TK: Option will be expired on the Tokyo time.
-        Warsaw: 'WR: Option is expired/exercised manually. Priced as NY.'
-        Budapest: 'BD: Option is expired/exercised manually. Priced as NY.'
-        PreciousMetals: 'Precious metals cut (PM): Option is expired/exercised manually. Priced as NY.'
-        Turkey: 'Turkish cut (TR): Option is expired/exercised manually. Priced as NY.'
-        Mexico: 'Mexico cut (MX): Option is expired/exercised manually. Priced as NY.'
-        Moscow: 'Moscow cut (MW): Option is expired/exercised manually. Priced as NY.'
-        Unknown: 'Unknown cut: (UX): Option is expired/exercised manually. Priced as NY.'
-    ClosedPositionsSubscriptionRequest:
-      title: Public request contract for setting up a subscription on a list of net positions
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/ClosedPositionRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-          ClosedPositionId: 139597294-139694249
-          FieldGroups:
-          - ClosedPosition
-        ContextId: '20221030064907102'
-        Format: application/json
-        ReferenceId: CP35618
-        RefreshRate: 1000
-        Tag: PAGE1
-    ClosedPositionResponseArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/ClosedPositionResponse'
-      example:
-      - ClosedPosition:
-          AccountId: 192134INET
-          Amount: 300000
-          AssetType: FxSpot
-          BuyOrSell: Buy
-          ClientId: '654321'
-          ClosedProfitLoss: 9597
-          ClosedProfitLossInBaseCurrency: 9597
-          ClosingMarketValue: 0
-          ClosingMarketValueInBaseCurrency: 0
-          ClosingMethod: Explicit
-          ClosingPositionId: '139694249'
-          ClosingPrice: 1.09139
-          ConversionRateInstrumentToBaseSettledClosing: false
-          ConversionRateInstrumentToBaseSettledOpening: true
-          ExecutionTimeClose: '2017-05-02T00:00:00Z'
-          ExecutionTimeOpen: '2017-04-12T00:00:00Z'
-          OpeningPositionId: '139597294'
-          OpenPrice: 1.0594
-          Uic: 21
-        ClosedPositionUniqueId: 139597294-139694249
-        NetPositionId: EURUSD_FxSpot
-    FXOptionsBaseData:
-      title: FXOptions Base
-      type: object
-      properties:
-        BarrierEventOccurred:
-          title: True if the barrier event has occurred for the option
-          type: boolean
-          example: true
-        ExpiryCut:
-          title: ExpiryCut.
-          allOf:
-          - $ref: '#/components/schemas/ExpiryCut'
-        ExpiryDate:
-          title: The ExpiryDate.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        LowerBarrier:
-          title: LowerBarrier for digital option.
-          type: number
-          example: 10
-        PutCall:
-          title: The Put/Call value of the option.
-          allOf:
-          - $ref: '#/components/schemas/PutCall'
-        Strike:
-          title: The strike price of the option.
-          type: number
-          example: 10
-        UpperBarrier:
-          title: UpperBarrier for digital option.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        BarrierEventOccurred: true
-        ExpiryCut: Moscow
-        ExpiryDate: '9999-12-31T23:59:59.9999990+00:00'
-        LowerBarrier: 10
-        PutCall: Call
-        Strike: 10
-        UpperBarrier: 10
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    ClosedPositionResponse:
-      title: Information for a closed position
-      required:
-      - ClosedPositionUniqueId
-      type: object
-      properties:
-        ClosedPosition:
-          title: ClosedPosition info
-          allOf:
-          - $ref: '#/components/schemas/ClosedPosition'
-        ClosedPositionUniqueId:
-          title: Unique id of the closed position based on OpeningPositionId and ClosingPositionId - Required for subscription to provide a key.
-          type: string
-          example: stringValue
-        DisplayAndFormat:
-          title: '[Community] Information about the instrument of the closed position and how to display it.'
-          allOf:
-          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
-        Exchange:
-          title: Information about the instrument's exchange and trading status.
-          allOf:
-          - $ref: '#/components/schemas/InstrumentExchangeDetails'
-        NetPositionId:
-          title: NetPosition ID
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        ClosedPosition:
-          AccountId: 192134INET
-          Amount: 300000
-          AssetType: FxSpot
-          BuyOrSell: Buy
-          ClientId: '654321'
-          ClosedProfitLoss: 9597
-          ClosedProfitLossInBaseCurrency: 9597
-          ClosingMarketValue: 0
-          ClosingMarketValueInBaseCurrency: 0
-          ClosingMethod: Explicit
-          ClosingPositionId: '139694249'
-          ClosingPrice: 1.09139
-          ConversionRateInstrumentToBaseSettledClosing: false
-          ConversionRateInstrumentToBaseSettledOpening: true
-          ExecutionTimeClose: '2017-05-02T00:00:00Z'
-          ExecutionTimeOpen: '2017-04-12T00:00:00Z'
-          OpeningPositionId: '139597294'
-          OpenPrice: 1.0594
-          Uic: 21
-        ClosedPositionUniqueId: 139597294-139694249
-        NetPositionId: EURUSD_FxSpot
-    PutCall:
-      title: Describes the direction of an option.
-      enum:
-      - Call
-      - None
-      - Put
-      type: string
-      example: Put
-      x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
     InstrumentDisplayAndFormat:
       title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
       type: object
@@ -1386,173 +1224,75 @@ components:
         StrikeFormat: AllowDecimalPips
         Symbol: stringValue
         UnderlyingInstrumentDescription: stringValue
-    ClosedPositionsSubscriptionResponse:
-      title: Public response contract returned after setting up a subscription on net position.
+    ClosedPositionDetailedResponse:
+      title: Describes an open position in detail
+      required:
+      - ClosedPositionUniqueId
       type: object
       properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-          example: application/json
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-          example: 0
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-          example: 0
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
+        ClosedPosition:
+          title: ClosedPosition info
           allOf:
-          - $ref: '#/components/schemas/ClosedPositionResponseListResult'
-        State:
-          title: The value "Active".
+          - $ref: '#/components/schemas/ClosedPosition'
+        ClosedPositionDetails:
+          title: Additional details related to the position.
+          allOf:
+          - $ref: '#/components/schemas/ClosedPositionDetails'
+        ClosedPositionUniqueId:
+          title: Unique id of the closed position based on OpeningPositionId and ClosingPositionId - Required for subscription to provide a key.
           type: string
-          description: This property is kept for backwards compatibility.
-          example: Active
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
+          example: stringValue
+        DisplayAndFormat:
+          title: '[Community] Information about the instrument of the closed position and how to display it.'
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        Exchange:
+          title: Information about the instrument's exchange and trading status.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentExchangeDetails'
+        NetPositionId:
+          title: NetPosition ID
           type: string
-          example: ClientTag
+          example: stringValue
       additionalProperties: false
       example:
-        Format: application/json
-        InactivityTimeout: 120
-        ReferenceId: CP50382
-        RefreshRate: 1000
-        Snapshot:
-          Data:
-          - ClosedPosition:
-              AccountId: 192134INET
-              Amount: 300000
-              AssetType: FxSpot
-              BuyOrSell: Buy
-              ClientId: '654321'
-              ClosedProfitLoss: 9597
-              ClosedProfitLossInBaseCurrency: 9597
-              ClosingMarketValue: 0
-              ClosingMarketValueInBaseCurrency: 0
-              ClosingMethod: Explicit
-              ClosingPositionId: '139694249'
-              ClosingPrice: 1.09139
-              ConversionRateInstrumentToBaseSettledClosing: false
-              ConversionRateInstrumentToBaseSettledOpening: true
-              ExecutionTimeClose: '2017-05-02T00:00:00Z'
-              ExecutionTimeOpen: '2017-04-12T00:00:00Z'
-              OpeningPositionId: '139597294'
-              OpenPrice: 1.0594
-              Uic: 21
-            ClosedPositionUniqueId: 139597294-139694249
-            NetPositionId: EURUSD_FxSpot
-        State: Active
-    BuySell:
-      title: Describes the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Sell
-      x-enum-descriptions:
-        Buy: Buy.
-        Sell: Sell.
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    CostData:
-      title: Trading costs associated with opening/closing a position or net position
-      type: object
-      properties:
-        AdditionalTransactionCosts:
-          title: Additional Transaction Costs.
-          type: number
-          example: 10
-        Commission:
-          title: Transaction commission costs.
-          type: number
-          example: 10
-        ExchangeFee:
-          title: Transaction fee as charged by the underlying exchange.
-          type: number
-          example: 10
-        ExternalCharges:
-          title: Transaction charges added by external facilitators.
-          type: number
-          example: 10
-        PerformanceFee:
-          title: Fee or commission based on profit/loss of position.
-          type: number
-          example: 10
-        StampDuty:
-          title: National transaction duty/tax, where applicable.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AdditionalTransactionCosts: 10
-        Commission: 10
-        ExchangeFee: 10
-        ExternalCharges: 10
-        PerformanceFee: 10
-        StampDuty: 10
-    ClosedPositionResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClosedPositionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - ClosedPosition:
-            AccountId: 192134INET
-            Amount: 300000
-            AssetType: FxSpot
-            BuyOrSell: Buy
-            ClientId: '654321'
-            ClosedProfitLoss: 9597
-            ClosedProfitLossInBaseCurrency: 9597
-            ClosingMarketValue: 0
-            ClosingMarketValueInBaseCurrency: 0
-            ClosingMethod: Explicit
-            ClosingPositionId: '139694249'
-            ClosingPrice: 1.09139
-            ConversionRateInstrumentToBaseSettledClosing: false
-            ConversionRateInstrumentToBaseSettledOpening: true
-            ExecutionTimeClose: '2017-05-02T00:00:00Z'
-            ExecutionTimeOpen: '2017-04-12T00:00:00Z'
-            OpeningPositionId: '139597294'
-            OpenPrice: 1.0594
-            Uic: 21
-          ClosedPositionUniqueId: 139597294-139694249
-          NetPositionId: EURUSD_FxSpot
+        ClosedPosition:
+          AccountId: 192134INET
+          Amount: 300000
+          AssetType: FxSpot
+          BuyOrSell: Buy
+          ClientId: '654321'
+          ClosedProfitLoss: 9597
+          ClosedProfitLossInBaseCurrency: 9597
+          ClosingMarketValue: 0
+          ClosingMarketValueInBaseCurrency: 0
+          ClosingMethod: Explicit
+          ClosingPositionId: '139694249'
+          ClosingPrice: 1.09139
+          ConversionRateInstrumentToBaseSettledClosing: false
+          ConversionRateInstrumentToBaseSettledOpening: true
+          ExecutionTimeClose: '2017-05-02T00:00:00Z'
+          ExecutionTimeOpen: '2017-04-12T00:00:00Z'
+          OpeningPositionId: '139597294'
+          OpenPrice: 1.0594
+          Uic: 21
+        ClosedPositionDetails:
+          CurrencyConversionRateInstrumentToBaseClosing: 1
+          CurrencyConversionRateInstrumentToBaseOpening: 1
+          ValueDateClose: '2017-05-04T00:00:00Z'
+          ValueDateOpen: '2017-05-04T00:00:00Z'
+        ClosedPositionUniqueId: 139597294-139694249
+        DisplayAndFormat:
+          Currency: USD
+          Decimals: 4
+          Description: Euro/US Dollar
+          Format: AllowDecimalPips
+          Symbol: EURUSD
+        Exchange:
+          Description: Inter Bank
+          ExchangeId: SBFX
+          IsOpen: true
+        NetPositionId: EURUSD_FxSpot
     DisplayHintType:
       title: Display Hint Type.
       enum:
@@ -1585,22 +1325,39 @@ components:
         StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
         Fund: Fund.
         CryptoCurrencies: Crypto currencies.
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
-      enum:
-      - AllowDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
-      type: string
-      example: Fractions
-      x-enum-descriptions:
-        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
-        Fractions: Display as regular fraction i.e. 3 1/4
-        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
-        Percentage: Display as percentage, e.g. 12.34%.
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    ClosedPositionResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/ClosedPositionResponse'
+      example:
+      - ClosedPosition:
+          AccountId: 192134INET
+          Amount: 300000
+          AssetType: FxSpot
+          BuyOrSell: Buy
+          ClientId: '654321'
+          ClosedProfitLoss: 9597
+          ClosedProfitLossInBaseCurrency: 9597
+          ClosingMarketValue: 0
+          ClosingMarketValueInBaseCurrency: 0
+          ClosingMethod: Explicit
+          ClosingPositionId: '139694249'
+          ClosingPrice: 1.09139
+          ConversionRateInstrumentToBaseSettledClosing: false
+          ConversionRateInstrumentToBaseSettledOpening: true
+          ExecutionTimeClose: '2017-05-02T00:00:00Z'
+          ExecutionTimeOpen: '2017-04-12T00:00:00Z'
+          OpeningPositionId: '139597294'
+          OpenPrice: 1.0594
+          Uic: 21
+        ClosedPositionUniqueId: 139597294-139694249
+        NetPositionId: EURUSD_FxSpot
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     ClosedPositionFieldGroup:
       title: Specification of fieldsets to include in results.
       enum:
@@ -1805,23 +1562,264 @@ components:
         ProfitLossOnTradeInBaseCurrency: 10
         SrdSettlementDate: '9999-12-31T23:59:59.9999990+00:00'
         Uic: 99
-    PositionClosingMethod:
-      title: Intra day netting modes
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
-      - Explicit
-      - Fifo
-      - Unknown
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
       type: string
-      example: Fifo
+      example: FxForwards
       x-enum-descriptions:
-        Explicit: Explicit closed
-        Fifo: Netting Closed
-        Unknown: Unknown
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    ClosedPositionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClosedPositionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - ClosedPosition:
+            AccountId: 192134INET
+            Amount: 300000
+            AssetType: FxSpot
+            BuyOrSell: Buy
+            ClientId: '654321'
+            ClosedProfitLoss: 9597
+            ClosedProfitLossInBaseCurrency: 9597
+            ClosingMarketValue: 0
+            ClosingMarketValueInBaseCurrency: 0
+            ClosingMethod: Explicit
+            ClosingPositionId: '139694249'
+            ClosingPrice: 1.09139
+            ConversionRateInstrumentToBaseSettledClosing: false
+            ConversionRateInstrumentToBaseSettledOpening: true
+            ExecutionTimeClose: '2017-05-02T00:00:00Z'
+            ExecutionTimeOpen: '2017-04-12T00:00:00Z'
+            OpeningPositionId: '139597294'
+            OpenPrice: 1.0594
+            Uic: 21
+          ClosedPositionUniqueId: 139597294-139694249
+          NetPositionId: EURUSD_FxSpot
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Put
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    ExpiryCut:
+      title: Specifies the type of cut-time used in option expiration.
+      enum:
+      - Budapest
+      - Mexico
+      - Moscow
+      - NY
+      - None
+      - PreciousMetals
+      - TK
+      - Turkey
+      - Unknown
+      - Warsaw
+      type: string
+      description: "Expiry cuts are associated to string values (indicators) from ExpiryCuts MITS DB table.\n            This enum should be updated each time when ExpiryCuts MITS DB table updated."
+      example: TK
+      x-enum-descriptions:
+        None: Not specified. Usually option trade with this type of expiration has invalid state or not initialized.
+        NY: Option will be expired on the New-York time.
+        TK: Option will be expired on the Tokyo time.
+        Warsaw: 'WR: Option is expired/exercised manually. Priced as NY.'
+        Budapest: 'BD: Option is expired/exercised manually. Priced as NY.'
+        PreciousMetals: 'Precious metals cut (PM): Option is expired/exercised manually. Priced as NY.'
+        Turkey: 'Turkish cut (TR): Option is expired/exercised manually. Priced as NY.'
+        Mexico: 'Mexico cut (MX): Option is expired/exercised manually. Priced as NY.'
+        Moscow: 'Moscow cut (MW): Option is expired/exercised manually. Priced as NY.'
+        Unknown: 'Unknown cut: (UX): Option is expired/exercised manually. Priced as NY.'
+    ClosedPositionsSubscriptionRequest:
+      title: Public request contract for setting up a subscription on a list of net positions
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/ClosedPositionRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          ClosedPositionId: 139597294-139694249
+          FieldGroups:
+          - ClosedPosition
+        ContextId: '20221030064907102'
+        Format: application/json
+        ReferenceId: CP35618
+        RefreshRate: 1000
+        Tag: PAGE1
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -1843,6 +1841,10 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
   securitySchemes:

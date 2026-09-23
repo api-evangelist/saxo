@@ -1,20 +1,20 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values TimeZones API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.ReferenceData Time Zones API
+  description: The Reference Data service group provides reference data, such as instrument details, exchange info etc..
+  version: 2.3.361+88ada090e4
+  x-framework-version: 43.0.9+b005aba300
+  x-machine: SIMOAWEB8-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
-- name: TimeZones
+- name: Timezones
   description: Provides information about time zones supported by Saxo Bank.
 paths:
   /ref/v1/timezones:
     get:
       tags:
-      - TimeZones
+      - Timezones
       summary: Get a list of all timezones
       description: Use this GET operation to retrieve a list all the time zones supported by Saxo Bank.
       operationId: TimeZonesGetTimeZones
@@ -65,13 +65,35 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TimeZoneDetails:
       title: Represents a single time zone.
       type: object
@@ -146,34 +168,12 @@ components:
           TimeZoneId: '5'
           TimeZoneOffset: 00:00:00
           ZoneName: America/Chicago
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -1,21 +1,22 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Positions API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Saxo Positions API
+  x-refined-note:
+  - x-framework-version differs across the merged source definitions and was not carried
+  - x-machine differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Positions across 2 of this provider''s published API definitions: port.yaml, trade.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: Positions
-  description: "Read only end points serving individual positions.\n            The set of positions is restricted by the supplied query parameters as well as whether or not the identity \n            represented by the authorization token has access to the account on which the positions are posted. \n\n*   A user of a client will have access to accounts under that client\n*   A user of an IB or WLC will have access to accounts on that client or clients there under \n*   An employee has access to all accounts\n*   A request containing a TradingFloor \"Federated Access\" token will have access to the account specified in that token.\n*   If access is granted on the basis of the TradingFloor \"Federated Access\" token, then the number of fields will be a subset \n                of the full set of fields shown in the specification for the response."
+  description: Read only end points serving individual positions.
 paths:
   /port/v1/positions/subscriptions/{ContextId}:
     delete:
       tags:
       - Positions
-      summary: Remove multiple subscriptions for the given ContextId, optionally marked with a specific tag
+      summary: Remove multiple subscriptions for the given ContextId, optionally marked with a…
       description: Removes multiple subscriptions for the current session on this resource, and frees all resources on the server.
       operationId: PositionsV1DeleteSubscriptions
       parameters:
@@ -51,6 +52,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions/subscriptions/{ContextId}/{ReferenceId}:
     delete:
       tags:
@@ -96,7 +99,9 @@ paths:
       tags:
       - Positions
       summary: Change the positions subscription page size
-      description: "Extends or reduces the page size, number of positions shown, on a running positions subscription.\n            When expanding the page size, the new positions are streamed so to avoid race conditions."
+      description: 'Extends or reduces the page size, number of positions shown, on a running positions subscription.
+
+        When expanding the page size, the new positions are streamed so to avoid race conditions.'
       operationId: PositionsV1UpdatePositionSubscriptionPagesize
       parameters:
       - name: ContextId
@@ -139,6 +144,8 @@ paths:
       x-required-permissions:
         personal: Subscribe
         community: Subscribe
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions/subscriptions:
     post:
       tags:
@@ -299,6 +306,8 @@ paths:
         community: Subscribe
       x-streaming-type:
         $ref: '#/components/schemas/PositionResponseArray'
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions:
     get:
       tags:
@@ -469,6 +478,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions/me:
     get:
       tags:
@@ -566,12 +577,16 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions/{PositionId}/details:
     get:
       tags:
       - Positions
       summary: Get detailed information for a single position
-      description: "Obsolete Gets detailed information about a single position as specified by the query parameters.\n            NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/positions/{PositionId}. Fields available in this resource are moved to PositionBase and the new \"Costs\" fieldgroup that has been added to the base route. These fields also support streaming now."
+      description: 'Obsolete Gets detailed information about a single position as specified by the query parameters.
+
+        NOTE: This endpoint will be deprecated by November 2022. All functionality has been migrated to /port/v1/positions/{PositionId}. Fields available in this resource are moved to PositionBase and the new "Costs" fieldgroup that has been added to the base route. These fields also support streaming now.'
       operationId: PositionsV1GetPositionDetails
       parameters:
       - name: AccountGroupKey
@@ -701,12 +716,13 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /port/v1/positions/{PositionId}:
     get:
       tags:
       - Positions
       summary: Get a single position
-      description: Get a single position
       operationId: PositionsV1GetPosition
       parameters:
       - name: AccountGroupKey
@@ -838,6 +854,8 @@ paths:
       x-required-permissions:
         personal: Read
         community: Read
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v1/positions/exercise:
     put:
       tags:
@@ -914,6 +932,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v1/positions/{PositionId}/exercise:
     put:
       tags:
@@ -1022,6 +1042,8 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v1/positions/{PositionId}:
     patch:
       tags:
@@ -1103,13 +1125,14 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
   /trade/v1/positions:
     post:
       tags:
       - Positions
       summary: Create a new position by accepting a quote
       description: 'Creates a new position by accepting a quote.
-
 
 
         The quote must be the most recent one and it must be tradable (Quote.PriceType=PriceType.Tradable).'
@@ -1230,261 +1253,293 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Write
+    servers:
+    - url: https://gateway.saxobank.com/sim/openapi
 components:
   schemas:
-    OptionsData:
-      title: Public data contract for options (both FX Options and ETO's)).
+    CostData:
+      title: Trading costs associated with opening/closing a position or net position
       type: object
       properties:
-        BarrierEventOccurred:
-          title: True if the barrier event has occurred for the option
-          type: boolean
-          example: true
-        CanBeExercised:
-          title: If true, the option position may be exercised by the user.
-          type: boolean
-          example: true
-        ExerciseStyle:
-          title: Used to indicate if an option is to follow American or European style exercise rules. American-style may be exercised at any time.  European-style may only be exercised at expiry.
-          allOf:
-          - $ref: '#/components/schemas/ExerciseStyle'
-        ExpiryCut:
-          title: ExpiryCut.
-          allOf:
-          - $ref: '#/components/schemas/ExpiryCut'
-        ExpiryDate:
-          title: The ExpiryDate.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        LowerBarrier:
-          title: LowerBarrier for digital option.
+        AdditionalTransactionCosts:
+          title: Additional Transaction Costs.
           type: number
           example: 10
-        PremiumDate:
-          title: Forex Options premium date.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        PutCall:
-          title: The Put/Call value of the option.
-          allOf:
-          - $ref: '#/components/schemas/PutCall'
-        SettlementStyle:
-          title: The settlement style of the option
-          allOf:
-          - $ref: '#/components/schemas/SettlementStyle'
-        Strike:
-          title: The strike price of the option.
+        Commission:
+          title: Transaction commission costs.
           type: number
           example: 10
-        UpperBarrier:
-          title: UpperBarrier for digital option.
+        ExchangeFee:
+          title: Transaction fee as charged by the underlying exchange.
+          type: number
+          example: 10
+        ExternalCharges:
+          title: Transaction charges added by external facilitators.
+          type: number
+          example: 10
+        PerformanceFee:
+          title: Fee or commission based on profit/loss of position.
+          type: number
+          example: 10
+        StampDuty:
+          title: National transaction duty/tax, where applicable.
           type: number
           example: 10
       additionalProperties: false
       example:
-        BarrierEventOccurred: true
-        CanBeExercised: false
-        ExerciseStyle: American
-        ExpiryCut: NY
-        ExpiryDate: '9999-12-31T23:59:59.9999990+00:00'
-        LowerBarrier: 10
-        PremiumDate: '9999-12-31T23:59:59.9999990+00:00'
-        PutCall: None
-        SettlementStyle: PhysicalDelivery
-        Strike: 10
-        UpperBarrier: 10
-    MarketState:
-      title: Defines the possible states of the Market.
-      enum:
-      - Closed
-      - ClosingAuction
-      - IntraDayAuction
-      - Open
-      - OpeningAuction
-      - PostMarket
-      - PreMarket
-      - TradingAtLast
-      type: string
-      example: Closed
-      x-enum-descriptions:
-        Open: Market is open for trades (Automatic Trading, usually).
-        Closed: Market is closed
-        PreMarket: Market is in Pre Market Auction state
-        PostMarket: Market is in Post Market Auction state
-        IntraDayAuction: "Market is temporary out of normal Trading. In an Auction state This state is\n            for Intraday Auction. We have 2 specific states for Opening and Closing Auction"
-        OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
-        ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
-        TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
-    PositionResponseListResult:
+        AdditionalTransactionCosts: 10
+        Commission: 10
+        ExchangeFee: 10
+        ExternalCharges: 10
+        PerformanceFee: 10
+        StampDuty: 10
+    FixedIncomeData:
+      title: Extended details about yeild and accrued interest for bonds.
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PositionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
+        ClosedAccruedInterest:
+          title: Part of the close price that accounts for the Accrued Interest.
           type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
+          example: 10
+        ClosedAccruedInterestInBaseCurrency:
+          title: Part of the close price that accounts for the Accrued Interest in reqesting client/account currency.
           type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
+          example: 10
+        OpenAccruedInterest:
+          title: Part of the open price that accounts for the Accrued Interest.
+          type: number
+          example: 10
+        OpenAccruedInterestInBaseCurrency:
+          title: Part of the open price that accounts for the Accrued Interest in reqesting client/account currency.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - NetPositionId: GBPUSD_FxSpot
-          PositionBase:
-            AccountId: 192134INET
-            Amount: 100000
-            AssetType: FxSpot
-            CanBeClosed: true
-            ClientId: '654321'
-            CloseConversionRateSettled: false
-            ExecutionTimeOpen: '2016-09-02T10:25:00Z'
-            IsForceOpen: false
-            IsMarketOpen: false
-            LockedByBackOffice: false
-            OpenPrice: 1.32167
-            SpotDate: '2016-09-06'
-            Status: Open
-            Uic: 31
-            ValueDate: '2017-05-04T00:00:00Z'
-          PositionId: '1019942425'
-          PositionView:
-            Ask: 1.2917
-            Bid: 1.29162
-            CalculationReliability: Ok
-            CurrentPrice: 1.29169
-            CurrentPriceDelayMinutes: 0
-            CurrentPriceType: Bid
-            Exposure: 100000
-            ExposureCurrency: GBP
-            ExposureInBaseCurrency: 129192
-            InstrumentPriceDayPercentChange: 0.26
-            ProfitLossOnTrade: -2998
-            ProfitLossOnTradeInBaseCurrency: -2998
-            SettlementInstruction:
-              ActualRolloverAmount: 0
-              ActualSettlementAmount: 10
-              Amount: 10
-              IsSettlementInstructionsAllowed: false
-              Month: 7
-              SettlementType: FullSettlement
-              Year: 2020
-            TradeCostsTotal: 0
-            TradeCostsTotalInBaseCurrency: 0
-    PositionPagingSubscriptionUpdateRequest:
-      title: A parameter wrapper for position subscription paging update operations.
+        ClosedAccruedInterest: 10
+        ClosedAccruedInterestInBaseCurrency: 10
+        OpenAccruedInterest: 10
+        OpenAccruedInterestInBaseCurrency: 10
+    PositionDynamic:
+      title: Dynamic Contents for a Position. The following fields are updated as prices change or the position is updated, filled or closed.
       type: object
       properties:
-        NewPageSize:
-          title: Extends or reduces the page size, number of positions shown, on a running positions subscription.
+        Ask:
+          title: The current market ask price.
+          type: number
+          example: 10
+        Bid:
+          title: The current market bid price.
+          type: number
+          example: 10
+        CalculationReliability:
+          title: If an error was encountered this code indicates source of the calculation error.
+          allOf:
+          - $ref: '#/components/schemas/CalculationReliability'
+        ConversionRateClose:
+          title: Conversion rate used for closing trade costs.
+          type: number
+          example: 10
+        ConversionRateCurrent:
+          title: Current conversion rate used for opening trade costs.
+          type: number
+          example: 10
+        ConversionRateOpen:
+          title: Conversion rate used for opening trade costs.
+          type: number
+          example: 10
+        CurrentPrice:
+          title: The current price for the instrument
+          type: number
+          example: 10
+        CurrentPriceDelayMinutes:
+          title: If set, it defines the number of minutes by which the price is delayed.
           type: integer
           format: int32
           example: 99
+        CurrentPriceLastTraded:
+          title: Indicates when the user specific current market price of the instrument was last traded.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        CurrentPriceType:
+          title: The price type (Bid/Ask/LastTraded) of the user specific(delayed/realtime) current market price of the instrument.
+          allOf:
+          - $ref: '#/components/schemas/PriceType'
+        Exposure:
+          title: Current nominal value of position, but differs from market value in that it has a value for margin products.
+          type: number
+          example: 10
+        ExposureCurrency:
+          title: Currency of exposure.
+          type: string
+          example: stringValue
+        ExposureInBaseCurrency:
+          title: Current nominal value of position, but differs from market value in that it has a value for margin products. Converted to requesting account/client currency.
+          type: number
+          example: 10
+        IndexRatio:
+          title: Current IndexRatio, Applicable for Inflation linked bonds.
+          type: number
+          example: 10
+        InstrumentPriceDayPercentChange:
+          title: Percent change in instrument's price between Previous Close and current Last Traded price.
+          type: number
+          example: 10
+        MarketState:
+          allOf:
+          - $ref: '#/components/schemas/MarketState'
+        MarketValue:
+          title: Market value of position excl. closing costs.
+          type: number
+          example: 10
+        MarketValueInBaseCurrency:
+          title: The total nominal value of the of the underlying positions, in requested account/client currency.
+          type: number
+          example: 10
+        MarketValueOpen:
+          title: The value of the position at time of opening.
+          type: number
+          example: 10
+        MarketValueOpenInBaseCurrency:
+          title: The nominal value of the position at the time of open, in requested account/client currency.
+          type: number
+          example: 10
+        OpenInterest:
+          title: The total number of contracts that have not been settled and remain open as of the end of a trading day.
+          type: number
+          example: 10
+        ProfitLossCurrencyConversion:
+          title: The P/L from currency conversion between now and position open.
+          type: number
+          example: 10
+        ProfitLossOnTrade:
+          title: The P/L in the quote currency.
+          type: number
+          example: 10
+        ProfitLossOnTradeInBaseCurrency:
+          title: The P/L on in the client/account base currency.
+          type: number
+          example: 10
+        SettlementInstruction:
+          title: SettlementInstruction
+          allOf:
+          - $ref: '#/components/schemas/SettlementInstructions'
+        TradeCostsTotal:
+          title: The sum of all open costs and realized/unrealized close costs for the underlying positions, in instrument currency.
+          type: number
+          example: 10
+        TradeCostsTotalInBaseCurrency:
+          title: The sum of all open costs and realized/unrealized close costs for the underlying positions.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        NewPageSize: 99
-    OrderType:
-      title: Specifies under what conditions an order should be triggered.
+        Ask: 10
+        Bid: 10
+        CalculationReliability: CurrencyConversionFailed
+        ConversionRateClose: 10
+        ConversionRateCurrent: 10
+        ConversionRateOpen: 10
+        CurrentPrice: 10
+        CurrentPriceDelayMinutes: 99
+        CurrentPriceLastTraded: '9999-12-31T23:59:59.9999990+00:00'
+        CurrentPriceType: Mid
+        Exposure: 10
+        ExposureCurrency: stringValue
+        ExposureInBaseCurrency: 10
+        IndexRatio: 10
+        InstrumentPriceDayPercentChange: 10
+        MarketState: PreMarket
+        MarketValue: 10
+        MarketValueInBaseCurrency: 10
+        MarketValueOpen: 10
+        MarketValueOpenInBaseCurrency: 10
+        OpenInterest: 10
+        ProfitLossCurrencyConversion: 10
+        ProfitLossOnTrade: 10
+        ProfitLossOnTradeInBaseCurrency: 10
+        SettlementInstruction:
+          ActualRolloverAmount: 10
+          ActualSettlementAmount: 10
+          Amount: 10
+          IsSettlementInstructionsAllowed: true
+          Month: 99
+          SettlementType: PartialSettlement
+          Year: 99
+        TradeCostsTotal: 10
+        TradeCostsTotalInBaseCurrency: 10
+    CorrelationType:
+      title: Specificies the type of correlation identified by the CorrelationKey. In OpenAPI we only expose a subset of all system internal correlation types.
       enum:
-      - BreakoutTrigger
-      - CallLimit
-      - CallStop
-      - DealCapture
-      - GuaranteedStop
-      - Limit
-      - LimitTrigger
-      - Market
-      - MarketDefault
-      - MarketExpiry
-      - MarketRollover
-      - MarketStopOut
-      - PreviouslyQuoted
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - StopTrigger
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - TrailingStopLimit
-      - Traspaso
-      - TraspasoIn
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
-      - Unknown
+      - Allocation
+      - Assignment
+      - AutoAssignment
+      - AutoExercise
+      - AutoTrade
+      - CopyTrade
+      - Exercise
       type: string
-      example: Market
-      x-enum-deprecated:
-      - LimitTrigger
-      - StopTrigger
-      - BreakoutTrigger
-      x-enum-deprecated-date:
-        LimitTrigger: '2022-10-01'
-        StopTrigger: '2022-10-01'
-        BreakoutTrigger: '2022-10-01'
+      example: Allocation
       x-enum-descriptions:
-        Unknown: Unknown
-        Market: Market.
-        Limit: Limit.
-        StopIfTraded: Stop if traded.
-        Stop: Stop.
-        StopLimit: Stop Limit.
-        MarketStopOut: Market StopOut
-        CallLimit: Call Limit
-        CallStop: Call Stop
-        MarketExpiry: Market Expiry
-        TrailingStopIfTraded: Trailing stop if traded
-        TrailingStop: Trailing stop
-        TrailingStopLimit: Trailing Stop Limit
-        PreviouslyQuoted: Previously Quoted.
-        MarketDefault: Market Default.
-        Switch: Switch order, Sell X and Buy Y with one order.
-        Traspaso: Specific type of switch order. Only available on select MutualFunds.
-        TraspasoIn: Specific type of switch order. Only available on select MutualFunds.
-        GuaranteedStop: Guaranteed Stop. Currently not supported.
-        MarketRollover: Market Rollover orders are used to automate the process of closing out open positions in soon to expire contracts in favour of contracts with later expiration dates.
-        LimitTrigger: If the price moves above or below the trigger price, then place related order.
-        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        DealCapture: Deal capture order
-        TriggerBreakout: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        TriggerLimit: If the price moves above or below the trigger price, then place related order.
-        TriggerStop: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-    InstrumentExchangeDetails:
-      title: Information about an exchange and its trading hours.
+        Allocation: Entity is part of a trade allocation
+        Exercise: Entity originated from an options exercise.
+        AutoExercise: Entity originated from an automatic options exercise.
+        Assignment: Entitiy originated for an options assignment.
+        AutoAssignment: Entitiy originated for an automatic options assignment.
+        CopyTrade: Entity originated from a CopyTrade
+        AutoTrade: Entity originated from an AutoTrade
+    RelatedOrderInfo:
+      title: Information about related order to be shown on order list.
+      required:
+      - OrderId
       type: object
       properties:
-        Description:
-          title: Full name/description of the exchange
+        Amount:
+          title: Order size
+          type: number
+          example: 10
+        Duration:
+          title: The time frame during which the order is valid.
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration'
+        OpenOrderType:
+          title: The order type.
+          allOf:
+          - $ref: '#/components/schemas/OrderType'
+        OrderId:
+          title: The orderId.
           type: string
           example: stringValue
-        ExchangeId:
-          title: Short exchange code.
-          type: string
-          example: stringValue
-        IsOpen:
-          title: Indicates if the exchange is currently open for trading
-          type: boolean
-          example: true
-        TimeZoneId:
-          title: Exchange's TimeZone
-          type: string
-          example: stringValue
+        OrderPrice:
+          title: Price at which the order is triggered.
+          type: number
+          example: 10
+        StopLimitPrice:
+          title: Stop limit price for stop limit order.
+          type: number
+          example: 10
+        TrailingStopDistanceToMarket:
+          title: Distance to market for a trailing stop order.
+          type: number
+          example: 10
+        TrailingStopStep:
+          title: Step size for trailing stop order.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        Description: stringValue
-        ExchangeId: stringValue
-        IsOpen: true
-        TimeZoneId: stringValue
+        Amount: 10
+        Duration:
+          DurationType: DayOrder
+          ExpirationDate: '2023-11-17T01:00:56.411915Z'
+          ExpirationDateContainsTime: true
+          ExpirationDateTime: '2023-11-17T01:00:56.4119159'
+        OpenOrderType: Limit
+        OrderId: stringValue
+        OrderPrice: 10
+        StopLimitPrice: 10
+        TrailingStopDistanceToMarket: 10
+        TrailingStopStep: 10
     PositionsSubscriptionRequest:
       title: Public request contract for setting up a subscription on open positions.
       required:
@@ -1545,6 +1600,261 @@ components:
         ReferenceId: P48094
         RefreshRate: 1000
         Tag: PAGE1
+    SettlementStyle:
+      title: Options for how a contract option is settled when exercised.
+      enum:
+      - CashDelivery
+      - PhysicalDelivery
+      type: string
+      example: CashDelivery
+      x-enum-descriptions:
+        CashDelivery: The contract option is settled as cash.
+        PhysicalDelivery: The contract option is settled by physical delivery.
+    MarketState:
+      title: Defines the possible states of the Market.
+      enum:
+      - Closed
+      - ClosingAuction
+      - IntraDayAuction
+      - Open
+      - OpeningAuction
+      - PostMarket
+      - PreMarket
+      - TradingAtLast
+      type: string
+      example: Closed
+      x-enum-descriptions:
+        Open: Market is open for trades (Automatic Trading, usually).
+        Closed: Market is closed
+        PreMarket: Market is in Pre Market Auction state
+        PostMarket: Market is in Post Market Auction state
+        IntraDayAuction: "Market is temporary out of normal Trading. In an Auction state This state is\n            for Intraday Auction. We have 2 specific states for Opening and Closing Auction"
+        OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
+        ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
+        TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
+    InstrumentExchangeDetails:
+      title: Information about an exchange and its trading hours.
+      type: object
+      properties:
+        Description:
+          title: Full name/description of the exchange
+          type: string
+          example: stringValue
+        ExchangeId:
+          title: Short exchange code.
+          type: string
+          example: stringValue
+        IsOpen:
+          title: Indicates if the exchange is currently open for trading
+          type: boolean
+          example: true
+        TimeZoneId:
+          title: Exchange's TimeZone
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: stringValue
+        ExchangeId: stringValue
+        IsOpen: true
+        TimeZoneId: stringValue
+    PriceType:
+      title: Used to describe the type of the price
+      enum:
+      - Ask
+      - Bid
+      - Close
+      - High
+      - Indicative
+      - LastTraded
+      - Low
+      - Mid
+      - None
+      - Open
+      - Synthetic
+      type: string
+      example: Ask
+      x-enum-descriptions:
+        Bid: Highest price from buyer.
+        Ask: Best offer from seller (offer price)
+        Mid: The price between the best price of the sellers (bid) and best offer from the buyers (ask).
+        LastTraded: Price at which instrument was last traded.
+        Close: Official price of instrument at the end of trading session.
+        Open: Official price of instrument at the start of trading session.
+        Synthetic: Computed price of instrument.
+        High: Highest traded price in period.
+        Low: Lowest traded price in period.
+        Indicative: Best estimate price based on market conditions. Used mainly in low liquidity markets, where Bid/Ask/LastTraded/Close may not be available.
+        None: Unknown/No value set
+    PositionRequest:
+      title: "Represents a request for one or more netpositions.\n            At least one of the following must be specified."
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the net positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account to which the net positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: The key of the client to which the net positions belongs.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: Specifies which data to return. Default is [PositionBase,PositionView]
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionFieldGroup'
+        NetPositionId:
+          title: The id of the netposition to which the position belongs
+          type: string
+        PositionId:
+          title: The id of the position.
+          type: string
+        WatchlistId:
+          title: Selects only positions those instruments belongs to the given watchlist id
+          type: string
+      additionalProperties: false
+      example:
+        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        FieldGroups:
+        - PositionBase
+        - PositionView
+        NetPositionId: GBPUSD_FxSpot
+        PositionId: '1019942425'
+    Greeks:
+      title: Describes the sensitivity of the value of an option or instrument to a change in a given underlying parameter.
+      type: object
+      properties:
+        Delta:
+          title: Shows the equivalent FX Spot exposure of a given position. This is the sensitivity of a position’s value with respect to the spot rate.
+          type: number
+          example: 10
+        DeltaCurrency:
+          title: Currency of Delta.
+          type: string
+          example: stringValue
+        Gamma:
+          title: This is the second derivative of the position value with respect to spot, i.e. it shows how much the delta changes when spot changes (i.e. how much will the delta change when spot moves up by one percentage point.
+          type: number
+          example: 10
+        GammaCurrency:
+          title: Currency of Gamma.
+          type: string
+          example: stringValue
+        InstrumentDelta:
+          title: Delta for the instrument.
+          type: number
+          example: 10
+        InstrumentGamma:
+          title: Gamma for the instrument.
+          type: number
+          example: 10
+        InstrumentTheta:
+          title: Theta for the instrument.
+          type: number
+          example: 10
+        InstrumentVega:
+          title: Vega for the instrument.
+          type: number
+          example: 10
+        MidVol:
+          title: The mid rate for the implied volatility used in pricing this option
+          type: number
+          example: 10
+        Phi:
+          title: Phi
+          type: number
+          example: 10
+        Rho:
+          title: Interest rate sensitivity indicator. Derivative of the option value with and risk free interest rate.
+          type: number
+          example: 10
+        TheoreticalPrice:
+          title: The theoretical price.
+          type: number
+          example: 10
+        Theta:
+          title: Also known as time decay. This shows by how much the position will increase or decrease in value from one day to the next.
+          type: number
+          example: 10
+        ThetaCurrency:
+          title: Currency of Theta.
+          type: string
+          example: stringValue
+        Vega:
+          title: Sensitivity of a position with respect to the implied volatility used to price FX Options. This shows how much money is made (positive number) or lost (negative number) when volatility goes up by one percentage point.
+          type: number
+          example: 10
+        VegaCurrency:
+          title: Currency of Vega.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Delta: 10
+        DeltaCurrency: stringValue
+        Gamma: 10
+        GammaCurrency: stringValue
+        InstrumentDelta: 10
+        InstrumentGamma: 10
+        InstrumentTheta: 10
+        InstrumentVega: 10
+        MidVol: 10
+        Phi: 10
+        Rho: 10
+        TheoreticalPrice: 10
+        Theta: 10
+        ThetaCurrency: stringValue
+        Vega: 10
+        VegaCurrency: stringValue
+    PositionPagingSubscriptionUpdateRequest:
+      title: A parameter wrapper for position subscription paging update operations.
+      type: object
+      properties:
+        NewPageSize:
+          title: Extends or reduces the page size, number of positions shown, on a running positions subscription.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        NewPageSize: 99
+    PositionCost:
+      title: Trading costs associated with opening/closing a position
+      type: object
+      properties:
+        CloseCost:
+          title: Costs associated with the closing trade.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        CloseCostInBaseCurrency:
+          title: A  Estimate of the cost of closing all underlying positions in requested account or client currency.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        CurrencyCutPct:
+          title: Currency cut percentage.
+          type: number
+          example: 10
+        OpenCost:
+          title: Costs associated with the opening trade.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+        OpenCostInBaseCurrency:
+          title: Costs associated with the opening trade in requested account or client currency.
+          allOf:
+          - $ref: '#/components/schemas/CostData'
+      additionalProperties: false
+      example: null
     PositionStatic:
       title: Static contents for a position. The following fields do not change when the price is updated
       type: object
@@ -1798,1217 +2108,74 @@ components:
         ToOpenClose: ToClose
         Uic: 99
         ValueDate: '9999-12-31T23:59:59.9999990+00:00'
-    SettlementType:
-      title: SettlementType for SRD
+    OrderType:
+      title: Specifies under what conditions an order should be triggered.
       enum:
-      - FullRollover
-      - FullSettlement
-      - PartialSettlement
-      type: string
-      example: FullRollover
-      x-enum-descriptions:
-        PartialSettlement: Default / Partial settlement method. Use the amount for settlement
-        FullSettlement: FullSettlement. Ignore amount and settle all
-        FullRollover: Full Roll over. Delete instructions and revert to default SRD behaviour
-    AssetType_2:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxKnockOutOption
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    PositionFieldGroup:
-      title: Specification of fieldsets to include in results.
-      enum:
-      - Costs
-      - DisplayAndFormat
-      - ExchangeInfo
-      - Greeks
-      - PositionBase
-      - PositionIdOnly
-      - PositionView
-      type: string
-      example: DisplayAndFormat
-      x-enum-descriptions:
-        PositionBase: Individual Positions. Base data, which does not change with client/account view, or market data
-        DisplayAndFormat: Information about the instrument of the position and how to display it.
-        PositionView: Individual Positions. Dynamic Data, which changes with client/account view, or market data
-        ExchangeInfo: Adds information about the instrument's exchange. This includes Exchange name, exchange code and open status.
-        PositionIdOnly: Individual PositionId only.
-        Greeks: Greeks for Option(s), only applicable to Fx Options , Contract Options and Contract options CFD
-        Costs: Trading costs associated with opening/closing a position
-      x-type-warning: FlaggableEnum
-    PositionDynamic:
-      title: Dynamic Contents for a Position. The following fields are updated as prices change or the position is updated, filled or closed.
-      type: object
-      properties:
-        Ask:
-          title: The current market ask price.
-          type: number
-          example: 10
-        Bid:
-          title: The current market bid price.
-          type: number
-          example: 10
-        CalculationReliability:
-          title: If an error was encountered this code indicates source of the calculation error.
-          allOf:
-          - $ref: '#/components/schemas/CalculationReliability'
-        ConversionRateClose:
-          title: Conversion rate used for closing trade costs.
-          type: number
-          example: 10
-        ConversionRateCurrent:
-          title: Current conversion rate used for opening trade costs.
-          type: number
-          example: 10
-        ConversionRateOpen:
-          title: Conversion rate used for opening trade costs.
-          type: number
-          example: 10
-        CurrentPrice:
-          title: The current price for the instrument
-          type: number
-          example: 10
-        CurrentPriceDelayMinutes:
-          title: If set, it defines the number of minutes by which the price is delayed.
-          type: integer
-          format: int32
-          example: 99
-        CurrentPriceLastTraded:
-          title: Indicates when the user specific current market price of the instrument was last traded.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        CurrentPriceType:
-          title: The price type (Bid/Ask/LastTraded) of the user specific(delayed/realtime) current market price of the instrument.
-          allOf:
-          - $ref: '#/components/schemas/PriceType'
-        Exposure:
-          title: Current nominal value of position, but differs from market value in that it has a value for margin products.
-          type: number
-          example: 10
-        ExposureCurrency:
-          title: Currency of exposure.
-          type: string
-          example: stringValue
-        ExposureInBaseCurrency:
-          title: Current nominal value of position, but differs from market value in that it has a value for margin products. Converted to requesting account/client currency.
-          type: number
-          example: 10
-        IndexRatio:
-          title: Current IndexRatio, Applicable for Inflation linked bonds.
-          type: number
-          example: 10
-        InstrumentPriceDayPercentChange:
-          title: Percent change in instrument's price between Previous Close and current Last Traded price.
-          type: number
-          example: 10
-        MarketState:
-          allOf:
-          - $ref: '#/components/schemas/MarketState'
-        MarketValue:
-          title: Market value of position excl. closing costs.
-          type: number
-          example: 10
-        MarketValueInBaseCurrency:
-          title: The total nominal value of the of the underlying positions, in requested account/client currency.
-          type: number
-          example: 10
-        MarketValueOpen:
-          title: The value of the position at time of opening.
-          type: number
-          example: 10
-        MarketValueOpenInBaseCurrency:
-          title: The nominal value of the position at the time of open, in requested account/client currency.
-          type: number
-          example: 10
-        OpenInterest:
-          title: The total number of contracts that have not been settled and remain open as of the end of a trading day.
-          type: number
-          example: 10
-        ProfitLossCurrencyConversion:
-          title: The P/L from currency conversion between now and position open.
-          type: number
-          example: 10
-        ProfitLossOnTrade:
-          title: The P/L in the quote currency.
-          type: number
-          example: 10
-        ProfitLossOnTradeInBaseCurrency:
-          title: The P/L on in the client/account base currency.
-          type: number
-          example: 10
-        SettlementInstruction:
-          title: SettlementInstruction
-          allOf:
-          - $ref: '#/components/schemas/SettlementInstructions'
-        TradeCostsTotal:
-          title: The sum of all open costs and realized/unrealized close costs for the underlying positions, in instrument currency.
-          type: number
-          example: 10
-        TradeCostsTotalInBaseCurrency:
-          title: The sum of all open costs and realized/unrealized close costs for the underlying positions.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Ask: 10
-        Bid: 10
-        CalculationReliability: CurrencyConversionFailed
-        ConversionRateClose: 10
-        ConversionRateCurrent: 10
-        ConversionRateOpen: 10
-        CurrentPrice: 10
-        CurrentPriceDelayMinutes: 99
-        CurrentPriceLastTraded: '9999-12-31T23:59:59.9999990+00:00'
-        CurrentPriceType: Mid
-        Exposure: 10
-        ExposureCurrency: stringValue
-        ExposureInBaseCurrency: 10
-        IndexRatio: 10
-        InstrumentPriceDayPercentChange: 10
-        MarketState: PreMarket
-        MarketValue: 10
-        MarketValueInBaseCurrency: 10
-        MarketValueOpen: 10
-        MarketValueOpenInBaseCurrency: 10
-        OpenInterest: 10
-        ProfitLossCurrencyConversion: 10
-        ProfitLossOnTrade: 10
-        ProfitLossOnTradeInBaseCurrency: 10
-        SettlementInstruction:
-          ActualRolloverAmount: 10
-          ActualSettlementAmount: 10
-          Amount: 10
-          IsSettlementInstructionsAllowed: true
-          Month: 99
-          SettlementType: PartialSettlement
-          Year: 99
-        TradeCostsTotal: 10
-        TradeCostsTotalInBaseCurrency: 10
-    ExpiryCut:
-      title: Specifies the type of cut-time used in option expiration.
-      enum:
-      - Budapest
-      - Mexico
-      - Moscow
-      - NY
-      - None
-      - PreciousMetals
-      - TK
-      - Turkey
+      - BreakoutTrigger
+      - CallLimit
+      - CallStop
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - MarketDefault
+      - MarketExpiry
+      - MarketRollover
+      - MarketStopOut
+      - PreviouslyQuoted
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - TrailingStopLimit
+      - Traspaso
+      - TraspasoIn
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
       - Unknown
-      - Warsaw
       type: string
-      description: "Expiry cuts are associated to string values (indicators) from ExpiryCuts MITS DB table.\n            This enum should be updated each time when ExpiryCuts MITS DB table updated."
-      example: TK
+      example: Market
+      x-enum-deprecated:
+      - LimitTrigger
+      - StopTrigger
+      - BreakoutTrigger
+      x-enum-deprecated-date:
+        LimitTrigger: '2022-10-01'
+        StopTrigger: '2022-10-01'
+        BreakoutTrigger: '2022-10-01'
       x-enum-descriptions:
-        None: Not specified. Usually option trade with this type of expiration has invalid state or not initialized.
-        NY: Option will be expired on the New-York time.
-        TK: Option will be expired on the Tokyo time.
-        Warsaw: 'WR: Option is expired/exercised manually. Priced as NY.'
-        Budapest: 'BD: Option is expired/exercised manually. Priced as NY.'
-        PreciousMetals: 'Precious metals cut (PM): Option is expired/exercised manually. Priced as NY.'
-        Turkey: 'Turkish cut (TR): Option is expired/exercised manually. Priced as NY.'
-        Mexico: 'Mexico cut (MX): Option is expired/exercised manually. Priced as NY.'
-        Moscow: 'Moscow cut (MW): Option is expired/exercised manually. Priced as NY.'
-        Unknown: 'Unknown cut: (UX): Option is expired/exercised manually. Priced as NY.'
-    ExerciseMethod:
-      title: Exercise method for FX Options.
-      enum:
-      - Cash
-      - Spot
-      type: string
-      example: Cash
-      x-enum-descriptions:
-        Cash: Option P/L is converted to cash.
-        Spot: Option is converted to spot position.
-    Greeks:
-      title: Describes the sensitivity of the value of an option or instrument to a change in a given underlying parameter.
-      type: object
-      properties:
-        Delta:
-          title: Shows the equivalent FX Spot exposure of a given position. This is the sensitivity of a position’s value with respect to the spot rate.
-          type: number
-          example: 10
-        DeltaCurrency:
-          title: Currency of Delta.
-          type: string
-          example: stringValue
-        Gamma:
-          title: This is the second derivative of the position value with respect to spot, i.e. it shows how much the delta changes when spot changes (i.e. how much will the delta change when spot moves up by one percentage point.
-          type: number
-          example: 10
-        GammaCurrency:
-          title: Currency of Gamma.
-          type: string
-          example: stringValue
-        InstrumentDelta:
-          title: Delta for the instrument.
-          type: number
-          example: 10
-        InstrumentGamma:
-          title: Gamma for the instrument.
-          type: number
-          example: 10
-        InstrumentTheta:
-          title: Theta for the instrument.
-          type: number
-          example: 10
-        InstrumentVega:
-          title: Vega for the instrument.
-          type: number
-          example: 10
-        MidVol:
-          title: The mid rate for the implied volatility used in pricing this option
-          type: number
-          example: 10
-        Phi:
-          title: Phi
-          type: number
-          example: 10
-        Rho:
-          title: Interest rate sensitivity indicator. Derivative of the option value with and risk free interest rate.
-          type: number
-          example: 10
-        TheoreticalPrice:
-          title: The theoretical price.
-          type: number
-          example: 10
-        Theta:
-          title: Also known as time decay. This shows by how much the position will increase or decrease in value from one day to the next.
-          type: number
-          example: 10
-        ThetaCurrency:
-          title: Currency of Theta.
-          type: string
-          example: stringValue
-        Vega:
-          title: Sensitivity of a position with respect to the implied volatility used to price FX Options. This shows how much money is made (positive number) or lost (negative number) when volatility goes up by one percentage point.
-          type: number
-          example: 10
-        VegaCurrency:
-          title: Currency of Vega.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Delta: 10
-        DeltaCurrency: stringValue
-        Gamma: 10
-        GammaCurrency: stringValue
-        InstrumentDelta: 10
-        InstrumentGamma: 10
-        InstrumentTheta: 10
-        InstrumentVega: 10
-        MidVol: 10
-        Phi: 10
-        Rho: 10
-        TheoreticalPrice: 10
-        Theta: 10
-        ThetaCurrency: stringValue
-        Vega: 10
-        VegaCurrency: stringValue
-    PositionRequest:
-      title: "Represents a request for one or more netpositions.\n            At least one of the following must be specified."
-      required:
-      - ClientKey
-      type: object
-      properties:
-        AccountGroupKey:
-          title: The key of the account group to which the net positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: AccountGroupKey
-        AccountKey:
-          title: The key of the account to which the net positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: The key of the client to which the net positions belongs.
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        FieldGroups:
-          title: Specifies which data to return. Default is [PositionBase,PositionView]
-          type: array
-          items:
-            $ref: '#/components/schemas/PositionFieldGroup'
-        NetPositionId:
-          title: The id of the netposition to which the position belongs
-          type: string
-        PositionId:
-          title: The id of the position.
-          type: string
-        WatchlistId:
-          title: Selects only positions those instruments belongs to the given watchlist id
-          type: string
-      additionalProperties: false
-      example:
-        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        FieldGroups:
-        - PositionBase
-        - PositionView
-        NetPositionId: GBPUSD_FxSpot
-        PositionId: '1019942425'
-    PositionStatus:
-      title: Defines possible values for position or net position status.
-      enum:
-      - Closed
-      - Closing
-      - Locked
-      - Open
-      - PartiallyClosed
-      - RelatedClose
-      - Square
-      type: string
-      example: Closed
-      x-enum-descriptions:
-        Open: Open
-        Closed: Closed
-        Closing: Closing with market order
-        PartiallyClosed: Partially closed
-        Locked: Locked by back office
-        RelatedClose: Related closing position
-        Square: Implicitly closed. Used for Net Positions only.
-    CalculationReliability:
-      title: To what extent can the calculated values and P/L be trusted
-      enum:
-      - ApproximatedPrice
-      - CurrencyConversionFailed
-      - FailedToCalculateCollateral
-      - NoMarketAccess
-      - Ok
-      - OkWithConditions
-      - PricePending
-      - SystemError
-      - UnknownPrice
-      type: string
-      example: UnknownPrice
-      x-enum-descriptions:
-        Ok: Ok - calculation successful
-        UnknownPrice: Unknown price
-        CurrencyConversionFailed: Currency conversion failed
-        FailedToCalculateCollateral: Failed to calculate collateral
-        OkWithConditions: Calculation was ok given some conditions
-        PricePending: Calculation depends on a price that is currently unavailable.
-        NoMarketAccess: No Market Access for price.
-        SystemError: General error due to system or client configuration.
-        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
-    PositionResponse:
-      title: Describes an open position
-      required:
-      - PositionId
-      type: object
-      properties:
-        Costs:
-          title: Trading costs associated with opening/closing a position.
-          allOf:
-          - $ref: '#/components/schemas/PositionCost'
-        DisplayAndFormat:
-          title: Information about the position instrument and how to display it.
-          allOf:
-          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
-        Exchange:
-          title: Information about the instrument's exchange and trading status.
-          allOf:
-          - $ref: '#/components/schemas/InstrumentExchangeDetails'
-        Greeks:
-          title: Greeks, only available for options, i.e. FX Options, Contract Options, and Contract Options CFDs.
-          allOf:
-          - $ref: '#/components/schemas/Greeks'
-        NetPositionId:
-          title: The id of the NetPosition, to which this position is belongs. All positions in the same instrument have the same NetPositionId.
-          type: string
-          example: stringValue
-        PositionBase:
-          title: Static part of position information.
-          allOf:
-          - $ref: '#/components/schemas/PositionStatic'
-        PositionId:
-          title: Unique id of this position.
-          type: string
-          example: stringValue
-        PositionView:
-          title: Dynamic part of position information.
-          allOf:
-          - $ref: '#/components/schemas/PositionDynamic'
-      additionalProperties: false
-      example:
-        NetPositionId: GBPUSD_FxSpot
-        PositionBase:
-          AccountId: 192134INET
-          Amount: 100000
-          AssetType: FxSpot
-          CanBeClosed: true
-          ClientId: '654321'
-          CloseConversionRateSettled: false
-          ExecutionTimeOpen: '2016-09-02T10:25:00Z'
-          IsForceOpen: false
-          IsMarketOpen: false
-          LockedByBackOffice: false
-          OpenPrice: 1.32167
-          SpotDate: '2016-09-06'
-          Status: Open
-          Uic: 31
-          ValueDate: '2017-05-04T00:00:00Z'
-        PositionId: '1019942425'
-        PositionView:
-          Ask: 1.2917
-          Bid: 1.29162
-          CalculationReliability: Ok
-          CurrentPrice: 1.29169
-          CurrentPriceDelayMinutes: 0
-          CurrentPriceType: Bid
-          Exposure: 100000
-          ExposureCurrency: GBP
-          ExposureInBaseCurrency: 129192
-          InstrumentPriceDayPercentChange: 0.26
-          ProfitLossOnTrade: -2998
-          ProfitLossOnTradeInBaseCurrency: -2998
-          SettlementInstruction:
-            ActualRolloverAmount: 0
-            ActualSettlementAmount: 10
-            Amount: 10
-            IsSettlementInstructionsAllowed: false
-            Month: 7
-            SettlementType: FullSettlement
-            Year: 2020
-          TradeCostsTotal: 0
-          TradeCostsTotalInBaseCurrency: 0
-    OrderDuration:
-      title: "The time frame during which the order is valid.\n            If the OrderDurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
-      type: object
-      properties:
-        DurationType:
-          title: Gets the order duration type.
-          allOf:
-          - $ref: '#/components/schemas/OrderDurationType'
-        ExpirationDate:
-          title: Obsolete. The ExpirationDate, if the Order Type is GoodTillDate. The field has been obsoleted and will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
-          type: string
-          format: date-time
-          deprecated: true
-          x-deprecated-date: '2022-11-01'
-          x-type-name: UtcDateTime
-        ExpirationDateContainsTime:
-          title: Gets the value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type.
-          type: boolean
-          example: true
-        ExpirationDateTime:
-          title: Gets the expiration date and (optionally) time if the order duration type is GoodTillDate.
-          type: string
-          description: If the field contains a time, it will always be expressed in the exchange local time. No time zone indication will be added.
-          example: stringValue
-      additionalProperties: false
-      example:
-        DurationType: GoodTillCancel
-        ExpirationDate: '2020-12-04T06:36:30.1014980+00:00'
-        ExpirationDateContainsTime: true
-        ExpirationDateTime: '2020-12-04T06:36:30.1014983'
-    SettlementInstructions:
-      title: SettlementInstructions associated with a net position
-      type: object
-      properties:
-        ActualRolloverAmount:
-          title: The amount that will be rolled over
-          type: number
-          example: 10
-        ActualSettlementAmount:
-          title: The amount of the net positions that is going to settle
-          type: number
-          example: 10
-        Amount:
-          title: The amount that is given by the client and stored as instructions
-          type: number
-          example: 10
-        IsSettlementInstructionsAllowed:
-          title: The liquidation date is the last day where the instructions can be updated and it can be done till the exchange is open.
-          type: boolean
-          example: true
-        Month:
-          title: SRD Calendar month
-          type: integer
-          format: int32
-          example: 99
-        SettlementType:
-          title: Client's chosen settlement type
-          allOf:
-          - $ref: '#/components/schemas/SettlementType'
-        Year:
-          title: SRD Calendar year
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        ActualRolloverAmount: 10
-        ActualSettlementAmount: 10
-        Amount: 10
-        IsSettlementInstructionsAllowed: false
-        Month: 99
-        SettlementType: FullSettlement
-        Year: 99
-    FixedIncomeData:
-      title: Extended details about yeild and accrued interest for bonds.
-      type: object
-      properties:
-        ClosedAccruedInterest:
-          title: Part of the close price that accounts for the Accrued Interest.
-          type: number
-          example: 10
-        ClosedAccruedInterestInBaseCurrency:
-          title: Part of the close price that accounts for the Accrued Interest in reqesting client/account currency.
-          type: number
-          example: 10
-        OpenAccruedInterest:
-          title: Part of the open price that accounts for the Accrued Interest.
-          type: number
-          example: 10
-        OpenAccruedInterestInBaseCurrency:
-          title: Part of the open price that accounts for the Accrued Interest in reqesting client/account currency.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        ClosedAccruedInterest: 10
-        ClosedAccruedInterestInBaseCurrency: 10
-        OpenAccruedInterest: 10
-        OpenAccruedInterestInBaseCurrency: 10
-    PositionCost:
-      title: Trading costs associated with opening/closing a position
-      type: object
-      properties:
-        CloseCost:
-          title: Costs associated with the closing trade.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        CloseCostInBaseCurrency:
-          title: A  Estimate of the cost of closing all underlying positions in requested account or client currency.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        CurrencyCutPct:
-          title: Currency cut percentage.
-          type: number
-          example: 10
-        OpenCost:
-          title: Costs associated with the opening trade.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-        OpenCostInBaseCurrency:
-          title: Costs associated with the opening trade in requested account or client currency.
-          allOf:
-          - $ref: '#/components/schemas/CostData'
-      additionalProperties: false
-      example: null
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    SettlementStyle:
-      title: Options for how a contract option is settled when exercised.
-      enum:
-      - CashDelivery
-      - PhysicalDelivery
-      type: string
-      example: CashDelivery
-      x-enum-descriptions:
-        CashDelivery: The contract option is settled as cash.
-        PhysicalDelivery: The contract option is settled by physical delivery.
-    PositionSyncResponse:
-      title: "If request was synchronous and successful, the id of the created position would be returned.\n            In addition the HTTP: Location Header will hold uri of the new resource."
-      type: object
-      properties:
-        ErrorInfo:
-          title: Gets or sets the error information.
-          allOf:
-          - $ref: '#/components/schemas/StringErrorResponse'
-        PositionId:
-          title: Id of newly created position
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        PositionId: '1019942426'
-    PutCall:
-      title: Describes the direction of an option.
-      enum:
-      - Call
-      - None
-      - Put
-      type: string
-      example: Put
-      x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    ExerciseStyle:
-      title: Indicates the type of the Options. Currently defined for European and American.
-      enum:
-      - American
-      - European
-      - None
-      type: string
-      example: European
-      x-enum-descriptions:
-        None: Option not defined.
-        American: American Option. Can be exercised prior to expiry date.
-        European: European Option. Must be exercised on expiry date.
-    InstrumentDisplayAndFormat:
-      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
-      type: object
-      properties:
-        BarrierDecimals:
-          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
-          type: integer
-          format: int32
-          example: 99
-        BarrierFormat:
-          title: "Display format of barrier price.\n            One touch/no touch options only."
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Currency:
-          title: The ISO currency code of the instrument.
-          type: string
-          example: stringValue
-        Decimals:
-          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x).\n            Same as DisplayDecimals."
-          type: integer
-          format: int32
-          example: 99
-        Description:
-          title: Description of instrument (DAX Index - Nov 2013), in English.
-          type: string
-          example: stringValue
-        DisplayHint:
-          title: Hint to the client application about how it should display the instrument.
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        Format:
-          title: Format code specifying how price should be formatted.
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        NumeratorDecimals:
-          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
-          type: integer
-          format: int32
-          example: 99
-        OrderDecimals:
-          title: The number of decimals trigger price for orders should be formatted with.
-          type: integer
-          format: int32
-          example: 99
-        StrikeDecimals:
-          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
-          type: integer
-          format: int32
-          example: 99
-        StrikeFormat:
-          title: "The price format to use when formatting strike price.\n            Only relevant for options."
-          allOf:
-          - $ref: '#/components/schemas/PriceDisplayFormatType'
-        Symbol:
-          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
-          type: string
-          example: stringValue
-        UnderlyingInstrumentDescription:
-          title: Common full name of the underlying instrument. Only used for options and is the same as the option root description.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BarrierDecimals: 99
-        BarrierFormat: Normal
-        Currency: stringValue
-        Decimals: 99
-        Description: stringValue
-        DisplayHint: PreciousMetal
-        Format: Percentage
-        NumeratorDecimals: 99
-        OrderDecimals: 99
-        StrikeDecimals: 99
-        StrikeFormat: AllowDecimalPips
-        Symbol: stringValue
-        UnderlyingInstrumentDescription: stringValue
-    StringErrorResponse:
-      type: object
-      properties:
-        ErrorCode:
-          title: ErrorCode
-          type: string
-          example: stringValue
-        Message:
-          title: Optional Textual information about the error to aid the developer.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        ErrorCode: stringValue
-        Message: stringValue
-    CorrelationType:
-      title: Specificies the type of correlation identified by the CorrelationKey. In OpenAPI we only expose a subset of all system internal correlation types.
-      enum:
-      - Allocation
-      - Assignment
-      - AutoAssignment
-      - AutoExercise
-      - AutoTrade
-      - CopyTrade
-      - Exercise
-      type: string
-      example: Allocation
-      x-enum-descriptions:
-        Allocation: Entity is part of a trade allocation
-        Exercise: Entity originated from an options exercise.
-        AutoExercise: Entity originated from an automatic options exercise.
-        Assignment: Entitiy originated for an options assignment.
-        AutoAssignment: Entitiy originated for an automatic options assignment.
-        CopyTrade: Entity originated from a CopyTrade
-        AutoTrade: Entity originated from an AutoTrade
-    Domain.BuySell:
-      title: Describes the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Buy.
-        Sell: Sell.
-    ToOpenClose:
-      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
-      enum:
-      - ToClose
-      - ToOpen
-      - Undefined
-      type: string
-      example: ToOpen
-      x-enum-descriptions:
-        Undefined: Undefined.
-        ToOpen: Order/Position is ToOpen.
-        ToClose: Order/Position is ToClose.
-    RelatedOrderInfo:
-      title: Information about related order to be shown on order list.
-      required:
-      - OrderId
-      type: object
-      properties:
-        Amount:
-          title: Order size
-          type: number
-          example: 10
-        Duration:
-          title: The time frame during which the order is valid.
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration'
-        OpenOrderType:
-          title: The order type.
-          allOf:
-          - $ref: '#/components/schemas/OrderType'
-        OrderId:
-          title: The orderId.
-          type: string
-          example: stringValue
-        OrderPrice:
-          title: Price at which the order is triggered.
-          type: number
-          example: 10
-        StopLimitPrice:
-          title: Stop limit price for stop limit order.
-          type: number
-          example: 10
-        TrailingStopDistanceToMarket:
-          title: Distance to market for a trailing stop order.
-          type: number
-          example: 10
-        TrailingStopStep:
-          title: Step size for trailing stop order.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Amount: 10
-        Duration:
-          DurationType: DayOrder
-          ExpirationDate: '2023-11-17T01:00:56.411915Z'
-          ExpirationDateContainsTime: true
-          ExpirationDateTime: '2023-11-17T01:00:56.4119159'
-        OpenOrderType: Limit
-        OrderId: stringValue
-        OrderPrice: 10
-        StopLimitPrice: 10
-        TrailingStopDistanceToMarket: 10
-        TrailingStopStep: 10
-    PriceType:
-      title: Used to describe the type of the price
-      enum:
-      - Ask
-      - Bid
-      - Close
-      - High
-      - Indicative
-      - LastTraded
-      - Low
-      - Mid
-      - None
-      - Open
-      - Synthetic
-      type: string
-      example: Ask
-      x-enum-descriptions:
-        Bid: Highest price from buyer.
-        Ask: Best offer from seller (offer price)
-        Mid: The price between the best price of the sellers (bid) and best offer from the buyers (ask).
-        LastTraded: Price at which instrument was last traded.
-        Close: Official price of instrument at the end of trading session.
-        Open: Official price of instrument at the start of trading session.
-        Synthetic: Computed price of instrument.
-        High: Highest traded price in period.
-        Low: Lowest traded price in period.
-        Indicative: Best estimate price based on market conditions. Used mainly in low liquidity markets, where Bid/Ask/LastTraded/Close may not be available.
-        None: Unknown/No value set
-    OrderDurationType:
-      title: "An enum describing the different order duration types.\n            Note that not all order types are possible for all asset types."
-      enum:
-      - AtTheClose
-      - AtTheOpening
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      type: string
-      example: AtTheClose
-      x-enum-descriptions:
-        AtTheClose: At the close of the trading session.
-        AtTheOpening: At the opening of the trading session.
-        DayOrder: Day Order - Valid for the trading session.
-        FillOrKill: Fill or Kill order.
-        GoodForPeriod: Good for a specified period.
-        GoodTillCancel: Good til Cancel.
-        GoodTillDate: Good til Date - Expiration Date must also be specified.
-        ImmediateOrCancel: Immediate or Cancel Order.
-    PositionsSubscriptionResponse:
-      title: Public response contract returned after setting up a subscription on open positions.
-      type: object
-      properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-          example: application/json
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-          example: 0
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-          example: 0
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          allOf:
-          - $ref: '#/components/schemas/PositionResponseListResult'
-        State:
-          title: The value "Active".
-          type: string
-          description: This property is kept for backwards compatibility.
-          example: Active
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Format: application/json
-        InactivityTimeout: 120
-        ReferenceId: P11029
-        RefreshRate: 1000
-        Snapshot:
-          Data:
-          - NetPositionId: GBPUSD_FxSpot
-            PositionBase:
-              AccountId: 192134INET
-              Amount: 100000
-              AssetType: FxSpot
-              CanBeClosed: true
-              ClientId: '654321'
-              CloseConversionRateSettled: false
-              ExecutionTimeOpen: '2016-09-02T10:25:00Z'
-              IsForceOpen: false
-              IsMarketOpen: false
-              LockedByBackOffice: false
-              OpenPrice: 1.32167
-              SpotDate: '2016-09-06'
-              Status: Open
-              Uic: 31
-              ValueDate: '2017-05-04T00:00:00Z'
-            PositionId: '1019942425'
-            PositionView:
-              Ask: 1.2917
-              Bid: 1.29162
-              CalculationReliability: Ok
-              CurrentPrice: 1.29169
-              CurrentPriceDelayMinutes: 0
-              CurrentPriceType: Bid
-              Exposure: 100000
-              ExposureCurrency: GBP
-              ExposureInBaseCurrency: 129192
-              InstrumentPriceDayPercentChange: 0.26
-              ProfitLossOnTrade: -2998
-              ProfitLossOnTradeInBaseCurrency: -2998
-              SettlementInstruction:
-                ActualRolloverAmount: 0
-                ActualSettlementAmount: 10
-                Amount: 10
-                IsSettlementInstructionsAllowed: false
-                Month: 7
-                SettlementType: FullSettlement
-                Year: 2020
-              TradeCostsTotal: 0
-              TradeCostsTotalInBaseCurrency: 0
-        State: Active
+        Unknown: Unknown
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        MarketStopOut: Market StopOut
+        CallLimit: Call Limit
+        CallStop: Call Stop
+        MarketExpiry: Market Expiry
+        TrailingStopIfTraded: Trailing stop if traded
+        TrailingStop: Trailing stop
+        TrailingStopLimit: Trailing Stop Limit
+        PreviouslyQuoted: Previously Quoted.
+        MarketDefault: Market Default.
+        Switch: Switch order, Sell X and Buy Y with one order.
+        Traspaso: Specific type of switch order. Only available on select MutualFunds.
+        TraspasoIn: Specific type of switch order. Only available on select MutualFunds.
+        GuaranteedStop: Guaranteed Stop. Currently not supported.
+        MarketRollover: Market Rollover orders are used to automate the process of closing out open positions in soon to expire contracts in favour of contracts with later expiration dates.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        DealCapture: Deal capture order
+        TriggerBreakout: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TriggerLimit: If the price moves above or below the trigger price, then place related order.
+        TriggerStop: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
     PositionDetails:
       title: Detailed information about a position, which is only available as a snapshot.
       type: object
@@ -3147,57 +2314,793 @@ components:
         SourceOrderId: 1fb3-4e83-973f-72857983b72d
         StrategyId: b260-85eb3b4b729f
         TradeIdeaId: fa316a7-6b8a-4010-9ce6-593925c1bf19
-    PlacePositionRequest:
-      title: Public request contract for opening a new position on the basis of a quote.
-      required:
-      - PriceReferenceId
-      - ContextId
-      - BuySell
-      - UserPrice
-      - QuoteId
+    OrderDuration:
+      title: "The time frame during which the order is valid.\n            If the OrderDurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
       type: object
       properties:
-        AppHint:
-          title: Optional informational id, which will be added to the order for statistics purposes. Only relevant for Saxo applications
-          type: integer
-          format: int32
-          example: 99
-        BuySell:
-          title: 'The direction of the trade: buy or sell'
+        DurationType:
+          title: Gets the order duration type.
           allOf:
-          - $ref: '#/components/schemas/Domain.BuySell'
-        ContextId:
-          title: The streaming contextId of the Price Session providing the tradable quotes.
+          - $ref: '#/components/schemas/OrderDurationType'
+        ExpirationDate:
+          title: Obsolete. The ExpirationDate, if the Order Type is GoodTillDate. The field has been obsoleted and will be removed from OpenAPI on or after November 1, 2022. Use ExpirationDateTime instead.
           type: string
+          format: date-time
+          deprecated: true
+          x-deprecated-date: '2022-11-01'
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: Gets the value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type.
+          type: boolean
+          example: true
+        ExpirationDateTime:
+          title: Gets the expiration date and (optionally) time if the order duration type is GoodTillDate.
+          type: string
+          description: If the field contains a time, it will always be expressed in the exchange local time. No time zone indication will be added.
           example: stringValue
-        ExerciseMethod:
-          title: Defines how to settle options.
+      additionalProperties: false
+      example:
+        DurationType: GoodTillCancel
+        ExpirationDate: '2020-12-04T06:36:30.1014980+00:00'
+        ExpirationDateContainsTime: true
+        ExpirationDateTime: '2020-12-04T06:36:30.1014983'
+    OptionsData:
+      title: Public data contract for options (both FX Options and ETO's)).
+      type: object
+      properties:
+        BarrierEventOccurred:
+          title: True if the barrier event has occurred for the option
+          type: boolean
+          example: true
+        CanBeExercised:
+          title: If true, the option position may be exercised by the user.
+          type: boolean
+          example: true
+        ExerciseStyle:
+          title: Used to indicate if an option is to follow American or European style exercise rules. American-style may be exercised at any time.  European-style may only be exercised at expiry.
           allOf:
-          - $ref: '#/components/schemas/ExerciseMethod'
-        PriceReferenceId:
-          title: The referenceId of the Price Session from where you got the price.
+          - $ref: '#/components/schemas/ExerciseStyle'
+        ExpiryCut:
+          title: ExpiryCut.
+          allOf:
+          - $ref: '#/components/schemas/ExpiryCut'
+        ExpiryDate:
+          title: The ExpiryDate.
           type: string
-          example: stringValue
-        QuoteId:
-          title: Unique id of the quote.
+          format: date-time
+          x-type-name: UtcDateTime
+        LowerBarrier:
+          title: LowerBarrier for digital option.
+          type: number
+          example: 10
+        PremiumDate:
+          title: Forex Options premium date.
           type: string
-          example: stringValue
-        TradeIdeaId:
-          title: Optional. The id of the trade idea leading to the trade.
-          type: integer
-          format: int32
-          example: 99
-        UserPrice:
-          title: Quote Price. This is the last price that has been received by the application for the user.
+          format: date-time
+          x-type-name: UtcDateTime
+        PutCall:
+          title: The Put/Call value of the option.
+          allOf:
+          - $ref: '#/components/schemas/PutCall'
+        SettlementStyle:
+          title: The settlement style of the option
+          allOf:
+          - $ref: '#/components/schemas/SettlementStyle'
+        Strike:
+          title: The strike price of the option.
+          type: number
+          example: 10
+        UpperBarrier:
+          title: UpperBarrier for digital option.
           type: number
           example: 10
       additionalProperties: false
       example:
-        AppHint: 12
-        BuySell: Buy
-        PriceReferenceId: P72733
-        QuoteId: '1232145'
-        UserPrice: 234.1
+        BarrierEventOccurred: true
+        CanBeExercised: false
+        ExerciseStyle: American
+        ExpiryCut: NY
+        ExpiryDate: '9999-12-31T23:59:59.9999990+00:00'
+        LowerBarrier: 10
+        PremiumDate: '9999-12-31T23:59:59.9999990+00:00'
+        PutCall: None
+        SettlementStyle: PhysicalDelivery
+        Strike: 10
+        UpperBarrier: 10
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: Fractions
+      x-enum-descriptions:
+        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
+        Fractions: Display as regular fraction i.e. 3 1/4
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    PositionFieldGroup:
+      title: Specification of fieldsets to include in results.
+      enum:
+      - Costs
+      - DisplayAndFormat
+      - ExchangeInfo
+      - Greeks
+      - PositionBase
+      - PositionIdOnly
+      - PositionView
+      type: string
+      example: DisplayAndFormat
+      x-enum-descriptions:
+        PositionBase: Individual Positions. Base data, which does not change with client/account view, or market data
+        DisplayAndFormat: Information about the instrument of the position and how to display it.
+        PositionView: Individual Positions. Dynamic Data, which changes with client/account view, or market data
+        ExchangeInfo: Adds information about the instrument's exchange. This includes Exchange name, exchange code and open status.
+        PositionIdOnly: Individual PositionId only.
+        Greeks: Greeks for Option(s), only applicable to Fx Options , Contract Options and Contract options CFD
+        Costs: Trading costs associated with opening/closing a position
+      x-type-warning: FlaggableEnum
+    InstrumentDisplayAndFormat:
+      title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
+      type: object
+      properties:
+        BarrierDecimals:
+          title: "Number of display decimals for barrier price.\n            One touch/no touch options only."
+          type: integer
+          format: int32
+          example: 99
+        BarrierFormat:
+          title: "Display format of barrier price.\n            One touch/no touch options only."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Currency:
+          title: The ISO currency code of the instrument.
+          type: string
+          example: stringValue
+        Decimals:
+          title: "The resolution in which e.g. a price must be displayed and possibly edited.\n            Positive numbers are represents digits, and negative numbers represent fractions using this formula: 1/(2^x).\n            Same as DisplayDecimals."
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: Description of instrument (DAX Index - Nov 2013), in English.
+          type: string
+          example: stringValue
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Format:
+          title: Format code specifying how price should be formatted.
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        NumeratorDecimals:
+          title: Some fractional prices have decimals in the numerator, e.g. 2.5/32.  This is relevant for futures and cfds on futures.
+          type: integer
+          format: int32
+          example: 99
+        OrderDecimals:
+          title: The number of decimals trigger price for orders should be formatted with.
+          type: integer
+          format: int32
+          example: 99
+        StrikeDecimals:
+          title: "The decimals value to use when formatting strike price.\n            Only relevant for options."
+          type: integer
+          format: int32
+          example: 99
+        StrikeFormat:
+          title: "The price format to use when formatting strike price.\n            Only relevant for options."
+          allOf:
+          - $ref: '#/components/schemas/PriceDisplayFormatType'
+        Symbol:
+          title: Symbol- A combination of letters used to uniquely identify a traded instrument. e.g. ODAX/X13C8950:xeur.
+          type: string
+          example: stringValue
+        UnderlyingInstrumentDescription:
+          title: Common full name of the underlying instrument. Only used for options and is the same as the option root description.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BarrierDecimals: 99
+        BarrierFormat: Normal
+        Currency: stringValue
+        Decimals: 99
+        Description: stringValue
+        DisplayHint: PreciousMetal
+        Format: Percentage
+        NumeratorDecimals: 99
+        OrderDecimals: 99
+        StrikeDecimals: 99
+        StrikeFormat: AllowDecimalPips
+        Symbol: stringValue
+        UnderlyingInstrumentDescription: stringValue
+    PositionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - NetPositionId: GBPUSD_FxSpot
+          PositionBase:
+            AccountId: 192134INET
+            Amount: 100000
+            AssetType: FxSpot
+            CanBeClosed: true
+            ClientId: '654321'
+            CloseConversionRateSettled: false
+            ExecutionTimeOpen: '2016-09-02T10:25:00Z'
+            IsForceOpen: false
+            IsMarketOpen: false
+            LockedByBackOffice: false
+            OpenPrice: 1.32167
+            SpotDate: '2016-09-06'
+            Status: Open
+            Uic: 31
+            ValueDate: '2017-05-04T00:00:00Z'
+          PositionId: '1019942425'
+          PositionView:
+            Ask: 1.2917
+            Bid: 1.29162
+            CalculationReliability: Ok
+            CurrentPrice: 1.29169
+            CurrentPriceDelayMinutes: 0
+            CurrentPriceType: Bid
+            Exposure: 100000
+            ExposureCurrency: GBP
+            ExposureInBaseCurrency: 129192
+            InstrumentPriceDayPercentChange: 0.26
+            ProfitLossOnTrade: -2998
+            ProfitLossOnTradeInBaseCurrency: -2998
+            SettlementInstruction:
+              ActualRolloverAmount: 0
+              ActualSettlementAmount: 10
+              Amount: 10
+              IsSettlementInstructionsAllowed: false
+              Month: 7
+              SettlementType: FullSettlement
+              Year: 2020
+            TradeCostsTotal: 0
+            TradeCostsTotalInBaseCurrency: 0
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    SettlementInstructions:
+      title: SettlementInstructions associated with a net position
+      type: object
+      properties:
+        ActualRolloverAmount:
+          title: The amount that will be rolled over
+          type: number
+          example: 10
+        ActualSettlementAmount:
+          title: The amount of the net positions that is going to settle
+          type: number
+          example: 10
+        Amount:
+          title: The amount that is given by the client and stored as instructions
+          type: number
+          example: 10
+        IsSettlementInstructionsAllowed:
+          title: The liquidation date is the last day where the instructions can be updated and it can be done till the exchange is open.
+          type: boolean
+          example: true
+        Month:
+          title: SRD Calendar month
+          type: integer
+          format: int32
+          example: 99
+        SettlementType:
+          title: Client's chosen settlement type
+          allOf:
+          - $ref: '#/components/schemas/SettlementType'
+        Year:
+          title: SRD Calendar year
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        ActualRolloverAmount: 10
+        ActualSettlementAmount: 10
+        Amount: 10
+        IsSettlementInstructionsAllowed: false
+        Month: 99
+        SettlementType: FullSettlement
+        Year: 99
+    CalculationReliability:
+      title: To what extent can the calculated values and P/L be trusted
+      enum:
+      - ApproximatedPrice
+      - CurrencyConversionFailed
+      - FailedToCalculateCollateral
+      - NoMarketAccess
+      - Ok
+      - OkWithConditions
+      - PricePending
+      - SystemError
+      - UnknownPrice
+      type: string
+      example: UnknownPrice
+      x-enum-descriptions:
+        Ok: Ok - calculation successful
+        UnknownPrice: Unknown price
+        CurrencyConversionFailed: Currency conversion failed
+        FailedToCalculateCollateral: Failed to calculate collateral
+        OkWithConditions: Calculation was ok given some conditions
+        PricePending: Calculation depends on a price that is currently unavailable.
+        NoMarketAccess: No Market Access for price.
+        SystemError: General error due to system or client configuration.
+        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Put
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
+    OrderDurationType:
+      title: "An enum describing the different order duration types.\n            Note that not all order types are possible for all asset types."
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: AtTheClose
+      x-enum-descriptions:
+        AtTheClose: At the close of the trading session.
+        AtTheOpening: At the opening of the trading session.
+        DayOrder: Day Order - Valid for the trading session.
+        FillOrKill: Fill or Kill order.
+        GoodForPeriod: Good for a specified period.
+        GoodTillCancel: Good til Cancel.
+        GoodTillDate: Good til Date - Expiration Date must also be specified.
+        ImmediateOrCancel: Immediate or Cancel Order.
+    ExerciseStyle:
+      title: Indicates the type of the Options. Currently defined for European and American.
+      enum:
+      - American
+      - European
+      - None
+      type: string
+      example: European
+      x-enum-descriptions:
+        None: Option not defined.
+        American: American Option. Can be exercised prior to expiry date.
+        European: European Option. Must be exercised on expiry date.
+    PositionStatus:
+      title: Defines possible values for position or net position status.
+      enum:
+      - Closed
+      - Closing
+      - Locked
+      - Open
+      - PartiallyClosed
+      - RelatedClose
+      - Square
+      type: string
+      example: Closed
+      x-enum-descriptions:
+        Open: Open
+        Closed: Closed
+        Closing: Closing with market order
+        PartiallyClosed: Partially closed
+        Locked: Locked by back office
+        RelatedClose: Related closing position
+        Square: Implicitly closed. Used for Net Positions only.
+    ToOpenClose:
+      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
+      enum:
+      - ToClose
+      - ToOpen
+      - Undefined
+      type: string
+      example: ToOpen
+      x-enum-descriptions:
+        Undefined: Undefined.
+        ToOpen: Order/Position is ToOpen.
+        ToClose: Order/Position is ToClose.
+    PositionsSubscriptionResponse:
+      title: Public response contract returned after setting up a subscription on open positions.
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/PositionResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Format: application/json
+        InactivityTimeout: 120
+        ReferenceId: P11029
+        RefreshRate: 1000
+        Snapshot:
+          Data:
+          - NetPositionId: GBPUSD_FxSpot
+            PositionBase:
+              AccountId: 192134INET
+              Amount: 100000
+              AssetType: FxSpot
+              CanBeClosed: true
+              ClientId: '654321'
+              CloseConversionRateSettled: false
+              ExecutionTimeOpen: '2016-09-02T10:25:00Z'
+              IsForceOpen: false
+              IsMarketOpen: false
+              LockedByBackOffice: false
+              OpenPrice: 1.32167
+              SpotDate: '2016-09-06'
+              Status: Open
+              Uic: 31
+              ValueDate: '2017-05-04T00:00:00Z'
+            PositionId: '1019942425'
+            PositionView:
+              Ask: 1.2917
+              Bid: 1.29162
+              CalculationReliability: Ok
+              CurrentPrice: 1.29169
+              CurrentPriceDelayMinutes: 0
+              CurrentPriceType: Bid
+              Exposure: 100000
+              ExposureCurrency: GBP
+              ExposureInBaseCurrency: 129192
+              InstrumentPriceDayPercentChange: 0.26
+              ProfitLossOnTrade: -2998
+              ProfitLossOnTradeInBaseCurrency: -2998
+              SettlementInstruction:
+                ActualRolloverAmount: 0
+                ActualSettlementAmount: 10
+                Amount: 10
+                IsSettlementInstructionsAllowed: false
+                Month: 7
+                SettlementType: FullSettlement
+                Year: 2020
+              TradeCostsTotal: 0
+              TradeCostsTotalInBaseCurrency: 0
+        State: Active
+    PositionResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/PositionResponse'
+      example:
+      - NetPositionId: GBPUSD_FxSpot
+        PositionBase:
+          AccountId: 192134INET
+          Amount: 100000
+          AssetType: FxSpot
+          CanBeClosed: true
+          ClientId: '654321'
+          CloseConversionRateSettled: false
+          ExecutionTimeOpen: '2016-09-02T10:25:00Z'
+          IsForceOpen: false
+          IsMarketOpen: false
+          LockedByBackOffice: false
+          OpenPrice: 1.32167
+          SpotDate: '2016-09-06'
+          Status: Open
+          Uic: 31
+          ValueDate: '2017-05-04T00:00:00Z'
+        PositionId: '1019942425'
+        PositionView:
+          Ask: 1.2917
+          Bid: 1.29162
+          CalculationReliability: Ok
+          CurrentPrice: 1.29169
+          CurrentPriceDelayMinutes: 0
+          CurrentPriceType: Bid
+          Exposure: 100000
+          ExposureCurrency: GBP
+          ExposureInBaseCurrency: 129192
+          InstrumentPriceDayPercentChange: 0.26
+          ProfitLossOnTrade: -2998
+          ProfitLossOnTradeInBaseCurrency: -2998
+          SettlementInstruction:
+            ActualRolloverAmount: 0
+            ActualSettlementAmount: 10
+            Amount: 10
+            IsSettlementInstructionsAllowed: false
+            Month: 7
+            SettlementType: FullSettlement
+            Year: 2020
+          TradeCostsTotal: 0
+          TradeCostsTotalInBaseCurrency: 0
+    PositionResponse:
+      title: Describes an open position
+      required:
+      - PositionId
+      type: object
+      properties:
+        Costs:
+          title: Trading costs associated with opening/closing a position.
+          allOf:
+          - $ref: '#/components/schemas/PositionCost'
+        DisplayAndFormat:
+          title: Information about the position instrument and how to display it.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        Exchange:
+          title: Information about the instrument's exchange and trading status.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentExchangeDetails'
+        Greeks:
+          title: Greeks, only available for options, i.e. FX Options, Contract Options, and Contract Options CFDs.
+          allOf:
+          - $ref: '#/components/schemas/Greeks'
+        NetPositionId:
+          title: The id of the NetPosition, to which this position is belongs. All positions in the same instrument have the same NetPositionId.
+          type: string
+          example: stringValue
+        PositionBase:
+          title: Static part of position information.
+          allOf:
+          - $ref: '#/components/schemas/PositionStatic'
+        PositionId:
+          title: Unique id of this position.
+          type: string
+          example: stringValue
+        PositionView:
+          title: Dynamic part of position information.
+          allOf:
+          - $ref: '#/components/schemas/PositionDynamic'
+      additionalProperties: false
+      example:
+        NetPositionId: GBPUSD_FxSpot
+        PositionBase:
+          AccountId: 192134INET
+          Amount: 100000
+          AssetType: FxSpot
+          CanBeClosed: true
+          ClientId: '654321'
+          CloseConversionRateSettled: false
+          ExecutionTimeOpen: '2016-09-02T10:25:00Z'
+          IsForceOpen: false
+          IsMarketOpen: false
+          LockedByBackOffice: false
+          OpenPrice: 1.32167
+          SpotDate: '2016-09-06'
+          Status: Open
+          Uic: 31
+          ValueDate: '2017-05-04T00:00:00Z'
+        PositionId: '1019942425'
+        PositionView:
+          Ask: 1.2917
+          Bid: 1.29162
+          CalculationReliability: Ok
+          CurrentPrice: 1.29169
+          CurrentPriceDelayMinutes: 0
+          CurrentPriceType: Bid
+          Exposure: 100000
+          ExposureCurrency: GBP
+          ExposureInBaseCurrency: 129192
+          InstrumentPriceDayPercentChange: 0.26
+          ProfitLossOnTrade: -2998
+          ProfitLossOnTradeInBaseCurrency: -2998
+          SettlementInstruction:
+            ActualRolloverAmount: 0
+            ActualSettlementAmount: 10
+            Amount: 10
+            IsSettlementInstructionsAllowed: false
+            Month: 7
+            SettlementType: FullSettlement
+            Year: 2020
+          TradeCostsTotal: 0
+          TradeCostsTotalInBaseCurrency: 0
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
     PositionDetailedResponse:
       title: Detailed information about a position.This is only provided as a snapshot and can not be subscribed to.
       required:
@@ -3289,96 +3192,45 @@ components:
             Year: 2020
           TradeCostsTotal: 0
           TradeCostsTotalInBaseCurrency: 0
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    CostData:
-      title: Trading costs associated with opening/closing a position or net position
-      type: object
-      properties:
-        AdditionalTransactionCosts:
-          title: Additional Transaction Costs.
-          type: number
-          example: 10
-        Commission:
-          title: Transaction commission costs.
-          type: number
-          example: 10
-        ExchangeFee:
-          title: Transaction fee as charged by the underlying exchange.
-          type: number
-          example: 10
-        ExternalCharges:
-          title: Transaction charges added by external facilitators.
-          type: number
-          example: 10
-        PerformanceFee:
-          title: Fee or commission based on profit/loss of position.
-          type: number
-          example: 10
-        StampDuty:
-          title: National transaction duty/tax, where applicable.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AdditionalTransactionCosts: 10
-        Commission: 10
-        ExchangeFee: 10
-        ExternalCharges: 10
-        PerformanceFee: 10
-        StampDuty: 10
-    DisplayHintType:
-      title: Display Hint Type.
+    ExpiryCut:
+      title: Specifies the type of cut-time used in option expiration.
       enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
+      - Budapest
+      - Mexico
+      - Moscow
+      - NY
       - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
+      - PreciousMetals
+      - TK
+      - Turkey
+      - Unknown
+      - Warsaw
       type: string
-      example: Continuous
+      description: "Expiry cuts are associated to string values (indicators) from ExpiryCuts MITS DB table.\n            This enum should be updated each time when ExpiryCuts MITS DB table updated."
+      example: TK
       x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+        None: Not specified. Usually option trade with this type of expiration has invalid state or not initialized.
+        NY: Option will be expired on the New-York time.
+        TK: Option will be expired on the Tokyo time.
+        Warsaw: 'WR: Option is expired/exercised manually. Priced as NY.'
+        Budapest: 'BD: Option is expired/exercised manually. Priced as NY.'
+        PreciousMetals: 'Precious metals cut (PM): Option is expired/exercised manually. Priced as NY.'
+        Turkey: 'Turkish cut (TR): Option is expired/exercised manually. Priced as NY.'
+        Mexico: 'Mexico cut (MX): Option is expired/exercised manually. Priced as NY.'
+        Moscow: 'Moscow cut (MW): Option is expired/exercised manually. Priced as NY.'
+        Unknown: 'Unknown cut: (UX): Option is expired/exercised manually. Priced as NY.'
+    SettlementType:
+      title: SettlementType for SRD
       enum:
-      - AllowDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
+      - FullRollover
+      - FullSettlement
+      - PartialSettlement
       type: string
-      example: Fractions
+      example: FullRollover
       x-enum-descriptions:
-        Normal: Standard decimal formatting is used with the Decimals field indicating the number of decimals.
-        Fractions: Display as regular fraction i.e. 3 1/4
-        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
-        Percentage: Display as percentage, e.g. 12.34%.
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+        PartialSettlement: Default / Partial settlement method. Use the amount for settlement
+        FullSettlement: FullSettlement. Ignore amount and settle all
+        FullRollover: Full Roll over. Delete instructions and revert to default SRD behaviour
     ExercisePositionRequest:
       title: Public request contract containing data to exercise an option
       required:
@@ -3418,6 +3270,225 @@ components:
         Amount: 100
         AssetType: StockOption
         Uic: 5455848
+    StringErrorResponse:
+      type: object
+      properties:
+        ErrorCode:
+          title: ErrorCode
+          type: string
+          example: stringValue
+        Message:
+          title: Optional Textual information about the error to aid the developer.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ErrorCode: stringValue
+        Message: stringValue
+    PlacePositionRequest:
+      title: Public request contract for opening a new position on the basis of a quote.
+      required:
+      - PriceReferenceId
+      - ContextId
+      - BuySell
+      - UserPrice
+      - QuoteId
+      type: object
+      properties:
+        AppHint:
+          title: Optional informational id, which will be added to the order for statistics purposes. Only relevant for Saxo applications
+          type: integer
+          format: int32
+          example: 99
+        BuySell:
+          title: 'The direction of the trade: buy or sell'
+          allOf:
+          - $ref: '#/components/schemas/Domain.BuySell'
+        ContextId:
+          title: The streaming contextId of the Price Session providing the tradable quotes.
+          type: string
+          example: stringValue
+        ExerciseMethod:
+          title: Defines how to settle options.
+          allOf:
+          - $ref: '#/components/schemas/ExerciseMethod'
+        PriceReferenceId:
+          title: The referenceId of the Price Session from where you got the price.
+          type: string
+          example: stringValue
+        QuoteId:
+          title: Unique id of the quote.
+          type: string
+          example: stringValue
+        TradeIdeaId:
+          title: Optional. The id of the trade idea leading to the trade.
+          type: integer
+          format: int32
+          example: 99
+        UserPrice:
+          title: Quote Price. This is the last price that has been received by the application for the user.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AppHint: 12
+        BuySell: Buy
+        PriceReferenceId: P72733
+        QuoteId: '1232145'
+        UserPrice: 234.1
+    Domain.BuySell:
+      title: Describes the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Buy.
+        Sell: Sell.
+    ExerciseMethod:
+      title: Exercise method for FX Options.
+      enum:
+      - Cash
+      - Spot
+      type: string
+      example: Cash
+      x-enum-descriptions:
+        Cash: Option P/L is converted to cash.
+        Spot: Option is converted to spot position.
+    PositionSyncResponse:
+      title: "If request was synchronous and successful, the id of the created position would be returned.\n            In addition the HTTP: Location Header will hold uri of the new resource."
+      type: object
+      properties:
+        ErrorInfo:
+          title: Gets or sets the error information.
+          allOf:
+          - $ref: '#/components/schemas/StringErrorResponse'
+        PositionId:
+          title: Id of newly created position
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        PositionId: '1019942426'
+    AssetType_2:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxKnockOutOption
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
     UpdatePositionRequest:
       title: Public request contract containing data to update a position
       required:
@@ -3441,59 +3512,7 @@ components:
       example:
         AccountKey: LZTc7DdejXODf-WSl2aCyQ==
         ExerciseMethod: Spot
-    PositionResponseArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/PositionResponse'
-      example:
-      - NetPositionId: GBPUSD_FxSpot
-        PositionBase:
-          AccountId: 192134INET
-          Amount: 100000
-          AssetType: FxSpot
-          CanBeClosed: true
-          ClientId: '654321'
-          CloseConversionRateSettled: false
-          ExecutionTimeOpen: '2016-09-02T10:25:00Z'
-          IsForceOpen: false
-          IsMarketOpen: false
-          LockedByBackOffice: false
-          OpenPrice: 1.32167
-          SpotDate: '2016-09-06'
-          Status: Open
-          Uic: 31
-          ValueDate: '2017-05-04T00:00:00Z'
-        PositionId: '1019942425'
-        PositionView:
-          Ask: 1.2917
-          Bid: 1.29162
-          CalculationReliability: Ok
-          CurrentPrice: 1.29169
-          CurrentPriceDelayMinutes: 0
-          CurrentPriceType: Bid
-          Exposure: 100000
-          ExposureCurrency: GBP
-          ExposureInBaseCurrency: 129192
-          InstrumentPriceDayPercentChange: 0.26
-          ProfitLossOnTrade: -2998
-          ProfitLossOnTradeInBaseCurrency: -2998
-          SettlementInstruction:
-            ActualRolloverAmount: 0
-            ActualSettlementAmount: 10
-            Amount: 10
-            IsSettlementInstructionsAllowed: false
-            Month: 7
-            SettlementType: FullSettlement
-            Year: 2020
-          TradeCostsTotal: 0
-          TradeCostsTotalInBaseCurrency: 0
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -3515,6 +3534,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
@@ -3527,3 +3552,6 @@ components:
           authorizationUrl: https://sim.logonvalidation.net/authorize
           tokenUrl: https://sim.logonvalidation.net/token
           scopes: {}
+x-refined-from:
+- port.yaml
+- trade.yaml

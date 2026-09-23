@@ -1,15 +1,17 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Balances API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.Portfolio Balances API
+  description: The Portfolio service group provides services and end points that serves information about the clients current portfolio, such as account balance, open positions etc.
+  version: 2.4.82+77577352f2
+  x-framework-version: 41.0.17+46f32c3eb1
+  x-machine: SIMOAWEB8-DK1
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: Balances
-  description: "Read-only endpoint serving client and account balances. The client or account balance is identified by the supplied ClientKey, AccountGroupKey or AccountKey. \n            Access to balance data is further restricted by the access rights of the identity represented by the authorization token."
+  description: 'Read-only endpoint serving client and account balances. The client or account balance is identified by the supplied ClientKey, AccountGroupKey or AccountKey.
+
+    Access to balance data is further restricted by the access rights of the identity represented by the authorization token.'
 paths:
   /port/v1/balances/subscriptions/{ContextId}/{ReferenceId}:
     delete:
@@ -573,603 +575,6 @@ paths:
         community: Read
 components:
   schemas:
-    BalanceSubscriptionRequest:
-      title: Public request contract for setting up a subscription on a balance.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/BalanceRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountGroupKey: null
-          AccountKey: null
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        ContextId: '20221030064906306'
-        ReferenceId: B49083
-        RefreshRate: 500
-        Tag: MyBalancesRelatedSubscriptions
-    InstrumentCollateralDetail:
-      title: Instrument collateral detail
-      type: object
-      properties:
-        AssetType:
-          title: Instrument Asset type
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Description:
-          title: Instrument Description
-          type: string
-          example: stringValue
-        InitialCollateral:
-          title: Initial collateral available of the instrument
-          type: number
-          example: 10
-        InitialCollateralNotAvailable:
-          title: Initial collateral not available of the instrument
-          type: number
-          example: 10
-        MaintenanceCollateral:
-          title: Maintenance collateral available of the instrument
-          type: number
-          example: 10
-        MaintenanceCollateralNotAvailable:
-          title: Maintenance collateral not available of the instrument
-          type: number
-          example: 10
-        MarketValue:
-          title: Market value of the instrument
-          type: number
-          example: 10
-        Symbol:
-          title: Instrument Symbol
-          type: string
-          example: stringValue
-        Uic:
-          title: Uic of the instrument
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetType: PortfolioNote
-        Description: stringValue
-        InitialCollateral: 10
-        InitialCollateralNotAvailable: 10
-        MaintenanceCollateral: 10
-        MaintenanceCollateralNotAvailable: 10
-        MarketValue: 10
-        Symbol: stringValue
-        Uic: 99
-    BalanceRequest:
-      title: Represents a request for the account balance for a specified Client, AccountGroup or Account.
-      required:
-      - ClientKey
-      type: object
-      properties:
-        AccountGroupKey:
-          title: The key of the account group for which the balance data is returned
-          minLength: 1
-          type: string
-          x-type-name: AccountGroupKey
-        AccountKey:
-          title: The key of the account for which the balance data is returned
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: The key of the client for which the balance data is returned
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        FieldGroups:
-          title: Specifies which data to return.
-          type: array
-          items:
-            $ref: '#/components/schemas/BalanceFieldGroup'
-      additionalProperties: false
-      example:
-        AccountGroupKey: stringValue
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
-        FieldGroups:
-        - MarginOverview
-    MarginCollateralNotAvailableDetail:
-      title: Detail of Margin Collateral Not Available
-      type: object
-      properties:
-        InitialFxHaircut:
-          title: Initial Fx Haircut
-          type: number
-          example: 10
-        InstrumentCollateralDetails:
-          title: Instrument collateral collection
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentCollateralDetail'
-          example:
-          - AssetType: GuaranteeNote
-            Description: stringValue
-            InitialCollateral: 10
-            InitialCollateralNotAvailable: 10
-            MaintenanceCollateral: 10
-            MaintenanceCollateralNotAvailable: 10
-            MarketValue: 10
-            Symbol: stringValue
-            Uic: 99
-        MaintenanceFxHaircut:
-          title: Maintenance Fx Haircut
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        InitialFxHaircut: 10
-        InstrumentCollateralDetails:
-        - AssetType: CompanyWarrant
-          Description: stringValue
-          InitialCollateral: 10
-          InitialCollateralNotAvailable: 10
-          MaintenanceCollateral: 10
-          MaintenanceCollateralNotAvailable: 10
-          MarketValue: 10
-          Symbol: stringValue
-          Uic: 99
-        MaintenanceFxHaircut: 10
-    MarginOverviewGroup:
-      title: Margin utilization of the AssetType group as applied to the overall margin calculation.
-      type: object
-      properties:
-        Contributors:
-          title: Contributors are either a list of instruments or a single (anonymous) object representing implicitly aggregated contributors
-          type: array
-          items:
-            $ref: '#/components/schemas/MarginOverviewContributor'
-          example:
-          - AssetTypes:
-            - FxSpot
-            InstrumentDescription: EURUSD description
-            InstrumentSpecifier: EURUSD
-            Margin: 1235
-            Uic: 21
-        GroupType:
-          title: AssetType group - used by margin calculation.
-          allOf:
-          - $ref: '#/components/schemas/MarginOverviewGroupType'
-        TotalMargin:
-          title: Total margin impact of the group of instrument.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Contributors:
-        - AssetTypes:
-          - FxSpot
-          InstrumentDescription: EURUSD description
-          InstrumentSpecifier: EURUSD
-          Margin: 1235
-          Uic: 21
-        - AssetTypes:
-          - FxSpot
-          InstrumentDescription: GBPUSD description
-          InstrumentSpecifier: GBPUSD
-          Margin: 789
-          Uic: 22
-        GroupType: FX
-        TotalMargin: 100000
-    TransactionsNotBookedDetail:
-      title: Detail of transaction(s) that yet have to be booked.
-      type: object
-      properties:
-        Accrual:
-          title: Net accrual for the transaction(s) not booked yet
-          type: number
-          example: 10
-        AdditionalTransactionCost:
-          title: Net additional transaction cost for the transaction(s) not booked yet
-          type: number
-          example: 10
-        BondValue:
-          title: Net bond value for the transaction(s) not booked yet
-          type: number
-          example: 10
-        CashDeposit:
-          title: Net cash deposit for the transaction(s) not booked yet
-          type: number
-          example: 10
-        CashReservation:
-          title: Net cash reservation for the transaction(s) not booked yet
-          type: number
-          example: 10
-        CashWithdrawal:
-          title: Net cash withdrawal for the transaction(s) not booked yet
-          type: number
-          example: 10
-        CertificatesValue:
-          title: Net value of certificates for the transaction(s) not booked yet
-          type: number
-          example: 10
-        Commission:
-          title: Net commission for the transaction(s) not booked yet
-          type: number
-          example: 10
-        ExchangeFee:
-          title: Net exchange fee for the transaction(s) not booked yet
-          type: number
-          example: 10
-        ExternalCharges:
-          title: Net external charges for the transaction(s) not booked yet
-          type: number
-          example: 10
-        FundsReservedByOrder:
-          title: Net funds reserved by order for the transaction(s) not booked yet
-          type: number
-          example: 10
-        IpoSubscriptionFee:
-          title: IPO subscription fee for the transaction(s) not booked yet
-          type: number
-          example: 10
-        LeveragedKnockOutProductsValue:
-          title: Net value of leveraged knock-out products (Turbos) for the transaction(s) not booked yet.
-          type: number
-          example: 10
-        MutualFundValue:
-          title: Net mutual fund value for the transaction(s) not booked yet
-          type: number
-          example: 10
-        OptionPremium:
-          title: Net option premium for the transaction(s) not booked yet
-          type: number
-          example: 10
-        ShareValue:
-          title: Net share value for the transaction(s) not booked yet
-          type: number
-          example: 10
-        StampDuty:
-          title: Net stamp duty for the transaction(s) not booked yet
-          type: number
-          example: 10
-        WarrantPremium:
-          title: Net warrant premium for the transaction(s) not booked yet
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Accrual: 10
-        AdditionalTransactionCost: 10
-        BondValue: 10
-        CashDeposit: 10
-        CashReservation: 10
-        CashWithdrawal: 10
-        CertificatesValue: 10
-        Commission: 10
-        ExchangeFee: 10
-        ExternalCharges: 10
-        FundsReservedByOrder: 10
-        IpoSubscriptionFee: 10
-        LeveragedKnockOutProductsValue: 10
-        MutualFundValue: 10
-        OptionPremium: 10
-        ShareValue: 10
-        StampDuty: 10
-        WarrantPremium: 10
-    CalculationReliability:
-      title: To what extent can the calculated values and P/L be trusted
-      enum:
-      - ApproximatedPrice
-      - CurrencyConversionFailed
-      - FailedToCalculateCollateral
-      - NoMarketAccess
-      - Ok
-      - OkWithConditions
-      - PricePending
-      - SystemError
-      - UnknownPrice
-      type: string
-      example: UnknownPrice
-      x-enum-descriptions:
-        Ok: Ok - calculation successful
-        UnknownPrice: Unknown price
-        CurrencyConversionFailed: Currency conversion failed
-        FailedToCalculateCollateral: Failed to calculate collateral
-        OkWithConditions: Calculation was ok given some conditions
-        PricePending: Calculation depends on a price that is currently unavailable.
-        NoMarketAccess: No Market Access for price.
-        SystemError: General error due to system or client configuration.
-        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
-    MarginOverviewContributor:
-      title: Total margin impact by net position.
-      type: object
-      properties:
-        AssetTypes:
-          title: AssetTypes for this contributor.
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetType'
-          example:
-          - FxVanillaOption
-        DisplayHint:
-          title: Hint to the client application about how it should display the instrument.
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        InstrumentDescription:
-          title: Description of instrument. Not available for futures.
-          type: string
-          example: stringValue
-        InstrumentSpecifier:
-          title: Instrument identifier. Base contract for futures and symbol for other instruments.
-          type: string
-          example: stringValue
-        Margin:
-          title: Margin impact of the contributor
-          type: number
-          example: 10
-        Uic:
-          title: Uic identifying the instrument, if any
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetTypes:
-        - FxSpot
-        InstrumentDescription: EURUSD description
-        InstrumentSpecifier: EURUSD
-        Margin: 1235
-        Uic: 21
-    MarginOverviewGroupType:
-      title: Margin calculation category of AssetType.
-      enum:
-      - CFDs
-      - FX
-      - FuturesAndOptions
-      - Other
-      type: string
-      example: CFDs
-      x-enum-descriptions:
-        CFDs: Margin impact of CFDs - presumably all categories
-        FuturesAndOptions: Margin impact of future and option contract instruments
-        FX: Margin impact of FX instruments
-        Other: Margin overview group based on unspecified criteria
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    LineStatus:
-      title: Describes the current utilization and size of a Credit, Risk or Trading line.
-      type: object
-      properties:
-        Exposure:
-          title: The current utilization of the credit line.
-          type: number
-          example: 10
-        Line:
-          title: The maximum credit limit allowed.
-          type: number
-          example: 10
-        UtilizationPct:
-          title: The current utilization of the credit line in proportion to the line limit.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Exposure: 10
-        Line: 10
-        UtilizationPct: 10
-    MarginOverviewByGroup:
-      title: Margin utilization for positions, broken down into groups of AssetTypes.
-      type: object
-      properties:
-        Groups:
-          title: List of AssetType groups with it's contributing positions and total margin utilization.
-          type: array
-          items:
-            $ref: '#/components/schemas/MarginOverviewGroup'
-          example:
-          - Contributors:
-            - AssetTypes:
-              - FxSpot
-              InstrumentDescription: EURUSD description
-              InstrumentSpecifier: EURUSD
-              Margin: 1235
-              Uic: 21
-            - AssetTypes:
-              - FxSpot
-              InstrumentDescription: GBPUSD description
-              InstrumentSpecifier: GBPUSD
-              Margin: 789
-              Uic: 22
-            GroupType: FX
-            TotalMargin: 100000
-      additionalProperties: false
-      example:
-        Groups:
-        - Contributors:
-          - AssetTypes:
-            - FxSpot
-            InstrumentDescription: EURUSD description
-            InstrumentSpecifier: EURUSD
-            Margin: 1235
-            Uic: 21
-          - AssetTypes:
-            - FxSpot
-            InstrumentDescription: GBPUSD description
-            InstrumentSpecifier: GBPUSD
-            Margin: 789
-            Uic: 22
-          GroupType: FX
-          TotalMargin: 100000
-        - Contributors:
-          - AssetTypes:
-            - CfdOnIndex
-            InstrumentDescription: SP500 description
-            InstrumentSpecifier: SP500.I
-            Margin: 4321
-            Uic: 4910
-          - AssetTypes:
-            - CfdOnIndex
-            InstrumentDescription: CSE20 description
-            InstrumentSpecifier: CSE20.I
-            Margin: 975
-            Uic: 5768
-          - AssetTypes:
-            - CfdOnIndex
-            InstrumentDescription: DAX description
-            InstrumentSpecifier: DAX.I
-            Margin: 864
-            Uic: 27098
-          GroupType: CFDs
-          TotalMargin: 200000
     BalanceFieldGroup:
       title: Specification of fieldsets to include in results.
       enum:
@@ -1282,96 +687,114 @@ components:
           UnrealizedPositionsValue: -43208.92
         State: Active
         Tag: MyBalancesRelatedSubscriptions
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    InitialMarginResponse:
-      title: The calculation entity's initial margin (purchasing power) status.
-      type: object
-      properties:
-        CollateralAvailable:
-          title: Sum of collateral from positions, cash, collateral credit and other holdings available for opening new positions.
-          type: number
-          example: 10
-        MarginAvailable:
-          title: Margin available for opening new positions. Initial margin available.
-          type: number
-          example: 10
-        MarginUsedByCurrentPositions:
-          title: Sum of initial margin currently reserved.
-          type: number
-          example: 10
-        MarginUtilizationPct:
-          title: Level of margin already utilized in percent. I.e. the ratio between the margin collateral used and the total available margin collateral. Indicates distance to margin calls.
-          type: number
-          example: 10
-        NetEquityForMargin:
-          title: Value used as basis to calculate initial margin available.
-          type: number
-          example: 10
-        OtherCollateralDeduction:
-          title: Other Collateral Deduction derived from regulatory contributors margin value.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        CollateralAvailable: 10
-        MarginAvailable: 10
-        MarginUsedByCurrentPositions: 10
-        MarginUtilizationPct: 10
-        NetEquityForMargin: 10
-        OtherCollateralDeduction: 10
-    SpendingPower:
-      title: Describes the spending power.
-      type: object
-      properties:
-        Current:
-          title: The current spending power available.
-          type: number
-          example: 10
-        Maximum:
-          title: Spending power for shares / ETF (based on max collateral factor defined for shares)
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Current: 10
-        Maximum: 10
-    DisplayHintType:
-      title: Display Hint Type.
+    MarginOverviewGroupType:
+      title: Margin calculation category of AssetType.
       enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
+      - CFDs
+      - FX
+      - FuturesAndOptions
+      - Other
       type: string
-      example: Continuous
+      example: CFDs
       x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
+        CFDs: Margin impact of CFDs - presumably all categories
+        FuturesAndOptions: Margin impact of future and option contract instruments
+        FX: Margin impact of FX instruments
+        Other: Margin overview group based on unspecified criteria
+    MarginOverviewGroup:
+      title: Margin utilization of the AssetType group as applied to the overall margin calculation.
+      type: object
+      properties:
+        Contributors:
+          title: Contributors are either a list of instruments or a single (anonymous) object representing implicitly aggregated contributors
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginOverviewContributor'
+          example:
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: EURUSD description
+            InstrumentSpecifier: EURUSD
+            Margin: 1235
+            Uic: 21
+        GroupType:
+          title: AssetType group - used by margin calculation.
+          allOf:
+          - $ref: '#/components/schemas/MarginOverviewGroupType'
+        TotalMargin:
+          title: Total margin impact of the group of instrument.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Contributors:
+        - AssetTypes:
+          - FxSpot
+          InstrumentDescription: EURUSD description
+          InstrumentSpecifier: EURUSD
+          Margin: 1235
+          Uic: 21
+        - AssetTypes:
+          - FxSpot
+          InstrumentDescription: GBPUSD description
+          InstrumentSpecifier: GBPUSD
+          Margin: 789
+          Uic: 22
+        GroupType: FX
+        TotalMargin: 100000
+    BalanceSubscriptionRequest:
+      title: Public request contract for setting up a subscription on a balance.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/BalanceRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: null
+          AccountKey: null
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ContextId: '20221030064906306'
+        ReferenceId: B49083
+        RefreshRate: 500
+        Tag: MyBalancesRelatedSubscriptions
     BalanceResponse:
       title: Data contract for account or client balance
       type: object
@@ -1664,13 +1087,586 @@ components:
         UnrealizedMarginOpenProfitLoss: 0
         UnrealizedMarginProfitLoss: -550738.76
         UnrealizedPositionsValue: -43208.92
+    SpendingPower:
+      title: Describes the spending power.
+      type: object
+      properties:
+        Current:
+          title: The current spending power available.
+          type: number
+          example: 10
+        Maximum:
+          title: Spending power for shares / ETF (based on max collateral factor defined for shares)
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Current: 10
+        Maximum: 10
+    MarginOverviewByGroup:
+      title: Margin utilization for positions, broken down into groups of AssetTypes.
+      type: object
+      properties:
+        Groups:
+          title: List of AssetType groups with it's contributing positions and total margin utilization.
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginOverviewGroup'
+          example:
+          - Contributors:
+            - AssetTypes:
+              - FxSpot
+              InstrumentDescription: EURUSD description
+              InstrumentSpecifier: EURUSD
+              Margin: 1235
+              Uic: 21
+            - AssetTypes:
+              - FxSpot
+              InstrumentDescription: GBPUSD description
+              InstrumentSpecifier: GBPUSD
+              Margin: 789
+              Uic: 22
+            GroupType: FX
+            TotalMargin: 100000
+      additionalProperties: false
+      example:
+        Groups:
+        - Contributors:
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: EURUSD description
+            InstrumentSpecifier: EURUSD
+            Margin: 1235
+            Uic: 21
+          - AssetTypes:
+            - FxSpot
+            InstrumentDescription: GBPUSD description
+            InstrumentSpecifier: GBPUSD
+            Margin: 789
+            Uic: 22
+          GroupType: FX
+          TotalMargin: 100000
+        - Contributors:
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: SP500 description
+            InstrumentSpecifier: SP500.I
+            Margin: 4321
+            Uic: 4910
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: CSE20 description
+            InstrumentSpecifier: CSE20.I
+            Margin: 975
+            Uic: 5768
+          - AssetTypes:
+            - CfdOnIndex
+            InstrumentDescription: DAX description
+            InstrumentSpecifier: DAX.I
+            Margin: 864
+            Uic: 27098
+          GroupType: CFDs
+          TotalMargin: 200000
+    BalanceRequest:
+      title: Represents a request for the account balance for a specified Client, AccountGroup or Account.
+      required:
+      - ClientKey
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: The key of the client for which the balance data is returned
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: Specifies which data to return.
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceFieldGroup'
+      additionalProperties: false
+      example:
+        AccountGroupKey: stringValue
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        ClientKey: 493b43a5-fe85-4d1f-9071-dd4a9d4e42a4
+        FieldGroups:
+        - MarginOverview
+    InitialMarginResponse:
+      title: The calculation entity's initial margin (purchasing power) status.
+      type: object
+      properties:
+        CollateralAvailable:
+          title: Sum of collateral from positions, cash, collateral credit and other holdings available for opening new positions.
+          type: number
+          example: 10
+        MarginAvailable:
+          title: Margin available for opening new positions. Initial margin available.
+          type: number
+          example: 10
+        MarginUsedByCurrentPositions:
+          title: Sum of initial margin currently reserved.
+          type: number
+          example: 10
+        MarginUtilizationPct:
+          title: Level of margin already utilized in percent. I.e. the ratio between the margin collateral used and the total available margin collateral. Indicates distance to margin calls.
+          type: number
+          example: 10
+        NetEquityForMargin:
+          title: Value used as basis to calculate initial margin available.
+          type: number
+          example: 10
+        OtherCollateralDeduction:
+          title: Other Collateral Deduction derived from regulatory contributors margin value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CollateralAvailable: 10
+        MarginAvailable: 10
+        MarginUsedByCurrentPositions: 10
+        MarginUtilizationPct: 10
+        NetEquityForMargin: 10
+        OtherCollateralDeduction: 10
+    MarginCollateralNotAvailableDetail:
+      title: Detail of Margin Collateral Not Available
+      type: object
+      properties:
+        InitialFxHaircut:
+          title: Initial Fx Haircut
+          type: number
+          example: 10
+        InstrumentCollateralDetails:
+          title: Instrument collateral collection
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentCollateralDetail'
+          example:
+          - AssetType: GuaranteeNote
+            Description: stringValue
+            InitialCollateral: 10
+            InitialCollateralNotAvailable: 10
+            MaintenanceCollateral: 10
+            MaintenanceCollateralNotAvailable: 10
+            MarketValue: 10
+            Symbol: stringValue
+            Uic: 99
+        MaintenanceFxHaircut:
+          title: Maintenance Fx Haircut
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        InitialFxHaircut: 10
+        InstrumentCollateralDetails:
+        - AssetType: CompanyWarrant
+          Description: stringValue
+          InitialCollateral: 10
+          InitialCollateralNotAvailable: 10
+          MaintenanceCollateral: 10
+          MaintenanceCollateralNotAvailable: 10
+          MarketValue: 10
+          Symbol: stringValue
+          Uic: 99
+        MaintenanceFxHaircut: 10
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: Continuous
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CalculationReliability:
+      title: To what extent can the calculated values and P/L be trusted
+      enum:
+      - ApproximatedPrice
+      - CurrencyConversionFailed
+      - FailedToCalculateCollateral
+      - NoMarketAccess
+      - Ok
+      - OkWithConditions
+      - PricePending
+      - SystemError
+      - UnknownPrice
+      type: string
+      example: UnknownPrice
+      x-enum-descriptions:
+        Ok: Ok - calculation successful
+        UnknownPrice: Unknown price
+        CurrencyConversionFailed: Currency conversion failed
+        FailedToCalculateCollateral: Failed to calculate collateral
+        OkWithConditions: Calculation was ok given some conditions
+        PricePending: Calculation depends on a price that is currently unavailable.
+        NoMarketAccess: No Market Access for price.
+        SystemError: General error due to system or client configuration.
+        ApproximatedPrice: Profit/loss calculated based on a synthetic non-market price.
+    MarginOverviewContributor:
+      title: Total margin impact by net position.
+      type: object
+      properties:
+        AssetTypes:
+          title: AssetTypes for this contributor.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxVanillaOption
+        DisplayHint:
+          title: Hint to the client application about how it should display the instrument.
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        InstrumentDescription:
+          title: Description of instrument. Not available for futures.
+          type: string
+          example: stringValue
+        InstrumentSpecifier:
+          title: Instrument identifier. Base contract for futures and symbol for other instruments.
+          type: string
+          example: stringValue
+        Margin:
+          title: Margin impact of the contributor
+          type: number
+          example: 10
+        Uic:
+          title: Uic identifying the instrument, if any
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetTypes:
+        - FxSpot
+        InstrumentDescription: EURUSD description
+        InstrumentSpecifier: EURUSD
+        Margin: 1235
+        Uic: 21
+    LineStatus:
+      title: Describes the current utilization and size of a Credit, Risk or Trading line.
+      type: object
+      properties:
+        Exposure:
+          title: The current utilization of the credit line.
+          type: number
+          example: 10
+        Line:
+          title: The maximum credit limit allowed.
+          type: number
+          example: 10
+        UtilizationPct:
+          title: The current utilization of the credit line in proportion to the line limit.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Exposure: 10
+        Line: 10
+        UtilizationPct: 10
+    TransactionsNotBookedDetail:
+      title: Detail of transaction(s) that yet have to be booked.
+      type: object
+      properties:
+        Accrual:
+          title: Net accrual for the transaction(s) not booked yet
+          type: number
+          example: 10
+        AdditionalTransactionCost:
+          title: Net additional transaction cost for the transaction(s) not booked yet
+          type: number
+          example: 10
+        BondValue:
+          title: Net bond value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashDeposit:
+          title: Net cash deposit for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashReservation:
+          title: Net cash reservation for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CashWithdrawal:
+          title: Net cash withdrawal for the transaction(s) not booked yet
+          type: number
+          example: 10
+        CertificatesValue:
+          title: Net value of certificates for the transaction(s) not booked yet
+          type: number
+          example: 10
+        Commission:
+          title: Net commission for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ExchangeFee:
+          title: Net exchange fee for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ExternalCharges:
+          title: Net external charges for the transaction(s) not booked yet
+          type: number
+          example: 10
+        FundsReservedByOrder:
+          title: Net funds reserved by order for the transaction(s) not booked yet
+          type: number
+          example: 10
+        IpoSubscriptionFee:
+          title: IPO subscription fee for the transaction(s) not booked yet
+          type: number
+          example: 10
+        LeveragedKnockOutProductsValue:
+          title: Net value of leveraged knock-out products (Turbos) for the transaction(s) not booked yet.
+          type: number
+          example: 10
+        MutualFundValue:
+          title: Net mutual fund value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        OptionPremium:
+          title: Net option premium for the transaction(s) not booked yet
+          type: number
+          example: 10
+        ShareValue:
+          title: Net share value for the transaction(s) not booked yet
+          type: number
+          example: 10
+        StampDuty:
+          title: Net stamp duty for the transaction(s) not booked yet
+          type: number
+          example: 10
+        WarrantPremium:
+          title: Net warrant premium for the transaction(s) not booked yet
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Accrual: 10
+        AdditionalTransactionCost: 10
+        BondValue: 10
+        CashDeposit: 10
+        CashReservation: 10
+        CashWithdrawal: 10
+        CertificatesValue: 10
+        Commission: 10
+        ExchangeFee: 10
+        ExternalCharges: 10
+        FundsReservedByOrder: 10
+        IpoSubscriptionFee: 10
+        LeveragedKnockOutProductsValue: 10
+        MutualFundValue: 10
+        OptionPremium: 10
+        ShareValue: 10
+        StampDuty: 10
+        WarrantPremium: 10
+    InstrumentCollateralDetail:
+      title: Instrument collateral detail
+      type: object
+      properties:
+        AssetType:
+          title: Instrument Asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Instrument Description
+          type: string
+          example: stringValue
+        InitialCollateral:
+          title: Initial collateral available of the instrument
+          type: number
+          example: 10
+        InitialCollateralNotAvailable:
+          title: Initial collateral not available of the instrument
+          type: number
+          example: 10
+        MaintenanceCollateral:
+          title: Maintenance collateral available of the instrument
+          type: number
+          example: 10
+        MaintenanceCollateralNotAvailable:
+          title: Maintenance collateral not available of the instrument
+          type: number
+          example: 10
+        MarketValue:
+          title: Market value of the instrument
+          type: number
+          example: 10
+        Symbol:
+          title: Instrument Symbol
+          type: string
+          example: stringValue
+        Uic:
+          title: Uic of the instrument
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: PortfolioNote
+        Description: stringValue
+        InitialCollateral: 10
+        InitialCollateralNotAvailable: 10
+        MaintenanceCollateral: 10
+        MaintenanceCollateralNotAvailable: 10
+        MarketValue: 10
+        Symbol: stringValue
+        Uic: 99
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -1692,6 +1688,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

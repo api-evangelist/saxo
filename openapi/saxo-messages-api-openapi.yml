@@ -1,15 +1,19 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Messages API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.Trading Messages API
+  description: The Trading service group provides end points for setting up price and quote subscriptions, polling prices and placing orders and trades (positions).
+  version: 3.3.757+d552fc98fe
+  x-framework-version: 43.0.9+b005aba300
+  x-machine: SIMOAWEB8-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: Messages
-  description: "Provides end points for polling and subscribing to messages which should be displayed to the user. \n            Only messages, which have not yet been marked as 'seen' will be returned. The structure in this reference documentation represents the base contract for all messages.\n            Additional fields may be available depending on the TradeMessageType. Please refer to the wiki documentation for the Trade service group for further information."
+  description: 'Provides end points for polling and subscribing to messages which should be displayed to the user.
+
+    Only messages, which have not yet been marked as ''seen'' will be returned. The structure in this reference documentation represents the base contract for all messages.
+
+    Additional fields may be available depending on the TradeMessageType. Please refer to the wiki documentation for the Trade service group for further information.'
 paths:
   /trade/v1/messages/subscriptions/{ContextId}:
     delete:
@@ -441,29 +445,108 @@ paths:
       x-required-permissions:
         personal: Read
 components:
+  responses:
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    TradeMessageType:
-      title: Enumeration of message types used by trade message subscriptions.
+    MessageDisplayType:
+      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
       enum:
-      - AccountDepreciation
-      - MarginCall
-      - Mifid
-      - Notification
-      - PositionDepreciation
-      - PriceAlert
-      - ShareWorkspaceNotification
-      - TradeConfirmation
+      - Default
+      - Popup
       type: string
-      example: PriceAlert
+      example: Default
       x-enum-descriptions:
-        TradeConfirmation: "A very broad set of notifications related to orders and positions. For example:\n            \n\n*   An order has been placed\n*   An order has expired\n*   An order has been (partially) filled\n*   An order was cancelled\n*   A position was stopped out (due to insufficient margin)\n*   A position was placed"
-        MarginCall: A margin call is a message informing the client about loses affecting his ability fulfill the margin requirements of his positions in the market.
-        PriceAlert: A price alert has been triggered
-        Notification: Message from broker to end client
-        Mifid: A change has been made to the clients Mifid classification. Only sent for configured client segments.
-        PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
-        AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
-        ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
+        Default: No message render method is set.
+        Popup: Message is to popup suggesting immediate attention
+    TradeMessageResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeMessageResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DateTime: '2014-12-12T09:17:12Z'
+          DisplayType: Default
+          MessageBody: Price alert was triggered on EURUSD
+          MessageHeader: Price Alert
+          MessageId: '345322'
+          MessageType: PriceAlert
+    TradeMessageResponse:
+      title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
+      type: object
+      properties:
+        DateTime:
+          title: Date and Time the message was generated.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        DisplayType:
+          title: Suggestion to the application about how the message should be displayed.
+          allOf:
+          - $ref: '#/components/schemas/MessageDisplayType'
+        MessageBody:
+          title: "Trade message body.\n            This is fully formatted text in the language selected for the logged in client."
+          type: string
+          example: stringValue
+        MessageHeader:
+          title: Header of the message
+          type: string
+          example: stringValue
+        MessageId:
+          title: Unique identification of the message
+          type: string
+          example: stringValue
+        MessageType:
+          title: The type of the message.
+          allOf:
+          - $ref: '#/components/schemas/TradeMessageType'
+      additionalProperties: false
+      example:
+        DateTime: '2014-12-12T09:17:12.0000000+00:00'
+        DisplayType: Default
+        MessageBody: Price alert was triggered on EURUSD
+        MessageHeader: Price Alert
+        MessageId: '345322'
+        MessageType: PriceAlert
     TradeMessageResponseDomainEvent:
       type: object
       properties:
@@ -492,12 +575,6 @@ components:
           example: 99
       additionalProperties: false
       example: null
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TradeMessageSubscriptionRequest:
       title: Public request contract for setting up a subscription for trade messages.
       required:
@@ -544,6 +621,12 @@ components:
         ReferenceId: TM42897
         RefreshRate: 5
         Tag: PAGE1
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     TradeMessageSubscriptionResponse:
       title: Public response contract returned after setting up a subscription for trade messages.
       type: object
@@ -603,107 +686,28 @@ components:
             MessageType: PriceAlert
         State: Active
         Tag: PAGE1
-    TradeMessageResponse:
-      title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
-      type: object
-      properties:
-        DateTime:
-          title: Date and Time the message was generated.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        DisplayType:
-          title: Suggestion to the application about how the message should be displayed.
-          allOf:
-          - $ref: '#/components/schemas/MessageDisplayType'
-        MessageBody:
-          title: "Trade message body.\n            This is fully formatted text in the language selected for the logged in client."
-          type: string
-          example: stringValue
-        MessageHeader:
-          title: Header of the message
-          type: string
-          example: stringValue
-        MessageId:
-          title: Unique identification of the message
-          type: string
-          example: stringValue
-        MessageType:
-          title: The type of the message.
-          allOf:
-          - $ref: '#/components/schemas/TradeMessageType'
-      additionalProperties: false
-      example:
-        DateTime: '2014-12-12T09:17:12.0000000+00:00'
-        DisplayType: Default
-        MessageBody: Price alert was triggered on EURUSD
-        MessageHeader: Price Alert
-        MessageId: '345322'
-        MessageType: PriceAlert
-    TradeMessageResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradeMessageResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - DateTime: '2014-12-12T09:17:12Z'
-          DisplayType: Default
-          MessageBody: Price alert was triggered on EURUSD
-          MessageHeader: Price Alert
-          MessageId: '345322'
-          MessageType: PriceAlert
-    MessageDisplayType:
-      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
+    TradeMessageType:
+      title: Enumeration of message types used by trade message subscriptions.
       enum:
-      - Default
-      - Popup
+      - AccountDepreciation
+      - MarginCall
+      - Mifid
+      - Notification
+      - PositionDepreciation
+      - PriceAlert
+      - ShareWorkspaceNotification
+      - TradeConfirmation
       type: string
-      example: Default
+      example: PriceAlert
       x-enum-descriptions:
-        Default: No message render method is set.
-        Popup: Message is to popup suggesting immediate attention
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+        TradeConfirmation: "A very broad set of notifications related to orders and positions. For example:\n            \n\n*   An order has been placed\n*   An order has expired\n*   An order has been (partially) filled\n*   An order was cancelled\n*   A position was stopped out (due to insufficient margin)\n*   A position was placed"
+        MarginCall: A margin call is a message informing the client about loses affecting his ability fulfill the margin requirements of his positions in the market.
+        PriceAlert: A price alert has been triggered
+        Notification: Message from broker to end client
+        Mifid: A change has been made to the clients Mifid classification. Only sent for configured client segments.
+        PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

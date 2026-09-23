@@ -1,10 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Instrument Document API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
-  x-machine: SIMOAWEB11-DK2
+  title: Services.MarketOverview Instrument Document API
+  description: The MarketOverview service group provides end points for getting and subscribing to market movers such as winners and losers on an exchange.
+  version: 1.2.228+0167e9247e
+  x-framework-version: 43.0.5+65c0bdc8ab
+  x-machine: SIMOAWEB9-DK1
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
@@ -15,7 +15,7 @@ paths:
     get:
       tags:
       - Instrument Document
-      summary: Gets document related to instrument.
+      summary: Gets document related to instrument
       description: This endpoint is used to fetch pdf document for the specified AssetType, Uic, DocumentType and LanguageCode.
       operationId: InstrumentDocumentV2GetDocumentByDocumentTypeAndLanguageCode
       parameters:
@@ -139,7 +139,7 @@ paths:
     get:
       tags:
       - Instrument Document
-      summary: Gets list of recommended instrument document information.
+      summary: Gets list of recommended instrument document information
       description: This endpoint is used to fetch a list of instrument document information for the specified input parameters.
       operationId: InstrumentDocumentV2GetRecommendedInstrumentDocumentInformation
       parameters:
@@ -247,7 +247,7 @@ paths:
     get:
       tags:
       - Instrument Document
-      summary: Gets document related to instrument.
+      summary: Gets document related to instrument
       description: This endpoint is used to fetch pdf document for the specified AssetType, Uic, DocumentType and LanguageCode.
       operationId: InstrumentDocumentV1GetDocumentByDocumentTypeAndLanguageCode
       parameters:
@@ -371,7 +371,7 @@ paths:
     get:
       tags:
       - Instrument Document
-      summary: Gets list of recommended instrument document information.
+      summary: Gets list of recommended instrument document information
       description: This endpoint is used to fetch a list of instrument document information for the specified input parameters.
       operationId: InstrumentDocumentV1GetRecommendedInstrumentDocumentInformation
       parameters:
@@ -523,8 +523,88 @@ components:
         SimplifiedProspectus: Simplified Prospectus
         SemiAnnualFinancialStatement: Semi Annual Financial Statement
       x-type-warning: FlaggableEnum
-    InstrumentDocumentDetails:
-      title: Instrument documents related details.
+    InstrumentDocumentDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDocumentDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DocumentDateTime: '2020-04-20T00:00:00Z'
+          DocumentRelationId: 1289
+          DocumentType: KIIDs
+          LanguageCode: en
+        - DocumentDateTime: '2019-09-20T00:00:00Z'
+          DocumentRelationId: 4028
+          DocumentType: PRIIPKIDs
+          LanguageCode: da
+    DocumentType:
+      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
+      enum:
+      - AnnualFinancialStatement
+      - CommercialMemorandum
+      - FactSheet
+      - KFS
+      - KIIDs
+      - PHS
+      - PRIIPKIDs
+      - Prospectus
+      - SemiAnnualFinancialStatement
+      - SimplifiedProspectus
+      type: string
+      example: KIIDs
+      x-enum-descriptions:
+        KIIDs: Key Investor Information Document
+        PRIIPKIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
+        FactSheet: Fact Sheet
+        AnnualFinancialStatement: Annual Financial Statement
+        CommercialMemorandum: Commercial Memorandum
+        Prospectus: Prospectus
+        PHS: Product Highlight Sheet
+        KFS: Key Fact Sheet
+        SimplifiedProspectus: Simplified Prospectus
+        SemiAnnualFinancialStatement: Semi Annual Financial Statement
+      x-type-warning: FlaggableEnum
+    InstrumentDocumentInformationResponse:
+      title: Instrument Document Information Response
+      type: object
+      properties:
+        DocumentDetails:
+          title: List of document details.
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDocumentInformation'
+          example:
+          - DocumentDateTime: '2020-01-20T00:00:00Z'
+            DocumentRelationId: 1100
+            DocumentType: KIIDs
+            LanguageCode: en
+      additionalProperties: false
+      example:
+        DocumentDetails:
+        - DocumentDateTime: '2020-04-20T00:00:00Z'
+          DocumentRelationId: 1289
+          DocumentType: KIIDs
+          LanguageCode: en
+        - DocumentDateTime: '2019-09-20T00:00:00Z'
+          DocumentRelationId: 4028
+          DocumentType: PRIIP KIDs
+          LanguageCode: da
+    InstrumentDocumentInformation:
+      title: Instrument documents related information.
       type: object
       properties:
         DocumentDateTime:
@@ -539,18 +619,18 @@ components:
           example: 99
         DocumentType:
           title: The document type.
-          allOf:
-          - $ref: '#/components/schemas/DocumentType'
+          type: string
+          example: stringValue
         LanguageCode:
           title: The language of the document.
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        DocumentDateTime: '9999-12-31T23:59:59.9999990+00:00'
-        DocumentRelationId: 99
-        DocumentType: PHS
-        LanguageCode: stringValue
+        DocumentDateTime: '2020-01-20T00:00:00.0000000+00:00'
+        DocumentRelationId: 1100
+        DocumentType: KIIDs
+        LanguageCode: en
     ModelStateDictionary:
       type: object
       additionalProperties:
@@ -675,8 +755,8 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    InstrumentDocumentInformation:
-      title: Instrument documents related information.
+    InstrumentDocumentDetails:
+      title: Instrument documents related details.
       type: object
       properties:
         DocumentDateTime:
@@ -691,105 +771,25 @@ components:
           example: 99
         DocumentType:
           title: The document type.
-          type: string
-          example: stringValue
+          allOf:
+          - $ref: '#/components/schemas/DocumentType'
         LanguageCode:
           title: The language of the document.
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        DocumentDateTime: '2020-01-20T00:00:00.0000000+00:00'
-        DocumentRelationId: 1100
-        DocumentType: KIIDs
-        LanguageCode: en
-    InstrumentDocumentInformationResponse:
-      title: Instrument Document Information Response
-      type: object
-      properties:
-        DocumentDetails:
-          title: List of document details.
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentDocumentInformation'
-          example:
-          - DocumentDateTime: '2020-01-20T00:00:00Z'
-            DocumentRelationId: 1100
-            DocumentType: KIIDs
-            LanguageCode: en
-      additionalProperties: false
-      example:
-        DocumentDetails:
-        - DocumentDateTime: '2020-04-20T00:00:00Z'
-          DocumentRelationId: 1289
-          DocumentType: KIIDs
-          LanguageCode: en
-        - DocumentDateTime: '2019-09-20T00:00:00Z'
-          DocumentRelationId: 4028
-          DocumentType: PRIIP KIDs
-          LanguageCode: da
-    InstrumentDocumentDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentDocumentDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - DocumentDateTime: '2020-04-20T00:00:00Z'
-          DocumentRelationId: 1289
-          DocumentType: KIIDs
-          LanguageCode: en
-        - DocumentDateTime: '2019-09-20T00:00:00Z'
-          DocumentRelationId: 4028
-          DocumentType: PRIIPKIDs
-          LanguageCode: da
-    DocumentType:
-      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
-      enum:
-      - AnnualFinancialStatement
-      - CommercialMemorandum
-      - FactSheet
-      - KFS
-      - KIIDs
-      - PHS
-      - PRIIPKIDs
-      - Prospectus
-      - SemiAnnualFinancialStatement
-      - SimplifiedProspectus
-      type: string
-      example: KIIDs
-      x-enum-descriptions:
-        KIIDs: Key Investor Information Document
-        PRIIPKIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
-        FactSheet: Fact Sheet
-        AnnualFinancialStatement: Annual Financial Statement
-        CommercialMemorandum: Commercial Memorandum
-        Prospectus: Prospectus
-        PHS: Product Highlight Sheet
-        KFS: Key Fact Sheet
-        SimplifiedProspectus: Simplified Prospectus
-        SemiAnnualFinancialStatement: Semi Annual Financial Statement
-      x-type-warning: FlaggableEnum
+        DocumentDateTime: '9999-12-31T23:59:59.9999990+00:00'
+        DocumentRelationId: 99
+        DocumentType: PHS
+        LanguageCode: stringValue
   responses:
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

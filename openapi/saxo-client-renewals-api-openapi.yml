@@ -1,22 +1,24 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Services.AutoTrading Account Values Client Renewals API
-  description: 'The AutoTrading service group provides endpoints for interacting with Saxo Bank''s SaxoSelect offering.Through these interfaces a client application can get Saxo Select trade leaders, portfolios and investments. Portfolio investments can be created and modifed.<div class=well style=''border: 1px solid rgb(204, 82, 0); border-image: none; background-color: rgb(255, 209, 179);padding:1px;''><strong> Note:</strong> </br>This service is subject to special licensing agreements and not generally available to all OpenAPI applications.</div>'
-  version: 2.4.138+710c760591
-  x-framework-version: 38.0.2+439c5b0ec3
+  title: Services.ClientManagement Client Renewals API
+  description: The Client Management service group provides services to signup and manage leads and clients.
+  version: 1.1.680+525085ced8
+  x-framework-version: 43.0.5+65c0bdc8ab
   x-machine: SIMOAWEB11-DK2
 servers:
 - url: https://gateway.saxobank.com/sim/openapi
 tags:
 - name: Client Renewals
-  description: "The Client Renewals resource is only implemented in LIVE environment. Implementation in simulation system only returns sample data and response.\n             \n             Provides functionality to get and update client data information"
+  description: 'The Client Renewals resource is only implemented in LIVE environment. Implementation in simulation system only returns sample data and response.
+
+
+    Provides functionality to get and update client data information'
 paths:
   /cm/v1/clientrenewals/pending:
     get:
       tags:
       - Client Renewals
       summary: Gets renewal status for clients, under logged user or the passed owner
-      description: Gets renewal status for clients, under logged user or the passed owner
       operationId: ClientRenewalGetRenewalStatuses
       parameters:
       - name: $skip
@@ -118,7 +120,6 @@ paths:
       tags:
       - Client Renewals
       summary: Update Renewal Data/Documents for the given renewal entity
-      description: Update Renewal Data/Documents for the given renewal entity
       operationId: ClientRenewalUpdateClientRenewalData
       parameters:
       - name: RenewalEntityId
@@ -339,7 +340,7 @@ paths:
     get:
       tags:
       - Client Renewals
-      summary: Get Renewal Data for the passed Client/User or logged in user. Priority is given to userKey over clientKey.
+      summary: Get Renewal Data for the passed Client/User or logged in user.
       description: Get Renewal Data for the passed Client/User or logged in user
       operationId: ClientRenewalGetClientRenewalData
       parameters:
@@ -558,174 +559,6 @@ paths:
         confidential: Read
 components:
   schemas:
-    RenewalStatus:
-      title: Renewal status
-      enum:
-      - Approved
-      - InProgress
-      - New
-      - NoActiveRenewal
-      - Pending
-      - Waiting
-      type: string
-      example: NoActiveRenewal
-      x-enum-descriptions:
-        NoActiveRenewal: No renewal entity exists.
-        New: Renewal entity in process, awaiting customer input.
-        Waiting: Renewal entity in process, submitted by customer.
-        Approved: Renewal entity Approved.
-        InProgress: Renewal entity is being processed.
-        Pending: Renewal entity pending with customer, for corrections/missing data.
-    AssetDetails:
-      title: Asset Details class
-      required:
-      - CurrencyCode
-      - Amount
-      - AmountDescription
-      type: object
-      properties:
-        Amount:
-          title: Amount value
-          type: integer
-          format: int32
-          example: 99
-        AmountDescription:
-          title: Amount Description
-          allOf:
-          - $ref: '#/components/schemas/AmountDescriptionType'
-        CurrencyCode:
-          title: Currency code (from Options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Amount: 100020
-        AmountDescription: Exact
-        CurrencyCode: DKK
-    TradingProfile:
-      title: Client trading profile
-      type: object
-      properties:
-        SoleBoOfAssets:
-          title: Sole beneficial owner of the deposited assets
-          type: boolean
-          example: false
-      additionalProperties: false
-      example:
-        SoleBoOfAssets: false
-    OnboardingAddress:
-      title: Onboarding Address
-      type: object
-      properties:
-        BuildingName:
-          title: Name of Building
-          maxLength: 128
-          type: string
-          example: stringValue
-        BuildingNumber:
-          title: Building Number
-          maxLength: 128
-          type: string
-          example: stringValue
-        City:
-          title: City
-          maxLength: 128
-          type: string
-          example: stringValue
-        CoName:
-          title: Care of Name
-          maxLength: 100
-          type: string
-          example: stringValue
-        CountryOfResidenceCode:
-          title: Country of residence ISO code (from Options)
-          type: string
-          example: stringValue
-        Floor:
-          title: Floor
-          maxLength: 128
-          type: string
-          example: stringValue
-        LocalArea:
-          title: Local area
-          maxLength: 128
-          type: string
-          example: stringValue
-        PostBoxOffice:
-          title: Post box office
-          maxLength: 128
-          type: string
-          example: stringValue
-        PostalCode:
-          title: PostalCode
-          maxLength: 128
-          type: string
-          example: stringValue
-        SideDoor:
-          title: Side door
-          maxLength: 128
-          type: string
-          example: stringValue
-        State:
-          title: State
-          maxLength: 128
-          type: string
-          example: stringValue
-        StreetName:
-          title: Name of Street
-          maxLength: 128
-          type: string
-          example: stringValue
-        Unit:
-          title: Unit
-          maxLength: 128
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        BuildingName: Test Building
-        BuildingNumber: '420'
-        City: Test Address City
-        CoName: CO Test
-        CountryOfResidenceCode: IN
-        Floor: '5'
-        LocalArea: Local Test Area
-        PostalCode: '123466'
-        PostBoxOffice: '212313'
-        SideDoor: Test SideDoor
-        State: Test State
-        StreetName: Test Street
-        Unit: Unit 10
-    TaxableCountry:
-      title: Taxable country
-      type: object
-      properties:
-        CountryCode:
-          title: Country code (from Options)
-          type: string
-          example: stringValue
-        TaxId:
-          title: Tax Id, if TIN is available
-          type: string
-          example: stringValue
-        TinMissingReason:
-          title: Reason for not having TIN (from Options)
-          type: string
-          example: stringValue
-        TinNotAvailable:
-          title: Is TIN not available?
-          type: boolean
-          example: false
-        TinOtherMissingReason:
-          title: Any other reason for not having TIN
-          maxLength: 100
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryCode: SG
-        TaxId: '1231314'
-        TinNotAvailable: false
     ClientRenewal:
       title: Client renewal data
       type: object
@@ -898,112 +731,106 @@ components:
             MonthlyIncomeAfterTaxGbp: '42000'
         RenewalEntityId: '9534299'
         RenewalStatus: Waiting
-    SingaporeData:
-      title: Singapore data
+    RenewalStatusDataListResult:
       type: object
       properties:
-        AnnualIncomeSgd:
-          title: Annual Income in Sgd
-          type: string
-          example: stringValue
-        NetWorthSgd:
-          title: Net Worth in Sgd
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AnnualIncomeSgd: '3'
-        NetWorthSgd: '5'
-    Italy.ProfileInformation:
-      title: Profile information for Italy renewal
-      type: object
-      properties:
-        AnnualIncomeInformation:
-          title: Annual income information for Italy
-          allOf:
-          - $ref: '#/components/schemas/Italy.AnnualIncomeInformation'
-        InvestableAssets:
-          title: Investable assets for Italy
-          allOf:
-          - $ref: '#/components/schemas/Italy.InvestableAssets'
-      additionalProperties: false
-      example:
-        AnnualIncomeInformation:
-          AnnualIncomeSource:
-          - stringValue
-          TotalAnnualIncome: stringValue
-        InvestableAssets:
-          NatureAndPurposeOfTheRelationship: stringValue
-          SourceOfWealth:
-          - stringValue
-          ValueOfTotalWealth: stringValue
-    AnnualIncomeInformation:
-      title: Annual income information
-      type: object
-      properties:
-        AnnualSalaryAfterTax:
-          title: Annual Salary After Tax (from Options)
-          type: string
-          example: stringValue
-        SecondaryIncomeOther:
-          title: Other source of secondary income
-          maxLength: 50
-          type: string
-          example: stringValue
-        SecondarySourcesOfIncome:
-          title: Secondary sources of income (from Options, can select multiple)
+        Data:
           type: array
           items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        SecondarySourcesOfIncomeTotal:
-          title: Total income from Secondary sources (from Options)
+            $ref: '#/components/schemas/RenewalStatusData'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __count: 2
+        Data:
+        - ClientId: '2147279170'
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          RenewalBy: '2022-11-18'
+          RenewalStatus: Waiting
+        - ClientId: '2147279171'
+          ClientKey: 27KN2aJ-338aeKnLTNOyCw==
+          RenewalBy: '2022-11-28'
+    TradingProfile:
+      title: Client trading profile
+      type: object
+      properties:
+        SoleBoOfAssets:
+          title: Sole beneficial owner of the deposited assets
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        SoleBoOfAssets: false
+    PoliticallyExposedInformation:
+      title: Politically exposed person information
+      type: object
+      properties:
+        PepPosition:
+          title: PEP Position
+          type: string
+          example: stringValue
+        PepRelatedPersonName:
+          title: Name of PEP Related Person
+          type: string
+          example: stringValue
+        PepRelatedPersonPosition:
+          title: Position of PEP Related Person
+          type: string
+          example: stringValue
+        PepType:
+          title: Type of PEP (from Options)
+          type: string
+          example: stringValue
+        RelationToPep:
+          title: Relation to PEP (from Options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AnnualSalaryAfterTax: '11'
-        SecondaryIncomeOther: '1'
-        SecondarySourcesOfIncome:
-        - '3'
-        SecondarySourcesOfIncomeTotal: '9'
-    ItalyData:
-      title: Italy related data
+        PepRelatedPersonName: Fred XXX
+        PepRelatedPersonPosition: Director
+        PepType: '2'
+        RelationToPep: '5'
+    RenewalDocument:
+      title: Renewal Document
+      required:
+      - Type
+      - Data
+      - Name
+      - MimeType
       type: object
       properties:
-        EmploymentInformation:
-          title: Employment information for Italy renewal
+        Data:
+          title: Base64 encoded document data
+          type: string
+          example: stringValue
+        MimeType:
+          title: Mime type of the document
+          type: string
+          example: stringValue
+        Name:
+          title: Document name
+          type: string
+          example: stringValue
+        Type:
+          title: Renewal document type
           allOf:
-          - $ref: '#/components/schemas/Italy.EmploymentInformation'
-        MailContactPreference:
-          title: Do you want to be contacted through mail?
-          type: boolean
-          example: false
-        ProfileInformation:
-          title: Profile information for Italy renewal
-          allOf:
-          - $ref: '#/components/schemas/Italy.ProfileInformation'
+          - $ref: '#/components/schemas/RenewalDocumentType'
       additionalProperties: false
       example:
-        EmploymentInformation:
-          CountryConcernedCode: stringValue
-          DetailedBusinessActivity: stringValue
-          OtherEmployment: stringValue
-          ProvinceConcerned: stringValue
-          StatusOfEmployment: stringValue
-        MailContactPreference: true
-        ProfileInformation:
-          AnnualIncomeInformation:
-            AnnualIncomeSource:
-            - stringValue
-            TotalAnnualIncome: stringValue
-          InvestableAssets:
-            NatureAndPurposeOfTheRelationship: stringValue
-            SourceOfWealth:
-            - stringValue
-            ValueOfTotalWealth: stringValue
+        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+        MimeType: application/pdf
+        Name: ProofOfIdentity.pdf
+        Type: ProofOfIdentity
     RegulatoryInformation:
       title: Regulatory Information
       type: object
@@ -1018,36 +845,38 @@ components:
           UnitedStatesCitizen: true
           UnitedStatesTaxId: '456123'
           UnitedStatesTaxLiable: true
-    GlobalFinancialInformation:
-      title: Global financial information
+    MinorInformation:
+      title: Guardianship related minor information
       type: object
       properties:
-        AnnualIncomeAfterTax:
-          title: Annual Income After Tax
+        MinorLegalGuardianship:
+          title: Minor legal guardianship type
           allOf:
-          - $ref: '#/components/schemas/AssetDetails'
-        IntendToInvest:
-          title: Intend To Invest
-          allOf:
-          - $ref: '#/components/schemas/AssetDetails'
-        InvestableAsset:
-          title: Investable Asset
-          allOf:
-          - $ref: '#/components/schemas/AssetDetails'
+          - $ref: '#/components/schemas/MinorLegalGuardianship'
+        OtherReason:
+          title: Reason for setting other legal guardianship
+          type: string
+          example: stringValue
+        SharedResponsibilityWithLegalGuardian:
+          title: Id of the shared legal guardian(ReadOnly)
+          pattern: ^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+          type: string
+          example: 334a3b9c-12b7-40cc-bff5-ba5672139b41
+        SharedResponsibilityWithLegalGuardianLoginUserId:
+          title: Login userId of shared legal guardian
+          type: string
+          example: stringValue
+        SharedResponsibilityWithLegalGuardianName:
+          title: Name of the shared legal guardian(ReadOnly)
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeAfterTax:
-          Amount: 100020
-          AmountDescription: Exact
-          CurrencyCode: DKK
-        IntendToInvest:
-          Amount: 1000000
-          AmountDescription: AboveThisAmount
-          CurrencyCode: DKK
-        InvestableAsset:
-          Amount: 1000000
-          AmountDescription: Rounded
-          CurrencyCode: DKK
+        MinorLegalGuardianship: Sharedwithanotherlegalguardian
+        OtherReason: None
+        SharedResponsibilityWithLegalGuardian: 2451ac4b-e2d3-47d9-9d88-db00a056d365
+        SharedResponsibilityWithLegalGuardianLoginUserId: '6372920'
+        SharedResponsibilityWithLegalGuardianName: Guardian
     JapanData:
       title: Japan data
       type: object
@@ -1076,6 +905,515 @@ components:
         - '6234'
         - 0392
         - '1025'
+    Italy.ProfileInformation:
+      title: Profile information for Italy renewal
+      type: object
+      properties:
+        AnnualIncomeInformation:
+          title: Annual income information for Italy
+          allOf:
+          - $ref: '#/components/schemas/Italy.AnnualIncomeInformation'
+        InvestableAssets:
+          title: Investable assets for Italy
+          allOf:
+          - $ref: '#/components/schemas/Italy.InvestableAssets'
+      additionalProperties: false
+      example:
+        AnnualIncomeInformation:
+          AnnualIncomeSource:
+          - stringValue
+          TotalAnnualIncome: stringValue
+        InvestableAssets:
+          NatureAndPurposeOfTheRelationship: stringValue
+          SourceOfWealth:
+          - stringValue
+          ValueOfTotalWealth: stringValue
+    RenewalStatusData:
+      title: Renewal status for a particular client
+      type: object
+      properties:
+        ClientId:
+          title: ClientId of this renewal
+          type: string
+          example: stringValue
+        ClientKey:
+          title: ClientKey of this renewal
+          type: string
+          example: stringValue
+        RenewalBy:
+          title: Date when this renewal should be completed
+          type: string
+          format: date
+          x-type-name: Date
+        RenewalStatus:
+          title: Current status of this renewal
+          allOf:
+          - $ref: '#/components/schemas/RenewalStatus'
+      additionalProperties: false
+      example:
+        ClientId: stringValue
+        ClientKey: stringValue
+        RenewalBy: '0001-01-01'
+        RenewalStatus: New
+    SingaporeData:
+      title: Singapore data
+      type: object
+      properties:
+        AnnualIncomeSgd:
+          title: Annual Income in Sgd
+          type: string
+          example: stringValue
+        NetWorthSgd:
+          title: Net Worth in Sgd
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualIncomeSgd: '3'
+        NetWorthSgd: '5'
+    EmploymentInformation:
+      title: Employment information
+      type: object
+      properties:
+        EmployerName:
+          title: Employer Name
+          maxLength: 250
+          type: string
+          example: stringValue
+        NatureOfBusiness:
+          title: Nature Of Business
+          type: string
+          example: stringValue
+        NatureOfBusinessOther:
+          title: Nature of Business other
+          type: string
+          example: stringValue
+        OccupationTypes:
+          title: Occupation types (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Position:
+          title: Position/Designation/Level
+          maxLength: 250
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        EmployerName: Test Employer
+        NatureOfBusiness: '10'
+        OccupationTypes:
+        - '1'
+        - '2'
+        - '3'
+        Position: Test Position
+    AdditionalNationality:
+      title: Additional nationality
+      type: object
+      properties:
+        CountryCode:
+          title: Additional country (from Options)
+          type: string
+          example: stringValue
+        NationalId:
+          title: Additional national id
+          type: string
+          example: stringValue
+        NationalIdType:
+          title: Additional national id type
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        CountryCode: UK
+        NationalId: '38992710'
+        NationalIdType: 4
+    MinorLegalGuardianship:
+      title: Minor legal guardianship type
+      enum:
+      - Other
+      - Sharedwithanotherlegalguardian
+      - Single
+      type: string
+      example: Single
+      x-enum-descriptions:
+        Single: Single guardian
+        Sharedwithanotherlegalguardian: Shared with another legal guarduan
+        Other: Other status
+    AmountDescriptionType:
+      title: Enum for AmountDescriptionType
+      enum:
+      - AboveThisAmount
+      - Exact
+      - Rounded
+      type: string
+      example: Exact
+      x-enum-descriptions:
+        Exact: Exact value provided.
+        Rounded: Nearby value provided.
+        AboveThisAmount: Value is above this amount.
+    OnboardingAddress:
+      title: Onboarding Address
+      type: object
+      properties:
+        BuildingName:
+          title: Name of Building
+          maxLength: 128
+          type: string
+          example: stringValue
+        BuildingNumber:
+          title: Building Number
+          maxLength: 128
+          type: string
+          example: stringValue
+        City:
+          title: City
+          maxLength: 128
+          type: string
+          example: stringValue
+        CoName:
+          title: Care of Name
+          maxLength: 100
+          type: string
+          example: stringValue
+        CountryOfResidenceCode:
+          title: Country of residence ISO code (from Options)
+          type: string
+          example: stringValue
+        Floor:
+          title: Floor
+          maxLength: 128
+          type: string
+          example: stringValue
+        LocalArea:
+          title: Local area
+          maxLength: 128
+          type: string
+          example: stringValue
+        PostBoxOffice:
+          title: Post box office
+          maxLength: 128
+          type: string
+          example: stringValue
+        PostalCode:
+          title: PostalCode
+          maxLength: 128
+          type: string
+          example: stringValue
+        SideDoor:
+          title: Side door
+          maxLength: 128
+          type: string
+          example: stringValue
+        State:
+          title: State
+          maxLength: 128
+          type: string
+          example: stringValue
+        StreetName:
+          title: Name of Street
+          maxLength: 128
+          type: string
+          example: stringValue
+        Unit:
+          title: Unit
+          maxLength: 128
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        BuildingName: Test Building
+        BuildingNumber: '420'
+        City: Test Address City
+        CoName: CO Test
+        CountryOfResidenceCode: IN
+        Floor: '5'
+        LocalArea: Local Test Area
+        PostalCode: '123466'
+        PostBoxOffice: '212313'
+        SideDoor: Test SideDoor
+        State: Test State
+        StreetName: Test Street
+        Unit: Unit 10
+    AssetDetails:
+      title: Asset Details class
+      required:
+      - CurrencyCode
+      - Amount
+      - AmountDescription
+      type: object
+      properties:
+        Amount:
+          title: Amount value
+          type: integer
+          format: int32
+          example: 99
+        AmountDescription:
+          title: Amount Description
+          allOf:
+          - $ref: '#/components/schemas/AmountDescriptionType'
+        CurrencyCode:
+          title: Currency code (from Options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Amount: 100020
+        AmountDescription: Exact
+        CurrencyCode: DKK
+    Models.PhoneNumber:
+      title: Phone Number
+      type: object
+      properties:
+        CountryCode:
+          title: Country Code (from Options)
+          type: string
+          example: stringValue
+        Number:
+          title: Number
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: DK
+        Number: '355354654'
+    Italy.EmploymentInformation:
+      title: Employment information for Italy renewal
+      type: object
+      properties:
+        CountryConcernedCode:
+          title: Concerned country code
+          type: string
+          example: stringValue
+        DetailedBusinessActivity:
+          title: Business activityin detail
+          type: string
+          example: stringValue
+        OtherEmployment:
+          title: Name of the other employment
+          type: string
+          example: stringValue
+        ProvinceConcerned:
+          title: Concerned province
+          type: string
+          example: stringValue
+        StatusOfEmployment:
+          title: Status of employment
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryConcernedCode: stringValue
+        DetailedBusinessActivity: stringValue
+        OtherEmployment: stringValue
+        ProvinceConcerned: stringValue
+        StatusOfEmployment: stringValue
+    InvestableAssets:
+      title: Investable assets
+      type: object
+      properties:
+        IntendToInvest:
+          title: Intend To Invest (from Options)
+          type: string
+          example: stringValue
+        PrimarySourcesOfWealth:
+          title: Primary sources of wealth (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        SourceOfWealthOther:
+          title: Other source of wealth
+          maxLength: 50
+          type: string
+          example: stringValue
+        ValueOfCashAndSecurities:
+          title: Value Of Cash And Securities (from Options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        IntendToInvest: '13'
+        PrimarySourcesOfWealth:
+        - '2'
+        - '3'
+        SourceOfWealthOther: Other Wealth
+        ValueOfCashAndSecurities: '11'
+    FinlandData:
+      title: Finland data
+      type: object
+      properties:
+        EuroClearSectorCode:
+          title: Sector code for Euroclear
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        EuroClearSectorCode: '144200'
+    HongkongData:
+      title: Hongkong data
+      type: object
+      properties:
+        NetWorthInUsd:
+          title: Net worth in USD
+          type: string
+          example: stringValue
+        TotalEstimatedAnnualIncomeInUsd:
+          title: Estimated annual income in USD
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        NetWorthInUsd: '2'
+        TotalEstimatedAnnualIncomeInUsd: '4'
+    RenewalDocumentType:
+      title: Renewal document type
+      enum:
+      - AccountViewToIb
+      - AmlScreening
+      - ArticlesMemorandum
+      - AuthorizedDealers
+      - AuthorizedPaymentSignatories
+      - BackOfficeReporting
+      - BeneficialOwnerInformation
+      - CertificateOfGoodStanding
+      - CertificateOfIncorporation
+      - CertificateOfIncumbency
+      - CertificateOfSignature
+      - ClientApplicationForm
+      - CorporateDisclosureForm
+      - CorporateTranscript
+      - DdNotesFromClient
+      - DirectorSignatoryInformation
+      - ElectonicIdVerification
+      - EsaContract
+      - EsmaDocumentation
+      - FeePaymentAuthorization
+      - FeePaymentSchedule
+      - GeneralBusinessTerms
+      - IbAddendumScml
+      - InternalTranslationForm
+      - ItalianAccountOpeningConfirmation
+      - JointAccountForm
+      - LanguageLegalLetter
+      - LawyersLicense
+      - MifidClassification
+      - MultipleAccountForm
+      - OtherDdDocs
+      - PensionTransferRequest
+      - PoaAuthTrade
+      - PoaF07
+      - PoaFp2
+      - PoaI07
+      - PoaI08
+      - PoaIblp4
+      - PoaIbp5
+      - PoaIpb6
+      - PoaLp1
+      - PoaMa10
+      - PoaMa11
+      - PoaMm9
+      - PowerOfAttorney
+      - PowerOfAttorneyToIb
+      - PowerOfAttorneyToPerformanceIb
+      - ProofOfIdentity
+      - ProofOfResidency
+      - Selfie
+      - ShareCertification
+      - SourceOfFundsDocument
+      - TaxLiability
+      - TaxReclaimRegistrationForms
+      - TermsAndConditions
+      - TermsAndConditionsAldersopsparingPrivate
+      - TermsAndConditionsKapitalPensionPrivate
+      - TermsAndConditionsRatePensionEmployer
+      - TermsAndConditionsRatePensionPrivate
+      - W8Ben
+      type: string
+      example: ProofOfIdentity
+      x-enum-descriptions:
+        ProofOfIdentity: Proof of identity.
+        ProofOfResidency: Proof of residence.
+        PowerOfAttorney: Power of attorney.
+        TermsAndConditions: Terms and conditions.
+        AmlScreening: Aml screening document
+        ClientApplicationForm: Client application form document
+        GeneralBusinessTerms: General business terms.
+        SourceOfFundsDocument: Source of funds document.
+        PowerOfAttorneyToIb: Power of Attorney to Ib
+        PowerOfAttorneyToPerformanceIb: Power of attorney to performance Ib
+        AccountViewToIb: Account view to IB.
+        IbAddendumScml: Ib Addendum Scml
+        TaxLiability: Tax Liability
+        MultipleAccountForm: Multiple Account Form
+        JointAccountForm: Joint Account Form
+        FeePaymentAuthorization: Fee Payment Authorization
+        CertificateOfSignature: Certificate Of Signature
+        BeneficialOwnerInformation: Beneficial Owner Information
+        CorporateDisclosureForm: Corporate Disclosure Form
+        CorporateTranscript: Corporate Transcript
+        DirectorSignatoryInformation: Director Signatory Information
+        ArticlesMemorandum: Articles Memorandum
+        CertificateOfGoodStanding: Certificate Of Good Standing
+        CertificateOfIncumbency: Certificate Of Incumbency
+        CertificateOfIncorporation: Certificate Of Incorporation
+        ShareCertification: Share Certification
+        AuthorizedDealers: Authorized Dealers
+        AuthorizedPaymentSignatories: Authorized Payment Signatories
+        LawyersLicense: Lawyers License
+        LanguageLegalLetter: Language Legal Letter
+        TaxReclaimRegistrationForms: Tax Reclaim Registration Forms
+        BackOfficeReporting: Back Office Reporting
+        MifidClassification: Mifid Classification
+        InternalTranslationForm: Internal Translation Form
+        ItalianAccountOpeningConfirmation: Italian Account Opening Confirmation
+        ElectonicIdVerification: Electonic Id Verification
+        EsmaDocumentation: Esma Documentation
+        FeePaymentSchedule: Fee Payment Schedule
+        W8Ben: W8Ben
+        PoaLp1: PoaLp1
+        PoaFp2: PoaFp2
+        PoaIblp4: PoaIblp4
+        PoaF07: PoaF07
+        PoaMm9: PoaMm9
+        PoaMa10: PoaMa10
+        PoaMa11: PoaMa11
+        PoaIbp5: PoaIbp5
+        PoaI07: PoaI07
+        PoaI08: PoaI08
+        PoaIpb6: PoaIpb6
+        PoaAuthTrade: Poa Auth Trade
+        EsaContract: Esa Contract
+        Selfie: Selfie of the client
+        DdNotesFromClient: Dd Notes From Client
+        OtherDdDocs: Other Dd Docs
+        TermsAndConditionsRatePensionPrivate: Terms And Conditions Rate Pension Private
+        TermsAndConditionsAldersopsparingPrivate: Terms And Conditions Aldersopsparing Private
+        TermsAndConditionsKapitalPensionPrivate: Terms And Conditions Kapital Pension Private
+        PensionTransferRequest: Pension Transfer Request
+        TermsAndConditionsRatePensionEmployer: Terms And Conditions Rate Pension Employer
+    AustraliaData:
+      title: Australia Data
+      type: object
+      properties:
+        AnnualIncome:
+          title: Annual Income in AUD
+          type: string
+          example: stringValue
+        NetWorth:
+          title: Net Worth in AUD
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualIncome: '3'
+        NetWorth: '5'
     RenewalData:
       title: Renewal Data
       type: object
@@ -1275,141 +1613,71 @@ components:
         UkData:
           EstimatedSavingAndInvestmentGbp: '14500'
           MonthlyIncomeAfterTaxGbp: '42000'
-    RenewalStatusDataListResult:
+    ItalyData:
+      title: Italy related data
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/RenewalStatusData'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __count: 2
-        Data:
-        - ClientId: '2147279170'
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-          RenewalBy: '2022-11-18'
-          RenewalStatus: Waiting
-        - ClientId: '2147279171'
-          ClientKey: 27KN2aJ-338aeKnLTNOyCw==
-          RenewalBy: '2022-11-28'
-    Italy.EmploymentInformation:
-      title: Employment information for Italy renewal
-      type: object
-      properties:
-        CountryConcernedCode:
-          title: Concerned country code
-          type: string
-          example: stringValue
-        DetailedBusinessActivity:
-          title: Business activityin detail
-          type: string
-          example: stringValue
-        OtherEmployment:
-          title: Name of the other employment
-          type: string
-          example: stringValue
-        ProvinceConcerned:
-          title: Concerned province
-          type: string
-          example: stringValue
-        StatusOfEmployment:
-          title: Status of employment
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryConcernedCode: stringValue
-        DetailedBusinessActivity: stringValue
-        OtherEmployment: stringValue
-        ProvinceConcerned: stringValue
-        StatusOfEmployment: stringValue
-    MinorLegalGuardianship:
-      title: Minor legal guardianship type
-      enum:
-      - Other
-      - Sharedwithanotherlegalguardian
-      - Single
-      type: string
-      example: Single
-      x-enum-descriptions:
-        Single: Single guardian
-        Sharedwithanotherlegalguardian: Shared with another legal guarduan
-        Other: Other status
-    FinlandData:
-      title: Finland data
-      type: object
-      properties:
-        EuroClearSectorCode:
-          title: Sector code for Euroclear
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        EuroClearSectorCode: '144200'
-    RenewalStatusData:
-      title: Renewal status for a particular client
-      type: object
-      properties:
-        ClientId:
-          title: ClientId of this renewal
-          type: string
-          example: stringValue
-        ClientKey:
-          title: ClientKey of this renewal
-          type: string
-          example: stringValue
-        RenewalBy:
-          title: Date when this renewal should be completed
-          type: string
-          format: date
-          x-type-name: Date
-        RenewalStatus:
-          title: Current status of this renewal
+        EmploymentInformation:
+          title: Employment information for Italy renewal
           allOf:
-          - $ref: '#/components/schemas/RenewalStatus'
+          - $ref: '#/components/schemas/Italy.EmploymentInformation'
+        MailContactPreference:
+          title: Do you want to be contacted through mail?
+          type: boolean
+          example: false
+        ProfileInformation:
+          title: Profile information for Italy renewal
+          allOf:
+          - $ref: '#/components/schemas/Italy.ProfileInformation'
       additionalProperties: false
       example:
-        ClientId: stringValue
-        ClientKey: stringValue
-        RenewalBy: '0001-01-01'
-        RenewalStatus: New
-    Italy.InvestableAssets:
-      title: Investable assets for Italy
+        EmploymentInformation:
+          CountryConcernedCode: stringValue
+          DetailedBusinessActivity: stringValue
+          OtherEmployment: stringValue
+          ProvinceConcerned: stringValue
+          StatusOfEmployment: stringValue
+        MailContactPreference: true
+        ProfileInformation:
+          AnnualIncomeInformation:
+            AnnualIncomeSource:
+            - stringValue
+            TotalAnnualIncome: stringValue
+          InvestableAssets:
+            NatureAndPurposeOfTheRelationship: stringValue
+            SourceOfWealth:
+            - stringValue
+            ValueOfTotalWealth: stringValue
+    GlobalFinancialInformation:
+      title: Global financial information
       type: object
       properties:
-        NatureAndPurposeOfTheRelationship:
-          title: Nature and purpose of relationship - (from options)
-          type: string
-          example: stringValue
-        SourceOfWealth:
-          title: Sources of wealth - (from options, can select multiple)
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        ValueOfTotalWealth:
-          title: Value of total wealth - (from options)
-          type: string
-          example: stringValue
+        AnnualIncomeAfterTax:
+          title: Annual Income After Tax
+          allOf:
+          - $ref: '#/components/schemas/AssetDetails'
+        IntendToInvest:
+          title: Intend To Invest
+          allOf:
+          - $ref: '#/components/schemas/AssetDetails'
+        InvestableAsset:
+          title: Investable Asset
+          allOf:
+          - $ref: '#/components/schemas/AssetDetails'
       additionalProperties: false
       example:
-        NatureAndPurposeOfTheRelationship: stringValue
-        SourceOfWealth:
-        - stringValue
-        ValueOfTotalWealth: stringValue
+        AnnualIncomeAfterTax:
+          Amount: 100020
+          AmountDescription: Exact
+          CurrencyCode: DKK
+        IntendToInvest:
+          Amount: 1000000
+          AmountDescription: AboveThisAmount
+          CurrencyCode: DKK
+        InvestableAsset:
+          Amount: 1000000
+          AmountDescription: Rounded
+          CurrencyCode: DKK
     FatcaDeclaration:
       title: Fatca declaration
       type: object
@@ -1432,164 +1700,6 @@ components:
         UnitedStatesCitizen: true
         UnitedStatesTaxId: '456123'
         UnitedStatesTaxLiable: true
-    AustraliaData:
-      title: Australia Data
-      type: object
-      properties:
-        AnnualIncome:
-          title: Annual Income in AUD
-          type: string
-          example: stringValue
-        NetWorth:
-          title: Net Worth in AUD
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AnnualIncome: '3'
-        NetWorth: '5'
-    UkData:
-      title: UK data
-      type: object
-      properties:
-        EstimatedSavingAndInvestmentGbp:
-          title: Estimated saving and investment in GBP
-          type: string
-          example: stringValue
-        MonthlyIncomeAfterTaxGbp:
-          title: Monthly income after tax in GBP
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        EstimatedSavingAndInvestmentGbp: '14500'
-        MonthlyIncomeAfterTaxGbp: '42000'
-    HongkongData:
-      title: Hongkong data
-      type: object
-      properties:
-        NetWorthInUsd:
-          title: Net worth in USD
-          type: string
-          example: stringValue
-        TotalEstimatedAnnualIncomeInUsd:
-          title: Estimated annual income in USD
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        NetWorthInUsd: '2'
-        TotalEstimatedAnnualIncomeInUsd: '4'
-    RenewalDocument:
-      title: Renewal Document
-      required:
-      - Type
-      - Data
-      - Name
-      - MimeType
-      type: object
-      properties:
-        Data:
-          title: Base64 encoded document data
-          type: string
-          example: stringValue
-        MimeType:
-          title: Mime type of the document
-          type: string
-          example: stringValue
-        Name:
-          title: Document name
-          type: string
-          example: stringValue
-        Type:
-          title: Renewal document type
-          allOf:
-          - $ref: '#/components/schemas/RenewalDocumentType'
-      additionalProperties: false
-      example:
-        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-        MimeType: application/pdf
-        Name: ProofOfIdentity.pdf
-        Type: ProofOfIdentity
-    SwitzerlandData:
-      title: Switzerland data
-      type: object
-      properties:
-        AnnualIncomeChf:
-          title: Annual Income in Chf
-          type: string
-          example: stringValue
-        NetWorthChf:
-          title: Net Worth in Chf
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AnnualIncomeChf: '3'
-        NetWorthChf: '5'
-    PoliticallyExposedInformation:
-      title: Politically exposed person information
-      type: object
-      properties:
-        PepPosition:
-          title: PEP Position
-          type: string
-          example: stringValue
-        PepRelatedPersonName:
-          title: Name of PEP Related Person
-          type: string
-          example: stringValue
-        PepRelatedPersonPosition:
-          title: Position of PEP Related Person
-          type: string
-          example: stringValue
-        PepType:
-          title: Type of PEP (from Options)
-          type: string
-          example: stringValue
-        RelationToPep:
-          title: Relation to PEP (from Options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        PepRelatedPersonName: Fred XXX
-        PepRelatedPersonPosition: Director
-        PepType: '2'
-        RelationToPep: '5'
-    InvestableAssets:
-      title: Investable assets
-      type: object
-      properties:
-        IntendToInvest:
-          title: Intend To Invest (from Options)
-          type: string
-          example: stringValue
-        PrimarySourcesOfWealth:
-          title: Primary sources of wealth (from Options, can select multiple)
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        SourceOfWealthOther:
-          title: Other source of wealth
-          maxLength: 50
-          type: string
-          example: stringValue
-        ValueOfCashAndSecurities:
-          title: Value Of Cash And Securities (from Options)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        IntendToInvest: '13'
-        PrimarySourcesOfWealth:
-        - '2'
-        - '3'
-        SourceOfWealthOther: Other Wealth
-        ValueOfCashAndSecurities: '11'
     ContactInformation:
       title: Contact information
       type: object
@@ -1623,6 +1733,33 @@ components:
         SecondaryPhoneNumber:
           CountryCode: DK
           Number: '989899797'
+    Italy.AnnualIncomeInformation:
+      title: Annual income information for Italy
+      type: object
+      properties:
+        AnnualIncomeSource:
+          title: Annual income source - (from options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        TotalAnnualIncome:
+          title: Total annual income - (from options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualIncomeSource:
+        - stringValue
+        TotalAnnualIncome: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     PersonalInformation:
       title: Personal Information
       type: object
@@ -1853,171 +1990,159 @@ components:
         TaxId: '5454898'
         TinMissingReason: '100000003'
         TinNotAvailable: true
-    RenewalDocumentType:
-      title: Renewal document type
-      enum:
-      - AccountViewToIb
-      - AmlScreening
-      - ArticlesMemorandum
-      - AuthorizedDealers
-      - AuthorizedPaymentSignatories
-      - BackOfficeReporting
-      - BeneficialOwnerInformation
-      - CertificateOfGoodStanding
-      - CertificateOfIncorporation
-      - CertificateOfIncumbency
-      - CertificateOfSignature
-      - ClientApplicationForm
-      - CorporateDisclosureForm
-      - CorporateTranscript
-      - DdNotesFromClient
-      - DirectorSignatoryInformation
-      - ElectonicIdVerification
-      - EsaContract
-      - EsmaDocumentation
-      - FeePaymentAuthorization
-      - FeePaymentSchedule
-      - GeneralBusinessTerms
-      - IbAddendumScml
-      - InternalTranslationForm
-      - ItalianAccountOpeningConfirmation
-      - JointAccountForm
-      - LanguageLegalLetter
-      - LawyersLicense
-      - MifidClassification
-      - MultipleAccountForm
-      - OtherDdDocs
-      - PensionTransferRequest
-      - PoaAuthTrade
-      - PoaF07
-      - PoaFp2
-      - PoaI07
-      - PoaI08
-      - PoaIblp4
-      - PoaIbp5
-      - PoaIpb6
-      - PoaLp1
-      - PoaMa10
-      - PoaMa11
-      - PoaMm9
-      - PowerOfAttorney
-      - PowerOfAttorneyToIb
-      - PowerOfAttorneyToPerformanceIb
-      - ProofOfIdentity
-      - ProofOfResidency
-      - Selfie
-      - ShareCertification
-      - SourceOfFundsDocument
-      - TaxLiability
-      - TaxReclaimRegistrationForms
-      - TermsAndConditions
-      - TermsAndConditionsAldersopsparingPrivate
-      - TermsAndConditionsKapitalPensionPrivate
-      - TermsAndConditionsRatePensionEmployer
-      - TermsAndConditionsRatePensionPrivate
-      - W8Ben
-      type: string
-      example: ProofOfIdentity
-      x-enum-descriptions:
-        ProofOfIdentity: Proof of identity.
-        ProofOfResidency: Proof of residence.
-        PowerOfAttorney: Power of attorney.
-        TermsAndConditions: Terms and conditions.
-        AmlScreening: Aml screening document
-        ClientApplicationForm: Client application form document
-        GeneralBusinessTerms: General business terms.
-        SourceOfFundsDocument: Source of funds document.
-        PowerOfAttorneyToIb: Power of Attorney to Ib
-        PowerOfAttorneyToPerformanceIb: Power of attorney to performance Ib
-        AccountViewToIb: Account view to IB.
-        IbAddendumScml: Ib Addendum Scml
-        TaxLiability: Tax Liability
-        MultipleAccountForm: Multiple Account Form
-        JointAccountForm: Joint Account Form
-        FeePaymentAuthorization: Fee Payment Authorization
-        CertificateOfSignature: Certificate Of Signature
-        BeneficialOwnerInformation: Beneficial Owner Information
-        CorporateDisclosureForm: Corporate Disclosure Form
-        CorporateTranscript: Corporate Transcript
-        DirectorSignatoryInformation: Director Signatory Information
-        ArticlesMemorandum: Articles Memorandum
-        CertificateOfGoodStanding: Certificate Of Good Standing
-        CertificateOfIncumbency: Certificate Of Incumbency
-        CertificateOfIncorporation: Certificate Of Incorporation
-        ShareCertification: Share Certification
-        AuthorizedDealers: Authorized Dealers
-        AuthorizedPaymentSignatories: Authorized Payment Signatories
-        LawyersLicense: Lawyers License
-        LanguageLegalLetter: Language Legal Letter
-        TaxReclaimRegistrationForms: Tax Reclaim Registration Forms
-        BackOfficeReporting: Back Office Reporting
-        MifidClassification: Mifid Classification
-        InternalTranslationForm: Internal Translation Form
-        ItalianAccountOpeningConfirmation: Italian Account Opening Confirmation
-        ElectonicIdVerification: Electonic Id Verification
-        EsmaDocumentation: Esma Documentation
-        FeePaymentSchedule: Fee Payment Schedule
-        W8Ben: W8Ben
-        PoaLp1: PoaLp1
-        PoaFp2: PoaFp2
-        PoaIblp4: PoaIblp4
-        PoaF07: PoaF07
-        PoaMm9: PoaMm9
-        PoaMa10: PoaMa10
-        PoaMa11: PoaMa11
-        PoaIbp5: PoaIbp5
-        PoaI07: PoaI07
-        PoaI08: PoaI08
-        PoaIpb6: PoaIpb6
-        PoaAuthTrade: Poa Auth Trade
-        EsaContract: Esa Contract
-        Selfie: Selfie of the client
-        DdNotesFromClient: Dd Notes From Client
-        OtherDdDocs: Other Dd Docs
-        TermsAndConditionsRatePensionPrivate: Terms And Conditions Rate Pension Private
-        TermsAndConditionsAldersopsparingPrivate: Terms And Conditions Aldersopsparing Private
-        TermsAndConditionsKapitalPensionPrivate: Terms And Conditions Kapital Pension Private
-        PensionTransferRequest: Pension Transfer Request
-        TermsAndConditionsRatePensionEmployer: Terms And Conditions Rate Pension Employer
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    AmountDescriptionType:
-      title: Enum for AmountDescriptionType
-      enum:
-      - AboveThisAmount
-      - Exact
-      - Rounded
-      type: string
-      example: Exact
-      x-enum-descriptions:
-        Exact: Exact value provided.
-        Rounded: Nearby value provided.
-        AboveThisAmount: Value is above this amount.
-    Italy.AnnualIncomeInformation:
-      title: Annual income information for Italy
+    Italy.InvestableAssets:
+      title: Investable assets for Italy
       type: object
       properties:
-        AnnualIncomeSource:
-          title: Annual income source - (from options, can select multiple)
+        NatureAndPurposeOfTheRelationship:
+          title: Nature and purpose of relationship - (from options)
+          type: string
+          example: stringValue
+        SourceOfWealth:
+          title: Sources of wealth - (from options, can select multiple)
           type: array
           items:
             type: string
             example: stringValue
           example:
           - stringValue
-        TotalAnnualIncome:
-          title: Total annual income - (from options)
+        ValueOfTotalWealth:
+          title: Value of total wealth - (from options)
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AnnualIncomeSource:
+        NatureAndPurposeOfTheRelationship: stringValue
+        SourceOfWealth:
         - stringValue
-        TotalAnnualIncome: stringValue
+        ValueOfTotalWealth: stringValue
+    UkData:
+      title: UK data
+      type: object
+      properties:
+        EstimatedSavingAndInvestmentGbp:
+          title: Estimated saving and investment in GBP
+          type: string
+          example: stringValue
+        MonthlyIncomeAfterTaxGbp:
+          title: Monthly income after tax in GBP
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        EstimatedSavingAndInvestmentGbp: '14500'
+        MonthlyIncomeAfterTaxGbp: '42000'
+    ProfileInformation:
+      title: Profile information
+      type: object
+      properties:
+        AnnualIncomeInformation:
+          title: Annual Income Details
+          allOf:
+          - $ref: '#/components/schemas/AnnualIncomeInformation'
+        InvestableAssets:
+          title: Investable Assets Details
+          allOf:
+          - $ref: '#/components/schemas/InvestableAssets'
+        TradingProfile:
+          title: Clients Trading profile
+          allOf:
+          - $ref: '#/components/schemas/TradingProfile'
+      additionalProperties: false
+      example:
+        AnnualIncomeInformation:
+          AnnualSalaryAfterTax: '11'
+          SecondaryIncomeOther: '1'
+          SecondarySourcesOfIncome:
+          - '3'
+          SecondarySourcesOfIncomeTotal: '9'
+        InvestableAssets:
+          IntendToInvest: '13'
+          PrimarySourcesOfWealth:
+          - '2'
+          - '3'
+          SourceOfWealthOther: Other Wealth
+          ValueOfCashAndSecurities: '11'
+        TradingProfile:
+          SoleBoOfAssets: false
+    SwitzerlandData:
+      title: Switzerland data
+      type: object
+      properties:
+        AnnualIncomeChf:
+          title: Annual Income in Chf
+          type: string
+          example: stringValue
+        NetWorthChf:
+          title: Net Worth in Chf
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualIncomeChf: '3'
+        NetWorthChf: '5'
+    TaxableCountry:
+      title: Taxable country
+      type: object
+      properties:
+        CountryCode:
+          title: Country code (from Options)
+          type: string
+          example: stringValue
+        TaxId:
+          title: Tax Id, if TIN is available
+          type: string
+          example: stringValue
+        TinMissingReason:
+          title: Reason for not having TIN (from Options)
+          type: string
+          example: stringValue
+        TinNotAvailable:
+          title: Is TIN not available?
+          type: boolean
+          example: false
+        TinOtherMissingReason:
+          title: Any other reason for not having TIN
+          maxLength: 100
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CountryCode: SG
+        TaxId: '1231314'
+        TinNotAvailable: false
+    AnnualIncomeInformation:
+      title: Annual income information
+      type: object
+      properties:
+        AnnualSalaryAfterTax:
+          title: Annual Salary After Tax (from Options)
+          type: string
+          example: stringValue
+        SecondaryIncomeOther:
+          title: Other source of secondary income
+          maxLength: 50
+          type: string
+          example: stringValue
+        SecondarySourcesOfIncome:
+          title: Secondary sources of income (from Options, can select multiple)
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        SecondarySourcesOfIncomeTotal:
+          title: Total income from Secondary sources (from Options)
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AnnualSalaryAfterTax: '11'
+        SecondaryIncomeOther: '1'
+        SecondarySourcesOfIncome:
+        - '3'
+        SecondarySourcesOfIncomeTotal: '9'
     RenewalRequest:
       title: Renewal Request
       type: object
@@ -2193,155 +2318,25 @@ components:
           UkData:
             EstimatedSavingAndInvestmentGbp: '14500'
             MonthlyIncomeAfterTaxGbp: '42000'
-    MinorInformation:
-      title: Guardianship related minor information
-      type: object
-      properties:
-        MinorLegalGuardianship:
-          title: Minor legal guardianship type
-          allOf:
-          - $ref: '#/components/schemas/MinorLegalGuardianship'
-        OtherReason:
-          title: Reason for setting other legal guardianship
-          type: string
-          example: stringValue
-        SharedResponsibilityWithLegalGuardian:
-          title: Id of the shared legal guardian(ReadOnly)
-          pattern: ^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
-          type: string
-          example: 334a3b9c-12b7-40cc-bff5-ba5672139b41
-        SharedResponsibilityWithLegalGuardianLoginUserId:
-          title: Login userId of shared legal guardian
-          type: string
-          example: stringValue
-        SharedResponsibilityWithLegalGuardianName:
-          title: Name of the shared legal guardian(ReadOnly)
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        MinorLegalGuardianship: Sharedwithanotherlegalguardian
-        OtherReason: None
-        SharedResponsibilityWithLegalGuardian: 2451ac4b-e2d3-47d9-9d88-db00a056d365
-        SharedResponsibilityWithLegalGuardianLoginUserId: '6372920'
-        SharedResponsibilityWithLegalGuardianName: Guardian
-    ProfileInformation:
-      title: Profile information
-      type: object
-      properties:
-        AnnualIncomeInformation:
-          title: Annual Income Details
-          allOf:
-          - $ref: '#/components/schemas/AnnualIncomeInformation'
-        InvestableAssets:
-          title: Investable Assets Details
-          allOf:
-          - $ref: '#/components/schemas/InvestableAssets'
-        TradingProfile:
-          title: Clients Trading profile
-          allOf:
-          - $ref: '#/components/schemas/TradingProfile'
-      additionalProperties: false
-      example:
-        AnnualIncomeInformation:
-          AnnualSalaryAfterTax: '11'
-          SecondaryIncomeOther: '1'
-          SecondarySourcesOfIncome:
-          - '3'
-          SecondarySourcesOfIncomeTotal: '9'
-        InvestableAssets:
-          IntendToInvest: '13'
-          PrimarySourcesOfWealth:
-          - '2'
-          - '3'
-          SourceOfWealthOther: Other Wealth
-          ValueOfCashAndSecurities: '11'
-        TradingProfile:
-          SoleBoOfAssets: false
-    AdditionalNationality:
-      title: Additional nationality
-      type: object
-      properties:
-        CountryCode:
-          title: Additional country (from Options)
-          type: string
-          example: stringValue
-        NationalId:
-          title: Additional national id
-          type: string
-          example: stringValue
-        NationalIdType:
-          title: Additional national id type
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        CountryCode: UK
-        NationalId: '38992710'
-        NationalIdType: 4
-    EmploymentInformation:
-      title: Employment information
-      type: object
-      properties:
-        EmployerName:
-          title: Employer Name
-          maxLength: 250
-          type: string
-          example: stringValue
-        NatureOfBusiness:
-          title: Nature Of Business
-          type: string
-          example: stringValue
-        NatureOfBusinessOther:
-          title: Nature of Business other
-          type: string
-          example: stringValue
-        OccupationTypes:
-          title: Occupation types (from Options, can select multiple)
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        Position:
-          title: Position/Designation/Level
-          maxLength: 250
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        EmployerName: Test Employer
-        NatureOfBusiness: '10'
-        OccupationTypes:
-        - '1'
-        - '2'
-        - '3'
-        Position: Test Position
-    Models.PhoneNumber:
-      title: Phone Number
-      type: object
-      properties:
-        CountryCode:
-          title: Country Code (from Options)
-          type: string
-          example: stringValue
-        Number:
-          title: Number
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CountryCode: DK
-        Number: '355354654'
+    RenewalStatus:
+      title: Renewal status
+      enum:
+      - Approved
+      - InProgress
+      - New
+      - NoActiveRenewal
+      - Pending
+      - Waiting
+      type: string
+      example: NoActiveRenewal
+      x-enum-descriptions:
+        NoActiveRenewal: No renewal entity exists.
+        New: Renewal entity in process, awaiting customer input.
+        Waiting: Renewal entity in process, submitted by customer.
+        Approved: Renewal entity Approved.
+        InProgress: Renewal entity is being processed.
+        Pending: Renewal entity pending with customer, for corrections/missing data.
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -2363,6 +2358,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
