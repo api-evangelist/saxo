@@ -133,13 +133,71 @@ paths:
         personal: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     ServiceUnavailable:
       description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    AccountType:
+      title: Account types
+      enum:
+      - ASK
+      - AutoTradingFollower
+      - AutoTradingLeader
+      - BlockTrading
+      - Cgb
+      - Collateral
+      - Commission
+      - ConBroker
+      - ConEgo
+      - DvP
+      - Facilitation
+      - Funding
+      - Interest
+      - MFAllocation
+      - MFTotal
+      - MarginLending
+      - Normal
+      - Omnibus
+      - Pension
+      - PledgedCash
+      - Settlement
+      - SettlementTrading
+      - Shadow
+      - Tax
+      - TaxSavings
+      - VariationMargin
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: Default. Used for normal client accounts.
+        BlockTrading: Used for block trading accounts only. The account where the root block trade is executed. This is our allocation account.
+        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
+        Collateral: For WLP accounts holding WLP’s collateral (funds transferred from WLP to Saxo Bank). Not used for trading.
+        Funding: For WLP accounts used to transfer funds between WLP and WLP client accounts. Not used for trading.
+        Commission: For partners only. Used to hold partner commission amounts. Not used for trading.
+        Interest: For partners only. Used to hold partner interest amounts. Not used for trading.
+        Omnibus: For WLPs only. Used purely as an overall account. Not used for trading.
+        MFAllocation: Used for managed funds ALLOCATION account sonly (nothing to do with normal allocation/block trading accounts). Only MF trades.
+        MFTotal: Used for managed funds TOTAL accounts only. Only MF trades.
+        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
+        ConBroker: Used on broker accounts (in practise, the Normal account is actually used).
+        ConEgo: Used on EGO accounts (in practise, the Normal account is actually used).
+        Shadow: This account is used when a trade is allocated with negative allocation key. Two Shadow accounts are used. One to hold positive exposure, one to hold the equal but opposite exposure. Used very limited.
+        Cgb: Used for client accounts having open positions in Managed Fund instruments called ”CGB” (Capital Guaranteed Bonds).
+        Tax: Account Type for Julias bear
+        AutoTradingLeader: Account Type for Saxo Select Leader accounts
+        AutoTradingFollower: Account Type for Saxo Select Follower accounts
+        DvP: Account type for delivery versus payment
+        VariationMargin: Indicates the account on which exchange of collateral(cash) under EMIR between client and Saxo happens
+        PledgedCash: Account type for Pledged Cash
+        Facilitation: Account type for Facilitation flow
+        ASK: Account type for Aktiesparekonto(ASK)-Danish Investment Account
+        Pension: Account type for Pension
+        MarginLending: Account type for Margin Lending
+        TaxSavings: Generic account type for tax savings accounts. Should be used in conjection with AccountSubType
     ClientSearchResponseListResult:
       type: object
       properties:
@@ -177,24 +235,6 @@ components:
           Users:
           - UserId: '1881236'
             UserKey: aG90Uvk5z2acv5Qqtm4AgA==
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    SearchCriteriaFieldGroups:
-      title: Specifies the field groups required in the response.
-      enum:
-      - Accounts
-      - Default
-      - Users
-      type: string
-      example: Default
-      x-enum-descriptions:
-        Default: The default value. The search response will not contain Accounts info if nothing is provided in the FieldGroups field.
-        Accounts: Accounts field in the response will only be displayed if field group is Accounts.
-        Users: Users field in the response will only be displayed if FiledGroups list contains Users.
     ClientSearchResponse:
       type: object
       properties:
@@ -266,6 +306,114 @@ components:
         - UserId: stringValue
           UserKey: stringValue
           UserName: stringValue
+    UserInfo:
+      type: object
+      properties:
+        UserId:
+          title: User Id
+          type: string
+          example: stringValue
+        UserKey:
+          title: User Key
+          type: string
+          example: stringValue
+        UserName:
+          title: User Name
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        UserId: stringValue
+        UserKey: stringValue
+        UserName: stringValue
+    ClientSearchCriteria:
+      type: object
+      properties:
+        AccountId:
+          title: AccountId to search
+          type: string
+          example: stringValue
+        AccountKey:
+          title: AccountKey to search
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientId:
+          title: ClientId to search
+          type: string
+          example: stringValue
+        ClientKey:
+          title: ClientKey to search
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        FieldGroups:
+          title: FieldGroups controlling the presence of different fields in the response
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchCriteriaFieldGroups'
+          example:
+          - Accounts
+        Keywords:
+          title: Text to search in other fields
+          type: string
+          example: stringValue
+        UserId:
+          title: UserId to search
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: 72158INET
+        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+        ClientId: '825472'
+        ClientKey: qWRC6bqfPBmkV|or68xT4A==
+        FieldGroups:
+        - Accounts
+        Keywords: ''
+        UserId: '1881236'
+    AccountInfo:
+      type: object
+      properties:
+        AccountCurrency:
+          title: Account Base Currency
+          type: string
+          example: stringValue
+        AccountDisplayName:
+          title: Account Display Name
+          type: string
+          example: stringValue
+        AccountGroupId:
+          title: AccountGroup Id
+          type: string
+          example: stringValue
+        AccountGroupName:
+          title: AccountGroup Name
+          type: string
+          example: stringValue
+        AccountId:
+          title: Account Id
+          type: string
+          example: stringValue
+        AccountKey:
+          title: Account Key
+          type: string
+          example: stringValue
+        AccountType:
+          allOf:
+          - $ref: '#/components/schemas/AccountType'
+        PartnerAccountKey:
+          title: External reference assigned to this account by the partner
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountDisplayName: Stock CFD (R)
+        AccountGroupId: AccountGroupId1
+        AccountGroupName: Group1
+        AccountId: 72158INET
+        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
+        PartnerAccountKey: PAK - 10001/INET100JIK
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -384,172 +532,24 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    UserInfo:
+    ModelStateDictionary:
       type: object
-      properties:
-        UserId:
-          title: User Id
+      additionalProperties:
+        type: array
+        items:
           type: string
-          example: stringValue
-        UserKey:
-          title: User Key
-          type: string
-          example: stringValue
-        UserName:
-          title: User Name
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        UserId: stringValue
-        UserKey: stringValue
-        UserName: stringValue
-    AccountType:
-      title: Account types
+    SearchCriteriaFieldGroups:
+      title: Specifies the field groups required in the response.
       enum:
-      - ASK
-      - AutoTradingFollower
-      - AutoTradingLeader
-      - BlockTrading
-      - Cgb
-      - Collateral
-      - Commission
-      - ConBroker
-      - ConEgo
-      - DvP
-      - Facilitation
-      - Funding
-      - Interest
-      - MFAllocation
-      - MFTotal
-      - MarginLending
-      - Normal
-      - Omnibus
-      - Pension
-      - PledgedCash
-      - Settlement
-      - SettlementTrading
-      - Shadow
-      - Tax
-      - TaxSavings
-      - VariationMargin
+      - Accounts
+      - Default
+      - Users
       type: string
-      example: Normal
+      example: Default
       x-enum-descriptions:
-        Normal: Default. Used for normal client accounts.
-        BlockTrading: Used for block trading accounts only. The account where the root block trade is executed. This is our allocation account.
-        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
-        Collateral: For WLP accounts holding WLP’s collateral (funds transferred from WLP to Saxo Bank). Not used for trading.
-        Funding: For WLP accounts used to transfer funds between WLP and WLP client accounts. Not used for trading.
-        Commission: For partners only. Used to hold partner commission amounts. Not used for trading.
-        Interest: For partners only. Used to hold partner interest amounts. Not used for trading.
-        Omnibus: For WLPs only. Used purely as an overall account. Not used for trading.
-        MFAllocation: Used for managed funds ALLOCATION account sonly (nothing to do with normal allocation/block trading accounts). Only MF trades.
-        MFTotal: Used for managed funds TOTAL accounts only. Only MF trades.
-        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
-        ConBroker: Used on broker accounts (in practise, the Normal account is actually used).
-        ConEgo: Used on EGO accounts (in practise, the Normal account is actually used).
-        Shadow: This account is used when a trade is allocated with negative allocation key. Two Shadow accounts are used. One to hold positive exposure, one to hold the equal but opposite exposure. Used very limited.
-        Cgb: Used for client accounts having open positions in Managed Fund instruments called ”CGB” (Capital Guaranteed Bonds).
-        Tax: Account Type for Julias bear
-        AutoTradingLeader: Account Type for Saxo Select Leader accounts
-        AutoTradingFollower: Account Type for Saxo Select Follower accounts
-        DvP: Account type for delivery versus payment
-        VariationMargin: Indicates the account on which exchange of collateral(cash) under EMIR between client and Saxo happens
-        PledgedCash: Account type for Pledged Cash
-        Facilitation: Account type for Facilitation flow
-        ASK: Account type for Aktiesparekonto(ASK)-Danish Investment Account
-        Pension: Account type for Pension
-        MarginLending: Account type for Margin Lending
-        TaxSavings: Generic account type for tax savings accounts. Should be used in conjection with AccountSubType
-    AccountInfo:
-      type: object
-      properties:
-        AccountCurrency:
-          title: Account Base Currency
-          type: string
-          example: stringValue
-        AccountDisplayName:
-          title: Account Display Name
-          type: string
-          example: stringValue
-        AccountGroupId:
-          title: AccountGroup Id
-          type: string
-          example: stringValue
-        AccountGroupName:
-          title: AccountGroup Name
-          type: string
-          example: stringValue
-        AccountId:
-          title: Account Id
-          type: string
-          example: stringValue
-        AccountKey:
-          title: Account Key
-          type: string
-          example: stringValue
-        AccountType:
-          allOf:
-          - $ref: '#/components/schemas/AccountType'
-        PartnerAccountKey:
-          title: External reference assigned to this account by the partner
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountDisplayName: Stock CFD (R)
-        AccountGroupId: AccountGroupId1
-        AccountGroupName: Group1
-        AccountId: 72158INET
-        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
-        PartnerAccountKey: PAK - 10001/INET100JIK
-    ClientSearchCriteria:
-      type: object
-      properties:
-        AccountId:
-          title: AccountId to search
-          type: string
-          example: stringValue
-        AccountKey:
-          title: AccountKey to search
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientId:
-          title: ClientId to search
-          type: string
-          example: stringValue
-        ClientKey:
-          title: ClientKey to search
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        FieldGroups:
-          title: FieldGroups controlling the presence of different fields in the response
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchCriteriaFieldGroups'
-          example:
-          - Accounts
-        Keywords:
-          title: Text to search in other fields
-          type: string
-          example: stringValue
-        UserId:
-          title: UserId to search
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountId: 72158INET
-        AccountKey: 7O7jkyRC6p0S8umNatRBKA==
-        ClientId: '825472'
-        ClientKey: qWRC6bqfPBmkV|or68xT4A==
-        FieldGroups:
-        - Accounts
-        Keywords: ''
-        UserId: '1881236'
+        Default: The default value. The search response will not contain Accounts info if nothing is provided in the FieldGroups field.
+        Accounts: Accounts field in the response will only be displayed if field group is Accounts.
+        Users: Users field in the response will only be displayed if FiledGroups list contains Users.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -448,6 +448,8 @@ components:
   responses:
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
     BadRequest:
@@ -471,45 +473,7 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    MessageDisplayType:
-      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
-      enum:
-      - Default
-      - Popup
-      type: string
-      example: Default
-      x-enum-descriptions:
-        Default: No message render method is set.
-        Popup: Message is to popup suggesting immediate attention
-    TradeMessageResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradeMessageResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - DateTime: '2014-12-12T09:17:12Z'
-          DisplayType: Default
-          MessageBody: Price alert was triggered on EURUSD
-          MessageHeader: Price Alert
-          MessageId: '345322'
-          MessageType: PriceAlert
     TradeMessageResponse:
       title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
       type: object
@@ -547,6 +511,32 @@ components:
         MessageHeader: Price Alert
         MessageId: '345322'
         MessageType: PriceAlert
+    TradeMessageResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeMessageResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DateTime: '2014-12-12T09:17:12Z'
+          DisplayType: Default
+          MessageBody: Price alert was triggered on EURUSD
+          MessageHeader: Price Alert
+          MessageId: '345322'
+          MessageType: PriceAlert
     TradeMessageResponseDomainEvent:
       type: object
       properties:
@@ -575,6 +565,22 @@ components:
           example: 99
       additionalProperties: false
       example: null
+    MessageDisplayType:
+      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
+      enum:
+      - Default
+      - Popup
+      type: string
+      example: Default
+      x-enum-descriptions:
+        Default: No message render method is set.
+        Popup: Message is to popup suggesting immediate attention
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     TradeMessageSubscriptionRequest:
       title: Public request contract for setting up a subscription for trade messages.
       required:
@@ -621,12 +627,6 @@ components:
         ReferenceId: TM42897
         RefreshRate: 5
         Tag: PAGE1
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TradeMessageSubscriptionResponse:
       title: Public response contract returned after setting up a subscription for trade messages.
       type: object

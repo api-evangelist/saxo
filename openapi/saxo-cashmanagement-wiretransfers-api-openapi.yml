@@ -88,10 +88,12 @@ paths:
         confidential: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -113,8 +115,6 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
     ClientBankDetails:
       type: object
@@ -157,57 +157,6 @@ components:
         ClientNameAndAddress: Name/Address
         Iban: DK7833789377226198
         RegistrationNumber: '7392'
-    BankDetails:
-      type: object
-      properties:
-        Address:
-          title: Address of the bank.
-          type: string
-          example: stringValue
-        Bic:
-          title: Bank Identification code i.e. SAXODKKK
-          type: string
-          example: stringValue
-        Name:
-          title: Name of the bank
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
-        Bic: SAXODKKKXXX
-        Name: Saxo Bank A/S
-    BrokerInformation:
-      type: object
-      properties:
-        Account:
-          title: Account number of Broker
-          type: string
-          example: stringValue
-        ClearingCode:
-          title: Clearing code of Broker.
-          type: string
-          example: stringValue
-        Field59:
-          title: "Address set by business user which is part of field 59 \n            in case of broker transfer."
-          type: string
-          example: stringValue
-        Iban:
-          title: IBAN of broker
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Account: '8388662872'
-        ClearingCode: '102494532006'
-        Field59: 444 FIFTH AVE.APARTMENT, 5A NEW YORK, 10023
-        Iban: DK63882615722991638
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     WireTransferResponse:
       type: object
       properties:
@@ -290,6 +239,57 @@ components:
         SubsidiaryId: '1'
         SubsidiaryName: Saxo Bank
         VirtualAccountId: SGACU 878000017001
+    BrokerInformation:
+      type: object
+      properties:
+        Account:
+          title: Account number of Broker
+          type: string
+          example: stringValue
+        ClearingCode:
+          title: Clearing code of Broker.
+          type: string
+          example: stringValue
+        Field59:
+          title: "Address set by business user which is part of field 59 \n            in case of broker transfer."
+          type: string
+          example: stringValue
+        Iban:
+          title: IBAN of broker
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Account: '8388662872'
+        ClearingCode: '102494532006'
+        Field59: 444 FIFTH AVE.APARTMENT, 5A NEW YORK, 10023
+        Iban: DK63882615722991638
+    BankDetails:
+      type: object
+      properties:
+        Address:
+          title: Address of the bank.
+          type: string
+          example: stringValue
+        Bic:
+          title: Bank Identification code i.e. SAXODKKK
+          type: string
+          example: stringValue
+        Name:
+          title: Name of the bank
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
+        Bic: SAXODKKKXXX
+        Name: Saxo Bank A/S
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

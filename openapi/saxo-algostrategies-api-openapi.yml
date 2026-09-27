@@ -159,6 +159,43 @@ paths:
         restricted: Read
 components:
   schemas:
+    StrategyListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Strategy'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Description: stringValue
+          MinAmountUSD: 10
+          Name: stringValue
+          Parameters:
+          - DataType: 0
+            IsEditable: false
+            IsMandatory: false
+            UiDefaultValue: stringValue
+            UiOrderingIndex: 0
+            UiStepSize: 1.3
+          SupportedDurationTypes:
+          - ImmediateOrCancel
+          SupportedOrderTypes:
+          - StopIfTraded
+          TradableInstrumentTypes:
+          - CertificateDiscount
+        MaxRows: 99
     Strategy:
       title: Represents Algo Strategy object
       type: object
@@ -226,6 +263,24 @@ components:
         - None
         TradableInstrumentTypes:
         - CertificateUncappedCapitalProtection
+    DurationType:
+      title: Possible algo orders' duration types.
+      enum:
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: DayOrder
+      x-enum-descriptions:
+        GoodTillCancel: Good till cancel
+        DayOrder: Day order
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Immediate or cancel
+        GoodTillDate: Good till date
+        GoodForPeriod: Good for period
     StrategyParameterDataType:
       title: Lists all possible strategy parameters'datatypes
       enum:
@@ -237,176 +292,6 @@ components:
       - UtcTimeStamp
       type: string
       example: Char
-    StrategyListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Strategy'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - Description: stringValue
-          MinAmountUSD: 10
-          Name: stringValue
-          Parameters:
-          - DataType: 0
-            IsEditable: false
-            IsMandatory: false
-            UiDefaultValue: stringValue
-            UiOrderingIndex: 0
-            UiStepSize: 1.3
-          SupportedDurationTypes:
-          - ImmediateOrCancel
-          SupportedOrderTypes:
-          - StopIfTraded
-          TradableInstrumentTypes:
-          - CertificateDiscount
-        MaxRows: 99
-    OrderType:
-      title: Order type definitions.
-      enum:
-      - Algorithmic
-      - BreakoutTrigger
-      - GuaranteedStop
-      - Limit
-      - LimitTrigger
-      - Market
-      - None
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - StopTrigger
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      type: string
-      example: Market
-      x-enum-descriptions:
-        None: None.
-        Market: Market.
-        Limit: Limit.
-        StopIfTraded: Stop if Traded.
-        Stop: Stop.
-        StopLimit: Stop Limit.
-        Algorithmic: Algorithmic.
-        Switch: Switch.
-        Traspaso: Traspaso.
-        TraspasoIn: A Traspaso In order initiated from an external trading system.
-        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
-        LimitTrigger: If the price moves above or below the trigger price, then place related order.
-        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        TrailingStop: Trailing Stop.
-        TrailingStopIfTraded: Trailing Stop if Traded.
-    StrategyParameterAllowedValue:
-      title: Represents strategy parameter allowed value
-      type: object
-      properties:
-        Name:
-          title: Paramater's value name
-          type: string
-          example: stringValue
-        Value:
-          title: Parameter value
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Name: stringValue
-        Value: stringValue
-    StrategyParameter:
-      title: Strategy custom parameter object
-      type: object
-      properties:
-        DataType:
-          title: Parameter's type
-          allOf:
-          - $ref: '#/components/schemas/StrategyParameterDataType'
-        Description:
-          title: Parameter's description
-          type: string
-          example: stringValue
-        DisplayName:
-          title: Name to be displayed on the UI
-          type: string
-          example: stringValue
-        IsEditable:
-          title: Indicates whether parameter value is editable
-          type: boolean
-          example: false
-        IsMandatory:
-          title: Indicates whether parameter is mandatory
-          type: boolean
-          example: false
-        MaxDayTimeValue:
-          title: Max day time value
-          type: string
-          example: stringValue
-        MaxFloatValue:
-          title: Max float value
-          type: number
-          example: 1.3
-        MinDayTimeValue:
-          title: Min day time value
-          type: string
-          example: stringValue
-        MinFloatValue:
-          title: Min float value
-          type: number
-          example: 1.3
-        Name:
-          title: Name
-          type: string
-          example: stringValue
-        ParameterValues:
-          title: Allowed parameter values
-          type: array
-          items:
-            $ref: '#/components/schemas/StrategyParameterAllowedValue'
-          example:
-          - Name: stringValue
-            Value: stringValue
-        UiDefaultValue:
-          title: UI default value
-          type: string
-          example: stringValue
-        UiOrderingIndex:
-          title: Suggested ordering column
-          type: integer
-          format: int32
-          example: 99
-        UiStepSize:
-          title: UI step size
-          type: number
-          example: 1.3
-      additionalProperties: false
-      example:
-        DataType: 0
-        IsEditable: false
-        IsMandatory: false
-        UiDefaultValue: stringValue
-        UiOrderingIndex: 0
-        UiStepSize: 1.3
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -525,25 +410,142 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    DurationType:
-      title: Possible algo orders' duration types.
+    StrategyParameterAllowedValue:
+      title: Represents strategy parameter allowed value
+      type: object
+      properties:
+        Name:
+          title: Paramater's value name
+          type: string
+          example: stringValue
+        Value:
+          title: Parameter value
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Name: stringValue
+        Value: stringValue
+    StrategyParameter:
+      title: Strategy custom parameter object
+      type: object
+      properties:
+        DataType:
+          title: Parameter's type
+          allOf:
+          - $ref: '#/components/schemas/StrategyParameterDataType'
+        Description:
+          title: Parameter's description
+          type: string
+          example: stringValue
+        DisplayName:
+          title: Name to be displayed on the UI
+          type: string
+          example: stringValue
+        IsEditable:
+          title: Indicates whether parameter value is editable
+          type: boolean
+          example: false
+        IsMandatory:
+          title: Indicates whether parameter is mandatory
+          type: boolean
+          example: false
+        MaxDayTimeValue:
+          title: Max day time value
+          type: string
+          example: stringValue
+        MaxFloatValue:
+          title: Max float value
+          type: number
+          example: 1.3
+        MinDayTimeValue:
+          title: Min day time value
+          type: string
+          example: stringValue
+        MinFloatValue:
+          title: Min float value
+          type: number
+          example: 1.3
+        Name:
+          title: Name
+          type: string
+          example: stringValue
+        ParameterValues:
+          title: Allowed parameter values
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyParameterAllowedValue'
+          example:
+          - Name: stringValue
+            Value: stringValue
+        UiDefaultValue:
+          title: UI default value
+          type: string
+          example: stringValue
+        UiOrderingIndex:
+          title: Suggested ordering column
+          type: integer
+          format: int32
+          example: 99
+        UiStepSize:
+          title: UI step size
+          type: number
+          example: 1.3
+      additionalProperties: false
+      example:
+        DataType: 0
+        IsEditable: false
+        IsMandatory: false
+        UiDefaultValue: stringValue
+        UiOrderingIndex: 0
+        UiStepSize: 1.3
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OrderType:
+      title: Order type definitions.
       enum:
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
+      - Algorithmic
+      - BreakoutTrigger
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - None
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
       type: string
-      example: DayOrder
+      example: Market
       x-enum-descriptions:
-        GoodTillCancel: Good till cancel
-        DayOrder: Day order
-        FillOrKill: Fill or kill
-        ImmediateOrCancel: Immediate or cancel
-        GoodTillDate: Good till date
-        GoodForPeriod: Good for period
+        None: None.
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if Traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        Algorithmic: Algorithmic.
+        Switch: Switch.
+        Traspaso: Traspaso.
+        TraspasoIn: A Traspaso In order initiated from an external trading system.
+        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TrailingStop: Trailing Stop.
+        TrailingStopIfTraded: Trailing Stop if Traded.
   responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
     BadRequest:
@@ -567,8 +569,6 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -53,10 +53,12 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -78,46 +80,7 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    AccessRights:
-      title: Defines access rights for a given user.
-      type: object
-      properties:
-        CanManageCashTransfers:
-          title: True when the user is allowed to manage cash transfers.
-          type: boolean
-          example: true
-        CanTakePriceSession:
-          title: True when the user is allowed to take the premium price feed.
-          type: boolean
-          example: true
-        CanTakeTradeSession:
-          title: True when the user is allowed to take the primary trading session.
-          type: boolean
-          example: true
-        CanTrade:
-          title: True when the user is allowed to trade.
-          type: boolean
-          example: true
-        CanViewAnyClient:
-          title: True when the user is allowed to view any client.
-          type: boolean
-          example: true
-      additionalProperties: false
-      example:
-        CanManageCashTransfers: true
-        CanTakePriceSession: false
-        CanTakeTradeSession: false
-        CanTrade: true
-        CanViewAnyClient: true
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     AccountAccessMode:
       title: Account access mode indicating the maximum aggregation level of data for accounts.
       enum:
@@ -130,6 +93,10 @@ components:
         All: "User has no explicit restriction for operating on accounts, which means\n            it may operate on all accounts under its client only depending on its roles and operations."
         ViewAll: The user can view all accounts under its client, but have limited rights to interact with them.
         Restricted: Some accounts are not visible to user.
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
     MyUserInfo:
       title: Information about current user.
       type: object
@@ -190,10 +157,43 @@ components:
         Roles:
         - OAPI.Roles.RetailClient
         UserId: 690261150
-    UserId:
-      minimum: 1
-      type: integer
-      format: int32
+    AccessRights:
+      title: Defines access rights for a given user.
+      type: object
+      properties:
+        CanManageCashTransfers:
+          title: True when the user is allowed to manage cash transfers.
+          type: boolean
+          example: true
+        CanTakePriceSession:
+          title: True when the user is allowed to take the premium price feed.
+          type: boolean
+          example: true
+        CanTakeTradeSession:
+          title: True when the user is allowed to take the primary trading session.
+          type: boolean
+          example: true
+        CanTrade:
+          title: True when the user is allowed to trade.
+          type: boolean
+          example: true
+        CanViewAnyClient:
+          title: True when the user is allowed to view any client.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        CanManageCashTransfers: true
+        CanTakePriceSession: false
+        CanTakeTradeSession: false
+        CanTrade: true
+        CanViewAnyClient: true
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

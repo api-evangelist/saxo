@@ -46,10 +46,12 @@ paths:
         restricted: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -71,31 +73,7 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    LanguageDetails:
-      title: Represents a language.
-      type: object
-      properties:
-        LanguageCode:
-          title: "The ISO 639-1 two-letter language code. (Except for zh-cn and zh-tw).\n            This list only includes languages for which Saxo has full or partial support for translation of texts."
-          pattern: ^[a-zA-Z]{2}(-[A-Z]{2})?$
-          type: string
-          x-type-name: LanguageCode
-        LanguageName:
-          title: The name of the language (in English).
-          type: string
-          example: stringValue
-        NativeName:
-          title: The name of the language (in native language).
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        LanguageCode: en
-        LanguageName: English
-        NativeName: English
     LanguageDetailsListResult:
       type: object
       properties:
@@ -120,6 +98,28 @@ components:
         - LanguageCode: en
           LanguageName: English
           NativeName: English
+    LanguageDetails:
+      title: Represents a language.
+      type: object
+      properties:
+        LanguageCode:
+          title: "The ISO 639-1 two-letter language code. (Except for zh-cn and zh-tw).\n            This list only includes languages for which Saxo has full or partial support for translation of texts."
+          pattern: ^[a-zA-Z]{2}(-[A-Z]{2})?$
+          type: string
+          x-type-name: LanguageCode
+        LanguageName:
+          title: The name of the language (in English).
+          type: string
+          example: stringValue
+        NativeName:
+          title: The name of the language (in native language).
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        LanguageCode: en
+        LanguageName: English
+        NativeName: English
     ModelStateDictionary:
       type: object
       additionalProperties:

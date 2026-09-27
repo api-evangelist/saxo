@@ -197,57 +197,11 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    CashWithdrawalLimit:
-      title: CashWithdrawalLimit
-      type: object
-      properties:
-        AccountKey:
-          title: AccountKey
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: ClientKey
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        MaxAllowedWithdrawalAmount:
-          title: Max allowed withdrawal amount
-          type: number
-          example: 2.55
-      additionalProperties: false
-      example:
-        AccountKey: dIm75edbgnW6aBK3CIc-sw==
-        ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
-        MaxAllowedWithdrawalAmount: 2.55
-    CashWithdrawalLimitListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashWithdrawalLimit'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
-          ClientKey: W-CgwnsUEpETkiR8MPJalA==
-          MaxAllowedWithdrawalAmount: 100
     CashAccountWithdrawalLimit:
       title: Cash Account Withdrawal Limit
       type: object
@@ -271,12 +225,58 @@ components:
         AccountKey: sUyiJbnf57ayjlcoNp1RkA==
         Currency: USD
         MaxAllowedWithdrawalAmount: 100
+    CashWithdrawalLimitListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashWithdrawalLimit'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
+          ClientKey: W-CgwnsUEpETkiR8MPJalA==
+          MaxAllowedWithdrawalAmount: 100
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    CashWithdrawalLimit:
+      title: CashWithdrawalLimit
+      type: object
+      properties:
+        AccountKey:
+          title: AccountKey
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: ClientKey
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        MaxAllowedWithdrawalAmount:
+          title: Max allowed withdrawal amount
+          type: number
+          example: 2.55
+      additionalProperties: false
+      example:
+        AccountKey: dIm75edbgnW6aBK3CIc-sw==
+        ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
+        MaxAllowedWithdrawalAmount: 2.55
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

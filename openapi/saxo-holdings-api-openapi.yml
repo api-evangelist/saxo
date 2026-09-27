@@ -154,30 +154,13 @@ paths:
         confidential: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     ServiceUnavailable:
       description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    ManagementType:
-      title: Account Management Type
-      enum:
-      - Client
-      - ExternallyManaged
-      - ModelAdvisory
-      - ModelManaged
-      - SelfPeriodicInvestment
-      - TradeAdvisory
-      type: string
-      x-enum-descriptions:
-        Client: The account is managed by the client. (Default).
-        TradeAdvisory: Advisors can call clients with trade suggestions across products, but trades are accepted by the client.
-        ModelAdvisory: The account is managed by a model, but client has to accept changes to the model.
-        ModelManaged: The account is managed by a model. Client cannot trade on the account.
-        ExternallyManaged: The account is managed externally (not in a saxo bank system). Client cannot trade on the account, but authorized dealers can.
-        SelfPeriodicInvestment: Client can schedule periodic investments on one or multiple Instruments
     HoldingListResult:
       type: object
       properties:
@@ -196,42 +179,17 @@ components:
           type: string
           description: The link for the next page of items in the feed.
       additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    ValueType:
-      title: Price type
-      enum:
-      - Actual
-      - Percentage
-      type: string
-      x-enum-descriptions:
-        Actual: Actual value
-        Percentage: Percentage
-    HoldingOption:
-      title: Indicates previous elections made on a corporate action event for positions in an account
+    Event.Instruction:
+      title: Instruction
       type: object
       properties:
-        ElectedAmount:
-          title: The amount elected
-          type: number
-        ElectionType:
-          title: Indicates if election was auto or manual
-          allOf:
-          - $ref: '#/components/schemas/ElectionType'
-        Instruction:
-          title: Instruction status
-          allOf:
-          - $ref: '#/components/schemas/Event.Instruction'
-        OptionId:
-          title: The event option id instructed on
+        Reason:
+          title: "Election instruction status's reason\n            A detailed reason code for any errors related to the election.\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
           type: string
-        Remarks:
-          title: Remarks by client
-          type: string
+        Status:
+          title: "Election instruction status\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+          allOf:
+          - $ref: '#/components/schemas/InstructionStatus'
       additionalProperties: false
     InstructionStatus:
       title: Instruction status
@@ -244,21 +202,35 @@ components:
         Accepted: Election instruction accepted
         InProgress: Election instruction in progress
         Rejected: Election instruction rejected
-    PriceAndRate:
-      title: Price and rate
-      type: object
-      properties:
-        Currency:
-          title: Price/Rate currency
-          type: string
-        Type:
-          title: Price/Rate action type
-          allOf:
-          - $ref: '#/components/schemas/ValueType'
-        Value:
-          title: Price
-          type: number
-      additionalProperties: false
+    StandingInstructionStatus:
+      title: Standing instruction status
+      enum:
+      - Created
+      - NotCreated
+      type: string
+      x-enum-descriptions:
+        Created: Indicates that standing instruction is created
+        NotCreated: Indicates that standing instruction is not created
+    ElectionType:
+      title: Election type
+      enum:
+      - Auto
+      - Manual
+      type: string
+      x-enum-descriptions:
+        Auto: Auto elections made through standing instructions
+        Manual: Manual elections
+    ElectionStatus:
+      title: Election status
+      enum:
+      - Elected
+      - NotElected
+      - PartialElected
+      type: string
+      x-enum-descriptions:
+        Elected: Elected
+        PartialElected: Partially elected
+        NotElected: Not elected
     Holding:
       title: Event Holding
       type: object
@@ -311,47 +283,75 @@ components:
           allOf:
           - $ref: '#/components/schemas/StandingInstructionStatus'
       additionalProperties: false
-    ElectionStatus:
-      title: Election status
-      enum:
-      - Elected
-      - NotElected
-      - PartialElected
-      type: string
-      x-enum-descriptions:
-        Elected: Elected
-        PartialElected: Partially elected
-        NotElected: Not elected
-    ElectionType:
-      title: Election type
-      enum:
-      - Auto
-      - Manual
-      type: string
-      x-enum-descriptions:
-        Auto: Auto elections made through standing instructions
-        Manual: Manual elections
-    StandingInstructionStatus:
-      title: Standing instruction status
-      enum:
-      - Created
-      - NotCreated
-      type: string
-      x-enum-descriptions:
-        Created: Indicates that standing instruction is created
-        NotCreated: Indicates that standing instruction is not created
-    Event.Instruction:
-      title: Instruction
+    PriceAndRate:
+      title: Price and rate
       type: object
       properties:
-        Reason:
-          title: "Election instruction status's reason\n            A detailed reason code for any errors related to the election.\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+        Currency:
+          title: Price/Rate currency
           type: string
-        Status:
-          title: "Election instruction status\n            For more details see: http://www.iso15022.org/UHB/uhb2006/mt567-13-field-24b.htm"
+        Type:
+          title: Price/Rate action type
           allOf:
-          - $ref: '#/components/schemas/InstructionStatus'
+          - $ref: '#/components/schemas/ValueType'
+        Value:
+          title: Price
+          type: number
       additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    HoldingOption:
+      title: Indicates previous elections made on a corporate action event for positions in an account
+      type: object
+      properties:
+        ElectedAmount:
+          title: The amount elected
+          type: number
+        ElectionType:
+          title: Indicates if election was auto or manual
+          allOf:
+          - $ref: '#/components/schemas/ElectionType'
+        Instruction:
+          title: Instruction status
+          allOf:
+          - $ref: '#/components/schemas/Event.Instruction'
+        OptionId:
+          title: The event option id instructed on
+          type: string
+        Remarks:
+          title: Remarks by client
+          type: string
+      additionalProperties: false
+    ValueType:
+      title: Price type
+      enum:
+      - Actual
+      - Percentage
+      type: string
+      x-enum-descriptions:
+        Actual: Actual value
+        Percentage: Percentage
+    ManagementType:
+      title: Account Management Type
+      enum:
+      - Client
+      - ExternallyManaged
+      - ModelAdvisory
+      - ModelManaged
+      - SelfPeriodicInvestment
+      - TradeAdvisory
+      type: string
+      x-enum-descriptions:
+        Client: The account is managed by the client. (Default).
+        TradeAdvisory: Advisors can call clients with trade suggestions across products, but trades are accepted by the client.
+        ModelAdvisory: The account is managed by a model, but client has to accept changes to the model.
+        ModelManaged: The account is managed by a model. Client cannot trade on the account.
+        ExternallyManaged: The account is managed externally (not in a saxo bank system). Client cannot trade on the account, but authorized dealers can.
+        SelfPeriodicInvestment: Client can schedule periodic investments on one or multiple Instruments
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

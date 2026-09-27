@@ -66,10 +66,12 @@ paths:
         restricted: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -91,39 +93,7 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    TimeZoneDetails:
-      title: Represents a single time zone.
-      type: object
-      properties:
-        DisplayName:
-          title: Full name/description of the time zone.
-          type: string
-          example: stringValue
-        TimeZoneAbbreviation:
-          title: Time Zone Abbreviation for UTC standard time
-          type: string
-          example: stringValue
-        TimeZoneId:
-          title: Internal unique time zone identifier.
-          type: string
-          example: stringValue
-        TimeZoneOffset:
-          title: Time Zone Offset
-          type: string
-          example: stringValue
-        ZoneName:
-          title: The IANA/tz database time zone identifier.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        DisplayName: US Eastern Time
-        TimeZoneId: '3'
-        TimeZoneOffset: 00:00:00
-        ZoneName: America/New_York
     TimeZoneDetailsListResult:
       type: object
       properties:
@@ -168,6 +138,36 @@ components:
           TimeZoneId: '5'
           TimeZoneOffset: 00:00:00
           ZoneName: America/Chicago
+    TimeZoneDetails:
+      title: Represents a single time zone.
+      type: object
+      properties:
+        DisplayName:
+          title: Full name/description of the time zone.
+          type: string
+          example: stringValue
+        TimeZoneAbbreviation:
+          title: Time Zone Abbreviation for UTC standard time
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Internal unique time zone identifier.
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: Time Zone Offset
+          type: string
+          example: stringValue
+        ZoneName:
+          title: The IANA/tz database time zone identifier.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        DisplayName: US Eastern Time
+        TimeZoneId: '3'
+        TimeZoneOffset: 00:00:00
+        ZoneName: America/New_York
     ModelStateDictionary:
       type: object
       additionalProperties:

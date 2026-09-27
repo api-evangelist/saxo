@@ -387,17 +387,47 @@ paths:
       x-required-permissions:
         personal: Write
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    MutualFundsCashAmountOrderCurrency:
-      title: Indicates the currency used when placing orders with OrderAmountType.CashAmount.
+    MarginMonitoringMode:
+      title: Margin Monitoring Mode.
       enum:
-      - Account
-      - Instrument
+      - Equity
+      - Lines
+      - Margin
       type: string
-      example: Account
+      example: Lines
       x-enum-descriptions:
-        Account: Use the specified account currency.
-        Instrument: Use the currency of the specified instrument.
+        Margin: Monitoring (stop-out's) are based on standard margin utilization, pre-check's are done against standard margin utilization.
+        Lines: Monitoring (stop-out's) are based on credit line utilization, pre-check's are done against trading and credit line utilization.
+        Equity: Monitoring is based on standard equity utilization, pre-check's are done against standard equity utilization.
     ClientPositionNettingMode:
       title: Client's  position netting mode
       enum:
@@ -416,28 +446,6 @@ components:
       example: JointAccount
       x-enum-descriptions:
         JointAccount: Joint account
-    SecurityLendingEnabled:
-      title: Security Lending Enabled.
-      enum:
-      - false
-      - true
-      type: string
-      example: true
-      x-enum-descriptions:
-        true: Security Lending is enabled.
-        false: Security Lending is disabled.
-    ClientPositionNettingProfile:
-      title: Client's position netting profile
-      enum:
-      - AverageRealTime
-      - FifoEndOfDay
-      - FifoRealTime
-      type: string
-      example: AverageRealTime
-      x-enum-descriptions:
-        AverageRealTime: AverageRealTime netting profile
-        FifoRealTime: FifoRealTime netting profile
-        FifoEndOfDay: FifoEndOfDay netting profile
     ClientResponseListResult:
       type: object
       properties:
@@ -483,16 +491,18 @@ components:
           PositionNettingProfile: FifoEndOfDay
           ReduceExposureOnly: false
           SupportsAccountValueProtectionLimit: false
-    CollateralMonitoringMode:
-      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+    ClientPositionNettingProfile:
+      title: Client's position netting profile
       enum:
-      - CollateralCreditValue
-      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      - AverageRealTime
+      - FifoEndOfDay
+      - FifoRealTime
       type: string
-      example: CollateralCreditValue
+      example: AverageRealTime
       x-enum-descriptions:
-        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
-        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
+        AverageRealTime: AverageRealTime netting profile
+        FifoRealTime: FifoRealTime netting profile
+        FifoEndOfDay: FifoEndOfDay netting profile
     AllowedTradingSessions:
       title: Allowed trading sessions. Default value "Regular".
       enum:
@@ -503,178 +513,6 @@ components:
       x-enum-descriptions:
         Regular: Default value. Regular trading hours session.
         All: Extended trading hours session.
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    ClientUpdateRequest:
-      title: A parameter wrapper for updating client values.
-      type: object
-      properties:
-        AccountValueProtectionLimit:
-          title: "If set, this value shields the total client value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
-          type: number
-          example: 10
-        ForceOpenDefaultValue:
-          title: If True, the order(s) placed by default will be set to force open , therfore resulting positions will not automatically be netted with positions in the opposite direction
-          type: boolean
-          example: true
-        NewPositionNettingMode:
-          title: The position netting mode, client would like to switch to.
-          allOf:
-          - $ref: '#/components/schemas/ClientPositionNettingMode'
-        NewPositionNettingProfile:
-          title: The position netting profile, client would like to switch to.
-          allOf:
-          - $ref: '#/components/schemas/ClientPositionNettingProfile'
-      additionalProperties: false
-      example:
-        AccountValueProtectionLimit: 10
-        ForceOpenDefaultValue: false
-        NewPositionNettingMode: Intraday
-        NewPositionNettingProfile: FifoEndOfDay
-    MarginMonitoringMode:
-      title: Margin Monitoring Mode.
-      enum:
-      - Equity
-      - Lines
-      - Margin
-      type: string
-      example: Lines
-      x-enum-descriptions:
-        Margin: Monitoring (stop-out's) are based on standard margin utilization, pre-check's are done against standard margin utilization.
-        Lines: Monitoring (stop-out's) are based on credit line utilization, pre-check's are done against trading and credit line utilization.
-        Equity: Monitoring is based on standard equity utilization, pre-check's are done against standard equity utilization.
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    ClientPositionNettingMethod:
-      title: Client's  position netting method
-      enum:
-      - Average
-      - FIFO
-      type: string
-      example: FIFO
-      x-enum-descriptions:
-        FIFO: FIFO Netting Method
-        Average: Average Netting Method
     ClientResponse:
       title: Public data contract representing a client.
       type: object
@@ -818,6 +656,134 @@ components:
         PositionNettingProfile: FifoEndOfDay
         ReduceExposureOnly: false
         SupportsAccountValueProtectionLimit: false
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    SecurityLendingEnabled:
+      title: Security Lending Enabled.
+      enum:
+      - false
+      - true
+      type: string
+      example: true
+      x-enum-descriptions:
+        true: Security Lending is enabled.
+        false: Security Lending is disabled.
     PortfolioMarginMethod:
       title: Specifies the margin calculaion method for the given entity.
       enum:
@@ -832,34 +798,68 @@ components:
         SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
         SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
         JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
-  responses:
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    MutualFundsCashAmountOrderCurrency:
+      title: Indicates the currency used when placing orders with OrderAmountType.CashAmount.
+      enum:
+      - Account
+      - Instrument
+      type: string
+      example: Account
+      x-enum-descriptions:
+        Account: Use the specified account currency.
+        Instrument: Use the currency of the specified instrument.
+    ClientUpdateRequest:
+      title: A parameter wrapper for updating client values.
+      type: object
+      properties:
+        AccountValueProtectionLimit:
+          title: "If set, this value shields the total client value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
+          type: number
+          example: 10
+        ForceOpenDefaultValue:
+          title: If True, the order(s) placed by default will be set to force open , therfore resulting positions will not automatically be netted with positions in the opposite direction
+          type: boolean
+          example: true
+        NewPositionNettingMode:
+          title: The position netting mode, client would like to switch to.
+          allOf:
+          - $ref: '#/components/schemas/ClientPositionNettingMode'
+        NewPositionNettingProfile:
+          title: The position netting profile, client would like to switch to.
+          allOf:
+          - $ref: '#/components/schemas/ClientPositionNettingProfile'
+      additionalProperties: false
+      example:
+        AccountValueProtectionLimit: 10
+        ForceOpenDefaultValue: false
+        NewPositionNettingMode: Intraday
+        NewPositionNettingProfile: FifoEndOfDay
+    ClientPositionNettingMethod:
+      title: Client's  position netting method
+      enum:
+      - Average
+      - FIFO
+      type: string
+      example: FIFO
+      x-enum-descriptions:
+        FIFO: FIFO Netting Method
+        Average: Average Netting Method
+    CollateralMonitoringMode:
+      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+      enum:
+      - CollateralCreditValue
+      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      type: string
+      example: CollateralCreditValue
+      x-enum-descriptions:
+        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
+        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -114,10 +114,12 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -138,104 +140,7 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    SortColumn:
-      title: Sort columns for distribution api
-      enum:
-      - AccountId
-      - Cins
-      - Cusip
-      - CutoffDate
-      - DeliveryType
-      - DeliveryTypeDescription
-      - Isin
-      - IssuerName
-      - JobNumber
-      - RecievedDate
-      - Status
-      - StatusDate
-      - SubType
-      - SubTypeDescription
-      - Ticker
-      - Type
-      - TypeDescription
-      type: string
-      x-enum-descriptions:
-        Type: Type
-        TypeDescription: Type description
-        SubType: Sub type
-        SubTypeDescription: Sub type description
-        IssuerName: Issuer name
-        Cusip: Cusip
-        Cins: Cins
-        Isin: Isin
-        Ticker: Ticker
-        AccountId: Account id
-        JobNumber: Job number
-        DeliveryType: DeliveryType
-        DeliveryTypeDescription: Delivery type description
-        RecievedDate: Recieved date
-        CutoffDate: Cutoff date
-        Status: Status
-        StatusDate: Status date
-    ProxyVotingEventListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProxyVotingEvent'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    ProxyVotingMaterial:
-      title: Material\document pertaining to a distribution
-      type: object
-      properties:
-        MaterialType:
-          title: Short description of what the material/document represents
-          allOf:
-          - $ref: '#/components/schemas/Models.CodeDescription'
-        Url:
-          title: Material/document url
-          type: string
-      additionalProperties: false
-    SortType:
-      title: Sort type
-      enum:
-      - Asc
-      - Desc
-      type: string
-      x-enum-descriptions:
-        Asc: Ascending sort
-        Desc: Descending sort
-    Models.CodeDescription:
-      title: Code/Description
-      type: object
-      properties:
-        Code:
-          title: Code
-          type: string
-        Description:
-          title: Description
-          type: string
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     ProxyVotingEvent:
       title: Proxy voting event
       type: object
@@ -301,6 +206,101 @@ components:
           allOf:
           - $ref: '#/components/schemas/Models.CodeDescription'
       additionalProperties: false
+    ProxyVotingMaterial:
+      title: Material\document pertaining to a distribution
+      type: object
+      properties:
+        MaterialType:
+          title: Short description of what the material/document represents
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        Url:
+          title: Material/document url
+          type: string
+      additionalProperties: false
+    Models.CodeDescription:
+      title: Code/Description
+      type: object
+      properties:
+        Code:
+          title: Code
+          type: string
+        Description:
+          title: Description
+          type: string
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ProxyVotingEventListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProxyVotingEvent'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    SortType:
+      title: Sort type
+      enum:
+      - Asc
+      - Desc
+      type: string
+      x-enum-descriptions:
+        Asc: Ascending sort
+        Desc: Descending sort
+    SortColumn:
+      title: Sort columns for distribution api
+      enum:
+      - AccountId
+      - Cins
+      - Cusip
+      - CutoffDate
+      - DeliveryType
+      - DeliveryTypeDescription
+      - Isin
+      - IssuerName
+      - JobNumber
+      - RecievedDate
+      - Status
+      - StatusDate
+      - SubType
+      - SubTypeDescription
+      - Ticker
+      - Type
+      - TypeDescription
+      type: string
+      x-enum-descriptions:
+        Type: Type
+        TypeDescription: Type description
+        SubType: Sub type
+        SubTypeDescription: Sub type description
+        IssuerName: Issuer name
+        Cusip: Cusip
+        Cins: Cins
+        Isin: Isin
+        Ticker: Ticker
+        AccountId: Account id
+        JobNumber: Job number
+        DeliveryType: DeliveryType
+        DeliveryTypeDescription: Delivery type description
+        RecievedDate: Recieved date
+        CutoffDate: Cutoff date
+        Status: Status
+        StatusDate: Status date
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

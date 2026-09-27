@@ -853,6 +853,10 @@ paths:
         $ref: '#/components/schemas/OptionsChainResponseDomainEvent'
 components:
   responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -874,268 +878,9 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     ServiceUnavailable:
       description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
   schemas:
-    ModifyOptionsChainSubscriptionRequest:
-      title: "The request structure for modifying (or \"scrolling\") the options chain by changing \n            the expiries.\n            It is also possible to modify the number of strikes per expiry that is to be displayed"
-      type: object
-      properties:
-        Expiries:
-          title: "Expiries are a collection of expiries requested and the window of \n            strike-rows for each expiry. \n            This allows us to ask explicitly for a certain selection of the total \n            set of option chain data. If not provided the service picks the \n            3 first expiries and assume a centered start-index for all expiries.\n            Asking for data for an expiry that does not exist or a start index \n            higher than the number of strike rows available for that expiry, \n            is not exactly an error and I believe it should just lead to no data being returned."
-          type: array
-          items:
-            $ref: '#/components/schemas/RequestExpirySpecification'
-          example:
-          - Index: 99
-            StrikeStartIndex: 99
-        MaxStrikesPerExpiry:
-          title: "Signals a request to only get N strike-rows per expiry. Default is 12. \n            If no explicit StartIndex is provided, the N rows are assumed to be \n            centered on the strike closes to the mid-spot price. I.e. it could be \n            for an expiry with 16 strike-rows, a request to show 12 strikes-per-expiry \n            means that the start-index for that expiry will be 2, leading the \n            strike-rows to be returned to be the [2-13] or [2-14[ range."
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Expiries:
-        - Index: 99
-          StrikeStartIndex: 99
-        MaxStrikesPerExpiry: 99
-    StrikeData:
-      title: "The base class for all types of strikes. ETOs and FxVanillaOptions have Call/Put sides, \n            whereas Fx Binary options have OneTouch/NoTouch as their sides."
-      required:
-      - Index
-      type: object
-      properties:
-        Barrier:
-          title: The barrier price. This is only returned for Fx Binary Options
-          type: number
-          example: 10
-        Call:
-          title: Call side of the Strike for ETOs or Fx Options
-          allOf:
-          - $ref: '#/components/schemas/OptionSidePutCall'
-        Index:
-          title: The index of the strike
-          type: integer
-          format: int32
-          example: 99
-        MidVolatilityPct:
-          title: Mid Volatility %
-          type: number
-          example: 10
-        NoTouch:
-          title: NoTouch side of the Strike for Binary FX Options
-          allOf:
-          - $ref: '#/components/schemas/OptionSideFxBinary'
-        OneTouch:
-          title: OneTouch side of the Strike for Binary FX Options
-          allOf:
-          - $ref: '#/components/schemas/OptionSideFxBinary'
-        Put:
-          title: Put side of the Strike for ETOs or Fx Options
-          allOf:
-          - $ref: '#/components/schemas/OptionSidePutCall'
-        Strike:
-          title: The strike price - This is used for ETOs or Fx Options
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Barrier: 10
-        Call:
-          Ask: 10
-          AskSize: 10
-          Bid: 10
-          BidSize: 10
-          Close: 10
-          ContractId: 99
-          DeltaPct: 10
-          Greeks:
-            AskVolatility: 10
-            BidVolatility: 10
-            Delta: 10
-            Gamma: 10
-            MidVolatility: 10
-            Rho: 10
-            TheoreticalPrice: 10
-            Theta: 10
-            Vega: 10
-          High: 10
-          LastClose: 10
-          LastTraded: 10
-          Low: 10
-          Net: 10
-          NetChange: 10
-          Open: 10
-          OpenInterest: 10
-          PriceTypeAsk: Indicative
-          PriceTypeBid: OldIndicative
-          Uic: 99
-          Volume: 10
-        Index: 99
-        MidVolatilityPct: 10
-        NoTouch:
-          Ask: 10
-          Bid: 10
-          ContractId: 99
-          DeltaPct: 10
-          Net: 10
-          PriceTypeAsk: MarketOrder
-          PriceTypeBid: NoMarket
-        OneTouch:
-          Ask: 10
-          Bid: 10
-          ContractId: 99
-          DeltaPct: 10
-          Net: 10
-          PriceTypeAsk: Pending
-          PriceTypeBid: Tradable
-        Put:
-          Ask: 10
-          AskSize: 10
-          Bid: 10
-          BidSize: 10
-          Close: 10
-          ContractId: 99
-          DeltaPct: 10
-          Greeks:
-            AskVolatility: 10
-            BidVolatility: 10
-            Delta: 10
-            Gamma: 10
-            MidVolatility: 10
-            Rho: 10
-            TheoreticalPrice: 10
-            Theta: 10
-            Vega: 10
-          High: 10
-          LastClose: 10
-          LastTraded: 10
-          Low: 10
-          Net: 10
-          NetChange: 10
-          Open: 10
-          OpenInterest: 10
-          PriceTypeAsk: NoAccess
-          PriceTypeBid: None
-          Uic: 99
-          Volume: 10
-        Strike: 10
-    OptionsChainRequest:
-      title: Represents a request for an options chain in the API.
-      required:
-      - AssetType
-      - Identifier
-      type: object
-      properties:
-        AccountKey:
-          title: "Unique key identifying the account used in retrieving the price.\n                Only required when calling context represents an authenticated user."
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        Amount:
-          title: Order size, defaults to minimal order size for given instrument.
-          type: number
-          example: 10
-        AssetType:
-          title: The instrument's asset type
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Expiries:
-          title: "Expiries are a collection of expiries requested and the window of \n            strike-rows for each expiry. \n            This allows us to ask explicitly for a certain selection of the total \n            set of option chain data. If not provided the service picks the \n            3 first expiries and assume a centered start-index for all expiries.\n            Asking for data for an expiry that does not exist or a start index \n            higher than the number of strike rows available for that expiry, \n            is not exactly an error and I believe it should just lead to no data being returned."
-          type: array
-          items:
-            $ref: '#/components/schemas/RequestExpirySpecification'
-          example:
-          - Index: 99
-            StrikeStartIndex: 99
-        Identifier:
-          title: The instrument's identifier (UIC for FX, option root id for Contract Options)
-          type: integer
-          format: int32
-          example: 99
-        MaxStrikesPerExpiry:
-          title: "Signals a request to only get N strike-rows per expiry. Default is 12. \n            If no explicit StartIndex is provided, the N rows are assumed to be \n            centered on the strike closes to the mid-spot price. I.e. it could be \n            for an expiry with 16 strike-rows, a request to show 12 strikes-per-expiry \n            means that the start-index for that expiry will be 2, leading the \n            strike-rows to be returned to be the [2-13] or [2-14[ range."
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
-        Amount: 10
-        AssetType: FxSwap
-        Expiries:
-        - Index: 99
-          StrikeStartIndex: 99
-        Identifier: 99
-        MaxStrikesPerExpiry: 99
-    PriceType:
-      enum:
-      - Indicative
-      - MarketOrder
-      - NoAccess
-      - NoMarket
-      - None
-      - OldIndicative
-      - Pending
-      - Tradable
-      type: string
-      example: OldIndicative
-    ContractOptionsGreeks:
-      title: Contract Options chain Greeks data for the ETOs that support them
-      type: object
-      properties:
-        AskVolatility:
-          title: The ask volatility
-          type: number
-          example: 10
-        BidVolatility:
-          title: The bid volatility
-          type: number
-          example: 10
-        Delta:
-          title: The delta
-          type: number
-          example: 10
-        Gamma:
-          title: The gamma
-          type: number
-          example: 10
-        MidVolatility:
-          title: The mid volatility
-          type: number
-          example: 10
-        Rho:
-          title: The rho
-          type: number
-          example: 10
-        TheoreticalPrice:
-          title: The theoretical price
-          type: number
-          example: 10
-        Theta:
-          title: The theta
-          type: number
-          example: 10
-        Vega:
-          title: The vega
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AskVolatility: 10
-        BidVolatility: 10
-        Delta: 10
-        Gamma: 10
-        MidVolatility: 10
-        Rho: 10
-        TheoreticalPrice: 10
-        Theta: 10
-        Vega: 10
     OptionsChainResponse:
       title: "Response representing a full Options Chain view. The contents of the response varies with the type of option: ETOs, FxVanilla \n            and FxBinary options each have their own variations. This is mainly in the Expiries and Strikes that the variations occur."
       type: object
@@ -1344,6 +1089,636 @@ components:
           x-type-name: UtcDateTime
       additionalProperties: false
       example: null
+    OptionSideFxBinary:
+      title: Representation of the fields in a "side" of a Fx Binary Option strike.
+      type: object
+      properties:
+        Ask:
+          title: Ask price
+          type: number
+          example: 10
+        Bid:
+          title: Bid price
+          type: number
+          example: 10
+        ContractId:
+          title: "Contract ID\n            Only returned for Fx Vanilla and Fx Binary Options"
+          type: integer
+          format: int32
+          example: 99
+        DeltaPct:
+          title: "The delta%\n            Only returned for Fx Vanilla and Fx Binary Options"
+          type: number
+          example: 10
+        Net:
+          title: "The Net amount\n            Only returned for Fx Vanilla and Fx Binary Options"
+          type: number
+          example: 10
+        PriceTypeAsk:
+          title: Ask price type
+          allOf:
+          - $ref: '#/components/schemas/PriceType'
+        PriceTypeBid:
+          title: Bid price type
+          allOf:
+          - $ref: '#/components/schemas/PriceType'
+      additionalProperties: false
+      example:
+        Ask: 10
+        Bid: 10
+        ContractId: 99
+        DeltaPct: 10
+        Net: 10
+        PriceTypeAsk: Tradable
+        PriceTypeBid: Indicative
+    RequestExpirySpecification:
+      title: "This is the srutcure for requesting specific expiries for the options chain, and also specify which strike index \n            to start from"
+      type: object
+      properties:
+        Index:
+          title: The expiry index
+          type: integer
+          format: int32
+          example: 99
+        StrikeStartIndex:
+          title: "The starting index of the strikes to return\n            The number of strikes counted from this is determined by the MaxNumberOfStrikes of the request"
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Index: 99
+        StrikeStartIndex: 99
+    StrikeData:
+      title: "The base class for all types of strikes. ETOs and FxVanillaOptions have Call/Put sides, \n            whereas Fx Binary options have OneTouch/NoTouch as their sides."
+      required:
+      - Index
+      type: object
+      properties:
+        Barrier:
+          title: The barrier price. This is only returned for Fx Binary Options
+          type: number
+          example: 10
+        Call:
+          title: Call side of the Strike for ETOs or Fx Options
+          allOf:
+          - $ref: '#/components/schemas/OptionSidePutCall'
+        Index:
+          title: The index of the strike
+          type: integer
+          format: int32
+          example: 99
+        MidVolatilityPct:
+          title: Mid Volatility %
+          type: number
+          example: 10
+        NoTouch:
+          title: NoTouch side of the Strike for Binary FX Options
+          allOf:
+          - $ref: '#/components/schemas/OptionSideFxBinary'
+        OneTouch:
+          title: OneTouch side of the Strike for Binary FX Options
+          allOf:
+          - $ref: '#/components/schemas/OptionSideFxBinary'
+        Put:
+          title: Put side of the Strike for ETOs or Fx Options
+          allOf:
+          - $ref: '#/components/schemas/OptionSidePutCall'
+        Strike:
+          title: The strike price - This is used for ETOs or Fx Options
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Barrier: 10
+        Call:
+          Ask: 10
+          AskSize: 10
+          Bid: 10
+          BidSize: 10
+          Close: 10
+          ContractId: 99
+          DeltaPct: 10
+          Greeks:
+            AskVolatility: 10
+            BidVolatility: 10
+            Delta: 10
+            Gamma: 10
+            MidVolatility: 10
+            Rho: 10
+            TheoreticalPrice: 10
+            Theta: 10
+            Vega: 10
+          High: 10
+          LastClose: 10
+          LastTraded: 10
+          Low: 10
+          Net: 10
+          NetChange: 10
+          Open: 10
+          OpenInterest: 10
+          PriceTypeAsk: Indicative
+          PriceTypeBid: OldIndicative
+          Uic: 99
+          Volume: 10
+        Index: 99
+        MidVolatilityPct: 10
+        NoTouch:
+          Ask: 10
+          Bid: 10
+          ContractId: 99
+          DeltaPct: 10
+          Net: 10
+          PriceTypeAsk: MarketOrder
+          PriceTypeBid: NoMarket
+        OneTouch:
+          Ask: 10
+          Bid: 10
+          ContractId: 99
+          DeltaPct: 10
+          Net: 10
+          PriceTypeAsk: Pending
+          PriceTypeBid: Tradable
+        Put:
+          Ask: 10
+          AskSize: 10
+          Bid: 10
+          BidSize: 10
+          Close: 10
+          ContractId: 99
+          DeltaPct: 10
+          Greeks:
+            AskVolatility: 10
+            BidVolatility: 10
+            Delta: 10
+            Gamma: 10
+            MidVolatility: 10
+            Rho: 10
+            TheoreticalPrice: 10
+            Theta: 10
+            Vega: 10
+          High: 10
+          LastClose: 10
+          LastTraded: 10
+          Low: 10
+          Net: 10
+          NetChange: 10
+          Open: 10
+          OpenInterest: 10
+          PriceTypeAsk: NoAccess
+          PriceTypeBid: None
+          Uic: 99
+          Volume: 10
+        Strike: 10
+    PriceType:
+      enum:
+      - Indicative
+      - MarketOrder
+      - NoAccess
+      - NoMarket
+      - None
+      - OldIndicative
+      - Pending
+      - Tradable
+      type: string
+      example: OldIndicative
+    ContractOptionsGreeks:
+      title: Contract Options chain Greeks data for the ETOs that support them
+      type: object
+      properties:
+        AskVolatility:
+          title: The ask volatility
+          type: number
+          example: 10
+        BidVolatility:
+          title: The bid volatility
+          type: number
+          example: 10
+        Delta:
+          title: The delta
+          type: number
+          example: 10
+        Gamma:
+          title: The gamma
+          type: number
+          example: 10
+        MidVolatility:
+          title: The mid volatility
+          type: number
+          example: 10
+        Rho:
+          title: The rho
+          type: number
+          example: 10
+        TheoreticalPrice:
+          title: The theoretical price
+          type: number
+          example: 10
+        Theta:
+          title: The theta
+          type: number
+          example: 10
+        Vega:
+          title: The vega
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AskVolatility: 10
+        BidVolatility: 10
+        Delta: 10
+        Gamma: 10
+        MidVolatility: 10
+        Rho: 10
+        TheoreticalPrice: 10
+        Theta: 10
+        Vega: 10
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxKnockOutOption
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OptionsChainResponseDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          allOf:
+          - $ref: '#/components/schemas/OptionsChainResponse'
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+          example: stringValue
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example: null
+    OptionsChainSubscriptionResponse:
+      type: object
+      properties:
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/OptionsChainResponse'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404760'
+        InactivityTimeout: 60
+        ReferenceId: C0142897
+        RefreshRate: 1000
+        Snapshot:
+          AssetType: StockIndexOption
+          Expiries:
+          - DisplayDate: '0001-01-01'
+            DisplayDaysToExpiry: 30
+            Expiry: '2017-05-31T11:10:00Z'
+            Index: 0
+            LastTradeDate: '0201-05-31T21:00:00Z'
+            MidStrikePrice: 0
+            StrikeCount: 50
+            Strikes:
+            - Index: 0
+              Strike: 97.25
+            - Index: 1
+              Strike: 97.375
+            - Index: 2
+              Strike: 97.5
+            - Index: 3
+              Strike: 97.625
+            - Index: 4
+              Strike: 97.75
+            - Index: 5
+              Strike: 97.8125
+            - Index: 6
+              Strike: 97.875
+            - Index: 7
+              Strike: 97.9375
+            - Index: 8
+              Strike: 98
+            - Index: 9
+              Strike: 98.0625
+            - Index: 10
+              Strike: 98.125
+            - Index: 11
+              Strike: 98.1875
+            - Index: 12
+              Strike: 98.25
+            - Index: 13
+              Strike: 98.3125
+            - Index: 14
+              Strike: 98.375
+            - Index: 15
+              Strike: 98.4375
+            - Index: 16
+              Strike: 98.5
+            - Index: 17
+              Strike: 98.5625
+            - Index: 18
+              Strike: 98.625
+            - Index: 19
+              Strike: 98.6875
+            - Index: 20
+              Strike: 98.75
+            - Index: 21
+              Strike: 98.8125
+            - Index: 22
+              Strike: 98.875
+            - Index: 23
+              Strike: 98.9375
+            - Call:
+                High: 0
+                LastClose: 0.095
+                LastTraded: 0
+                Low: 0
+                NetChange: -0.095
+                Open: 0
+                OpenInterest: 0
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485090
+                Volume: 0
+              Index: 24
+              Put:
+                High: 0
+                LastClose: 0
+                LastTraded: 0
+                Low: 0
+                NetChange: 0
+                Open: 0
+                OpenInterest: 0
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485130
+                Volume: 0
+              Strike: 99
+            - Call:
+                High: 0
+                LastClose: 0.035
+                LastTraded: 0
+                Low: 0
+                NetChange: -0.035
+                Open: 0
+                OpenInterest: 0
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485091
+                Volume: 0
+              Index: 25
+              Put:
+                High: 0
+                LastClose: 0.0025
+                LastTraded: 0
+                Low: 0
+                NetChange: -0.0025
+                Open: 0
+                OpenInterest: 250
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485131
+                Volume: 0
+              Strike: 99.0625
+            - Call:
+                High: 0
+                LastClose: 0.0025
+                LastTraded: 0
+                Low: 0
+                NetChange: -0.0025
+                Open: 0
+                OpenInterest: 0
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485092
+                Volume: 0
+              Index: 26
+              Put:
+                High: 0
+                LastClose: 0.0325
+                LastTraded: 0
+                Low: 0
+                NetChange: -0.0325
+                Open: 0
+                OpenInterest: 250
+                PriceTypeAsk: NoMarket
+                PriceTypeBid: NoMarket
+                Uic: 2485132
+                Volume: 0
+              Strike: 99.125
+            - Index: 27
+              Strike: 99.1875
+            - Index: 28
+              Strike: 99.25
+            - Index: 29
+              Strike: 99.3125
+            - Index: 30
+              Strike: 99.375
+            - Index: 31
+              Strike: 99.4375
+            - Index: 32
+              Strike: 99.5
+            - Index: 33
+              Strike: 99.5625
+            - Index: 34
+              Strike: 99.625
+            - Index: 35
+              Strike: 99.6875
+            - Index: 36
+              Strike: 99.75
+            - Index: 37
+              Strike: 99.8125
+            - Index: 38
+              Strike: 99.875
+            - Index: 39
+              Strike: 99.9375
+            - Index: 40
+              Strike: 100
+            - Index: 41
+              Strike: 100.0625
+            - Index: 42
+              Strike: 100.125
+            - Index: 43
+              Strike: 100.1875
+            - Index: 44
+              Strike: 100.25
+            - Index: 45
+              Strike: 100.375
+            - Index: 46
+              Strike: 100.5
+            - Index: 47
+              Strike: 100.625
+            - Index: 48
+              Strike: 100.75
+            - Index: 49
+              Strike: 100.875
+            StrikeWindowStartIndex: 24
+            UnderlyingUic: 2456777
+          ExpiryCount: 0
+          LastUpdated: '0001-01-01T00:00:00Z'
+        State: Active
     ExpiryData:
       title: Base class for expiries of any type
       required:
@@ -1669,12 +2044,29 @@ components:
           Strike: 100.875
         StrikeWindowStartIndex: 24
         UnderlyingUic: 2456777
-    ModelStateDictionary:
+    ModifyOptionsChainSubscriptionRequest:
+      title: "The request structure for modifying (or \"scrolling\") the options chain by changing \n            the expiries.\n            It is also possible to modify the number of strikes per expiry that is to be displayed"
       type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
+      properties:
+        Expiries:
+          title: "Expiries are a collection of expiries requested and the window of \n            strike-rows for each expiry. \n            This allows us to ask explicitly for a certain selection of the total \n            set of option chain data. If not provided the service picks the \n            3 first expiries and assume a centered start-index for all expiries.\n            Asking for data for an expiry that does not exist or a start index \n            higher than the number of strike rows available for that expiry, \n            is not exactly an error and I believe it should just lead to no data being returned."
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestExpirySpecification'
+          example:
+          - Index: 99
+            StrikeStartIndex: 99
+        MaxStrikesPerExpiry:
+          title: "Signals a request to only get N strike-rows per expiry. Default is 12. \n            If no explicit StartIndex is provided, the N rows are assumed to be \n            centered on the strike closes to the mid-spot price. I.e. it could be \n            for an expiry with 16 strike-rows, a request to show 12 strikes-per-expiry \n            means that the start-index for that expiry will be 2, leading the \n            strike-rows to be returned to be the [2-13] or [2-14[ range."
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Expiries:
+        - Index: 99
+          StrikeStartIndex: 99
+        MaxStrikesPerExpiry: 99
     OptionSidePutCall:
       title: 'Base class for any side of an option: Put/Call for ETOs or  Put/Call for Vanilla FXO'
       type: object
@@ -1792,328 +2184,6 @@ components:
         PriceTypeBid: None
         Uic: 99
         Volume: 10
-    OptionsChainSubscriptionResponse:
-      type: object
-      properties:
-        ContextId:
-          title: The streaming context id that this response is associated with.
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
-          type: string
-          example: application/json
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-          example: 0
-        RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
-          type: integer
-          format: int32
-          example: 0
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          allOf:
-          - $ref: '#/components/schemas/OptionsChainResponse'
-        State:
-          title: The value "Active".
-          type: string
-          description: This property is kept for backwards compatibility.
-          example: Active
-        Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        ContextId: '20221030063404760'
-        InactivityTimeout: 60
-        ReferenceId: C0142897
-        RefreshRate: 1000
-        Snapshot:
-          AssetType: StockIndexOption
-          Expiries:
-          - DisplayDate: '0001-01-01'
-            DisplayDaysToExpiry: 30
-            Expiry: '2017-05-31T11:10:00Z'
-            Index: 0
-            LastTradeDate: '0201-05-31T21:00:00Z'
-            MidStrikePrice: 0
-            StrikeCount: 50
-            Strikes:
-            - Index: 0
-              Strike: 97.25
-            - Index: 1
-              Strike: 97.375
-            - Index: 2
-              Strike: 97.5
-            - Index: 3
-              Strike: 97.625
-            - Index: 4
-              Strike: 97.75
-            - Index: 5
-              Strike: 97.8125
-            - Index: 6
-              Strike: 97.875
-            - Index: 7
-              Strike: 97.9375
-            - Index: 8
-              Strike: 98
-            - Index: 9
-              Strike: 98.0625
-            - Index: 10
-              Strike: 98.125
-            - Index: 11
-              Strike: 98.1875
-            - Index: 12
-              Strike: 98.25
-            - Index: 13
-              Strike: 98.3125
-            - Index: 14
-              Strike: 98.375
-            - Index: 15
-              Strike: 98.4375
-            - Index: 16
-              Strike: 98.5
-            - Index: 17
-              Strike: 98.5625
-            - Index: 18
-              Strike: 98.625
-            - Index: 19
-              Strike: 98.6875
-            - Index: 20
-              Strike: 98.75
-            - Index: 21
-              Strike: 98.8125
-            - Index: 22
-              Strike: 98.875
-            - Index: 23
-              Strike: 98.9375
-            - Call:
-                High: 0
-                LastClose: 0.095
-                LastTraded: 0
-                Low: 0
-                NetChange: -0.095
-                Open: 0
-                OpenInterest: 0
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485090
-                Volume: 0
-              Index: 24
-              Put:
-                High: 0
-                LastClose: 0
-                LastTraded: 0
-                Low: 0
-                NetChange: 0
-                Open: 0
-                OpenInterest: 0
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485130
-                Volume: 0
-              Strike: 99
-            - Call:
-                High: 0
-                LastClose: 0.035
-                LastTraded: 0
-                Low: 0
-                NetChange: -0.035
-                Open: 0
-                OpenInterest: 0
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485091
-                Volume: 0
-              Index: 25
-              Put:
-                High: 0
-                LastClose: 0.0025
-                LastTraded: 0
-                Low: 0
-                NetChange: -0.0025
-                Open: 0
-                OpenInterest: 250
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485131
-                Volume: 0
-              Strike: 99.0625
-            - Call:
-                High: 0
-                LastClose: 0.0025
-                LastTraded: 0
-                Low: 0
-                NetChange: -0.0025
-                Open: 0
-                OpenInterest: 0
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485092
-                Volume: 0
-              Index: 26
-              Put:
-                High: 0
-                LastClose: 0.0325
-                LastTraded: 0
-                Low: 0
-                NetChange: -0.0325
-                Open: 0
-                OpenInterest: 250
-                PriceTypeAsk: NoMarket
-                PriceTypeBid: NoMarket
-                Uic: 2485132
-                Volume: 0
-              Strike: 99.125
-            - Index: 27
-              Strike: 99.1875
-            - Index: 28
-              Strike: 99.25
-            - Index: 29
-              Strike: 99.3125
-            - Index: 30
-              Strike: 99.375
-            - Index: 31
-              Strike: 99.4375
-            - Index: 32
-              Strike: 99.5
-            - Index: 33
-              Strike: 99.5625
-            - Index: 34
-              Strike: 99.625
-            - Index: 35
-              Strike: 99.6875
-            - Index: 36
-              Strike: 99.75
-            - Index: 37
-              Strike: 99.8125
-            - Index: 38
-              Strike: 99.875
-            - Index: 39
-              Strike: 99.9375
-            - Index: 40
-              Strike: 100
-            - Index: 41
-              Strike: 100.0625
-            - Index: 42
-              Strike: 100.125
-            - Index: 43
-              Strike: 100.1875
-            - Index: 44
-              Strike: 100.25
-            - Index: 45
-              Strike: 100.375
-            - Index: 46
-              Strike: 100.5
-            - Index: 47
-              Strike: 100.625
-            - Index: 48
-              Strike: 100.75
-            - Index: 49
-              Strike: 100.875
-            StrikeWindowStartIndex: 24
-            UnderlyingUic: 2456777
-          ExpiryCount: 0
-          LastUpdated: '0001-01-01T00:00:00Z'
-        State: Active
-    RequestExpirySpecification:
-      title: "This is the srutcure for requesting specific expiries for the options chain, and also specify which strike index \n            to start from"
-      type: object
-      properties:
-        Index:
-          title: The expiry index
-          type: integer
-          format: int32
-          example: 99
-        StrikeStartIndex:
-          title: "The starting index of the strikes to return\n            The number of strikes counted from this is determined by the MaxNumberOfStrikes of the request"
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Index: 99
-        StrikeStartIndex: 99
-    OptionsChainResponseDomainEvent:
-      type: object
-      properties:
-        Data:
-          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
-          allOf:
-          - $ref: '#/components/schemas/OptionsChainResponse'
-        PartitionNumber:
-          title: The partition number if this DomainEvent is a partition.
-          type: integer
-          format: int32
-          example: 99
-        ReferenceId:
-          title: Client specified id, which is sent back to the client with every data update.
-          type: string
-          example: stringValue
-        Timestamp:
-          title: The UTC date and time of the event.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        TotalPartitions:
-          title: The total number of partitions if this DomainEvent is a partition.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example: null
-    OptionSideFxBinary:
-      title: Representation of the fields in a "side" of a Fx Binary Option strike.
-      type: object
-      properties:
-        Ask:
-          title: Ask price
-          type: number
-          example: 10
-        Bid:
-          title: Bid price
-          type: number
-          example: 10
-        ContractId:
-          title: "Contract ID\n            Only returned for Fx Vanilla and Fx Binary Options"
-          type: integer
-          format: int32
-          example: 99
-        DeltaPct:
-          title: "The delta%\n            Only returned for Fx Vanilla and Fx Binary Options"
-          type: number
-          example: 10
-        Net:
-          title: "The Net amount\n            Only returned for Fx Vanilla and Fx Binary Options"
-          type: number
-          example: 10
-        PriceTypeAsk:
-          title: Ask price type
-          allOf:
-          - $ref: '#/components/schemas/PriceType'
-        PriceTypeBid:
-          title: Bid price type
-          allOf:
-          - $ref: '#/components/schemas/PriceType'
-      additionalProperties: false
-      example:
-        Ask: 10
-        Bid: 10
-        ContractId: 99
-        DeltaPct: 10
-        Net: 10
-        PriceTypeAsk: Tradable
-        PriceTypeBid: Indicative
     OptionsChainSubscriptionRequest:
       title: Type used for requesting options chain subscriptions.
       required:
@@ -2171,124 +2241,54 @@ components:
         ContextId: '20221030063404760'
         ReferenceId: C0142897
         RefreshRate: 1000
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxKnockOutOption
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    OptionsChainRequest:
+      title: Represents a request for an options chain in the API.
+      required:
+      - AssetType
+      - Identifier
+      type: object
+      properties:
+        AccountKey:
+          title: "Unique key identifying the account used in retrieving the price.\n                Only required when calling context represents an authenticated user."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        Amount:
+          title: Order size, defaults to minimal order size for given instrument.
+          type: number
+          example: 10
+        AssetType:
+          title: The instrument's asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Expiries:
+          title: "Expiries are a collection of expiries requested and the window of \n            strike-rows for each expiry. \n            This allows us to ask explicitly for a certain selection of the total \n            set of option chain data. If not provided the service picks the \n            3 first expiries and assume a centered start-index for all expiries.\n            Asking for data for an expiry that does not exist or a start index \n            higher than the number of strike rows available for that expiry, \n            is not exactly an error and I believe it should just lead to no data being returned."
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestExpirySpecification'
+          example:
+          - Index: 99
+            StrikeStartIndex: 99
+        Identifier:
+          title: The instrument's identifier (UIC for FX, option root id for Contract Options)
+          type: integer
+          format: int32
+          example: 99
+        MaxStrikesPerExpiry:
+          title: "Signals a request to only get N strike-rows per expiry. Default is 12. \n            If no explicit StartIndex is provided, the N rows are assumed to be \n            centered on the strike closes to the mid-spot price. I.e. it could be \n            for an expiry with 16 strike-rows, a request to show 12 strikes-per-expiry \n            means that the start-index for that expiry will be 2, leading the \n            strike-rows to be returned to be the [2-13] or [2-14[ range."
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AccountKey: 01b64edf-da03-4145-bf33-ae21527d4c86
+        Amount: 10
+        AssetType: FxSwap
+        Expiries:
+        - Index: 99
+          StrikeStartIndex: 99
+        Identifier: 99
+        MaxStrikesPerExpiry: 99
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

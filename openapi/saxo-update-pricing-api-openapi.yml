@@ -143,112 +143,7 @@ paths:
       summary: Update pricing update prices
       x-summary-source: derived
 components:
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    PriceDetail:
-      title: Price detail info
-      type: object
-      properties:
-        AssetType:
-          title: Instrument's asset type
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Currency:
-          title: Instrument's currency
-          type: string
-          example: stringValue
-        Description:
-          title: Instrument's description
-          type: string
-          example: stringValue
-        LastUpdated:
-          title: Instrument's last price updated date
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        Price:
-          title: Instrument's price
-          type: number
-          example: 10
-        Uic:
-          title: Instrument's uic
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetType: FxNoTouchOption
-        Currency: stringValue
-        Description: stringValue
-        LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
-        Price: 10
-        Uic: 99
-    PriceUpdate:
-      title: Price update
-      required:
-      - AssetType
-      - LastUpdated
-      - Price
-      - Uic
-      type: object
-      properties:
-        AssetType:
-          title: Asset type for instrument
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        LastUpdated:
-          title: Last updated date for instrument
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        Price:
-          title: Instrument's price
-          type: number
-          example: 10
-        Uic:
-          title: Instrument's uic
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetType: FxBinaryOption
-        LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
-        Price: 10
-        Uic: 99
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     PriceUpdateRequest:
       title: Class for price update request
       type: object
@@ -415,6 +310,111 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PriceDetail:
+      title: Price detail info
+      type: object
+      properties:
+        AssetType:
+          title: Instrument's asset type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Currency:
+          title: Instrument's currency
+          type: string
+          example: stringValue
+        Description:
+          title: Instrument's description
+          type: string
+          example: stringValue
+        LastUpdated:
+          title: Instrument's last price updated date
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Price:
+          title: Instrument's price
+          type: number
+          example: 10
+        Uic:
+          title: Instrument's uic
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: FxNoTouchOption
+        Currency: stringValue
+        Description: stringValue
+        LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
+        Price: 10
+        Uic: 99
+    PriceUpdate:
+      title: Price update
+      required:
+      - AssetType
+      - LastUpdated
+      - Price
+      - Uic
+      type: object
+      properties:
+        AssetType:
+          title: Asset type for instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        LastUpdated:
+          title: Last updated date for instrument
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        Price:
+          title: Instrument's price
+          type: number
+          example: 10
+        Uic:
+          title: Instrument's uic
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: FxBinaryOption
+        LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
+        Price: 10
+        Uic: 99
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

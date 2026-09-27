@@ -169,10 +169,12 @@ paths:
         community: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -194,8 +196,6 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
     LongOrShort:
       type: object
@@ -210,127 +210,26 @@ components:
       example:
         PresentationValue: Long
         Value: Long
-    CorrelationType:
-      title: Correlation Type
+    AccountPerformanceStandardPeriod:
+      title: Defines standard periods for account performance.
       enum:
-      - Allocation
-      - Assignment
-      - AutoAbandonment
-      - AutoAssignment
-      - AutoExercise
-      - AutoHedge
-      - AutoTrade
-      - BatchFollowerOrders
-      - BlockClosingTrade
-      - ClientDefault
-      - ClosingTrade
-      - CopyTrade
-      - Exercise
-      - ExternalDealCapture
-      - Facilitation
-      - FxDmaTrade
-      - Hedge
-      - InternallyFilledFractionalAmount
-      - InternallyFilledFractionalTrade
-      - ManualHedge
-      - None
-      - OnBehalfOf
-      - PartiallyFilledAndExploded
-      - PartnerHedge
-      - Rebooking
-      - SaxoPrimeTrade
-      - SelfFinancing
-      - Split
-      - Strategy
-      - Synthetic
-      - TradingFloor
-      - TraianaDropCopyTrade
-      - WithAdvice
-      - WithDealCapture
+      - AllTime
+      - Month
+      - Quarter
+      - Year
       type: string
-      example: None
-      x-enum-deprecated:
-      - InternallyFilledFractionalTrade
+      example: AllTime
       x-enum-descriptions:
-        None: None
-        Allocation: Allocation
-        Synthetic: Synthetic - Indicates that the correlation involves the construction of a synthetic trade.
-        Hedge: Hedge - Indicates that the correlation involves a hedge
-        PartnerHedge: PartnerHedge - Indicates that correlation involves a partner hedge.
-        AutoHedge: AutoHedge - Indicates that correlation involves an auto hedge.
-        ManualHedge: ManualHedge - Indicates that correlation involves a manual hedge.
-        Exercise: Contract option exercise
-        Assignment: Contract option assignment
-        AutoExercise: Automated contract option exercise (at expiry)
-        AutoAssignment: Automated contract option assignment (at expiry)
-        AutoAbandonment: Automated Abandonment
-        Split: Position involved in split
-        Rebooking: Position involved in rebooking
-        CopyTrade: Position/Order copied from other
-        Strategy: For Strategy type future
-        AutoTrade: Position/Order auto-copied from other
-        SaxoPrimeTrade: Saxo Prime position
-        TradingFloor: Order/Position originated from TradingFloor
-        TraianaDropCopyTrade: Position originated from Traiana Drop Copy Service.
-        ClientDefault: Client Default
-        ClosingTrade: Trade to close another trade
-        FxDmaTrade: Fx Dma Trade
-        PartiallyFilledAndExploded: Indicates that this order is partially filled and then ungrouped/exploded from a group stop order
-        BlockClosingTrade: Indicates that this trade is a closing trade of the block trade
-        Facilitation: Indicates that this order or trade is Facilitation flow
-        OnBehalfOf: Indicates that this trade is On Behalf Of booking
-        InternallyFilledFractionalTrade: The trade is created internally to fill Fractional part ( No broker leg)
-        BatchFollowerOrders: 'Saxo Select, fractional ETFs: Delayed order execution when follower starts or funds'
-        WithDealCapture: Deal Capture Type
-        WithAdvice: "With Advice Note, there will be an extra cost for the advice\n            Even if the AdviserClientNote is absent in OpenOrderData"
-        SelfFinancing: Self Financing Orders and Positions
-        InternallyFilledFractionalAmount: This is created internally to fill Fractional part ( No broker leg)
-        ExternalDealCapture: This is used for capturing deal capture externally
-      x-type-warning: FlaggableEnum
-    DisplayHintType:
-      title: Display Hint Type.
-      enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
+        AllTime: All time account performance.
+        Year: The year standard account performance.
+        Quarter: The quarter standard account performance.
+        Month: The month standard account performance.
     LongOrShortValue:
       enum:
       - Long
       - Short
       type: string
       example: Short
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -449,66 +348,115 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    IHistoricalPositionViewListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IHistoricalPositionView'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountId: 112209INET
-          Amount: -1
-          AmountAccountValueCloseRatio: '2:1'
-          AmountAccountValueOpenRatio: '2:1'
-          ClosingAssetType: CfdOnIndex
-          ClosingTradeDate: '2016-07-19'
-          ClosingValueDate: '2016-07-19'
-          CopiedFrom: '1'
-          CorrelationType: None
-          Decimals: 2
-          ExecutionTimeClose: '2016-07-19T07:25:37Z'
-          ExecutionTimeOpen: '2016-07-18T10:38:06Z'
-          InstrumentSymbol: GER30.I
-          LongShort:
-            PresentationValue: Short
-            Value: Short
-          OpeningAssetType: CfdOnIndex
-          OpeningTradeDate: '2016-07-18'
-          OpeningValueDate: '2016-07-18'
-          PriceClose: 9998
-          PriceGain: 0.004778021102926538
-          PriceOpen: 10046
-          PricePct: -0.4778021102926538
-          ProfitLoss: 52.87
-          ProfitLossAccountValueFraction: 0.00807437613761156
-          Uic: '1373'
-    AccountPerformanceStandardPeriod:
-      title: Defines standard periods for account performance.
+    CorrelationType:
+      title: Correlation Type
       enum:
-      - AllTime
-      - Month
-      - Quarter
-      - Year
+      - Allocation
+      - Assignment
+      - AutoAbandonment
+      - AutoAssignment
+      - AutoExercise
+      - AutoHedge
+      - AutoTrade
+      - BatchFollowerOrders
+      - BlockClosingTrade
+      - ClientDefault
+      - ClosingTrade
+      - CopyTrade
+      - Exercise
+      - ExternalDealCapture
+      - Facilitation
+      - FxDmaTrade
+      - Hedge
+      - InternallyFilledFractionalAmount
+      - InternallyFilledFractionalTrade
+      - ManualHedge
+      - None
+      - OnBehalfOf
+      - PartiallyFilledAndExploded
+      - PartnerHedge
+      - Rebooking
+      - SaxoPrimeTrade
+      - SelfFinancing
+      - Split
+      - Strategy
+      - Synthetic
+      - TradingFloor
+      - TraianaDropCopyTrade
+      - WithAdvice
+      - WithDealCapture
       type: string
-      example: AllTime
+      example: None
+      x-enum-deprecated:
+      - InternallyFilledFractionalTrade
       x-enum-descriptions:
-        AllTime: All time account performance.
-        Year: The year standard account performance.
-        Quarter: The quarter standard account performance.
-        Month: The month standard account performance.
+        None: None
+        Allocation: Allocation
+        Synthetic: Synthetic - Indicates that the correlation involves the construction of a synthetic trade.
+        Hedge: Hedge - Indicates that the correlation involves a hedge
+        PartnerHedge: PartnerHedge - Indicates that correlation involves a partner hedge.
+        AutoHedge: AutoHedge - Indicates that correlation involves an auto hedge.
+        ManualHedge: ManualHedge - Indicates that correlation involves a manual hedge.
+        Exercise: Contract option exercise
+        Assignment: Contract option assignment
+        AutoExercise: Automated contract option exercise (at expiry)
+        AutoAssignment: Automated contract option assignment (at expiry)
+        AutoAbandonment: Automated Abandonment
+        Split: Position involved in split
+        Rebooking: Position involved in rebooking
+        CopyTrade: Position/Order copied from other
+        Strategy: For Strategy type future
+        AutoTrade: Position/Order auto-copied from other
+        SaxoPrimeTrade: Saxo Prime position
+        TradingFloor: Order/Position originated from TradingFloor
+        TraianaDropCopyTrade: Position originated from Traiana Drop Copy Service.
+        ClientDefault: Client Default
+        ClosingTrade: Trade to close another trade
+        FxDmaTrade: Fx Dma Trade
+        PartiallyFilledAndExploded: Indicates that this order is partially filled and then ungrouped/exploded from a group stop order
+        BlockClosingTrade: Indicates that this trade is a closing trade of the block trade
+        Facilitation: Indicates that this order or trade is Facilitation flow
+        OnBehalfOf: Indicates that this trade is On Behalf Of booking
+        InternallyFilledFractionalTrade: The trade is created internally to fill Fractional part ( No broker leg)
+        BatchFollowerOrders: 'Saxo Select, fractional ETFs: Delayed order execution when follower starts or funds'
+        WithDealCapture: Deal Capture Type
+        WithAdvice: "With Advice Note, there will be an extra cost for the advice\n            Even if the AdviserClientNote is absent in OpenOrderData"
+        SelfFinancing: Self Financing Orders and Positions
+        InternallyFilledFractionalAmount: This is created internally to fill Fractional part ( No broker leg)
+        ExternalDealCapture: This is used for capturing deal capture externally
+      x-type-warning: FlaggableEnum
+    DisplayHintType:
+      title: Display Hint Type.
+      enum:
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
     PutCall:
       title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
       enum:
@@ -521,6 +469,12 @@ components:
         None: Not specified.
         Put: Put.
         Call: Call.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     IHistoricalPositionView:
       title: Interface for defining the properties common to private and public views of historical positions.
       type: object
@@ -667,6 +621,52 @@ components:
           example: 10
       additionalProperties: false
       example: null
+    IHistoricalPositionViewListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IHistoricalPositionView'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountId: 112209INET
+          Amount: -1
+          AmountAccountValueCloseRatio: '2:1'
+          AmountAccountValueOpenRatio: '2:1'
+          ClosingAssetType: CfdOnIndex
+          ClosingTradeDate: '2016-07-19'
+          ClosingValueDate: '2016-07-19'
+          CopiedFrom: '1'
+          CorrelationType: None
+          Decimals: 2
+          ExecutionTimeClose: '2016-07-19T07:25:37Z'
+          ExecutionTimeOpen: '2016-07-18T10:38:06Z'
+          InstrumentSymbol: GER30.I
+          LongShort:
+            PresentationValue: Short
+            Value: Short
+          OpeningAssetType: CfdOnIndex
+          OpeningTradeDate: '2016-07-18'
+          OpeningValueDate: '2016-07-18'
+          PriceClose: 9998
+          PriceGain: 0.004778021102926538
+          PriceOpen: 10046
+          PricePct: -0.4778021102926538
+          ProfitLoss: 52.87
+          ProfitLossAccountValueFraction: 0.00807437613761156
+          Uic: '1373'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

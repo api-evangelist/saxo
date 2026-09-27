@@ -214,6 +214,96 @@ paths:
         personal: Write
 components:
   schemas:
+    Enumerations.BookingPublishStatus:
+      title: Bulk booking file publish status from backoffice
+      enum:
+      - Active
+      - Cancelled
+      - Error
+      - Hold
+      - Pending
+      - Processed
+      type: string
+      example: Pending
+      x-enum-descriptions:
+        Pending: Receive the signal from Signal Topic
+        Hold: If any validation failed
+        Active: When all validation passed/succeeded
+        Processed: This status will be marked when all requests processed.
+        Error: This will be set once processing has been done with some errors.
+        Cancelled: Cancel the batch
+    RegisteredBulkBooking:
+      type: object
+      properties:
+        BookingReference:
+          title: Request reference id generated for the uploaded file to get the booking status.
+          type: integer
+          format: int64
+          example: 37
+      additionalProperties: false
+      example:
+        BookingReference: 12345
+    BookingStatus:
+      title: Bulk booking file validation status
+      enum:
+      - Failed
+      - Success
+      - Working
+      type: string
+      example: Working
+      x-enum-descriptions:
+        Working: Initial status
+        Failed: If any validation failed
+        Success: When all validation passed/succeeded
+    BookingPublishStatus:
+      title: Model class for booking publish status from backoffice.
+      type: object
+      properties:
+        Errors:
+          title: List of error info
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        RequestReferenceNumber:
+          title: RequestReferenceNo
+          type: integer
+          format: int64
+          example: 37
+        Status:
+          title: File processing status
+          allOf:
+          - $ref: '#/components/schemas/Enumerations.BookingPublishStatus'
+      additionalProperties: false
+      example:
+        Errors:
+        - Error info
+        RequestReferenceNumber: 123456
+        Status: Pending
+    BookingError:
+      title: Booking error class.
+      type: object
+      properties:
+        Errors:
+          title: List of errors.
+          type: array
+          items:
+            type: string
+            example: stringValue
+          example:
+          - stringValue
+        Id:
+          title: Record Id.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Errors:
+        - stringValue
+        Id: 99
     BookingValidationStatus:
       title: Model class for booking validation status.
       type: object
@@ -244,103 +334,15 @@ components:
           Id: 1
         RequestReferenceNumber: 123456
         Status: Failed
-    BookingPublishStatus:
-      title: Model class for booking publish status from backoffice.
-      type: object
-      properties:
-        Errors:
-          title: List of error info
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        RequestReferenceNumber:
-          title: RequestReferenceNo
-          type: integer
-          format: int64
-          example: 37
-        Status:
-          title: File processing status
-          allOf:
-          - $ref: '#/components/schemas/Enumerations.BookingPublishStatus'
-      additionalProperties: false
-      example:
-        Errors:
-        - Error info
-        RequestReferenceNumber: 123456
-        Status: Pending
-    RegisteredBulkBooking:
-      type: object
-      properties:
-        BookingReference:
-          title: Request reference id generated for the uploaded file to get the booking status.
-          type: integer
-          format: int64
-          example: 37
-      additionalProperties: false
-      example:
-        BookingReference: 12345
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
-    Enumerations.BookingPublishStatus:
-      title: Bulk booking file publish status from backoffice
-      enum:
-      - Active
-      - Cancelled
-      - Error
-      - Hold
-      - Pending
-      - Processed
-      type: string
-      example: Pending
-      x-enum-descriptions:
-        Pending: Receive the signal from Signal Topic
-        Hold: If any validation failed
-        Active: When all validation passed/succeeded
-        Processed: This status will be marked when all requests processed.
-        Error: This will be set once processing has been done with some errors.
-        Cancelled: Cancel the batch
-    BookingError:
-      title: Booking error class.
-      type: object
-      properties:
-        Errors:
-          title: List of errors.
-          type: array
-          items:
-            type: string
-            example: stringValue
-          example:
-          - stringValue
-        Id:
-          title: Record Id.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Errors:
-        - stringValue
-        Id: 99
-    BookingStatus:
-      title: Bulk booking file validation status
-      enum:
-      - Failed
-      - Success
-      - Working
-      type: string
-      example: Working
-      x-enum-descriptions:
-        Working: Initial status
-        Failed: If any validation failed
-        Success: When all validation passed/succeeded
   responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
     BadRequest:
@@ -364,8 +366,6 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

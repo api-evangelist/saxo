@@ -260,10 +260,12 @@ paths:
         confidential: Write
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -284,9 +286,68 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
+    StandingInstructionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandingInstructionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    StandingInstructionListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandingInstruction'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    InstrumentDisplayAndFormat:
+      title: Instrument additional properties
+      type: object
+      properties:
+        Description:
+          title: Instrument description
+          type: string
+        IsinCode:
+          title: Instrument isin code
+          type: string
+        Symbol:
+          title: Instrument symbol
+          type: string
+      additionalProperties: false
+    SIErrorCode:
+      title: Error Codes
+      enum:
+      - ConflictingInstruction
+      - InvalidInstrumentDetail
+      - TradeFollowersCannotElect
+      type: string
+      x-enum-descriptions:
+        InvalidInstrumentDetail: Instruments details are invalid. Check UIC and Asset combination
+        ConflictingInstruction: Standing Instruction already exists.
+        TradeFollowersCannotElect: TradeFollowers are not allowed to Elect Standing Instructions.
     StandingInstructionResponse:
       title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       type: object
@@ -322,23 +383,23 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    StandingInstructionResponseListResult:
+    StandingInstructionRequest:
+      title: Standing Instruction Request
+      required:
+      - ClientKey
+      - StandingInstructions
       type: object
       properties:
-        Data:
+        ClientKey:
+          title: Client identifier
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        StandingInstructions:
+          title: Standing Instructions
           type: array
           items:
-            $ref: '#/components/schemas/StandingInstructionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
+            $ref: '#/components/schemas/Instruction'
       additionalProperties: false
     Model.AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
@@ -457,102 +518,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    StandingInstruction:
-      title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
-      type: object
-      properties:
-        AccountDisplayName:
-          title: Account display name
-          type: string
-        AccountId:
-          title: The attain key of the account that this standing instruction applies to.
-          type: string
-        AssetType:
-          title: Asset Type
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        ClientId:
-          title: Client Identifier
-          type: string
-        CreatedDate:
-          title: Creation Date for Standing Instruction
-          type: string
-          format: date
-          x-type-name: Date
-        DisplayAndFormat:
-          title: Instrument Details
-          allOf:
-          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
-        OptionType:
-          title: The type of option to automatically elect. Must be either SECU or CASH.
-          allOf:
-          - $ref: '#/components/schemas/OptionType'
-        StandingInstructionId:
-          title: Standing instruction Id
-          type: string
-        Uic:
-          title: The instrument that this standing instruction applies to.
-          type: integer
-          format: int32
-      additionalProperties: false
-    InstrumentDisplayAndFormat:
-      title: Instrument additional properties
-      type: object
-      properties:
-        Description:
-          title: Instrument description
-          type: string
-        IsinCode:
-          title: Instrument isin code
-          type: string
-        Symbol:
-          title: Instrument symbol
-          type: string
-      additionalProperties: false
-    OptionType:
-      title: Option type indicator
-      enum:
-      - CASH
-      - SECU
-      type: string
-      x-enum-descriptions:
-        CASH: Cash
-        SECU: Security
-    SIErrorCode:
-      title: Error Codes
-      enum:
-      - ConflictingInstruction
-      - InvalidInstrumentDetail
-      - TradeFollowersCannotElect
-      type: string
-      x-enum-descriptions:
-        InvalidInstrumentDetail: Instruments details are invalid. Check UIC and Asset combination
-        ConflictingInstruction: Standing Instruction already exists.
-        TradeFollowersCannotElect: TradeFollowers are not allowed to Elect Standing Instructions.
-    StandingInstructionListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StandingInstruction'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     AssetType:
       title: Allowed asset types for corporate actions.
       enum:
@@ -598,6 +563,15 @@ components:
         CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\n            price exceeds the defined barrier. If the certificate expires below the barrier,\n            it offers partial protection/return of investment."
         CertificateConstantLeverage: Certificate Constant Leverage.
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+    OptionType:
+      title: Option type indicator
+      enum:
+      - CASH
+      - SECU
+      type: string
+      x-enum-descriptions:
+        CASH: Cash
+        SECU: Security
     Instruction:
       title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       required:
@@ -624,24 +598,50 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    StandingInstructionRequest:
-      title: Standing Instruction Request
-      required:
-      - ClientKey
-      - StandingInstructions
+    StandingInstruction:
+      title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       type: object
       properties:
-        ClientKey:
-          title: Client identifier
-          minLength: 1
+        AccountDisplayName:
+          title: Account display name
           type: string
-          x-type-name: ClientKey
-        StandingInstructions:
-          title: Standing Instructions
-          type: array
-          items:
-            $ref: '#/components/schemas/Instruction'
+        AccountId:
+          title: The attain key of the account that this standing instruction applies to.
+          type: string
+        AssetType:
+          title: Asset Type
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ClientId:
+          title: Client Identifier
+          type: string
+        CreatedDate:
+          title: Creation Date for Standing Instruction
+          type: string
+          format: date
+          x-type-name: Date
+        DisplayAndFormat:
+          title: Instrument Details
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
+        OptionType:
+          title: The type of option to automatically elect. Must be either SECU or CASH.
+          allOf:
+          - $ref: '#/components/schemas/OptionType'
+        StandingInstructionId:
+          title: Standing instruction Id
+          type: string
+        Uic:
+          title: The instrument that this standing instruction applies to.
+          type: integer
+          format: int32
       additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
