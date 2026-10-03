@@ -1482,244 +1482,27 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SecretCreationRequest:
-      title: Create secret contract
-      required:
-      - ValidFrom
-      - ValidUntil
+    RedirectUriUpdateRequest:
+      title: The request to update redirect uri
       type: object
       properties:
-        ValidFrom:
-          title: Secret valid from date
-          type: string
-          example: stringValue
-        ValidUntil:
-          title: Secret valid until date
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        ValidFrom: '2019-06-20T07:27:42Z'
-        ValidUntil: '2021-06-20T07:27:42Z'
-    AppRedirectDtoListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AppRedirectDto'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - Branding:
-            Description: stringValue
-            Id: 99
-            Name: stringValue
-          Description: stringValue
-          RedirectUriId: 99
-          Uri: stringValue
-        MaxRows: 99
-    AppDtoListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AppDto'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AppKey: stringValue
-          Brandings:
-          - Description: stringValue
-            Id: 99
-            Name: stringValue
-          CreatedBy:
-            Name: stringValue
-            UserKey: stringValue
-          Description: stringValue
-          Endpoints:
-            AuthorizationEndpoint: stringValue
-            TokenEndpoint: stringValue
-          Flow: stringValue
-          IsActive: true
-          IsTradingEnabled: false
-          ManualOrderIndicationDefault: stringValue
-          ManualOrderIndicator: stringValue
-          Name: stringValue
-          Status: Approved
-        MaxRows: 99
-    UserDto:
-      title: The user data transfer object
-      type: object
-      properties:
-        Name:
-          title: Name
-          type: string
-          example: stringValue
-        UserKey:
-          title: User key
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Name: stringValue
-        UserKey: stringValue
-    AppDto:
-      title: Represents an app as mapped from fields in the database
-      type: object
-      properties:
-        AppKey:
-          title: Unique app key - exposed to end users
-          type: string
-          example: stringValue
-        Brandings:
-          title: Service providers
-          type: array
-          items:
-            $ref: '#/components/schemas/BrandingDto'
-          example:
-          - Description: stringValue
-            Id: 99
-            Name: stringValue
-        CreatedBy:
-          title: Created by user reference default
-          allOf:
-          - $ref: '#/components/schemas/UserDto'
-        Description:
-          title: Description
-          type: string
-          example: stringValue
-        Endpoints:
-          title: Endpoint list for OAuth app
-          allOf:
-          - $ref: '#/components/schemas/EndpointDto'
-        Flow:
-          title: SSO Authentication flow
-          type: string
-          example: stringValue
-        IsActive:
-          title: App is active
-          type: boolean
-          example: false
-        IsTradingEnabled:
-          title: Derived field from 'OnlineAuthzLevels' and 'OfflineAuthzLevels'
-          type: boolean
-          example: false
-        ManualOrderIndicationDefault:
-          title: Manual order indication default
-          type: string
-          example: stringValue
-        ManualOrderIndicator:
-          title: Manual order indication default
-          type: string
-          example: stringValue
-        Name:
-          title: The name of the app
-          type: string
-          example: stringValue
-        Status:
-          title: App status
-          allOf:
-          - $ref: '#/components/schemas/AppStatus'
-      additionalProperties: false
-      example:
-        AppKey: stringValue
-        Brandings:
-        - Description: stringValue
-          Id: 99
-          Name: stringValue
-        CreatedBy:
-          Name: stringValue
-          UserKey: stringValue
-        Description: stringValue
-        Endpoints:
-          AuthorizationEndpoint: stringValue
-          TokenEndpoint: stringValue
-        Flow: stringValue
-        IsActive: true
-        IsTradingEnabled: false
-        ManualOrderIndicationDefault: stringValue
-        ManualOrderIndicator: stringValue
-        Name: stringValue
-        Status: Requested
-    AppRedirectDto:
-      title: App redirect data transfer object
-      type: object
-      properties:
-        Branding:
-          title: Service Provider
-          allOf:
-          - $ref: '#/components/schemas/BrandingDto'
-        Description:
-          title: Description of OAuth app
-          type: string
-          example: stringValue
-        RedirectUriId:
-          title: Redirect Uri Id
+        BrandingId:
+          title: Branding id
           type: integer
           format: int32
           example: 99
+        Description:
+          title: Description is mapped to Label field
+          type: string
+          example: stringValue
         Uri:
-          title: Redirect Uri of OAuth app
+          title: Redirect uri
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        Branding:
-          Description: stringValue
-          Id: 99
-          Name: stringValue
-        Description: stringValue
-        RedirectUriId: 99
-        Uri: stringValue
-    AppSecretDto:
-      title: App secret data transfer object
-      type: object
-      properties:
-        Secret:
-          title: Add secret
-          type: string
-          example: stringValue
-        SecretId:
-          title: Add secret id
-          type: integer
-          format: int32
-          example: 99
-        ValidFrom:
-          title: Add valid date from
-          type: string
-          example: stringValue
-        ValidUntil:
-          title: Add valid date until
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Secret: stringValue
-        SecretId: 99
-        ValidFrom: '0001-01-01T00:00:00Z'
-        ValidUntil: '0001-01-01T00:00:00Z'
+        Description: some description
+        Uri: http://mycompany.com/myapp
     AppResourceDto:
       title: App resource
       type: object
@@ -1824,12 +1607,27 @@ components:
           ValidFrom: '0001-01-01T00:00:00Z'
           ValidUntil: '0001-01-01T00:00:00Z'
         Status: Requested
-    ModelStateDictionary:
+    SecretUpdateRequest:
+      title: Request to update app secret, ValidFrom or ValidUntil is required.
       type: object
-      additionalProperties:
-        type: array
-        items:
+      properties:
+        Regenerate:
+          title: Regenerate secret or not
+          type: boolean
+          example: false
+        ValidFrom:
+          title: Secret valid from date
           type: string
+          example: stringValue
+        ValidUntil:
+          title: Secret valid until date
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Regenerate: false
+        ValidFrom: '2019-06-20T07:27:42Z'
+        ValidUntil: '2021-06-20T07:27:42Z'
     BrandingDto:
       title: Branding details
       type: object
@@ -1852,134 +1650,13 @@ components:
         Description: stringValue
         Id: 99
         Name: stringValue
-    RedirectUriUpdateRequest:
-      title: The request to update redirect uri
-      type: object
-      properties:
-        BrandingId:
-          title: Branding id
-          type: integer
-          format: int32
-          example: 99
-        Description:
-          title: Description is mapped to Label field
-          type: string
-          example: stringValue
-        Uri:
-          title: Redirect uri
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Description: some description
-        Uri: http://mycompany.com/myapp
-    SecretUpdateRequest:
-      title: Request to update app secret, ValidFrom or ValidUntil is required.
-      type: object
-      properties:
-        Regenerate:
-          title: Regenerate secret or not
-          type: boolean
-          example: false
-        ValidFrom:
-          title: Secret valid from date
-          type: string
-          example: stringValue
-        ValidUntil:
-          title: Secret valid until date
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Regenerate: false
-        ValidFrom: '2019-06-20T07:27:42Z'
-        ValidUntil: '2021-06-20T07:27:42Z'
-    AppRedirectUriCreationRequest:
-      title: Redirect Uri create request parameters
-      required:
-      - Uri
-      type: object
-      properties:
-        BrandingId:
-          title: App branding id
-          type: integer
-          format: int32
-          example: 99
-        Description:
-          title: App description
-          type: string
-          example: stringValue
-        Uri:
-          title: App redirect uri
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Description: New App Description
-        Uri: http://my.com/myapp
-    EndpointDto:
-      title: Represents endpoints associated with OAuth application
-      type: object
-      properties:
-        AuthorizationEndpoint:
-          title: SSO auth endpoint, e.g. https://idp.blue.sso.sys.dom/authorize
-          type: string
-          example: stringValue
-        TokenEndpoint:
-          title: SSO token endpoint, e.g. https://idp.blue.sso.sys.dom/token
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AuthorizationEndpoint: stringValue
-        TokenEndpoint: stringValue
-    AppRedirectUriResponse:
-      title: New redirectUri creation response
-      type: object
-      properties:
-        Data:
-          title: The app data
-          allOf:
-          - $ref: '#/components/schemas/AppRedirectDto'
-        FoundAndUpdated:
-          title: Was the redirect uri found and was some properties updated
-          type: boolean
-          example: false
-      additionalProperties: false
-      example:
-        Data:
-          Branding:
-            Description: stringValue
-            Id: 99
-            Name: stringValue
-          Description: stringValue
-          RedirectUriId: 99
-          Uri: stringValue
-        FoundAndUpdated: false
-    AppUpdateRequest:
-      title: Update app request
-      type: object
-      properties:
-        Description:
-          title: App description
-          type: string
-          example: stringValue
-        Name:
-          title: App name
-          pattern: '[a-zA-Z0-9\@\-\]\[\''\!\ ]+$'
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Description: some description
-        Name: App Name1
-    AppSecretDtoListResult:
+    AppDtoListResult:
       type: object
       properties:
         Data:
           type: array
           items:
-            $ref: '#/components/schemas/AppSecretDto'
+            $ref: '#/components/schemas/AppDto'
           description: The collection of entities for this feed.
         MaxRows:
           type: number
@@ -1993,27 +1670,104 @@ components:
       additionalProperties: false
       example:
         Data:
-        - Secret: stringValue
-          SecretId: 99
-          ValidFrom: '0001-01-01T00:00:00Z'
-          ValidUntil: '0001-01-01T00:00:00Z'
+        - AppKey: stringValue
+          Brandings:
+          - Description: stringValue
+            Id: 99
+            Name: stringValue
+          CreatedBy:
+            Name: stringValue
+            UserKey: stringValue
+          Description: stringValue
+          Endpoints:
+            AuthorizationEndpoint: stringValue
+            TokenEndpoint: stringValue
+          Flow: stringValue
+          IsActive: true
+          IsTradingEnabled: false
+          ManualOrderIndicationDefault: stringValue
+          ManualOrderIndicator: stringValue
+          Name: stringValue
+          Status: Approved
         MaxRows: 99
-    AppStatus:
-      title: Enum class representing OAuth app status
-      enum:
-      - Approved
-      - PendingUserApprovalCheck
-      - Rejected
-      - Requestable
-      - Requested
-      type: string
-      example: Rejected
-      x-enum-descriptions:
-        Approved: Active status
-        PendingUserApprovalCheck: Inactive status, pending user approval status check
-        Requestable: Inactive status, access requestable
-        Requested: Inactive status, access request submitted
-        Rejected: Inactive status, access request rejected
+    AppDto:
+      title: Represents an app as mapped from fields in the database
+      type: object
+      properties:
+        AppKey:
+          title: Unique app key - exposed to end users
+          type: string
+          example: stringValue
+        Brandings:
+          title: Service providers
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandingDto'
+          example:
+          - Description: stringValue
+            Id: 99
+            Name: stringValue
+        CreatedBy:
+          title: Created by user reference default
+          allOf:
+          - $ref: '#/components/schemas/UserDto'
+        Description:
+          title: Description
+          type: string
+          example: stringValue
+        Endpoints:
+          title: Endpoint list for OAuth app
+          allOf:
+          - $ref: '#/components/schemas/EndpointDto'
+        Flow:
+          title: SSO Authentication flow
+          type: string
+          example: stringValue
+        IsActive:
+          title: App is active
+          type: boolean
+          example: false
+        IsTradingEnabled:
+          title: Derived field from 'OnlineAuthzLevels' and 'OfflineAuthzLevels'
+          type: boolean
+          example: false
+        ManualOrderIndicationDefault:
+          title: Manual order indication default
+          type: string
+          example: stringValue
+        ManualOrderIndicator:
+          title: Manual order indication default
+          type: string
+          example: stringValue
+        Name:
+          title: The name of the app
+          type: string
+          example: stringValue
+        Status:
+          title: App status
+          allOf:
+          - $ref: '#/components/schemas/AppStatus'
+      additionalProperties: false
+      example:
+        AppKey: stringValue
+        Brandings:
+        - Description: stringValue
+          Id: 99
+          Name: stringValue
+        CreatedBy:
+          Name: stringValue
+          UserKey: stringValue
+        Description: stringValue
+        Endpoints:
+          AuthorizationEndpoint: stringValue
+          TokenEndpoint: stringValue
+        Flow: stringValue
+        IsActive: true
+        IsTradingEnabled: false
+        ManualOrderIndicationDefault: stringValue
+        ManualOrderIndicator: stringValue
+        Name: stringValue
+        Status: Requested
     AppCreationRequest:
       title: Application create request parameters
       required:
@@ -2050,11 +1804,255 @@ components:
         IsTradingEnabled: true
         Name: New App Name
         RedirectUri: http://my.domain/myApp
+    AppRedirectDtoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppRedirectDto'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Branding:
+            Description: stringValue
+            Id: 99
+            Name: stringValue
+          Description: stringValue
+          RedirectUriId: 99
+          Uri: stringValue
+        MaxRows: 99
+    UserDto:
+      title: The user data transfer object
+      type: object
+      properties:
+        Name:
+          title: Name
+          type: string
+          example: stringValue
+        UserKey:
+          title: User key
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Name: stringValue
+        UserKey: stringValue
+    AppStatus:
+      title: Enum class representing OAuth app status
+      enum:
+      - Approved
+      - PendingUserApprovalCheck
+      - Rejected
+      - Requestable
+      - Requested
+      type: string
+      example: Rejected
+      x-enum-descriptions:
+        Approved: Active status
+        PendingUserApprovalCheck: Inactive status, pending user approval status check
+        Requestable: Inactive status, access requestable
+        Requested: Inactive status, access request submitted
+        Rejected: Inactive status, access request rejected
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AppUpdateRequest:
+      title: Update app request
+      type: object
+      properties:
+        Description:
+          title: App description
+          type: string
+          example: stringValue
+        Name:
+          title: App name
+          pattern: '[a-zA-Z0-9\@\-\]\[\''\!\ ]+$'
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: some description
+        Name: App Name1
+    AppSecretDto:
+      title: App secret data transfer object
+      type: object
+      properties:
+        Secret:
+          title: Add secret
+          type: string
+          example: stringValue
+        SecretId:
+          title: Add secret id
+          type: integer
+          format: int32
+          example: 99
+        ValidFrom:
+          title: Add valid date from
+          type: string
+          example: stringValue
+        ValidUntil:
+          title: Add valid date until
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Secret: stringValue
+        SecretId: 99
+        ValidFrom: '0001-01-01T00:00:00Z'
+        ValidUntil: '0001-01-01T00:00:00Z'
+    AppRedirectUriResponse:
+      title: New redirectUri creation response
+      type: object
+      properties:
+        Data:
+          title: The app data
+          allOf:
+          - $ref: '#/components/schemas/AppRedirectDto'
+        FoundAndUpdated:
+          title: Was the redirect uri found and was some properties updated
+          type: boolean
+          example: false
+      additionalProperties: false
+      example:
+        Data:
+          Branding:
+            Description: stringValue
+            Id: 99
+            Name: stringValue
+          Description: stringValue
+          RedirectUriId: 99
+          Uri: stringValue
+        FoundAndUpdated: false
+    SecretCreationRequest:
+      title: Create secret contract
+      required:
+      - ValidFrom
+      - ValidUntil
+      type: object
+      properties:
+        ValidFrom:
+          title: Secret valid from date
+          type: string
+          example: stringValue
+        ValidUntil:
+          title: Secret valid until date
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ValidFrom: '2019-06-20T07:27:42Z'
+        ValidUntil: '2021-06-20T07:27:42Z'
+    AppRedirectUriCreationRequest:
+      title: Redirect Uri create request parameters
+      required:
+      - Uri
+      type: object
+      properties:
+        BrandingId:
+          title: App branding id
+          type: integer
+          format: int32
+          example: 99
+        Description:
+          title: App description
+          type: string
+          example: stringValue
+        Uri:
+          title: App redirect uri
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Description: New App Description
+        Uri: http://my.com/myapp
+    AppSecretDtoListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSecretDto'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Secret: stringValue
+          SecretId: 99
+          ValidFrom: '0001-01-01T00:00:00Z'
+          ValidUntil: '0001-01-01T00:00:00Z'
+        MaxRows: 99
+    EndpointDto:
+      title: Represents endpoints associated with OAuth application
+      type: object
+      properties:
+        AuthorizationEndpoint:
+          title: SSO auth endpoint, e.g. https://idp.blue.sso.sys.dom/authorize
+          type: string
+          example: stringValue
+        TokenEndpoint:
+          title: SSO token endpoint, e.g. https://idp.blue.sso.sys.dom/token
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AuthorizationEndpoint: stringValue
+        TokenEndpoint: stringValue
+    AppRedirectDto:
+      title: App redirect data transfer object
+      type: object
+      properties:
+        Branding:
+          title: Service Provider
+          allOf:
+          - $ref: '#/components/schemas/BrandingDto'
+        Description:
+          title: Description of OAuth app
+          type: string
+          example: stringValue
+        RedirectUriId:
+          title: Redirect Uri Id
+          type: integer
+          format: int32
+          example: 99
+        Uri:
+          title: Redirect Uri of OAuth app
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Branding:
+          Description: stringValue
+          Id: 99
+          Name: stringValue
+        Description: stringValue
+        RedirectUriId: 99
+        Uri: stringValue
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -2078,6 +2076,8 @@ components:
                 $ref: '#/components/schemas/ModelStateDictionary'
     ServiceUnavailable:
       description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -111,6 +111,28 @@ components:
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
+    CurrencyPairDetails:
+      title: Represents a currency pair.
+      type: object
+      properties:
+        CurrencyCode:
+          title: Currency code.
+          type: string
+          example: stringValue
+        RelatedCurrencies:
+          title: List of related currencies to currency code
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedCurrency'
+          example:
+          - CurrencyCode: stringValue
+            Uic: 99
+      additionalProperties: false
+      example:
+        CurrencyCode: stringValue
+        RelatedCurrencies:
+        - CurrencyCode: stringValue
+          Uic: 99
     RelatedCurrency:
       title: Responsible for carrying information about a related currency code and the pairs Uic.
       type: object
@@ -128,6 +150,12 @@ components:
       example:
         CurrencyCode: stringValue
         Uic: 99
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     CurrencyPairDetailsListResult:
       type: object
       properties:
@@ -172,34 +200,6 @@ components:
             Uic: 32
           - CurrencyCode: USD
             Uic: 17764
-    CurrencyPairDetails:
-      title: Represents a currency pair.
-      type: object
-      properties:
-        CurrencyCode:
-          title: Currency code.
-          type: string
-          example: stringValue
-        RelatedCurrencies:
-          title: List of related currencies to currency code
-          type: array
-          items:
-            $ref: '#/components/schemas/RelatedCurrency'
-          example:
-          - CurrencyCode: stringValue
-            Uic: 99
-      additionalProperties: false
-      example:
-        CurrencyCode: stringValue
-        RelatedCurrencies:
-        - CurrencyCode: stringValue
-          Uic: 99
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

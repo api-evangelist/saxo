@@ -45,35 +45,31 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
+    CurrencyDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - CurrencyCode: EUR
+          Decimals: 2
+          Name: Euro
     CurrencyDetails:
       title: Represents a currency.
       type: object
@@ -106,30 +102,34 @@ components:
         type: array
         items:
           type: string
-    CurrencyDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CurrencyDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - CurrencyCode: EUR
-          Decimals: 2
-          Name: Euro
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

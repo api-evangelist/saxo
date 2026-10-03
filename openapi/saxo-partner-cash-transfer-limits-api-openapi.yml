@@ -197,29 +197,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PartnerAccountCashTransferLimit:
-      title: Cash transfer limit
-      type: object
-      properties:
-        AccountKey:
-          title: AccountKey
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        CashTransferLimit:
-          title: Maximal amount which can be transferred out.
-          type: number
-          example: 10
-        Currency:
-          title: Currency
-          pattern: ^[A-Z]{3}$
-          type: string
-          x-type-name: CurrencyCode
-      additionalProperties: false
-      example:
-        AccountKey: sUyiJbnf57ayjlcoNp1RkA==
-        CashTransferLimit: 100
-        Currency: USD
     PartnerCashTransferLimit:
       title: CashWithdrawalLimit
       type: object
@@ -243,6 +220,35 @@ components:
         AccountKey: dIm75edbgnW6aBK3CIc-sw==
         ClientKey: zpSlGZ4F0cPIx59wR3HP1g==
         MaxAllowedWithdrawalAmount: 2.55
+    PartnerAccountCashTransferLimit:
+      title: Cash transfer limit
+      type: object
+      properties:
+        AccountKey:
+          title: AccountKey
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        CashTransferLimit:
+          title: Maximal amount which can be transferred out.
+          type: number
+          example: 10
+        Currency:
+          title: Currency
+          pattern: ^[A-Z]{3}$
+          type: string
+          x-type-name: CurrencyCode
+      additionalProperties: false
+      example:
+        AccountKey: sUyiJbnf57ayjlcoNp1RkA==
+        CashTransferLimit: 100
+        Currency: USD
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     PartnerCashTransferLimitListResult:
       type: object
       properties:
@@ -266,12 +272,6 @@ components:
         - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
           ClientKey: W-CgwnsUEpETkiR8MPJalA==
           MaxAllowedWithdrawalAmount: 100
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.

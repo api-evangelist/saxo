@@ -141,10 +141,6 @@ paths:
         restricted: Read
 components:
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -166,6 +162,10 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   schemas:
     ExchangeDetailsListResult:
       type: object
@@ -195,6 +195,52 @@ components:
           Name: London Metal Exchange
           TimeZone: 1
           TimeZoneOffset: 00:00:00
+    ExchangeSessionState:
+      title: The different states an Exchange session can have
+      enum:
+      - Auction
+      - AutomatedTrading
+      - Break
+      - CallAuctionTrading
+      - Closed
+      - Halt
+      - OpeningAuction
+      - PitTrading
+      - PostAutomatedTrading
+      - PostMarket
+      - PostTrading
+      - PreAutomatedTrading
+      - PreMarket
+      - PreTrading
+      - Suspended
+      - TradingAtLast
+      - Undefined
+      type: string
+      example: AutomatedTrading
+      x-enum-descriptions:
+        Undefined: The state of the Exchange is unknown
+        AutomatedTrading: Normal trading
+        Closed: Exchange is closed
+        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        Break: Break in exchange opening hours
+        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
+        PostTrading: Extended trading session after normal opening hours
+        PreTrading: Extended trading session before normal opening hours
+        PostAutomatedTrading: Extended trading session after normal opening hours
+        PreAutomatedTrading: Extended trading session before normal opening hours
+        Suspended: Trading is suspended on the Exchange
+        Halt: Trading is halted on the Exchange
+        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        PreMarket: Extended trading session before normal opening hours
+        PostMarket: Extended trading session after normal opening hours
+        OpeningAuction: Opening auction exchange state
+        TradingAtLast: Orders collected at last price in absence of closing auction price
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     ExchangeSession:
       title: Responsible for carrying information about an Exchange session.
       type: object
@@ -287,52 +333,6 @@ components:
         Name: London Metal Exchange
         TimeZone: 1
         TimeZoneOffset: 00:00:00
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    ExchangeSessionState:
-      title: The different states an Exchange session can have
-      enum:
-      - Auction
-      - AutomatedTrading
-      - Break
-      - CallAuctionTrading
-      - Closed
-      - Halt
-      - OpeningAuction
-      - PitTrading
-      - PostAutomatedTrading
-      - PostMarket
-      - PostTrading
-      - PreAutomatedTrading
-      - PreMarket
-      - PreTrading
-      - Suspended
-      - TradingAtLast
-      - Undefined
-      type: string
-      example: AutomatedTrading
-      x-enum-descriptions:
-        Undefined: The state of the Exchange is unknown
-        AutomatedTrading: Normal trading
-        Closed: Exchange is closed
-        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        Break: Break in exchange opening hours
-        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
-        PostTrading: Extended trading session after normal opening hours
-        PreTrading: Extended trading session before normal opening hours
-        PostAutomatedTrading: Extended trading session after normal opening hours
-        PreAutomatedTrading: Extended trading session before normal opening hours
-        Suspended: Trading is suspended on the Exchange
-        Halt: Trading is halted on the Exchange
-        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        PreMarket: Extended trading session before normal opening hours
-        PostMarket: Extended trading session after normal opening hours
-        OpeningAuction: Opening auction exchange state
-        TradingAtLast: Orders collected at last price in absence of closing auction price
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

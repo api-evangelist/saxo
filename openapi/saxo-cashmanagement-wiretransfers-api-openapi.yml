@@ -87,76 +87,52 @@ paths:
       x-required-permissions:
         confidential: Read
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    ClientBankDetails:
+    BankDetails:
       type: object
       properties:
-        AccountId:
-          title: Account ID of client
-          type: string
-          example: stringValue
-        AccountNumber:
-          title: Account number of client.
+        Address:
+          title: Address of the bank.
           type: string
           example: stringValue
         Bic:
-          title: Bank identification code.
+          title: Bank Identification code i.e. SAXODKKK
           type: string
           example: stringValue
-        ClientId:
-          title: Client Id of logged in user.
-          type: integer
-          format: int32
-          example: 99
-        ClientNameAndAddress:
-          title: Name and address of client register in CRM
-          type: string
-          example: stringValue
-        Iban:
-          title: IBAN of client.
-          type: string
-          example: stringValue
-        RegistrationNumber:
-          title: Bank registration number.
+        Name:
+          title: Name of the bank
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AccountId: 113965-1
-        AccountNumber: 0100772196
+        Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
         Bic: SAXODKKKXXX
-        ClientId: 8374926
-        ClientNameAndAddress: Name/Address
-        Iban: DK7833789377226198
-        RegistrationNumber: '7392'
+        Name: Saxo Bank A/S
+    BrokerInformation:
+      type: object
+      properties:
+        Account:
+          title: Account number of Broker
+          type: string
+          example: stringValue
+        ClearingCode:
+          title: Clearing code of Broker.
+          type: string
+          example: stringValue
+        Field59:
+          title: "Address set by business user which is part of field 59 \n            in case of broker transfer."
+          type: string
+          example: stringValue
+        Iban:
+          title: IBAN of broker
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Account: '8388662872'
+        ClearingCode: '102494532006'
+        Field59: 444 FIFTH AVE.APARTMENT, 5A NEW YORK, 10023
+        Iban: DK63882615722991638
     WireTransferResponse:
       type: object
       properties:
@@ -239,57 +215,81 @@ components:
         SubsidiaryId: '1'
         SubsidiaryName: Saxo Bank
         VirtualAccountId: SGACU 878000017001
-    BrokerInformation:
-      type: object
-      properties:
-        Account:
-          title: Account number of Broker
-          type: string
-          example: stringValue
-        ClearingCode:
-          title: Clearing code of Broker.
-          type: string
-          example: stringValue
-        Field59:
-          title: "Address set by business user which is part of field 59 \n            in case of broker transfer."
-          type: string
-          example: stringValue
-        Iban:
-          title: IBAN of broker
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Account: '8388662872'
-        ClearingCode: '102494532006'
-        Field59: 444 FIFTH AVE.APARTMENT, 5A NEW YORK, 10023
-        Iban: DK63882615722991638
-    BankDetails:
-      type: object
-      properties:
-        Address:
-          title: Address of the bank.
-          type: string
-          example: stringValue
-        Bic:
-          title: Bank Identification code i.e. SAXODKKK
-          type: string
-          example: stringValue
-        Name:
-          title: Name of the bank
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Address: PHILIP HEYMANS ALLE 15,2900 HELLERUP DENMARK
-        Bic: SAXODKKKXXX
-        Name: Saxo Bank A/S
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    ClientBankDetails:
+      type: object
+      properties:
+        AccountId:
+          title: Account ID of client
+          type: string
+          example: stringValue
+        AccountNumber:
+          title: Account number of client.
+          type: string
+          example: stringValue
+        Bic:
+          title: Bank identification code.
+          type: string
+          example: stringValue
+        ClientId:
+          title: Client Id of logged in user.
+          type: integer
+          format: int32
+          example: 99
+        ClientNameAndAddress:
+          title: Name and address of client register in CRM
+          type: string
+          example: stringValue
+        Iban:
+          title: IBAN of client.
+          type: string
+          example: stringValue
+        RegistrationNumber:
+          title: Bank registration number.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: 113965-1
+        AccountNumber: 0100772196
+        Bic: SAXODKKKXXX
+        ClientId: 8374926
+        ClientNameAndAddress: Name/Address
+        Iban: DK7833789377226198
+        RegistrationNumber: '7392'
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

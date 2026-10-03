@@ -58,72 +58,7 @@ paths:
       summary: Inter account transfer transfer
       x-summary-source: derived
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    TransferResult:
-      title: Result of InterAccount transfer operation
-      type: object
-      properties:
-        Commission:
-          title: Commission charged to transfer amount
-          type: number
-          example: 10
-        FromAccountAmount:
-          title: Amount from the sender account
-          type: number
-          example: 10
-        FromAccountCurrency:
-          title: Currency from the sender account
-          type: string
-          example: stringValue
-        ToAccountAmount:
-          title: Amount to the receiver account
-          type: number
-          example: 10
-        ToAccountCurrency:
-          title: Currency to the receiver account
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Commission: 0
-        FromAccountAmount: 9.0776625
-        FromAccountCurrency: USD
-        ToAccountAmount: 1000
-        ToAccountCurrency: JPY
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TransferRequest:
       title: Transfer details needed for the transfer
       required:
@@ -162,6 +97,71 @@ components:
         Currency: JPY
         FromAccountKey: -gh-xomNFSNUYdRL0KrPpg==
         ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
+    TransferResult:
+      title: Result of InterAccount transfer operation
+      type: object
+      properties:
+        Commission:
+          title: Commission charged to transfer amount
+          type: number
+          example: 10
+        FromAccountAmount:
+          title: Amount from the sender account
+          type: number
+          example: 10
+        FromAccountCurrency:
+          title: Currency from the sender account
+          type: string
+          example: stringValue
+        ToAccountAmount:
+          title: Amount to the receiver account
+          type: number
+          example: 10
+        ToAccountCurrency:
+          title: Currency to the receiver account
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Commission: 0
+        FromAccountAmount: 9.0776625
+        FromAccountCurrency: USD
+        ToAccountAmount: 1000
+        ToAccountCurrency: JPY
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

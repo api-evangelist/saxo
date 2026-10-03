@@ -446,12 +446,12 @@ paths:
         personal: Read
 components:
   responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     ServiceUnavailable:
       description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -474,69 +474,6 @@ components:
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    TradeMessageResponse:
-      title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
-      type: object
-      properties:
-        DateTime:
-          title: Date and Time the message was generated.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        DisplayType:
-          title: Suggestion to the application about how the message should be displayed.
-          allOf:
-          - $ref: '#/components/schemas/MessageDisplayType'
-        MessageBody:
-          title: "Trade message body.\n            This is fully formatted text in the language selected for the logged in client."
-          type: string
-          example: stringValue
-        MessageHeader:
-          title: Header of the message
-          type: string
-          example: stringValue
-        MessageId:
-          title: Unique identification of the message
-          type: string
-          example: stringValue
-        MessageType:
-          title: The type of the message.
-          allOf:
-          - $ref: '#/components/schemas/TradeMessageType'
-      additionalProperties: false
-      example:
-        DateTime: '2014-12-12T09:17:12.0000000+00:00'
-        DisplayType: Default
-        MessageBody: Price alert was triggered on EURUSD
-        MessageHeader: Price Alert
-        MessageId: '345322'
-        MessageType: PriceAlert
-    TradeMessageResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradeMessageResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - DateTime: '2014-12-12T09:17:12Z'
-          DisplayType: Default
-          MessageBody: Price alert was triggered on EURUSD
-          MessageHeader: Price Alert
-          MessageId: '345322'
-          MessageType: PriceAlert
     TradeMessageResponseDomainEvent:
       type: object
       properties:
@@ -565,22 +502,6 @@ components:
           example: 99
       additionalProperties: false
       example: null
-    MessageDisplayType:
-      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
-      enum:
-      - Default
-      - Popup
-      type: string
-      example: Default
-      x-enum-descriptions:
-        Default: No message render method is set.
-        Popup: Message is to popup suggesting immediate attention
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TradeMessageSubscriptionRequest:
       title: Public request contract for setting up a subscription for trade messages.
       required:
@@ -686,6 +607,32 @@ components:
             MessageType: PriceAlert
         State: Active
         Tag: PAGE1
+    TradeMessageResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeMessageResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - DateTime: '2014-12-12T09:17:12Z'
+          DisplayType: Default
+          MessageBody: Price alert was triggered on EURUSD
+          MessageHeader: Price Alert
+          MessageId: '345322'
+          MessageType: PriceAlert
     TradeMessageType:
       title: Enumeration of message types used by trade message subscriptions.
       enum:
@@ -708,6 +655,59 @@ components:
         PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
         AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
         ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
+    TradeMessageResponse:
+      title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
+      type: object
+      properties:
+        DateTime:
+          title: Date and Time the message was generated.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        DisplayType:
+          title: Suggestion to the application about how the message should be displayed.
+          allOf:
+          - $ref: '#/components/schemas/MessageDisplayType'
+        MessageBody:
+          title: "Trade message body.\n            This is fully formatted text in the language selected for the logged in client."
+          type: string
+          example: stringValue
+        MessageHeader:
+          title: Header of the message
+          type: string
+          example: stringValue
+        MessageId:
+          title: Unique identification of the message
+          type: string
+          example: stringValue
+        MessageType:
+          title: The type of the message.
+          allOf:
+          - $ref: '#/components/schemas/TradeMessageType'
+      additionalProperties: false
+      example:
+        DateTime: '2014-12-12T09:17:12.0000000+00:00'
+        DisplayType: Default
+        MessageBody: Price alert was triggered on EURUSD
+        MessageHeader: Price Alert
+        MessageId: '345322'
+        MessageType: PriceAlert
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    MessageDisplayType:
+      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
+      enum:
+      - Default
+      - Popup
+      type: string
+      example: Default
+      x-enum-descriptions:
+        Default: No message render method is set.
+        Popup: Message is to popup suggesting immediate attention
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

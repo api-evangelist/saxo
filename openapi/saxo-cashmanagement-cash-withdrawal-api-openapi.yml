@@ -139,28 +139,7 @@ paths:
       x-required-permissions:
         confidential: Write
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    WithdrawalResponse:
-      title: Response to withdrawal request
-      type: object
-      properties:
-        CutExchangeRate:
-          title: Cut exchange rate.
-          type: number
-          example: 10
-        WithdrawalRequestId:
-          title: Outgoing request Id created.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CutExchangeRate: 1
-        WithdrawalRequestId: '2425'
     WithdrawalRequest:
       title: Cash Withdrawal Request
       required:
@@ -196,12 +175,33 @@ components:
           example: stringValue
       additionalProperties: false
       example: null
+    WithdrawalResponse:
+      title: Response to withdrawal request
+      type: object
+      properties:
+        CutExchangeRate:
+          title: Cut exchange rate.
+          type: number
+          example: 10
+        WithdrawalRequestId:
+          title: Outgoing request Id created.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CutExchangeRate: 1
+        WithdrawalRequestId: '2425'
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

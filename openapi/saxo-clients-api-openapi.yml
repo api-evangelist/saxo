@@ -387,132 +387,7 @@ paths:
       x-required-permissions:
         personal: Write
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    MarginMonitoringMode:
-      title: Margin Monitoring Mode.
-      enum:
-      - Equity
-      - Lines
-      - Margin
-      type: string
-      example: Lines
-      x-enum-descriptions:
-        Margin: Monitoring (stop-out's) are based on standard margin utilization, pre-check's are done against standard margin utilization.
-        Lines: Monitoring (stop-out's) are based on credit line utilization, pre-check's are done against trading and credit line utilization.
-        Equity: Monitoring is based on standard equity utilization, pre-check's are done against standard equity utilization.
-    ClientPositionNettingMode:
-      title: Client's  position netting mode
-      enum:
-      - EndOfDay
-      - Intraday
-      type: string
-      example: EndOfDay
-      x-enum-descriptions:
-        EndOfDay: Default EndOfDay netting mode.
-        Intraday: Intraday netting mode.
-    ClientContractType:
-      title: Clients Contract Types
-      enum:
-      - JointAccount
-      type: string
-      example: JointAccount
-      x-enum-descriptions:
-        JointAccount: Joint account
-    ClientResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - AllowedTradingSessions: Regular
-          ClientId: '654321'
-          ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
-          CurrencyDecimals: 0
-          DefaultAccountId: 192134INET
-          DefaultAccountKey: uke8gbCUrk6l7TnS5fnIdQ==
-          DefaultCurrency: EUR
-          ForceOpenDefaultValue: false
-          IsMarginTradingAllowed: false
-          IsVariationMarginEligible: false
-          LegalAssetTypes:
-          - Stock
-          - FxSpot
-          - CfdOnStock
-          - Bond
-          - ContractFutures
-          LegalAssetTypesAreIndicative: false
-          MarginCalculationMethod: Default
-          Name: Mr. Anthony Test
-          PositionNettingMethod: FIFO
-          PositionNettingMode: EndOfDay
-          PositionNettingProfile: FifoEndOfDay
-          ReduceExposureOnly: false
-          SupportsAccountValueProtectionLimit: false
-    ClientPositionNettingProfile:
-      title: Client's position netting profile
-      enum:
-      - AverageRealTime
-      - FifoEndOfDay
-      - FifoRealTime
-      type: string
-      example: AverageRealTime
-      x-enum-descriptions:
-        AverageRealTime: AverageRealTime netting profile
-        FifoRealTime: FifoRealTime netting profile
-        FifoEndOfDay: FifoEndOfDay netting profile
-    AllowedTradingSessions:
-      title: Allowed trading sessions. Default value "Regular".
-      enum:
-      - All
-      - Regular
-      type: string
-      example: Regular
-      x-enum-descriptions:
-        Regular: Default value. Regular trading hours session.
-        All: Extended trading hours session.
     ClientResponse:
       title: Public data contract representing a client.
       type: object
@@ -656,6 +531,14 @@ components:
         PositionNettingProfile: FifoEndOfDay
         ReduceExposureOnly: false
         SupportsAccountValueProtectionLimit: false
+    ClientContractType:
+      title: Clients Contract Types
+      enum:
+      - JointAccount
+      type: string
+      example: JointAccount
+      x-enum-descriptions:
+        JointAccount: Joint account
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -774,46 +657,42 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    AllowedTradingSessions:
+      title: Allowed trading sessions. Default value "Regular".
+      enum:
+      - All
+      - Regular
+      type: string
+      example: Regular
+      x-enum-descriptions:
+        Regular: Default value. Regular trading hours session.
+        All: Extended trading hours session.
+    CollateralMonitoringMode:
+      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+      enum:
+      - CollateralCreditValue
+      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      type: string
+      example: CollateralCreditValue
+      x-enum-descriptions:
+        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
+        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
     SecurityLendingEnabled:
       title: Security Lending Enabled.
       enum:
-      - false
-      - true
+      - 'No'
+      - 'Yes'
       type: string
-      example: true
+      example: 'Yes'
       x-enum-descriptions:
-        true: Security Lending is enabled.
-        false: Security Lending is disabled.
-    PortfolioMarginMethod:
-      title: Specifies the margin calculaion method for the given entity.
-      enum:
-      - Default
-      - JanusMarginReplication
-      - SpanForFutures
-      - SpanForFuturesAndOptions
-      type: string
-      example: SpanForFutures
-      x-enum-descriptions:
-        Default: Uses Saxo exposure based margin.
-        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
-        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
-        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
+        'Yes': Security Lending is enabled.
+        'No': Security Lending is disabled.
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
-    MutualFundsCashAmountOrderCurrency:
-      title: Indicates the currency used when placing orders with OrderAmountType.CashAmount.
-      enum:
-      - Account
-      - Instrument
-      type: string
-      example: Account
-      x-enum-descriptions:
-        Account: Use the specified account currency.
-        Instrument: Use the currency of the specified instrument.
     ClientUpdateRequest:
       title: A parameter wrapper for updating client values.
       type: object
@@ -850,16 +729,137 @@ components:
       x-enum-descriptions:
         FIFO: FIFO Netting Method
         Average: Average Netting Method
-    CollateralMonitoringMode:
-      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+    MutualFundsCashAmountOrderCurrency:
+      title: Indicates the currency used when placing orders with OrderAmountType.CashAmount.
       enum:
-      - CollateralCreditValue
-      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      - Account
+      - Instrument
       type: string
-      example: CollateralCreditValue
+      example: Account
       x-enum-descriptions:
-        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
-        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
+        Account: Use the specified account currency.
+        Instrument: Use the currency of the specified instrument.
+    MarginMonitoringMode:
+      title: Margin Monitoring Mode.
+      enum:
+      - Equity
+      - Lines
+      - Margin
+      type: string
+      example: Lines
+      x-enum-descriptions:
+        Margin: Monitoring (stop-out's) are based on standard margin utilization, pre-check's are done against standard margin utilization.
+        Lines: Monitoring (stop-out's) are based on credit line utilization, pre-check's are done against trading and credit line utilization.
+        Equity: Monitoring is based on standard equity utilization, pre-check's are done against standard equity utilization.
+    PortfolioMarginMethod:
+      title: Specifies the margin calculaion method for the given entity.
+      enum:
+      - Default
+      - JanusMarginReplication
+      - SpanForFutures
+      - SpanForFuturesAndOptions
+      type: string
+      example: SpanForFutures
+      x-enum-descriptions:
+        Default: Uses Saxo exposure based margin.
+        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
+        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
+        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
+    ClientPositionNettingProfile:
+      title: Client's position netting profile
+      enum:
+      - AverageRealTime
+      - FifoEndOfDay
+      - FifoRealTime
+      type: string
+      example: AverageRealTime
+      x-enum-descriptions:
+        AverageRealTime: AverageRealTime netting profile
+        FifoRealTime: FifoRealTime netting profile
+        FifoEndOfDay: FifoEndOfDay netting profile
+    ClientResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - AllowedTradingSessions: Regular
+          ClientId: '654321'
+          ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+          CurrencyDecimals: 0
+          DefaultAccountId: 192134INET
+          DefaultAccountKey: uke8gbCUrk6l7TnS5fnIdQ==
+          DefaultCurrency: EUR
+          ForceOpenDefaultValue: false
+          IsMarginTradingAllowed: false
+          IsVariationMarginEligible: false
+          LegalAssetTypes:
+          - Stock
+          - FxSpot
+          - CfdOnStock
+          - Bond
+          - ContractFutures
+          LegalAssetTypesAreIndicative: false
+          MarginCalculationMethod: Default
+          Name: Mr. Anthony Test
+          PositionNettingMethod: FIFO
+          PositionNettingMode: EndOfDay
+          PositionNettingProfile: FifoEndOfDay
+          ReduceExposureOnly: false
+          SupportsAccountValueProtectionLimit: false
+    ClientPositionNettingMode:
+      title: Client's  position netting mode
+      enum:
+      - EndOfDay
+      - Intraday
+      type: string
+      example: EndOfDay
+      x-enum-descriptions:
+        EndOfDay: Default EndOfDay netting mode.
+        Intraday: Intraday netting mode.
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

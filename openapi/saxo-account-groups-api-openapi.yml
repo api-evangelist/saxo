@@ -74,7 +74,7 @@ paths:
                   AccountValueProtectionLimit: 10
                   CollateralMonitoringMode: MaxOfCollateralCreditValueAndCollateralCreditLine
                   MarginCalculationMethod: Default
-                  MarginLendingEnabled: false
+                  MarginLendingEnabled: 'No'
                   MarginMonitoringMode: Equity
                   PortfolioBasedMarginEnabled: false
                   SupportsAccountValueProtectionLimit: true
@@ -144,7 +144,7 @@ paths:
                   AccountValueProtectionLimit: 10
                   CollateralMonitoringMode: MaxOfCollateralCreditValueAndCollateralCreditLine
                   MarginCalculationMethod: Default
-                  MarginLendingEnabled: false
+                  MarginLendingEnabled: 'No'
                   MarginMonitoringMode: Equity
                   PortfolioBasedMarginEnabled: false
                   SupportsAccountValueProtectionLimit: true
@@ -308,34 +308,6 @@ paths:
       x-required-permissions:
         personal: Write
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
     PortfolioMarginMethod:
       title: Specifies the margin calculaion method for the given entity.
@@ -351,16 +323,59 @@ components:
         SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
         SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
         JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
-    CollateralMonitoringMode:
-      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+    MarginLendingEnabled:
+      title: Margin Lending Enabled.
       enum:
-      - CollateralCreditValue
-      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      - 'No'
+      - None
+      - 'Yes'
       type: string
-      example: CollateralCreditValue
+      example: 'Yes'
       x-enum-descriptions:
-        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
-        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
+        None: Default. Margin Lending is not applicable.
+        'Yes': Margin Lending is enabled.
+        'No': Margin Lending is disabled.
+    AccountGroupUpdateRequest:
+      title: A parameter wrapper for account group update operations.
+      type: object
+      properties:
+        AccountValueProtectionLimit:
+          title: "If set, this value shields the account value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AccountValueProtectionLimit: 10
+    AccountGroupResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountGroupResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountGroupKey: stringValue
+          AccountGroupName: stringValue
+          AccountValueProtectionLimit: 10
+          CollateralMonitoringMode: MaxOfCollateralCreditValueAndCollateralCreditLine
+          MarginCalculationMethod: Default
+          MarginLendingEnabled: 'No'
+          MarginMonitoringMode: Equity
+          PortfolioBasedMarginEnabled: false
+          SupportsAccountValueProtectionLimit: true
+        MaxRows: 99
     MarginMonitoringMode:
       title: Margin Monitoring Mode.
       enum:
@@ -373,18 +388,6 @@ components:
         Margin: Monitoring (stop-out's) are based on standard margin utilization, pre-check's are done against standard margin utilization.
         Lines: Monitoring (stop-out's) are based on credit line utilization, pre-check's are done against trading and credit line utilization.
         Equity: Monitoring is based on standard equity utilization, pre-check's are done against standard equity utilization.
-    MarginLendingEnabled:
-      title: Margin Lending Enabled.
-      enum:
-      - false
-      - None
-      - true
-      type: string
-      example: true
-      x-enum-descriptions:
-        None: Default. Margin Lending is not applicable.
-        true: Margin Lending is enabled.
-        false: Margin Lending is disabled.
     AccountGroupResponse:
       title: Data contract for an account group.
       type: object
@@ -437,53 +440,50 @@ components:
         MarginMonitoringMode: Margin
         PortfolioBasedMarginEnabled: false
         SupportsAccountValueProtectionLimit: true
-    AccountGroupResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountGroupResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountGroupKey: stringValue
-          AccountGroupName: stringValue
-          AccountValueProtectionLimit: 10
-          CollateralMonitoringMode: MaxOfCollateralCreditValueAndCollateralCreditLine
-          MarginCalculationMethod: Default
-          MarginLendingEnabled: false
-          MarginMonitoringMode: Equity
-          PortfolioBasedMarginEnabled: false
-          SupportsAccountValueProtectionLimit: true
-        MaxRows: 99
-    AccountGroupUpdateRequest:
-      title: A parameter wrapper for account group update operations.
-      type: object
-      properties:
-        AccountValueProtectionLimit:
-          title: "If set, this value shields the account value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AccountValueProtectionLimit: 10
+    CollateralMonitoringMode:
+      title: Collateral Monitoring Mode. Different monitoring modes will change the behavior of stop outs, pre-checks etc (For Collateral based entities).
+      enum:
+      - CollateralCreditValue
+      - MaxOfCollateralCreditValueAndCollateralCreditLine
+      type: string
+      example: CollateralCreditValue
+      x-enum-descriptions:
+        MaxOfCollateralCreditValueAndCollateralCreditLine: Monitoring (stop-out's) are based on collateral credit value and collateral credit line.
+        CollateralCreditValue: Monitoring (stop-out's) are based on collateral credit value
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

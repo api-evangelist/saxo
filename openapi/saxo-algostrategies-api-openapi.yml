@@ -263,6 +263,17 @@ components:
         - None
         TradableInstrumentTypes:
         - CertificateUncappedCapitalProtection
+    StrategyParameterDataType:
+      title: Lists all possible strategy parameters'datatypes
+      enum:
+      - Char
+      - Int
+      - Price
+      - Qty
+      - String
+      - UtcTimeStamp
+      type: string
+      example: Char
     DurationType:
       title: Possible algo orders' duration types.
       enum:
@@ -281,17 +292,6 @@ components:
         ImmediateOrCancel: Immediate or cancel
         GoodTillDate: Good till date
         GoodForPeriod: Good for period
-    StrategyParameterDataType:
-      title: Lists all possible strategy parameters'datatypes
-      enum:
-      - Char
-      - Int
-      - Price
-      - Qty
-      - String
-      - UtcTimeStamp
-      type: string
-      example: Char
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -410,6 +410,44 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    OrderType:
+      title: Order type definitions.
+      enum:
+      - Algorithmic
+      - BreakoutTrigger
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - None
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      type: string
+      example: Market
+      x-enum-descriptions:
+        None: None.
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if Traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        Algorithmic: Algorithmic.
+        Switch: Switch.
+        Traspaso: Traspaso.
+        TraspasoIn: A Traspaso In order initiated from an external trading system.
+        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TrailingStop: Trailing Stop.
+        TrailingStopIfTraded: Trailing Stop if Traded.
     StrategyParameterAllowedValue:
       title: Represents strategy parameter allowed value
       type: object
@@ -426,6 +464,12 @@ components:
       example:
         Name: stringValue
         Value: stringValue
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     StrategyParameter:
       title: Strategy custom parameter object
       type: object
@@ -499,50 +543,6 @@ components:
         UiDefaultValue: stringValue
         UiOrderingIndex: 0
         UiStepSize: 1.3
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    OrderType:
-      title: Order type definitions.
-      enum:
-      - Algorithmic
-      - BreakoutTrigger
-      - GuaranteedStop
-      - Limit
-      - LimitTrigger
-      - Market
-      - None
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - StopTrigger
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      type: string
-      example: Market
-      x-enum-descriptions:
-        None: None.
-        Market: Market.
-        Limit: Limit.
-        StopIfTraded: Stop if Traded.
-        Stop: Stop.
-        StopLimit: Stop Limit.
-        Algorithmic: Algorithmic.
-        Switch: Switch.
-        Traspaso: Traspaso.
-        TraspasoIn: A Traspaso In order initiated from an external trading system.
-        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
-        LimitTrigger: If the price moves above or below the trigger price, then place related order.
-        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        TrailingStop: Trailing Stop.
-        TrailingStopIfTraded: Trailing Stop if Traded.
   responses:
     ServiceUnavailable:
       description: Service Unavailable.

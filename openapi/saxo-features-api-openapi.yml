@@ -255,36 +255,6 @@ components:
         ContextId: '20221029043400381'
         ReferenceId: Features
         RefreshRate: 1000
-    FeatureAvailability:
-      required:
-      - Feature
-      type: object
-      properties:
-        Available:
-          title: Indicates whether the feature is available.
-          type: boolean
-          example: true
-        Feature:
-          title: The name identifying the feature.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Available: true
-        Feature: Chart
-    FeatureAvailabilityArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/FeatureAvailability'
-      example:
-      - Available: true
-        Feature: Chart
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     FeatureAvailabilitySubscriptionResponse:
       type: object
       properties:
@@ -340,6 +310,36 @@ components:
         - Available: true
           Feature: Chart
         State: Active
+    FeatureAvailability:
+      required:
+      - Feature
+      type: object
+      properties:
+        Available:
+          title: Indicates whether the feature is available.
+          type: boolean
+          example: true
+        Feature:
+          title: The name identifying the feature.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Available: true
+        Feature: Chart
+    FeatureAvailabilityArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/FeatureAvailability'
+      example:
+      - Available: true
+        Feature: Chart
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -78,14 +78,26 @@ paths:
       x-required-permissions:
         personal: Write
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    AccountBenchmarkInstrument:
+      title: Sets the instrument to be used as comparison then evaluating account performance.
+      required:
+      - BenchmarkInstrumentUic
+      type: object
+      properties:
+        BenchmarkInstrumentAssetType:
+          title: The instrument asset type of the benchmark instrument.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BenchmarkInstrumentUic:
+          title: The instrument identifier of the benchmark instrument.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        BenchmarkInstrumentAssetType: FxKnockOutOption
+        BenchmarkInstrumentUic: 99
     AccountUpdateRequest:
       title: A parameter wrapper for Account update operations.
       type: object
@@ -227,6 +239,12 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     AccountLevel:
       title: "Defines Extended Account Type. \n            For a Group Margined Account, it is AccountGroup\n            For an Individual Margined Account, it is Account"
       enum:
@@ -237,31 +255,13 @@ components:
       x-enum-descriptions:
         Account: Account
         AccountGroup: AccountGroup
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    AccountBenchmarkInstrument:
-      title: Sets the instrument to be used as comparison then evaluating account performance.
-      required:
-      - BenchmarkInstrumentUic
-      type: object
-      properties:
-        BenchmarkInstrumentAssetType:
-          title: The instrument asset type of the benchmark instrument.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        BenchmarkInstrumentUic:
-          title: The instrument identifier of the benchmark instrument.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        BenchmarkInstrumentAssetType: FxKnockOutOption
-        BenchmarkInstrumentUic: 99
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

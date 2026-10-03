@@ -516,124 +516,56 @@ paths:
       x-required-permissions:
         personal: Write
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    PriceAlertDefinitionResponse:
-      title: "A price alert definition contains the information needed to know when to trigger an alert.\n            Service clients subscribe to price alert definitions in order to receive the alerts."
-      required:
-      - AccountId
-      - ExpiryDate
-      - AssetType
-      - IsRecurring
-      - Operator
-      - PriceVariable
-      - TargetValue
-      - Uic
+    AlertSound:
+      title: The available sounds to play when showing a popup alert.
+      enum:
+      - Asterisk
+      - Beep
+      - Exclamation
+      - Hand
+      - None
+      - Question
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: No sound.
+        Asterisk: Asterisk sound.
+        Beep: Beep sound.
+        Exclamation: Exclamation sound.
+        Hand: Hand sound.
+        Question: Question sound.
+    PriceAlertUserSettingsResponse:
+      title: Contains information about how to notify the user when an alert is triggered.
       type: object
       properties:
-        AccountId:
-          title: The account that owns this price alert definition.
+        EmailAddress:
+          title: The email address to send alert notifications to.
           type: string
           example: stringValue
-        AlertDefinitionId:
-          title: The ID of this .
-          type: string
-          example: stringValue
-        AssetType:
-          title: The type of instrument that this alert is monitoring.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        ClientId:
-          title: The client that owns this price alert definition.
-          type: string
-          example: stringValue
-        Comment:
-          title: An optional comment associated with the price alert definition. The maximum supported length of the string is 128 characters.
-          maxLength: 128
-          type: string
-          example: stringValue
-        ExpiryDate:
-          title: The UTC date and time that the price alert definition will expire and then be removed from the system. The date and time is specified in Coordinated Universal Time (UTC) and should be formatted as "yyyy-mm-ddThh:mm:ssZ".
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        IsExtendedHours:
-          title: An optional flag to indicate if price alert definition is valid in extended hours trading. Default will be set to false.
+        EmailAddressValidated:
+          title: Set to true if the email address has been validated.
           type: boolean
           example: false
-        IsRecurring:
-          title: Is the alert only triggered once or will the alerts keep recurring until the alert expires.
+        NotifyWithMail:
+          title: Send an email when a notification is triggered.
           type: boolean
           example: false
-        Operator:
-          title: The boolean operator used to compare the current price with the defined value.
+        NotifyWithPopup:
+          title: Show triggered notifications with pop-ups.
+          type: boolean
+          example: false
+        Sound:
+          title: The sound to play when showing a popup notification.
           allOf:
-          - $ref: '#/components/schemas/PriceAlertComparisonOperator'
-        PriceVariable:
-          title: The aspect of the price that is being monitored.
-          allOf:
-          - $ref: '#/components/schemas/PriceVariable'
-        State:
-          title: A price alert definition can be enabled, disabled or suspended. RecentlyTriggered is used for recurring alerts, so that they don't trigger constantly once the condition has been met.
-          allOf:
-          - $ref: '#/components/schemas/PriceAlertDefinitionState'
-        TargetValue:
-          title: The value that the current price is compared to.
-          type: number
-          example: 10
-        Uic:
-          title: Universal Instrument Code (UIC).
-          type: integer
-          format: int32
-          example: 99
-        UserId:
-          title: The ID of the user that owns this price alert definition.
-          type: string
-          example: stringValue
+          - $ref: '#/components/schemas/AlertSound'
       additionalProperties: false
       example:
-        AccountId: 13457INET
-        AlertDefinitionId: '30834'
-        AssetType: FxSpot
-        Comment: I believe EURUSD will go up within the next few years!
-        ExpiryDate: '2016-09-30T12:00:00.0000000+00:00'
-        IsRecurring: true
-        Operator: GreaterOrEqual
-        PriceVariable: AskTick
-        State: Enabled
-        TargetValue: 1.34595
-        Uic: 21
-        UserId: '2361528'
-    PriceVariable:
-      title: An aspect of a price that can be monitored.
-      enum:
-      - AskTick
-      - BidTick
-      - PercentChange
-      - Traded
-      type: string
-      example: AskTick
-      x-enum-descriptions:
-        AskTick: Ask price tick.
-        BidTick: Bid price tick.
-        Traded: Traded price.
-        PercentChange: Percentage change from last close value.
-    PriceAlertComparisonOperator:
-      title: The inequality operator used in a price alert condition.
-      enum:
-      - GreaterOrEqual
-      - LessOrEqual
-      type: string
-      example: GreaterOrEqual
-      x-enum-descriptions:
-        GreaterOrEqual: "The price is greater than or equal to (&gt;=) the value\n            specified in the alert definition."
-        LessOrEqual: "The price is less than or equal to (&lt;=) the value specified\n            in the alert definition."
+        EmailAddress: john.doe@broker.com
+        EmailAddressValidated: true
+        NotifyWithMail: true
+        NotifyWithPopup: true
+        Sound: None
     PriceAlertDefinitionRequest:
       title: A price alert definition contains the information needed to know when to trigger an alert. Service clients subscribe to price alert definitions in order to receive the alerts.
       required:
@@ -707,57 +639,6 @@ components:
         State: Enabled
         TargetValue: 1.34595
         Uic: 21
-    AlertSound:
-      title: The available sounds to play when showing a popup alert.
-      enum:
-      - Asterisk
-      - Beep
-      - Exclamation
-      - Hand
-      - None
-      - Question
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: No sound.
-        Asterisk: Asterisk sound.
-        Beep: Beep sound.
-        Exclamation: Exclamation sound.
-        Hand: Hand sound.
-        Question: Question sound.
-    PriceAlertDefinitionResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceAlertDefinitionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountId: 13457INET
-          AlertDefinitionId: '30834'
-          AssetType: FxSpot
-          Comment: I believe EURUSD will go up within the next few years!
-          ExpiryDate: '2016-09-30T12:00:00Z'
-          IsRecurring: true
-          Operator: GreaterOrEqual
-          PriceVariable: AskTick
-          State: Enabled
-          TargetValue: 1.34595
-          Uic: 21
-          UserId: '2361528'
-        MaxRows: 99
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -876,24 +757,92 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    PriceAlertDefinitionState:
-      title: Represents the state of an alert.
-      enum:
-      - Disabled
-      - Enabled
-      - RecentlyTriggered
-      type: string
-      example: Enabled
-      x-enum-descriptions:
-        Enabled: The price alert is enabled and thus may cause notifications to be triggered.
-        Disabled: The price alert is disabled and does not cause notifications to be triggered.
-        RecentlyTriggered: "The price alert is an enabled, recurring alert that was recently triggered, and thus it will not\n            be triggered again right away."
-    ModelStateDictionary:
+    PriceAlertDefinitionResponse:
+      title: "A price alert definition contains the information needed to know when to trigger an alert.\n            Service clients subscribe to price alert definitions in order to receive the alerts."
+      required:
+      - AccountId
+      - ExpiryDate
+      - AssetType
+      - IsRecurring
+      - Operator
+      - PriceVariable
+      - TargetValue
+      - Uic
       type: object
-      additionalProperties:
-        type: array
-        items:
+      properties:
+        AccountId:
+          title: The account that owns this price alert definition.
           type: string
+          example: stringValue
+        AlertDefinitionId:
+          title: The ID of this .
+          type: string
+          example: stringValue
+        AssetType:
+          title: The type of instrument that this alert is monitoring.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        ClientId:
+          title: The client that owns this price alert definition.
+          type: string
+          example: stringValue
+        Comment:
+          title: An optional comment associated with the price alert definition. The maximum supported length of the string is 128 characters.
+          maxLength: 128
+          type: string
+          example: stringValue
+        ExpiryDate:
+          title: The UTC date and time that the price alert definition will expire and then be removed from the system. The date and time is specified in Coordinated Universal Time (UTC) and should be formatted as "yyyy-mm-ddThh:mm:ssZ".
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        IsExtendedHours:
+          title: An optional flag to indicate if price alert definition is valid in extended hours trading. Default will be set to false.
+          type: boolean
+          example: false
+        IsRecurring:
+          title: Is the alert only triggered once or will the alerts keep recurring until the alert expires.
+          type: boolean
+          example: false
+        Operator:
+          title: The boolean operator used to compare the current price with the defined value.
+          allOf:
+          - $ref: '#/components/schemas/PriceAlertComparisonOperator'
+        PriceVariable:
+          title: The aspect of the price that is being monitored.
+          allOf:
+          - $ref: '#/components/schemas/PriceVariable'
+        State:
+          title: A price alert definition can be enabled, disabled or suspended. RecentlyTriggered is used for recurring alerts, so that they don't trigger constantly once the condition has been met.
+          allOf:
+          - $ref: '#/components/schemas/PriceAlertDefinitionState'
+        TargetValue:
+          title: The value that the current price is compared to.
+          type: number
+          example: 10
+        Uic:
+          title: Universal Instrument Code (UIC).
+          type: integer
+          format: int32
+          example: 99
+        UserId:
+          title: The ID of the user that owns this price alert definition.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AccountId: 13457INET
+        AlertDefinitionId: '30834'
+        AssetType: FxSpot
+        Comment: I believe EURUSD will go up within the next few years!
+        ExpiryDate: '2016-09-30T12:00:00.0000000+00:00'
+        IsRecurring: true
+        Operator: GreaterOrEqual
+        PriceVariable: AskTick
+        State: Enabled
+        TargetValue: 1.34595
+        Uic: 21
+        UserId: '2361528'
     PriceAlertUserSettingsRequest:
       title: Contains information about how to notify the user when an alert is triggered.
       type: object
@@ -920,37 +869,88 @@ components:
         NotifyWithMail: true
         NotifyWithPopup: true
         Sound: None
-    PriceAlertUserSettingsResponse:
-      title: Contains information about how to notify the user when an alert is triggered.
+    PriceAlertComparisonOperator:
+      title: The inequality operator used in a price alert condition.
+      enum:
+      - GreaterOrEqual
+      - LessOrEqual
+      type: string
+      example: GreaterOrEqual
+      x-enum-descriptions:
+        GreaterOrEqual: "The price is greater than or equal to (&gt;=) the value\n            specified in the alert definition."
+        LessOrEqual: "The price is less than or equal to (&lt;=) the value specified\n            in the alert definition."
+    PriceAlertDefinitionState:
+      title: Represents the state of an alert.
+      enum:
+      - Disabled
+      - Enabled
+      - RecentlyTriggered
+      type: string
+      example: Enabled
+      x-enum-descriptions:
+        Enabled: The price alert is enabled and thus may cause notifications to be triggered.
+        Disabled: The price alert is disabled and does not cause notifications to be triggered.
+        RecentlyTriggered: "The price alert is an enabled, recurring alert that was recently triggered, and thus it will not\n            be triggered again right away."
+    PriceAlertDefinitionResponseListResult:
       type: object
       properties:
-        EmailAddress:
-          title: The email address to send alert notifications to.
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceAlertDefinitionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
           type: string
-          example: stringValue
-        EmailAddressValidated:
-          title: Set to true if the email address has been validated.
-          type: boolean
-          example: false
-        NotifyWithMail:
-          title: Send an email when a notification is triggered.
-          type: boolean
-          example: false
-        NotifyWithPopup:
-          title: Show triggered notifications with pop-ups.
-          type: boolean
-          example: false
-        Sound:
-          title: The sound to play when showing a popup notification.
-          allOf:
-          - $ref: '#/components/schemas/AlertSound'
+          description: The link for the next page of items in the feed.
       additionalProperties: false
       example:
-        EmailAddress: john.doe@broker.com
-        EmailAddressValidated: true
-        NotifyWithMail: true
-        NotifyWithPopup: true
-        Sound: None
+        Data:
+        - AccountId: 13457INET
+          AlertDefinitionId: '30834'
+          AssetType: FxSpot
+          Comment: I believe EURUSD will go up within the next few years!
+          ExpiryDate: '2016-09-30T12:00:00Z'
+          IsRecurring: true
+          Operator: GreaterOrEqual
+          PriceVariable: AskTick
+          State: Enabled
+          TargetValue: 1.34595
+          Uic: 21
+          UserId: '2361528'
+        MaxRows: 99
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    PriceVariable:
+      title: An aspect of a price that can be monitored.
+      enum:
+      - AskTick
+      - BidTick
+      - PercentChange
+      - Traded
+      type: string
+      example: AskTick
+      x-enum-descriptions:
+        AskTick: Ask price tick.
+        BidTick: Bid price tick.
+        Traded: Traded price.
+        PercentChange: Percentage change from last close value.
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

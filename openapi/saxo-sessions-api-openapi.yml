@@ -377,37 +377,9 @@ paths:
       x-required-permissions:
         personal: Read
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    PutCapabilitiesRequest:
-      title: Represents a request to set all session capabilities.
+    PatchCapabilitiesRequest:
+      title: Represents a request to change session capabilities.
       type: object
       properties:
         TradeLevel:
@@ -417,6 +389,67 @@ components:
       additionalProperties: false
       example:
         TradeLevel: OrdersOnly
+    Domain.DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
+    CapabilitiesResponse:
+      title: Response object holding current session capabilities.
+      type: object
+      properties:
+        AuthenticationLevel:
+          title: Determines the current level of authentication.
+          allOf:
+          - $ref: '#/components/schemas/AuthenticationLevel'
+        DataLevel:
+          title: Unused.
+          allOf:
+          - $ref: '#/components/schemas/DataLevel'
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        AuthenticationLevel: Authenticated
+        DataLevel: Standard
+        TradeLevel: OrdersOnly
+    AuthenticationLevel:
+      title: Represents levels of authentication
+      enum:
+      - Authenticated
+      - Elevated
+      type: string
+      example: Authenticated
+      x-enum-descriptions:
+        Authenticated: Indicates that the user does not have elevated authentication.
+        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
+    DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
+    Domain.TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading.
     SessionSubscriptionResponse:
       title: Response returned when creating a new subscription for broken data.
       type: object
@@ -501,48 +534,12 @@ components:
         AuthenticationLevel: Elevated
         DataLevel: Premium
         TradeLevel: FullTradingAndChat
-    CapabilitiesResponse:
-      title: Response object holding current session capabilities.
+    ModelStateDictionary:
       type: object
-      properties:
-        AuthenticationLevel:
-          title: Determines the current level of authentication.
-          allOf:
-          - $ref: '#/components/schemas/AuthenticationLevel'
-        DataLevel:
-          title: Unused.
-          allOf:
-          - $ref: '#/components/schemas/DataLevel'
-        TradeLevel:
-          title: Determines ability to trade on quote and receive real time data.
-          allOf:
-          - $ref: '#/components/schemas/TradeLevel'
-      additionalProperties: false
-      example:
-        AuthenticationLevel: Authenticated
-        DataLevel: Standard
-        TradeLevel: OrdersOnly
-    PatchCapabilitiesRequest:
-      title: Represents a request to change session capabilities.
-      type: object
-      properties:
-        TradeLevel:
-          title: Determines ability to trade on quote and receive real time data.
-          allOf:
-          - $ref: '#/components/schemas/TradeLevel'
-      additionalProperties: false
-      example:
-        TradeLevel: OrdersOnly
-    AuthenticationLevel:
-      title: Represents levels of authentication
-      enum:
-      - Authenticated
-      - Elevated
-      type: string
-      example: Authenticated
-      x-enum-descriptions:
-        Authenticated: Indicates that the user does not have elevated authentication.
-        Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
+      additionalProperties:
+        type: array
+        items:
+          type: string
     SessionSubscriptionRequest:
       title: The request object required to setup a session wide subscription.
       required:
@@ -598,42 +595,45 @@ components:
       x-enum-descriptions:
         OrdersOnly: Orders only.
         FullTradingAndChat: Full Trading and access to real time data.
-    DataLevel:
-      title: Enumeration of allowed data levels for a user using a client application.
-      enum:
-      - Premium
-      - Standard
-      type: string
-      example: Standard
-      x-enum-descriptions:
-        Standard: Default trade level, where average prices are served.
-        Premium: Live up-to-date prices are served.
-    Domain.DataLevel:
-      title: Enumeration of allowed data levels for a user using a client application.
-      enum:
-      - Premium
-      - Standard
-      type: string
-      example: Standard
-      x-enum-descriptions:
-        Standard: Default trade level, where average prices are served.
-        Premium: Live up-to-date prices are served.
-    ModelStateDictionary:
+    PutCapabilitiesRequest:
+      title: Represents a request to set all session capabilities.
       type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Domain.TradeLevel:
-      title: Enumeration of allowed trade levels for a user using a client application.
-      enum:
-      - FullTradingAndChat
-      - OrdersOnly
-      type: string
-      example: OrdersOnly
-      x-enum-descriptions:
-        OrdersOnly: Orders only.
-        FullTradingAndChat: Full Trading.
+      properties:
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        TradeLevel: OrdersOnly
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

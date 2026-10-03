@@ -81,6 +81,10 @@ components:
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
     AccountAccessMode:
       title: Account access mode indicating the maximum aggregation level of data for accounts.
       enum:
@@ -93,10 +97,6 @@ components:
         All: "User has no explicit restriction for operating on accounts, which means\n            it may operate on all accounts under its client only depending on its roles and operations."
         ViewAll: The user can view all accounts under its client, but have limited rights to interact with them.
         Restricted: Some accounts are not visible to user.
-    UserId:
-      minimum: 1
-      type: integer
-      format: int32
     MyUserInfo:
       title: Information about current user.
       type: object
@@ -157,6 +157,12 @@ components:
         Roles:
         - OAPI.Roles.RetailClient
         UserId: 690261150
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     AccessRights:
       title: Defines access rights for a given user.
       type: object
@@ -188,12 +194,6 @@ components:
         CanTakeTradeSession: false
         CanTrade: true
         CanViewAnyClient: true
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

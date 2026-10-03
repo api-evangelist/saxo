@@ -175,14 +175,198 @@ paths:
       summary: Trades get details async
       x-summary-source: derived
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    TradeType:
+      title: Specifies under what conditions an order should be triggered.
+      enum:
+      - Assignment
+      - AutoAssignment
+      - AutoExcercise
+      - Expiry
+      - GuaranteedStop
+      - Limit
+      - LimitNotice
+      - Market
+      - MarketRollover
+      - MarketStopOut
+      - NotAvailable
+      - Stop
+      - StopBid
+      - StopLimit
+      - StopNotice
+      - StopOffer
+      - StopTraded
+      - Switch
+      - Traspaso
+      - TraspasoIn
+      - TraspasoOut
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      type: string
+      example: Market
+      x-enum-descriptions:
+        Market: Market Order
+        Limit: Limit Order
+        StopBid: Stop Bid Order
+        StopOffer: Stop Offer Order
+        StopTraded: Stop Traded Order
+        Stop: Stop Order
+        StopLimit: Stop Limit Order
+        MarketStopOut: Market (Stop Out)
+        LimitNotice: The limit notice
+        StopNotice: The stop notice
+        Assignment: The assignment
+        AutoAssignment: The automatic assignment
+        AutoExcercise: The automatic excercise
+        Expiry: The expiry
+        Switch: The switch
+        Traspaso: The traspaso
+        TraspasoOut: The traspaso out
+        MarketRollover: The market rollover
+        TraspasoIn: The traspaso in
+        GuaranteedStop: The guaranteed stop
+        TriggerLimit: The trigger limit
+        TriggerStop: The trigger stop
+        TriggerBreakout: The trigger breakout
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    TradePerspective:
+      title: TradePerspective (Long/Short/Put/Call/Long/Bull/Bear) of the instrument
+      enum:
+      - Bear
+      - Bull
+      - Call
+      - Long
+      - None
+      - Put
+      - Short
+      type: string
+      example: Call
+      x-enum-descriptions:
+        None: Not specified.
+        Call: Put.
+        Put: Call.
+        Long: Long.
+        Short: Short.
+        Bull: Bull.
+        Bear: Bear.
     Trade:
       title: The trade.
       type: object
@@ -479,6 +663,50 @@ components:
         UnderlyingInstrumentSymbol: stringValue
         ValueDate: '0001-01-01'
         Venue: stringValue
+    ToOpenOrClose:
+      title: ToOpenOrClose
+      enum:
+      - ToClose
+      - ToOpen
+      type: string
+      example: ToClose
+      x-enum-descriptions:
+        ToOpen: Order/Position is ToOpen
+        ToClose: Order/Position is ToClose
+    OptionEventType:
+      title: The option event type.
+      enum:
+      - BinaryCall
+      - BinaryPut
+      - Call
+      - KnockInCall
+      - KnockInPut
+      - KnockOutCall
+      - KnockOutPut
+      - NoTouch
+      - OneTouch
+      - Put
+      - Unknown
+      type: string
+      example: Put
+      x-enum-descriptions:
+        Call: Call option exercised
+        Put: Put option exercised
+        KnockInCall: Fx Knock-In call option exercised
+        KnockInPut: Fx Knok-in put option exercies
+        KnockOutCall: Fx Knock-Out call option exercised
+        KnockOutPut: Fx Knock-Out call option exercised
+        BinaryCall: Fx Binary call option exercised
+        BinaryPut: Fx Binary put option exercised
+        OneTouch: Fx One touch option exercised
+        NoTouch: Fx No touch option exercised
+        Unknown: Unknown option event type
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     TradeEventType:
       title: The trade event type.
       enum:
@@ -495,213 +723,6 @@ components:
         Bought: Position bought
         Sold: Position sold
         Unknown: Unknown trade event type
-    TradePerspective:
-      title: TradePerspective (Long/Short/Put/Call/Long/Bull/Bear) of the instrument
-      enum:
-      - Bear
-      - Bull
-      - Call
-      - Long
-      - None
-      - Put
-      - Short
-      type: string
-      example: Call
-      x-enum-descriptions:
-        None: Not specified.
-        Call: Put.
-        Put: Call.
-        Long: Long.
-        Short: Short.
-        Bull: Bull.
-        Bear: Bear.
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    ToOpenOrClose:
-      title: ToOpenOrClose
-      enum:
-      - ToClose
-      - ToOpen
-      type: string
-      example: ToClose
-      x-enum-descriptions:
-        ToOpen: Order/Position is ToOpen
-        ToClose: Order/Position is ToClose
-    TradeType:
-      title: Specifies under what conditions an order should be triggered.
-      enum:
-      - Assignment
-      - AutoAssignment
-      - AutoExcercise
-      - Expiry
-      - GuaranteedStop
-      - Limit
-      - LimitNotice
-      - Market
-      - MarketRollover
-      - MarketStopOut
-      - NotAvailable
-      - Stop
-      - StopBid
-      - StopLimit
-      - StopNotice
-      - StopOffer
-      - StopTraded
-      - Switch
-      - Traspaso
-      - TraspasoIn
-      - TraspasoOut
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
-      type: string
-      example: Market
-      x-enum-descriptions:
-        Market: Market Order
-        Limit: Limit Order
-        StopBid: Stop Bid Order
-        StopOffer: Stop Offer Order
-        StopTraded: Stop Traded Order
-        Stop: Stop Order
-        StopLimit: Stop Limit Order
-        MarketStopOut: Market (Stop Out)
-        LimitNotice: The limit notice
-        StopNotice: The stop notice
-        Assignment: The assignment
-        AutoAssignment: The automatic assignment
-        AutoExcercise: The automatic excercise
-        Expiry: The expiry
-        Switch: The switch
-        Traspaso: The traspaso
-        TraspasoOut: The traspaso out
-        MarketRollover: The market rollover
-        TraspasoIn: The traspaso in
-        GuaranteedStop: The guaranteed stop
-        TriggerLimit: The trigger limit
-        TriggerStop: The trigger stop
-        TriggerBreakout: The trigger breakout
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     TradeListResult:
       type: object
       properties:
@@ -757,34 +778,13 @@ components:
           UnderlyingInstrumentSymbol: AUDUSD
           ValueDate: '2015-10-14'
           Venue: OTC
-    OptionEventType:
-      title: The option event type.
-      enum:
-      - BinaryCall
-      - BinaryPut
-      - Call
-      - KnockInCall
-      - KnockInPut
-      - KnockOutCall
-      - KnockOutPut
-      - NoTouch
-      - OneTouch
-      - Put
-      - Unknown
-      type: string
-      example: Put
-      x-enum-descriptions:
-        Call: Call option exercised
-        Put: Put option exercised
-        KnockInCall: Fx Knock-In call option exercised
-        KnockInPut: Fx Knok-in put option exercies
-        KnockOutCall: Fx Knock-Out call option exercised
-        KnockOutPut: Fx Knock-Out call option exercised
-        BinaryCall: Fx Binary call option exercised
-        BinaryPut: Fx Binary put option exercised
-        OneTouch: Fx One touch option exercised
-        NoTouch: Fx No touch option exercised
-        Unknown: Unknown option event type
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

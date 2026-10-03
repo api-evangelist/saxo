@@ -45,6 +45,59 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
+  schemas:
+    LanguageDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - LanguageCode: en
+          LanguageName: English
+          NativeName: English
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    LanguageDetails:
+      title: Represents a language.
+      type: object
+      properties:
+        LanguageCode:
+          title: "The ISO 639-1 two-letter language code. (Except for zh-cn and zh-tw).\n            This list only includes languages for which Saxo has full or partial support for translation of texts."
+          pattern: ^[a-zA-Z]{2}(-[A-Z]{2})?$
+          type: string
+          x-type-name: LanguageCode
+        LanguageName:
+          title: The name of the language (in English).
+          type: string
+          example: stringValue
+        NativeName:
+          title: The name of the language (in native language).
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        LanguageCode: en
+        LanguageName: English
+        NativeName: English
   responses:
     ServiceUnavailable:
       description: Service Unavailable.
@@ -73,59 +126,6 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-  schemas:
-    LanguageDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/LanguageDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - LanguageCode: en
-          LanguageName: English
-          NativeName: English
-    LanguageDetails:
-      title: Represents a language.
-      type: object
-      properties:
-        LanguageCode:
-          title: "The ISO 639-1 two-letter language code. (Except for zh-cn and zh-tw).\n            This list only includes languages for which Saxo has full or partial support for translation of texts."
-          pattern: ^[a-zA-Z]{2}(-[A-Z]{2})?$
-          type: string
-          x-type-name: LanguageCode
-        LanguageName:
-          title: The name of the language (in English).
-          type: string
-          example: stringValue
-        NativeName:
-          title: The name of the language (in native language).
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        LanguageCode: en
-        LanguageName: English
-        NativeName: English
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

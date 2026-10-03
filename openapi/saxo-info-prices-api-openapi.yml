@@ -1116,404 +1116,182 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    PriceInfoDetails:
-      title: Additional information related to the instrument
-      type: object
-      properties:
-        AskSize:
-          title: The ask size.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        AskYield:
-          title: Optional ask yield, if available.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        BidSize:
-          title: The bid size.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        BidYield:
-          title: Optional bid yield, if available.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        LastClose:
-          title: The last close.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        LastTraded:
-          title: The last traded.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        LastTradedSize:
-          title: The last traded size.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Open:
-          title: The open.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Volume:
-          title: Optional volume, if available.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-      additionalProperties: false
-      example:
-        AskSize: 1000000
-        BidSize: 1000000
-        LastClose: 1.729595
-        LastTraded: 0
-        LastTradedSize: 0
-        Open: 0
-        Volume: 0
-    InfoPriceListSubscriptionRequest:
-      title: Public request contract for setting up a price subscription.
-      required:
-      - Arguments
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/InfoPriceListRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          AssetType: FxSpot
-          FieldGroups:
-          - DisplayAndFormat
-          - HistoricalChanges
-          - InstrumentPriceDetails
-          - PriceInfo
-          - PriceInfoDetails
-          - Quote
-          Uics: 22,23
-        ContextId: '20221030063404713'
-        ReferenceId: IP89383
-        RefreshRate: 1000
-    PutCall:
-      title: Describes the direction of an option.
+    DisplayHintType:
+      title: Display Hint Type.
       enum:
-      - Call
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
       - None
-      - Put
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
       type: string
-      example: Call
+      example: Continuous
       x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    InfoPriceResponseArrayDomainEvent:
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
+    PriceQuality:
+      title: "This enumeration describes the reliability of the price. This is for spot trading on FX Options where a price must be\n            tradable in order for a spot trade to be accepted.Price access is controlled by\n            price feed subscriptions and lack of permission may lead to delayed (Indicative) or even complete absense of prices (NoAccess)"
+      enum:
+      - Indicative
+      - NoAccess
+      - NoMarket
+      - None
+      - OldIndicative
+      - Pending
+      - Tradable
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Price orgin is unknown.
+        Tradable: "Directly tradable price. If this price was received from the /Prices endpoint, as opposed to the /InfoPrices endpoint, the caller use it as the basis for\n            making a trade, by posting to the /Positions endpoint (\"TradeOnQuote\")."
+        Indicative: This is  valid price, but you cannot directly create a position on that price (normally shown as a yellow price).
+        OldIndicative: This is  valid price, but the price is "old", so you the market may have moved significantly from the price.
+        NoMarket: There is currently no access to the market on which the instrument is traded.
+        NoAccess: User does not have permission to the price feed. While FX prices are normally free, access to other price feeds depends on application type, the partner's default price feeds and feed subscriptions held by the user
+        Pending: A price is currently not available, but it will be shortly
+    PriceDisplayFormatType:
+      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
+      enum:
+      - AllowDecimalPips
+      - Fractions
+      - ModernFractions
+      - Normal
+      - Percentage
+      type: string
+      example: ModernFractions
+      x-enum-descriptions:
+        Normal: No special display format for this price.
+        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
+        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
+        Percentage: Display as percentage, e.g. 12.34%.
+        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
+    InfoPriceGroupSpec:
+      title: Specification of fieldsets to include in results.
+      enum:
+      - Commissions
+      - DisplayAndFormat
+      - HistoricalChanges
+      - InstrumentPriceDetails
+      - MarketDepth
+      - PriceInfo
+      - PriceInfoDetails
+      - Quote
+      type: string
+      example: MarketDepth
+      x-enum-descriptions:
+        Quote: Quote data fields are returned in results.
+        PriceInfo: Informational price fields are returned in results.
+        PriceInfoDetails: Detailed price fields are returned in results.
+        InstrumentPriceDetails: "Fields related to the asset type are returned in results.\n            Fields in this group are only returned when issuing a GET and in the initial snapshot if setting up a subscription."
+        MarketDepth: Market depth fields are returned in results.
+        Commissions: Commission fields are returned in results.
+        HistoricalChanges: Historical price changes are returned in results.
+        DisplayAndFormat: Display and Format
+      x-type-warning: FlaggableEnum
+    HistoricalChanges:
+      title: Historical data about the price changes (in %) for a number of periods, from 1 week to 5 years.
       type: object
       properties:
-        Data:
-          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
-          type: array
-          items:
-            $ref: '#/components/schemas/InfoPriceResponse'
-          example:
-          - AssetType: FxSpot
-            DisplayAndFormat:
-              Currency: AUD
-              Decimals: 4
-              Description: British Pound/Australian Dollar
-              Format: AllowDecimalPips
-              OrderDecimals: 4
-              Symbol: GBPAUD
-            HistoricalChanges:
-              PercentChange1Month: 1.21
-              PercentChange2Months: 2.95
-              PercentChange3Months: 1.85
-              PercentChange6Months: -1.83
-              PercentChangeDaily: 0.22
-              PercentChangeWeekly: 1.67
-            InstrumentPriceDetails:
-              IsMarketOpen: true
-              ShortTradeDisabled: false
-              ValueDate: '2017-05-19'
-            LastUpdated: '0001-01-01T00:00:00Z'
-            PriceInfo:
-              High: 1.09117
-              Low: 1.08853
-              NetChange: 0.00048
-              PercentChange: 0.04
-            PriceInfoDetails:
-              AskSize: 1000000
-              BidSize: 1000000
-              LastClose: 1.08932
-              LastTraded: 0
-              LastTradedSize: 0
-              Open: 0
-              Volume: 0
-            Quote:
-              Amount: 100000
-              Ask: 1.74948
-              Bid: 1.74858
-              DelayedByMinutes: 15
-              ErrorCode: None
-              Mid: 1.74903
-              PriceTypeAsk: Indicative
-              PriceTypeBid: Indicative
-            Uic: 22
-        PartitionNumber:
-          title: The partition number if this DomainEvent is a partition.
-          type: integer
-          format: int32
-          example: 99
-        ReferenceId:
-          title: Client specified id, which is sent back to the client with every data update.
-          type: string
-          example: stringValue
-        Timestamp:
-          title: The UTC date and time of the event.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        TotalPartitions:
-          title: The total number of partitions if this DomainEvent is a partition.
-          type: integer
-          format: int32
-          example: 99
+        FiftyTwoWeekHigh:
+          title: The 52 week high
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        FiftyTwoWeekLow:
+          title: The 52 week low
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange1Month:
+          title: The 1 month percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange1Year:
+          title: The 1 year percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange2Months:
+          title: The 2 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange2Years:
+          title: The 2 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange3Months:
+          title: The 3 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange3Years:
+          title: The 3 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange5Years:
+          title: The 5 years percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange6Months:
+          title: The 6 months percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChangeDaily:
+          title: The daily percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChangeWeekly:
+          title: The weekly percent change
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
       additionalProperties: false
       example:
-        Data:
-        - AssetType: FxSpot
-          DisplayAndFormat:
-            Currency: AUD
-            Decimals: 4
-            Description: British Pound/Australian Dollar
-            Format: AllowDecimalPips
-            OrderDecimals: 4
-            Symbol: GBPAUD
-          HistoricalChanges:
-            PercentChange1Month: 1.21
-            PercentChange2Months: 2.95
-            PercentChange3Months: 1.85
-            PercentChange6Months: -1.83
-            PercentChangeDaily: 0.22
-            PercentChangeWeekly: 1.67
-          InstrumentPriceDetails:
-            IsMarketOpen: true
-            ShortTradeDisabled: false
-            ValueDate: '2017-05-19'
-          LastUpdated: '0001-01-01T00:00:00Z'
-          PriceInfo:
-            High: 1.09117
-            Low: 1.08853
-            NetChange: 0.00048
-            PercentChange: 0.04
-          PriceInfoDetails:
-            AskSize: 1000000
-            BidSize: 1000000
-            LastClose: 1.08932
-            LastTraded: 0
-            LastTradedSize: 0
-            Open: 0
-            Volume: 0
-          Quote:
-            Amount: 100000
-            Ask: 1.74948
-            Bid: 1.74858
-            DelayedByMinutes: 15
-            ErrorCode: None
-            Mid: 1.74903
-            PriceTypeAsk: Indicative
-            PriceTypeBid: Indicative
-          Uic: 22
-        ReferenceId: IP89383
-        Timestamp: '2022-10-30T06:43:04.4607500+00:00'
-    MarketDepth:
-      title: Contains information about the market depth.
-      type: object
-      properties:
-        Ask:
-          title: List of prices of the current offers to sell in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        AskOrders:
-          title: List of order counts of the current offers to sell in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        AskSize:
-          title: List of amounts of the current offers to sell in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Bid:
-          title: List of prices of the current offers to buy in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        BidOrders:
-          title: List of order counts of the current offers to buy in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        BidSize:
-          title: List of amounts of the current offers to buy in the market.
-          type: array
-          items:
-            type: number
-            example: 10
-          example:
-          - 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        NoOfBids:
-          title: Number of current bids on the instrument.
-          type: integer
-          format: int32
-          example: 99
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        NoOfOffers:
-          title: Number of current offers on the instrument.
-          type: integer
-          format: int32
-          example: 99
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        UsingOrders:
-          title: Using Orders.
-          type: boolean
-          example: true
-      additionalProperties: false
-      example:
-        Ask:
-        - 1.76671
-        - 1.76676
-        - 1.76706
-        AskOrders:
-        - 0
-        - 0
-        - 0
-        AskSize:
-        - 4000000
-        - 7000000
-        - 10000000
-        Bid:
-        - 1.76591
-        - 1.76586
-        - 1.76556
-        BidOrders:
-        - 0
-        - 0
-        - 0
-        BidSize:
-        - 4000000
-        - 7000000
-        - 10000000
-        NoOfBids: 3
-        NoOfOffers: 3
-        UsingOrders: false
+        PercentChange1Month: 5.57
+        PercentChange2Months: 5.83
+        PercentChange3Months: 3.73
+        PercentChange6Months: 6.49
+        PercentChangeDaily: 0.2
+        PercentChangeWeekly: 0.88
     Commissions:
       title: Commissions for buying and selling the instrument.
       type: object
@@ -1540,6 +1318,84 @@ components:
         CostIpoCashSubscription: 0
         CostIpoSubscription: 0
         CostSell: 0
+    Quote:
+      title: Provides quote data.
+      type: object
+      properties:
+        Amount:
+          title: The amount for which the quote is calculated.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Ask:
+          title: The ask price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Bid:
+          title: The bid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        DelayedByMinutes:
+          title: If set, it defines the number of minutes by which the price is delayed.
+          type: integer
+          format: int32
+          example: 99
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ErrorCode:
+          title: Gets or sets the error code.
+          allOf:
+          - $ref: '#/components/schemas/ErrorCode'
+        MarketState:
+          title: The source for the price information
+          allOf:
+          - $ref: '#/components/schemas/MarketState'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Mid:
+          title: The mid price.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceSource:
+          title: The source for the price information
+          type: string
+          example: stringValue
+        PriceTypeAsk:
+          title: The price type for ask.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PriceTypeBid:
+          title: The price type for bid.
+          allOf:
+          - $ref: '#/components/schemas/PriceQuality'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ReferencePrice:
+          title: Suggested price based on best available price information. Typically used as suggested price when exchange is closed.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        Amount: 100000
+        Ask: 1.0899
+        Bid: 1.0897
+        DelayedByMinutes: 15
+        ErrorCode: None
+        Mid: 1.0898
+        PriceTypeAsk: Indicative
+        PriceTypeBid: Indicative
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -1658,96 +1514,288 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    HistoricalChanges:
-      title: Historical data about the price changes (in %) for a number of periods, from 1 week to 5 years.
+    MarketDepth:
+      title: Contains information about the market depth.
       type: object
       properties:
-        FiftyTwoWeekHigh:
-          title: The 52 week high
-          type: number
-          example: 10
+        Ask:
+          title: List of prices of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        FiftyTwoWeekLow:
-          title: The 52 week low
-          type: number
-          example: 10
+        AskOrders:
+          title: List of order counts of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange1Month:
-          title: The 1 month percent change
-          type: number
-          example: 10
+        AskSize:
+          title: List of amounts of the current offers to sell in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange1Year:
-          title: The 1 year percent change
-          type: number
-          example: 10
+        Bid:
+          title: List of prices of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange2Months:
-          title: The 2 months percent change
-          type: number
-          example: 10
+        BidOrders:
+          title: List of order counts of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange2Years:
-          title: The 2 years percent change
-          type: number
-          example: 10
+        BidSize:
+          title: List of amounts of the current offers to buy in the market.
+          type: array
+          items:
+            type: number
+            example: 10
+          example:
+          - 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange3Months:
-          title: The 3 months percent change
-          type: number
-          example: 10
+        NoOfBids:
+          title: Number of current bids on the instrument.
+          type: integer
+          format: int32
+          example: 99
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange3Years:
-          title: The 3 years percent change
-          type: number
-          example: 10
+        NoOfOffers:
+          title: Number of current offers on the instrument.
+          type: integer
+          format: int32
+          example: 99
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange5Years:
-          title: The 5 years percent change
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange6Months:
-          title: The 6 months percent change
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChangeDaily:
-          title: The daily percent change
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChangeWeekly:
-          title: The weekly percent change
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        UsingOrders:
+          title: Using Orders.
+          type: boolean
+          example: true
       additionalProperties: false
       example:
-        PercentChange1Month: 5.57
-        PercentChange2Months: 5.83
-        PercentChange3Months: 3.73
-        PercentChange6Months: 6.49
-        PercentChangeDaily: 0.2
-        PercentChangeWeekly: 0.88
+        Ask:
+        - 1.76671
+        - 1.76676
+        - 1.76706
+        AskOrders:
+        - 0
+        - 0
+        - 0
+        AskSize:
+        - 4000000
+        - 7000000
+        - 10000000
+        Bid:
+        - 1.76591
+        - 1.76586
+        - 1.76556
+        BidOrders:
+        - 0
+        - 0
+        - 0
+        BidSize:
+        - 4000000
+        - 7000000
+        - 10000000
+        NoOfBids: 3
+        NoOfOffers: 3
+        UsingOrders: false
+    PutCall:
+      title: Describes the direction of an option.
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: Call
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    PriceInfoDetails:
+      title: Additional information related to the instrument
+      type: object
+      properties:
+        AskSize:
+          title: The ask size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        AskYield:
+          title: Optional ask yield, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidSize:
+          title: The bid size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        BidYield:
+          title: Optional bid yield, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastClose:
+          title: The last close.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastTraded:
+          title: The last traded.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        LastTradedSize:
+          title: The last traded size.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Open:
+          title: The open.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        Volume:
+          title: Optional volume, if available.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        AskSize: 1000000
+        BidSize: 1000000
+        LastClose: 1.729595
+        LastTraded: 0
+        LastTradedSize: 0
+        Open: 0
+        Volume: 0
+    InfoPriceResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfoPriceResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AssetType: FxSpot
+          DisplayAndFormat:
+            Currency: AUD
+            Decimals: 4
+            Description: British Pound/Australian Dollar
+            Format: AllowDecimalPips
+            OrderDecimals: 4
+            Symbol: GBPAUD
+          HistoricalChanges:
+            PercentChange1Month: 1.21
+            PercentChange2Months: 2.95
+            PercentChange3Months: 1.85
+            PercentChange6Months: -1.83
+            PercentChangeDaily: 0.22
+            PercentChangeWeekly: 1.67
+          InstrumentPriceDetails:
+            IsMarketOpen: true
+            ShortTradeDisabled: false
+            ValueDate: '2017-05-19'
+          LastUpdated: '0001-01-01T00:00:00Z'
+          PriceInfo:
+            High: 1.09117
+            Low: 1.08853
+            NetChange: 0.00048
+            PercentChange: 0.04
+          PriceInfoDetails:
+            AskSize: 1000000
+            BidSize: 1000000
+            LastClose: 1.08932
+            LastTraded: 0
+            LastTradedSize: 0
+            Open: 0
+            Volume: 0
+          Quote:
+            Amount: 100000
+            Ask: 1.74948
+            Bid: 1.74858
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 1.74903
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+          Uic: 22
+        - AssetType: FxSpot
+          DisplayAndFormat:
+            Currency: CAD
+            Decimals: 4
+            Description: British Pound/Canadian Dollar
+            Format: AllowDecimalPips
+            OrderDecimals: 4
+            Symbol: GBPCAD
+          InstrumentPriceDetails:
+            IsMarketOpen: true
+            ShortTradeDisabled: false
+            ValueDate: '2017-05-19'
+          LastUpdated: '0001-01-01T00:00:00Z'
+          Quote:
+            Amount: 100000
+            Ask: 1.76278
+            Bid: 1.76198
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 1.76238
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+          Uic: 23
     InfoPriceListRequest:
       title: Use this to request a list of InfoPrices
       required:
@@ -1835,297 +1883,66 @@ components:
         - PriceInfoDetails
         - Quote
         Uics: 22,23
-    InfoPriceListSubscriptionResponse:
-      title: Public response contract returned after setting up a price subscription.
+    InfoPriceListSubscriptionRequest:
+      title: Public request contract for setting up a price subscription.
+      required:
+      - Arguments
+      - ContextId
+      - ReferenceId
       type: object
       properties:
         ContextId:
-          title: The streaming context id that this response is associated with.
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
           type: string
           example: ContextId-1
           x-display-order: 1
         ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
           type: string
           example: ReferenceId-1
           x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/InfoPriceListRequest'
         Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
           type: string
           example: application/json
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
-          example: 0
         RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
           type: integer
           format: int32
           example: 0
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          allOf:
-          - $ref: '#/components/schemas/InfoPriceResponseListResult'
-        State:
-          title: The value "Active".
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
           type: string
-          description: This property is kept for backwards compatibility.
-          example: Active
+          example: ReplaceReferenceId-1
         Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
+          title: Optional client specified tag used for grouping subscriptions.
           type: string
           example: ClientTag
       additionalProperties: false
       example:
+        Arguments:
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          AssetType: FxSpot
+          FieldGroups:
+          - DisplayAndFormat
+          - HistoricalChanges
+          - InstrumentPriceDetails
+          - PriceInfo
+          - PriceInfoDetails
+          - Quote
+          Uics: 22,23
         ContextId: '20221030063404713'
-        Format: application/json
-        InactivityTimeout: 60
         ReferenceId: IP89383
         RefreshRate: 1000
-        Snapshot:
-          Data:
-          - AssetType: FxSpot
-            DisplayAndFormat:
-              Currency: AUD
-              Decimals: 4
-              Description: British Pound/Australian Dollar
-              Format: AllowDecimalPips
-              OrderDecimals: 4
-              Symbol: GBPAUD
-            HistoricalChanges:
-              PercentChange1Month: 1.21
-              PercentChange2Months: 2.95
-              PercentChange3Months: 1.85
-              PercentChange6Months: -1.83
-              PercentChangeDaily: 0.22
-              PercentChangeWeekly: 1.67
-            InstrumentPriceDetails:
-              IsMarketOpen: true
-              ShortTradeDisabled: false
-              ValueDate: '2017-05-19'
-            LastUpdated: '0001-01-01T00:00:00Z'
-            PriceInfo:
-              High: 1.09117
-              Low: 1.08853
-              NetChange: 0.00048
-              PercentChange: 0.04
-            PriceInfoDetails:
-              AskSize: 1000000
-              BidSize: 1000000
-              LastClose: 1.08932
-              LastTraded: 0
-              LastTradedSize: 0
-              Open: 0
-              Volume: 0
-            Quote:
-              Amount: 100000
-              Ask: 1.74948
-              Bid: 1.74858
-              DelayedByMinutes: 15
-              ErrorCode: None
-              Mid: 1.74903
-              PriceTypeAsk: Indicative
-              PriceTypeBid: Indicative
-            Uic: 22
-          - AssetType: FxSpot
-            DisplayAndFormat:
-              Currency: CAD
-              Decimals: 4
-              Description: British Pound/Canadian Dollar
-              Format: AllowDecimalPips
-              OrderDecimals: 4
-              Symbol: GBPCAD
-            InstrumentPriceDetails:
-              IsMarketOpen: true
-              ShortTradeDisabled: false
-              ValueDate: '2017-05-19'
-            LastUpdated: '0001-01-01T00:00:00Z'
-            Quote:
-              Amount: 100000
-              Ask: 1.76278
-              Bid: 1.76198
-              DelayedByMinutes: 15
-              ErrorCode: None
-              Mid: 1.76238
-              PriceTypeAsk: Indicative
-              PriceTypeBid: Indicative
-            Uic: 23
-        State: Active
-    InfoPriceResponse:
-      title: Public contract providing the latest info price information upon a request.
-      required:
-      - Uic
-      type: object
-      properties:
-        AssetType:
-          title: Asset Type of the instrument
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Commissions:
-          title: The commissions
-          allOf:
-          - $ref: '#/components/schemas/Commissions'
-        DisplayAndFormat:
-          title: Information about the instrument of the net position and how to display it.
-          allOf:
-          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
-        ErrorCode:
-          title: Error code, only there if instrument doesn't exist
-          allOf:
-          - $ref: '#/components/schemas/TradingErrorCode'
-        ErrorMessage:
-          title: Error message, only there if instrument doesn't exist
-          type: string
-          example: stringValue
-        HistoricalChanges:
-          title: The historical price changes
-          allOf:
-          - $ref: '#/components/schemas/HistoricalChanges'
-        InstrumentPriceDetails:
-          title: Instrument Specific Price Details. Contents vary by AssetType
-          allOf:
-          - $ref: '#/components/schemas/InstrumentPriceDetails'
-        LastUpdated:
-          title: Time of last price update.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        MarketDepth:
-          title: The market depth
-          allOf:
-          - $ref: '#/components/schemas/MarketDepth'
-        PriceInfo:
-          title: Brief price information.
-          allOf:
-          - $ref: '#/components/schemas/PriceInfo'
-        PriceInfoDetails:
-          title: Detailed price information
-          allOf:
-          - $ref: '#/components/schemas/PriceInfoDetails'
-        PriceSource:
-          title: The source for the price information
-          type: string
-          example: stringValue
-        Quote:
-          title: The quote data.
-          allOf:
-          - $ref: '#/components/schemas/Quote'
-        Uic:
-          title: Uic of instrument
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        AssetType: FxSpot
-        DisplayAndFormat:
-          Currency: AUD
-          Decimals: 4
-          Description: British Pound/Australian Dollar
-          Format: AllowDecimalPips
-          OrderDecimals: 4
-          Symbol: GBPAUD
-        HistoricalChanges:
-          PercentChange1Month: 1.21
-          PercentChange2Months: 2.95
-          PercentChange3Months: 1.85
-          PercentChange6Months: -1.83
-          PercentChangeDaily: 0.22
-          PercentChangeWeekly: 1.67
-        InstrumentPriceDetails:
-          IsMarketOpen: true
-          ShortTradeDisabled: false
-          ValueDate: '2017-05-19'
-        LastUpdated: '0001-01-01T00:00:00.0000000+00:00'
-        PriceInfo:
-          High: 1.09117
-          Low: 1.08853
-          NetChange: 0.00048
-          PercentChange: 0.04
-        PriceInfoDetails:
-          AskSize: 1000000
-          BidSize: 1000000
-          LastClose: 1.08932
-          LastTraded: 0
-          LastTradedSize: 0
-          Open: 0
-          Volume: 0
-        Quote:
-          Amount: 100000
-          Ask: 1.74948
-          Bid: 1.74858
-          DelayedByMinutes: 15
-          ErrorCode: None
-          Mid: 1.74903
-          PriceTypeAsk: Indicative
-          PriceTypeBid: Indicative
-        Uic: 22
-    ErrorCode:
-      title: Errorcode used in RFQ.
-      enum:
-      - DealerCancelsQuote
-      - DealerCannotQuote
-      - DealerCannotTrade
-      - DealerDisconnected
-      - DealerIsBusy
-      - DealerIsUnavailable
-      - DealerRejectsQuoteRequest
-      - None
-      - QuoteHasTimedOut
-      - TooSmallTrade
-      - WarningAmountLargeOrderSize
-      - WarningAmountTooSmall
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: No error code.
-        DealerCancelsQuote: Dealer cancels quote.
-        DealerCannotQuote: Dealer can not give quote at this time.
-        DealerIsBusy: Dealer is handling other request for client.
-        DealerIsUnavailable: Dealer is not available.
-        DealerCannotTrade: Dealer can not trade at this time.
-        DealerDisconnected: Dealer disconnected.
-        TooSmallTrade: Trade contract size is too small
-        QuoteHasTimedOut: Quote has timed out
-        DealerRejectsQuoteRequest: Dealer rejects quote request.
-        WarningAmountLargeOrderSize: Returned when a price request is for a an amount that is larger than will be automatically accepted. For IOC orders, this means that an order on that amount will always be rejected.
-        WarningAmountTooSmall: Returned when an amount for an FXO is so small that we do not accept request for quotes on it.
-    InfoPriceGroupSpec:
-      title: Specification of fieldsets to include in results.
-      enum:
-      - Commissions
-      - DisplayAndFormat
-      - HistoricalChanges
-      - InstrumentPriceDetails
-      - MarketDepth
-      - PriceInfo
-      - PriceInfoDetails
-      - Quote
-      type: string
-      example: MarketDepth
-      x-enum-descriptions:
-        Quote: Quote data fields are returned in results.
-        PriceInfo: Informational price fields are returned in results.
-        PriceInfoDetails: Detailed price fields are returned in results.
-        InstrumentPriceDetails: "Fields related to the asset type are returned in results.\n            Fields in this group are only returned when issuing a GET and in the initial snapshot if setting up a subscription."
-        MarketDepth: Market depth fields are returned in results.
-        Commissions: Commission fields are returned in results.
-        HistoricalChanges: Historical price changes are returned in results.
-        DisplayAndFormat: Display and Format
-      x-type-warning: FlaggableEnum
-    ToOpenClose:
-      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
-      enum:
-      - ToClose
-      - ToOpen
-      - Undefined
-      type: string
-      example: Undefined
-      x-enum-descriptions:
-        Undefined: Undefined.
-        ToOpen: Order/Position is ToOpen.
-        ToClose: Order/Position is ToClose.
     MarketState:
       title: Defines the possible states of the Market.
       enum:
@@ -2150,183 +1967,40 @@ components:
         OpeningAuction: "Market is temporary out of normal Trading. This is the Auction that occur before \n            the market opens"
         ClosingAuction: "Market is temporary out of normal Trading. This is the Auction that occur after\n            the market closes."
         TradingAtLast: This state is after the Auction has finished, before normal Trading starts.
-    OrderAmountType:
-      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
-      enum:
-      - CashAmount
-      - Quantity
-      type: string
-      example: Quantity
-      x-enum-descriptions:
-        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
-        CashAmount: Order amount is specified as a monetary value.
-    InstrumentPriceDetails:
-      title: Additional instrument specific price details
+    PriceInfo:
+      title: Brief information about the price.
       type: object
       properties:
-        AccruedInterest:
-          title: 'Accrued Interest. Valid for: Bonds'
-          type: number
-          example: 10
-        AskYield:
-          title: AskYield are only valid for the bond asset type.
-          type: number
-          example: 10
-        BidYield:
-          title: BidYield are only valid for the bond asset type.
-          type: number
-          example: 10
-        CfdBorrowingCost:
-          title: Costs applicable to shorting the CFD.
-          type: number
-          example: 10
-        CfdHardToFinanceRate:
-          title: A rate relevant for certain long cfd positions
-          type: number
-          example: 10
-        CfdPriceAdjustment:
-          title: Is returned as true when the instrument subscribed for is a CFD and the user is on a special mark-up price configuration. If true, the values in EstPriceBuy and EstPriceSell are relevant (but still only provided given a share price)
-          type: boolean
-          example: true
-        Dma:
-          title: Trade is routed to trading venue. Trade on quote not allowed.
-          type: boolean
-          example: true
-        EstPriceBuy:
-          title: May be returned when the instrument subscribed for is a CFD on a stock and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceBuy is the markup paied for an eventual buy order. Not relevant for info prices.
+        High:
+          title: The high.
           type: number
           example: 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        EstPriceSell:
-          title: May be returned when the instrument subscribed for is a CFD and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceSell is the markup paied for an eventual sell order. Not relevant for info prices.
+        Low:
+          title: The low.
           type: number
           example: 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        ExpiryDate:
-          title: 'Expiry date for contract. Valid for: CFD Futures, FxOptions'
-          type: string
-          format: date
-          x-type-name: Date
-        ForwardDateFarLeg:
-          title: The far leg value date. Applicable for FxSwap
-          type: string
-          format: date
-          x-type-name: Date
-        ForwardDateNearLeg:
-          title: The near leg value date. Applicable for FxSwap
-          type: string
-          format: date
-          x-type-name: Date
-        IndexRatio:
-          title: IndexRatio, Applicable for  inflation linked bond
+        NetChange:
+          title: The net change in price (Mid price – LastClose price)
           type: number
           example: 10
-        IsMarketOpen:
-          title: Gets or sets a value indicating whether the market on which the instrument is traded is currently open.
-          type: boolean
-          example: true
-        LowerBarrier:
-          title: 'Lower Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        PercentChange:
+          title: "The percent change in price.\n            If LastClose greater than 0 , value = NetChange/LastClose * 100\n            If NetChange less than 0 , value = -100\n            If NetChange equal to 0 , value = 0\n            If NetChange greater than 100 , value = +100"
           type: number
           example: 10
-        MidForwardPrice:
-          title: The mid forward price.
-          type: number
-          example: 10
-        MidSpotPrice:
-          title: 'The post mid price. Valid for: Fx Options.'
-          type: number
-          example: 10
-        MidYield:
-          title: MidYield are only valid for the bond asset type.
-          type: number
-          example: 10
-        NoticeDate:
-          title: Futures only - The date on which the owner may be required to take physical delivery of the instrument commodity.
-          type: string
-          format: date
-          x-type-name: Date
-        OpenInterest:
-          title: The number of currently open contracts (available for contract options and futures)
-          type: number
-          example: 10
-        PaidCfdInterest:
-          title: A rate representing the interest to be paid when holding a CFD short position overnight.
-          type: number
-          example: 10
-        PaidSrdInterest:
-          title: A rate representing the interest to be paid when holding a SRD short position overnight.
-          type: number
-          example: 10
-        ReceivedCfdInterest:
-          title: A rate representing the interest received when with holding a CFD long position overnight.
-          type: number
-          example: 10
-        ReceivedSrdInterest:
-          title: A rate representing the interest received when with holding a SRD long position overnight.
-          type: number
-          example: 10
-        ShortTradeDisabled:
-          title: Set to true if short trading is disabled for this instrument.
-          type: boolean
-          example: true
-        SpotAsk:
-          title: 'The spot ask price Valid for: FX Forwards.'
-          type: number
-          example: 10
-        SpotBid:
-          title: 'The post bid price. Valid for: Fx Forwards.'
-          type: number
-          example: 10
-        SpotDate:
-          title: The Spot Date. Valid for Fx Forwards.
-          type: string
-          format: date
-          x-type-name: Date
-        SrdLastTradeDate:
-          title: Liquidation/Last Trade Date of the SRD
-          type: string
-          example: stringValue
-        SrdSettlementDate:
-          title: Settlement Date of the SRD
-          type: string
-          example: stringValue
-        StrikePrice:
-          title: Option Strike Price.
-          type: number
-          example: 10
-        SwapAsk:
-          title: 'Swap rate for ask, Valid for: FxForwards and FxSwap'
-          type: number
-          example: 10
-        SwapBid:
-          title: 'Swap rate for bid, Valid for: FxForwards and FxSwap'
-          type: number
-          example: 10
-        UpperBarrier:
-          title: 'Upper Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
-          type: number
-          example: 10
-        ValueDate:
-          title: Actual ValueDate (could be different from what was specified in request due to holidays etc.).
-          type: string
-          format: date
-          x-type-name: Date
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
       additionalProperties: false
       example:
-        ExpiryDate: '2017-06-01'
-        IsMarketOpen: true
-        LowerBarrier: -2
-        MidForwardPrice: 1.71992423552514
-        ShortTradeDisabled: false
-        SpotAsk: 1.71782
-        SpotBid: 1.71692
-        SpotDate: '2017-06-03'
-        StrikePrice: 1.7175
-        UpperBarrier: 4
-        ValueDate: '2017-06-05'
+        High: 1.09117
+        Low: 1.08853
+        NetChange: 0.00048
+        PercentChange: 0.04
     TradingErrorCode:
       title: Enumeration of Trading errors and related descriptions returned by endpoints.
       enum:
@@ -2546,84 +2220,540 @@ components:
         ExchangeNotSupported: Time and sales is not supported for this exchange.
         WarningAmountLargeOrderSize: Returned when a price request is for a an amount that is larger than will be automatically accepted. For IOC orders, this means that an order on that amount will always be rejected.
         InternalServerError: Internal Server Error.
-    Quote:
-      title: Provides quote data.
+    ToOpenClose:
+      title: Specifies whether the order will be created to open/increase or close/decrease a position (only relevant for options).
+      enum:
+      - ToClose
+      - ToOpen
+      - Undefined
+      type: string
+      example: Undefined
+      x-enum-descriptions:
+        Undefined: Undefined.
+        ToOpen: Order/Position is ToOpen.
+        ToClose: Order/Position is ToClose.
+    InfoPriceListSubscriptionResponse:
+      title: Public response contract returned after setting up a price subscription.
       type: object
       properties:
-        Amount:
-          title: The amount for which the quote is calculated.
+        ContextId:
+          title: The streaming context id that this response is associated with.
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          type: string
+          example: application/json
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
+          type: integer
+          format: int32
+          example: 0
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+          example: 0
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/InfoPriceResponseListResult'
+        State:
+          title: The value "Active".
+          type: string
+          description: This property is kept for backwards compatibility.
+          example: Active
+        Tag:
+          title: Client specified tag assigned to the subscription, if specified in the request.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404713'
+        Format: application/json
+        InactivityTimeout: 60
+        ReferenceId: IP89383
+        RefreshRate: 1000
+        Snapshot:
+          Data:
+          - AssetType: FxSpot
+            DisplayAndFormat:
+              Currency: AUD
+              Decimals: 4
+              Description: British Pound/Australian Dollar
+              Format: AllowDecimalPips
+              OrderDecimals: 4
+              Symbol: GBPAUD
+            HistoricalChanges:
+              PercentChange1Month: 1.21
+              PercentChange2Months: 2.95
+              PercentChange3Months: 1.85
+              PercentChange6Months: -1.83
+              PercentChangeDaily: 0.22
+              PercentChangeWeekly: 1.67
+            InstrumentPriceDetails:
+              IsMarketOpen: true
+              ShortTradeDisabled: false
+              ValueDate: '2017-05-19'
+            LastUpdated: '0001-01-01T00:00:00Z'
+            PriceInfo:
+              High: 1.09117
+              Low: 1.08853
+              NetChange: 0.00048
+              PercentChange: 0.04
+            PriceInfoDetails:
+              AskSize: 1000000
+              BidSize: 1000000
+              LastClose: 1.08932
+              LastTraded: 0
+              LastTradedSize: 0
+              Open: 0
+              Volume: 0
+            Quote:
+              Amount: 100000
+              Ask: 1.74948
+              Bid: 1.74858
+              DelayedByMinutes: 15
+              ErrorCode: None
+              Mid: 1.74903
+              PriceTypeAsk: Indicative
+              PriceTypeBid: Indicative
+            Uic: 22
+          - AssetType: FxSpot
+            DisplayAndFormat:
+              Currency: CAD
+              Decimals: 4
+              Description: British Pound/Canadian Dollar
+              Format: AllowDecimalPips
+              OrderDecimals: 4
+              Symbol: GBPCAD
+            InstrumentPriceDetails:
+              IsMarketOpen: true
+              ShortTradeDisabled: false
+              ValueDate: '2017-05-19'
+            LastUpdated: '0001-01-01T00:00:00Z'
+            Quote:
+              Amount: 100000
+              Ask: 1.76278
+              Bid: 1.76198
+              DelayedByMinutes: 15
+              ErrorCode: None
+              Mid: 1.76238
+              PriceTypeAsk: Indicative
+              PriceTypeBid: Indicative
+            Uic: 23
+        State: Active
+    InfoPriceResponseArrayDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          type: array
+          items:
+            $ref: '#/components/schemas/InfoPriceResponse'
+          example:
+          - AssetType: FxSpot
+            DisplayAndFormat:
+              Currency: AUD
+              Decimals: 4
+              Description: British Pound/Australian Dollar
+              Format: AllowDecimalPips
+              OrderDecimals: 4
+              Symbol: GBPAUD
+            HistoricalChanges:
+              PercentChange1Month: 1.21
+              PercentChange2Months: 2.95
+              PercentChange3Months: 1.85
+              PercentChange6Months: -1.83
+              PercentChangeDaily: 0.22
+              PercentChangeWeekly: 1.67
+            InstrumentPriceDetails:
+              IsMarketOpen: true
+              ShortTradeDisabled: false
+              ValueDate: '2017-05-19'
+            LastUpdated: '0001-01-01T00:00:00Z'
+            PriceInfo:
+              High: 1.09117
+              Low: 1.08853
+              NetChange: 0.00048
+              PercentChange: 0.04
+            PriceInfoDetails:
+              AskSize: 1000000
+              BidSize: 1000000
+              LastClose: 1.08932
+              LastTraded: 0
+              LastTradedSize: 0
+              Open: 0
+              Volume: 0
+            Quote:
+              Amount: 100000
+              Ask: 1.74948
+              Bid: 1.74858
+              DelayedByMinutes: 15
+              ErrorCode: None
+              Mid: 1.74903
+              PriceTypeAsk: Indicative
+              PriceTypeBid: Indicative
+            Uic: 22
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
           type: integer
           format: int32
           example: 99
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Ask:
-          title: The ask price.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Bid:
-          title: The bid price.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        DelayedByMinutes:
-          title: If set, it defines the number of minutes by which the price is delayed.
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+          example: stringValue
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
           type: integer
           format: int32
           example: 99
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+      additionalProperties: false
+      example:
+        Data:
+        - AssetType: FxSpot
+          DisplayAndFormat:
+            Currency: AUD
+            Decimals: 4
+            Description: British Pound/Australian Dollar
+            Format: AllowDecimalPips
+            OrderDecimals: 4
+            Symbol: GBPAUD
+          HistoricalChanges:
+            PercentChange1Month: 1.21
+            PercentChange2Months: 2.95
+            PercentChange3Months: 1.85
+            PercentChange6Months: -1.83
+            PercentChangeDaily: 0.22
+            PercentChangeWeekly: 1.67
+          InstrumentPriceDetails:
+            IsMarketOpen: true
+            ShortTradeDisabled: false
+            ValueDate: '2017-05-19'
+          LastUpdated: '0001-01-01T00:00:00Z'
+          PriceInfo:
+            High: 1.09117
+            Low: 1.08853
+            NetChange: 0.00048
+            PercentChange: 0.04
+          PriceInfoDetails:
+            AskSize: 1000000
+            BidSize: 1000000
+            LastClose: 1.08932
+            LastTraded: 0
+            LastTradedSize: 0
+            Open: 0
+            Volume: 0
+          Quote:
+            Amount: 100000
+            Ask: 1.74948
+            Bid: 1.74858
+            DelayedByMinutes: 15
+            ErrorCode: None
+            Mid: 1.74903
+            PriceTypeAsk: Indicative
+            PriceTypeBid: Indicative
+          Uic: 22
+        ReferenceId: IP89383
+        Timestamp: '2022-10-30T06:43:04.4607500+00:00'
+    InfoPriceResponse:
+      title: Public contract providing the latest info price information upon a request.
+      required:
+      - Uic
+      type: object
+      properties:
+        AssetType:
+          title: Asset Type of the instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Commissions:
+          title: The commissions
+          allOf:
+          - $ref: '#/components/schemas/Commissions'
+        DisplayAndFormat:
+          title: Information about the instrument of the net position and how to display it.
+          allOf:
+          - $ref: '#/components/schemas/InstrumentDisplayAndFormat'
         ErrorCode:
-          title: Gets or sets the error code.
+          title: Error code, only there if instrument doesn't exist
           allOf:
-          - $ref: '#/components/schemas/ErrorCode'
-        MarketState:
-          title: The source for the price information
+          - $ref: '#/components/schemas/TradingErrorCode'
+        ErrorMessage:
+          title: Error message, only there if instrument doesn't exist
+          type: string
+          example: stringValue
+        HistoricalChanges:
+          title: The historical price changes
           allOf:
-          - $ref: '#/components/schemas/MarketState'
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Mid:
-          title: The mid price.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+          - $ref: '#/components/schemas/HistoricalChanges'
+        InstrumentPriceDetails:
+          title: Instrument Specific Price Details. Contents vary by AssetType
+          allOf:
+          - $ref: '#/components/schemas/InstrumentPriceDetails'
+        LastUpdated:
+          title: Time of last price update.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        MarketDepth:
+          title: The market depth
+          allOf:
+          - $ref: '#/components/schemas/MarketDepth'
+        PriceInfo:
+          title: Brief price information.
+          allOf:
+          - $ref: '#/components/schemas/PriceInfo'
+        PriceInfoDetails:
+          title: Detailed price information
+          allOf:
+          - $ref: '#/components/schemas/PriceInfoDetails'
         PriceSource:
           title: The source for the price information
           type: string
           example: stringValue
-        PriceTypeAsk:
-          title: The price type for ask.
+        Quote:
+          title: The quote data.
           allOf:
-          - $ref: '#/components/schemas/PriceQuality'
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PriceTypeBid:
-          title: The price type for bid.
-          allOf:
-          - $ref: '#/components/schemas/PriceQuality'
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        ReferencePrice:
-          title: Suggested price based on best available price information. Typically used as suggested price when exchange is closed.
+          - $ref: '#/components/schemas/Quote'
+        Uic:
+          title: Uic of instrument
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        AssetType: FxSpot
+        DisplayAndFormat:
+          Currency: AUD
+          Decimals: 4
+          Description: British Pound/Australian Dollar
+          Format: AllowDecimalPips
+          OrderDecimals: 4
+          Symbol: GBPAUD
+        HistoricalChanges:
+          PercentChange1Month: 1.21
+          PercentChange2Months: 2.95
+          PercentChange3Months: 1.85
+          PercentChange6Months: -1.83
+          PercentChangeDaily: 0.22
+          PercentChangeWeekly: 1.67
+        InstrumentPriceDetails:
+          IsMarketOpen: true
+          ShortTradeDisabled: false
+          ValueDate: '2017-05-19'
+        LastUpdated: '0001-01-01T00:00:00.0000000+00:00'
+        PriceInfo:
+          High: 1.09117
+          Low: 1.08853
+          NetChange: 0.00048
+          PercentChange: 0.04
+        PriceInfoDetails:
+          AskSize: 1000000
+          BidSize: 1000000
+          LastClose: 1.08932
+          LastTraded: 0
+          LastTradedSize: 0
+          Open: 0
+          Volume: 0
+        Quote:
+          Amount: 100000
+          Ask: 1.74948
+          Bid: 1.74858
+          DelayedByMinutes: 15
+          ErrorCode: None
+          Mid: 1.74903
+          PriceTypeAsk: Indicative
+          PriceTypeBid: Indicative
+        Uic: 22
+    OrderAmountType:
+      title: Indicates if the order Amount is specified as an absolute amount of lots/shares/contracts or as a currency value.
+      enum:
+      - CashAmount
+      - Quantity
+      type: string
+      example: Quantity
+      x-enum-descriptions:
+        Quantity: Default. Order Amount is specified as an amount of lots/shares/contracts.
+        CashAmount: Order amount is specified as a monetary value.
+    InstrumentPriceDetails:
+      title: Additional instrument specific price details
+      type: object
+      properties:
+        AccruedInterest:
+          title: 'Accrued Interest. Valid for: Bonds'
+          type: number
+          example: 10
+        AskYield:
+          title: AskYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        BidYield:
+          title: BidYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        CfdBorrowingCost:
+          title: Costs applicable to shorting the CFD.
+          type: number
+          example: 10
+        CfdHardToFinanceRate:
+          title: A rate relevant for certain long cfd positions
+          type: number
+          example: 10
+        CfdPriceAdjustment:
+          title: Is returned as true when the instrument subscribed for is a CFD and the user is on a special mark-up price configuration. If true, the values in EstPriceBuy and EstPriceSell are relevant (but still only provided given a share price)
+          type: boolean
+          example: true
+        Dma:
+          title: Trade is routed to trading venue. Trade on quote not allowed.
+          type: boolean
+          example: true
+        EstPriceBuy:
+          title: May be returned when the instrument subscribed for is a CFD on a stock and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceBuy is the markup paied for an eventual buy order. Not relevant for info prices.
           type: number
           example: 10
           x-license-terms:
             description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        EstPriceSell:
+          title: May be returned when the instrument subscribed for is a CFD and the user is set up to trade on the share price, but pay a markup on top. In that case the EstPriceSell is the markup paied for an eventual sell order. Not relevant for info prices.
+          type: number
+          example: 10
+          x-license-terms:
+            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
+        ExpiryDate:
+          title: 'Expiry date for contract. Valid for: CFD Futures, FxOptions'
+          type: string
+          format: date
+          x-type-name: Date
+        ForwardDateFarLeg:
+          title: The far leg value date. Applicable for FxSwap
+          type: string
+          format: date
+          x-type-name: Date
+        ForwardDateNearLeg:
+          title: The near leg value date. Applicable for FxSwap
+          type: string
+          format: date
+          x-type-name: Date
+        IndexRatio:
+          title: IndexRatio, Applicable for  inflation linked bond
+          type: number
+          example: 10
+        IsMarketOpen:
+          title: Gets or sets a value indicating whether the market on which the instrument is traded is currently open.
+          type: boolean
+          example: true
+        LowerBarrier:
+          title: 'Lower Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
+          type: number
+          example: 10
+        MidForwardPrice:
+          title: The mid forward price.
+          type: number
+          example: 10
+        MidSpotPrice:
+          title: 'The post mid price. Valid for: Fx Options.'
+          type: number
+          example: 10
+        MidYield:
+          title: MidYield are only valid for the bond asset type.
+          type: number
+          example: 10
+        NoticeDate:
+          title: Futures only - The date on which the owner may be required to take physical delivery of the instrument commodity.
+          type: string
+          format: date
+          x-type-name: Date
+        OpenInterest:
+          title: The number of currently open contracts (available for contract options and futures)
+          type: number
+          example: 10
+        PaidCfdInterest:
+          title: A rate representing the interest to be paid when holding a CFD short position overnight.
+          type: number
+          example: 10
+        PaidSrdInterest:
+          title: A rate representing the interest to be paid when holding a SRD short position overnight.
+          type: number
+          example: 10
+        ReceivedCfdInterest:
+          title: A rate representing the interest received when with holding a CFD long position overnight.
+          type: number
+          example: 10
+        ReceivedSrdInterest:
+          title: A rate representing the interest received when with holding a SRD long position overnight.
+          type: number
+          example: 10
+        ShortTradeDisabled:
+          title: Set to true if short trading is disabled for this instrument.
+          type: boolean
+          example: true
+        SpotAsk:
+          title: 'The spot ask price Valid for: FX Forwards.'
+          type: number
+          example: 10
+        SpotBid:
+          title: 'The post bid price. Valid for: Fx Forwards.'
+          type: number
+          example: 10
+        SpotDate:
+          title: The Spot Date. Valid for Fx Forwards.
+          type: string
+          format: date
+          x-type-name: Date
+        SrdLastTradeDate:
+          title: Liquidation/Last Trade Date of the SRD
+          type: string
+          example: stringValue
+        SrdSettlementDate:
+          title: Settlement Date of the SRD
+          type: string
+          example: stringValue
+        StrikePrice:
+          title: Option Strike Price.
+          type: number
+          example: 10
+        SwapAsk:
+          title: 'Swap rate for ask, Valid for: FxForwards and FxSwap'
+          type: number
+          example: 10
+        SwapBid:
+          title: 'Swap rate for bid, Valid for: FxForwards and FxSwap'
+          type: number
+          example: 10
+        UpperBarrier:
+          title: 'Upper Barrier. Valid for: FX One Touch, No TouchOptions and certian derivatives such as Turbos.'
+          type: number
+          example: 10
+        ValueDate:
+          title: Actual ValueDate (could be different from what was specified in request due to holidays etc.).
+          type: string
+          format: date
+          x-type-name: Date
       additionalProperties: false
       example:
-        Amount: 100000
-        Ask: 1.0899
-        Bid: 1.0897
-        DelayedByMinutes: 15
-        ErrorCode: None
-        Mid: 1.0898
-        PriceTypeAsk: Indicative
-        PriceTypeBid: Indicative
+        ExpiryDate: '2017-06-01'
+        IsMarketOpen: true
+        LowerBarrier: -2
+        MidForwardPrice: 1.71992423552514
+        ShortTradeDisabled: false
+        SpotAsk: 1.71782
+        SpotBid: 1.71692
+        SpotDate: '2017-06-03'
+        StrikePrice: 1.7175
+        UpperBarrier: 4
+        ValueDate: '2017-06-05'
     InstrumentDisplayAndFormat:
       title: Public data contract containing information about the instrument of a position, which is useful for display and formatting.
       type: object
@@ -2693,194 +2823,64 @@ components:
         Description: Euro/US Dollar
         Format: AllowDecimalPips
         Symbol: EURUSD
-    PriceQuality:
-      title: "This enumeration describes the reliability of the price. This is for spot trading on FX Options where a price must be\n            tradable in order for a spot trade to be accepted.Price access is controlled by\n            price feed subscriptions and lack of permission may lead to delayed (Indicative) or even complete absense of prices (NoAccess)"
+    ErrorCode:
+      title: Errorcode used in RFQ.
       enum:
-      - Indicative
-      - NoAccess
-      - NoMarket
+      - DealerCancelsQuote
+      - DealerCannotQuote
+      - DealerCannotTrade
+      - DealerDisconnected
+      - DealerIsBusy
+      - DealerIsUnavailable
+      - DealerRejectsQuoteRequest
       - None
-      - OldIndicative
-      - Pending
-      - Tradable
+      - QuoteHasTimedOut
+      - TooSmallTrade
+      - WarningAmountLargeOrderSize
+      - WarningAmountTooSmall
       type: string
       example: None
       x-enum-descriptions:
-        None: Price orgin is unknown.
-        Tradable: "Directly tradable price. If this price was received from the /Prices endpoint, as opposed to the /InfoPrices endpoint, the caller use it as the basis for\n            making a trade, by posting to the /Positions endpoint (\"TradeOnQuote\")."
-        Indicative: This is  valid price, but you cannot directly create a position on that price (normally shown as a yellow price).
-        OldIndicative: This is  valid price, but the price is "old", so you the market may have moved significantly from the price.
-        NoMarket: There is currently no access to the market on which the instrument is traded.
-        NoAccess: User does not have permission to the price feed. While FX prices are normally free, access to other price feeds depends on application type, the partner's default price feeds and feed subscriptions held by the user
-        Pending: A price is currently not available, but it will be shortly
-    PriceInfo:
-      title: Brief information about the price.
-      type: object
-      properties:
-        High:
-          title: The high.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        Low:
-          title: The low.
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        NetChange:
-          title: The net change in price (Mid price – LastClose price)
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-        PercentChange:
-          title: "The percent change in price.\n            If LastClose greater than 0 , value = NetChange/LastClose * 100\n            If NetChange less than 0 , value = -100\n            If NetChange equal to 0 , value = 0\n            If NetChange greater than 100 , value = +100"
-          type: number
-          example: 10
-          x-license-terms:
-            description: Price values are depending on a subscription to a feed. This can mean no data, delayed data or real time data dependent on the callers subscription setup.
-      additionalProperties: false
-      example:
-        High: 1.09117
-        Low: 1.08853
-        NetChange: 0.00048
-        PercentChange: 0.04
-    PriceDisplayFormatType:
-      title: The format modifiers in which e.g. a price must be displayed and possibly edited.
-      enum:
-      - AllowDecimalPips
-      - Fractions
-      - ModernFractions
-      - Normal
-      - Percentage
-      type: string
-      example: ModernFractions
-      x-enum-descriptions:
-        Normal: No special display format for this price.
-        Fractions: Decimals are denoted in as a fractions. Common for commodity futures. PriceDecimals indicated the nominator.
-        ModernFractions: Special US Bonds futures fractional format (1/32s or 1/128s without nominator). If PriceDecimals = -5 then the nominator is 32, else 128.
-        Percentage: Display as percentage, e.g. 12.34%.
-        AllowDecimalPips: "Display the last digit as a smaller than the rest of the numbers. Note that this digit is not included in the number of decimals, effectively\n            increasing the number of decimals by one. E.g. 12.345 when Decimals is 2 and DisplayFormat is AllowDecimalPips."
-    DisplayHintType:
-      title: Display Hint Type.
-      enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
-      type: string
-      example: Continuous
-      x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
-    InfoPriceResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InfoPriceResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AssetType: FxSpot
-          DisplayAndFormat:
-            Currency: AUD
-            Decimals: 4
-            Description: British Pound/Australian Dollar
-            Format: AllowDecimalPips
-            OrderDecimals: 4
-            Symbol: GBPAUD
-          HistoricalChanges:
-            PercentChange1Month: 1.21
-            PercentChange2Months: 2.95
-            PercentChange3Months: 1.85
-            PercentChange6Months: -1.83
-            PercentChangeDaily: 0.22
-            PercentChangeWeekly: 1.67
-          InstrumentPriceDetails:
-            IsMarketOpen: true
-            ShortTradeDisabled: false
-            ValueDate: '2017-05-19'
-          LastUpdated: '0001-01-01T00:00:00Z'
-          PriceInfo:
-            High: 1.09117
-            Low: 1.08853
-            NetChange: 0.00048
-            PercentChange: 0.04
-          PriceInfoDetails:
-            AskSize: 1000000
-            BidSize: 1000000
-            LastClose: 1.08932
-            LastTraded: 0
-            LastTradedSize: 0
-            Open: 0
-            Volume: 0
-          Quote:
-            Amount: 100000
-            Ask: 1.74948
-            Bid: 1.74858
-            DelayedByMinutes: 15
-            ErrorCode: None
-            Mid: 1.74903
-            PriceTypeAsk: Indicative
-            PriceTypeBid: Indicative
-          Uic: 22
-        - AssetType: FxSpot
-          DisplayAndFormat:
-            Currency: CAD
-            Decimals: 4
-            Description: British Pound/Canadian Dollar
-            Format: AllowDecimalPips
-            OrderDecimals: 4
-            Symbol: GBPCAD
-          InstrumentPriceDetails:
-            IsMarketOpen: true
-            ShortTradeDisabled: false
-            ValueDate: '2017-05-19'
-          LastUpdated: '0001-01-01T00:00:00Z'
-          Quote:
-            Amount: 100000
-            Ask: 1.76278
-            Bid: 1.76198
-            DelayedByMinutes: 15
-            ErrorCode: None
-            Mid: 1.76238
-            PriceTypeAsk: Indicative
-            PriceTypeBid: Indicative
-          Uic: 23
+        None: No error code.
+        DealerCancelsQuote: Dealer cancels quote.
+        DealerCannotQuote: Dealer can not give quote at this time.
+        DealerIsBusy: Dealer is handling other request for client.
+        DealerIsUnavailable: Dealer is not available.
+        DealerCannotTrade: Dealer can not trade at this time.
+        DealerDisconnected: Dealer disconnected.
+        TooSmallTrade: Trade contract size is too small
+        QuoteHasTimedOut: Quote has timed out
+        DealerRejectsQuoteRequest: Dealer rejects quote request.
+        WarningAmountLargeOrderSize: Returned when a price request is for a an amount that is larger than will be automatically accepted. For IOC orders, this means that an order on that amount will always be rejected.
+        WarningAmountTooSmall: Returned when an amount for an FXO is so small that we do not accept request for quotes on it.
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

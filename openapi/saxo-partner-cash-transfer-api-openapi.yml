@@ -362,6 +362,67 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    TransferStatus:
+      enum:
+      - Failed
+      - Pending
+      - Successful
+      type: string
+      example: Failed
+    PartnerCashTransferRequest:
+      title: Transfer details needed for the partner cash transfer
+      required:
+      - FromAccountKey
+      - ToAccountKey
+      - Amount
+      - Currency
+      type: object
+      properties:
+        Amount:
+          title: The value that will be transacted.
+          type: number
+          example: 10
+        Comment:
+          title: Comment to the transaction. The comment will be seen in the EOD files.
+          type: string
+          example: stringValue
+        Currency:
+          title: "Currency in which the cash movement will be held in.\n            \n            This is essentially just an extra check! The currency entered here must be the same as that of the funding account and the clients trading account."
+          type: string
+          example: stringValue
+        ExternalReference:
+          title: Caller may add this to identify the request.
+          type: string
+          example: stringValue
+        FromAccountKey:
+          title: "Account from where the cash is moved from. For funding transactions, this field will hold the AccountKey of the funding account. For withdrawal transactions this field will hold the AccountKey of the clients trading account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        FundingCheck:
+          title: "Specify this to specify if funding rules be checked and enforced.\n            \n            Default is \"Enforce\".\n            \n            Enforce: All margin and funding checks will be performed and enforced.The transaction will fail if margin and funding checks are not passed.\n            \n            Ignore: No margin or funding checks are performed.The operation will move the specified monies from the client account and you can ultimately place the clients accounts into negative.\n            \n            You can only specify FundingCheck:Ignore for a cash withdrawal from a clients trading account back to the WLC's funding account.\n            \n            If you specify FundingCheck:Ignore for a funding from the WLC's funding account to the clients trading account, the call will fail."
+          allOf:
+          - $ref: '#/components/schemas/FundingCheck'
+        ToAccountKey:
+          title: "Account where the cash is moved to. For funding transactions, this field will hold the AccountKey of the clients trading account. For withdrawal transactions this field will hold the AccountKey of the WLCs funding account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ValueDate:
+          title: Value Date of settlement of cash transfer. Must be within the range [-90;90] days of current date.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+      additionalProperties: false
+      example:
+        Amount: 10000
+        Comment: Transferring from funding account 33000/FEUR
+        Currency: EUR
+        ExternalReference: '789456'
+        FromAccountKey: -gh-xomNFSNUYdRL0KrPpg==
+        FundingCheck: Enforce
+        ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
+        ValueDate: '2022-10-30T06:28:04.7940360+00:00'
     TransferResultListResult:
       type: object
       properties:
@@ -395,27 +456,16 @@ components:
           TransferRequestedOn: '2022-10-30T06:28:04.817054Z'
           TransferStatus: Successful
           ValueDate: '0001-01-01T00:00:00Z'
-    PartnerCashTransferResponse:
-      title: Result of partner's initiated cash transfer.
-      type: object
-      properties:
-        FromAccountPositionId:
-          title: The id of the cash position created on the "from" account.
-          type: string
-          example: stringValue
-        ToAccountPositionId:
-          title: The id of the cash position created on the "to" account.
-          type: string
-          example: stringValue
-        TransactionId:
-          title: Id of the transaction done.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        FromAccountPositionId: '1267'
-        ToAccountPositionId: '1268'
-        TransactionId: '1269'
+    FundingCheck:
+      title: Specifies if funding rules should be checked or not.
+      enum:
+      - Enforce
+      - Ignore
+      type: string
+      example: Enforce
+      x-enum-descriptions:
+        Enforce: Enforce funding checks
+        Ignore: Ignore funding checks
     TransferResult:
       type: object
       properties:
@@ -490,90 +540,40 @@ components:
         TransferRequestedOn: '2022-10-30T06:28:04.8160530+00:00'
         TransferStatus: Successful
         ValueDate: '0001-01-01T00:00:00.0000000+00:00'
-    TransferStatus:
-      enum:
-      - Failed
-      - Pending
-      - Successful
-      type: string
-      example: Failed
-    PartnerCashTransferRequest:
-      title: Transfer details needed for the partner cash transfer
-      required:
-      - FromAccountKey
-      - ToAccountKey
-      - Amount
-      - Currency
-      type: object
-      properties:
-        Amount:
-          title: The value that will be transacted.
-          type: number
-          example: 10
-        Comment:
-          title: Comment to the transaction. The comment will be seen in the EOD files.
-          type: string
-          example: stringValue
-        Currency:
-          title: "Currency in which the cash movement will be held in.\n            \n            This is essentially just an extra check! The currency entered here must be the same as that of the funding account and the clients trading account."
-          type: string
-          example: stringValue
-        ExternalReference:
-          title: Caller may add this to identify the request.
-          type: string
-          example: stringValue
-        FromAccountKey:
-          title: "Account from where the cash is moved from. For funding transactions, this field will hold the AccountKey of the funding account. For withdrawal transactions this field will hold the AccountKey of the clients trading account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        FundingCheck:
-          title: "Specify this to specify if funding rules be checked and enforced.\n            \n            Default is \"Enforce\".\n            \n            Enforce: All margin and funding checks will be performed and enforced.The transaction will fail if margin and funding checks are not passed.\n            \n            Ignore: No margin or funding checks are performed.The operation will move the specified monies from the client account and you can ultimately place the clients accounts into negative.\n            \n            You can only specify FundingCheck:Ignore for a cash withdrawal from a clients trading account back to the WLC's funding account.\n            \n            If you specify FundingCheck:Ignore for a funding from the WLC's funding account to the clients trading account, the call will fail."
-          allOf:
-          - $ref: '#/components/schemas/FundingCheck'
-        ToAccountKey:
-          title: "Account where the cash is moved to. For funding transactions, this field will hold the AccountKey of the clients trading account. For withdrawal transactions this field will hold the AccountKey of the WLCs funding account.\n            \n            Remember that the currency of the funding account and the clients trading account must be the same."
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ValueDate:
-          title: Value Date of settlement of cash transfer. Must be within the range [-90;90] days of current date.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-      additionalProperties: false
-      example:
-        Amount: 10000
-        Comment: Transferring from funding account 33000/FEUR
-        Currency: EUR
-        ExternalReference: '789456'
-        FromAccountKey: -gh-xomNFSNUYdRL0KrPpg==
-        FundingCheck: Enforce
-        ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
-        ValueDate: '2022-10-30T06:28:04.7940360+00:00'
-    FundingCheck:
-      title: Specifies if funding rules should be checked or not.
-      enum:
-      - Enforce
-      - Ignore
-      type: string
-      example: Enforce
-      x-enum-descriptions:
-        Enforce: Enforce funding checks
-        Ignore: Ignore funding checks
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    PartnerCashTransferResponse:
+      title: Result of partner's initiated cash transfer.
+      type: object
+      properties:
+        FromAccountPositionId:
+          title: The id of the cash position created on the "from" account.
+          type: string
+          example: stringValue
+        ToAccountPositionId:
+          title: The id of the cash position created on the "to" account.
+          type: string
+          example: stringValue
+        TransactionId:
+          title: Id of the transaction done.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        FromAccountPositionId: '1267'
+        ToAccountPositionId: '1268'
+        TransactionId: '1269'
   responses:
     ServiceUnavailable:
       description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -738,34 +738,6 @@ paths:
     servers:
     - url: https://gateway.saxobank.com/sim/openapi
 components:
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
     Models.CreateAccount:
       title: Create Account
@@ -809,323 +781,6 @@ components:
         type: array
         items:
           type: string
-    AccountResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/port/....../?$top=1&$skip=1
-        Data:
-        - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountId: 192134INET
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountType: Normal
-          Active: true
-          CanUseCashPositionsAsMarginCollateral: false
-          CfdBorrowingCostsActive: false
-          ClientId: '654321'
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-          CreationDate: '2017-01-01T13:00:00Z'
-          Currency: EUR
-          CurrencyDecimals: 2
-          DirectMarketAccess: false
-          FractionalOrderEnabled: false
-          IndividualMargining: false
-          IsCurrencyConversionAtSettlementTime: false
-          IsMarginTradingAllowed: true
-          IsShareable: true
-          IsTrialAccount: false
-          LegalAssetTypes:
-          - FxSpot
-          - Stock
-          - ContractFutures
-          ManagementType: Client
-          MarginCalculationMethod: Default
-          MarginLendingEnabled: None
-          PortfolioBasedMarginEnabled: false
-          Sharing:
-          - TradingFloor
-          SupportsAccountValueProtectionLimit: false
-          UseCashPositionsAsMarginCollateral: false
-    AccountType:
-      title: Describes the type of account.
-      enum:
-      - AutoTradingFollower
-      - AutoTradingLeader
-      - BlockTrading
-      - Collateral
-      - Commission
-      - Funding
-      - Interest
-      - MarginLending
-      - Normal
-      - Omnibus
-      - Other
-      - Pension
-      - Settlement
-      - SettlementTrading
-      - Tax
-      - TaxFavoredAccount
-      type: string
-      example: BlockTrading
-      x-enum-descriptions:
-        Normal: Default. Used for normal client accounts.
-        BlockTrading: Account used for allocating large block orders.
-        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
-        Collateral: Account used to hold collateral assets. Not used for trading.
-        Funding: Account used to transfer funds between client accounts. Not used for trading.
-        Commission: Booking account for comissions only. Not used for trading.
-        Interest: Booking account for interest only. Not used for trading.
-        Omnibus: Partner account used to execute and clear client trades.
-        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
-        Tax: Retention account for accumulating or withholding taxes. Not used for trading.
-        AutoTradingLeader: Account Type for AutoTrading leader accounts.
-        AutoTradingFollower: Account Type for AutoTrading follower accounts.
-        TaxFavoredAccount: Tax favored account.
-        MarginLending: Margin Lending.
-        Pension: Pension account.
-        Other: Account type not mapped.
-    AccountSubType:
-      title: Describes the sub type of the account.
-      enum:
-      - EquitySaving
-      - None
-      - NorwayASK
-      - PEA
-      - PEA_PME
-      - SwedenISK
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Default , used for None.
-        EquitySaving: Equity Saving Account.
-        PEA: PEA.
-        PEA_PME: PEA-PME.
-        NorwayASK: Norway ASK ( Tax saving Account).
-        SwedenISK: Sweden ISK ( Tax Saving Account).
-    AccountUpdateRequest:
-      title: A parameter wrapper for Account update operations.
-      type: object
-      properties:
-        AccountValueProtectionLimit:
-          title: "If set, this value shields the account value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
-          type: number
-          example: 10
-        BenchmarkInstrument:
-          title: Sets the instrument to be used as comparison then evaluating account performance.
-          allOf:
-          - $ref: '#/components/schemas/AccountBenchmarkInstrument'
-        DisplayName:
-          title: The nickname the client would like to give the account.
-          type: string
-          example: stringValue
-        UseCashPositionsAsMarginCollateral:
-          title: Enable/disable the use of cash positions for margin trading collateral.
-          type: boolean
-          example: true
-      additionalProperties: false
-      example:
-        DisplayName: Trading Account
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    AccountsSubscriptionRequest:
-      title: Public request contract for setting up a subscription on accounts for a client.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/AccountsRequest'
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        Arguments:
-          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        ContextId: '20221030064905067'
-        Format: application/json
-        ReferenceId: A21312
-        RefreshRate: 500
-        Tag: MyAccountRelatedSubscriptions
-    PortfolioMarginMethod:
-      title: Specifies the margin calculaion method for the given entity.
-      enum:
-      - Default
-      - JanusMarginReplication
-      - SpanForFutures
-      - SpanForFuturesAndOptions
-      type: string
-      example: SpanForFutures
-      x-enum-descriptions:
-        Default: Uses Saxo exposure based margin.
-        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
-        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
-        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
     AccountBenchmarkInstrument:
       title: Sets the instrument to be used as comparison then evaluating account performance.
       required:
@@ -1145,91 +800,6 @@ components:
       example:
         BenchmarkInstrumentAssetType: FxKnockOutOption
         BenchmarkInstrumentUic: 99
-    AccountsRequest:
-      title: "Represents a request for one or more accounts.\n            At least one of the following must be specified."
-      type: object
-      properties:
-        AccountGroupKey:
-          title: The key of the account group to which the accounts belong.
-          minLength: 1
-          type: string
-          x-type-name: AccountGroupKey
-        AccountKey:
-          title: The key of the account to monitor.
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-        ClientKey:
-          title: 'Unique key identifying the client that owns the accounts. Default: Logged-in user''s client.'
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-      additionalProperties: false
-      example:
-        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-    AccountResponseArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/AccountResponse'
-      example:
-      - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountId: 192134INET
-        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
-        AccountType: Normal
-        Active: true
-        CanUseCashPositionsAsMarginCollateral: false
-        CfdBorrowingCostsActive: false
-        ClientId: '654321'
-        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
-        CreationDate: '2017-01-01T13:00:00Z'
-        Currency: EUR
-        CurrencyDecimals: 2
-        DirectMarketAccess: false
-        FractionalOrderEnabled: false
-        IndividualMargining: false
-        IsCurrencyConversionAtSettlementTime: false
-        IsMarginTradingAllowed: true
-        IsShareable: true
-        IsTrialAccount: false
-        LegalAssetTypes:
-        - FxSpot
-        - Stock
-        - ContractFutures
-        ManagementType: Client
-        MarginCalculationMethod: Default
-        MarginLendingEnabled: None
-        PortfolioBasedMarginEnabled: false
-        Sharing:
-        - TradingFloor
-        SupportsAccountValueProtectionLimit: false
-        UseCashPositionsAsMarginCollateral: false
-    MarginLendingEnabled:
-      title: Margin Lending Enabled.
-      enum:
-      - false
-      - None
-      - true
-      type: string
-      example: true
-      x-enum-descriptions:
-        None: Default. Margin Lending is not applicable.
-        true: Margin Lending is enabled.
-        false: Margin Lending is disabled.
-    AccountResetRequest:
-      title: A parameter wrapper for Account Reset operations. queries
-      required:
-      - NewBalance
-      type: object
-      properties:
-        NewBalance:
-          title: The new balance. 0 is minimum and 10.000.000 is maximum.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        NewBalance: 50000000
     AccountResponse:
       title: Data contract for an account.
       required:
@@ -1422,6 +992,99 @@ components:
         - TradingFloor
         SupportsAccountValueProtectionLimit: false
         UseCashPositionsAsMarginCollateral: false
+    AccountSubType:
+      title: Describes the sub type of the account.
+      enum:
+      - EquitySaving
+      - None
+      - NorwayASK
+      - PEA
+      - PEA_PME
+      - SwedenISK
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Default , used for None.
+        EquitySaving: Equity Saving Account.
+        PEA: PEA.
+        PEA_PME: PEA-PME.
+        NorwayASK: Norway ASK ( Tax saving Account).
+        SwedenISK: Sweden ISK ( Tax Saving Account).
+    AccountType:
+      title: Describes the type of account.
+      enum:
+      - AutoTradingFollower
+      - AutoTradingLeader
+      - BlockTrading
+      - Collateral
+      - Commission
+      - Funding
+      - Interest
+      - MarginLending
+      - Normal
+      - Omnibus
+      - Other
+      - Pension
+      - Settlement
+      - SettlementTrading
+      - Tax
+      - TaxFavoredAccount
+      type: string
+      example: BlockTrading
+      x-enum-descriptions:
+        Normal: Default. Used for normal client accounts.
+        BlockTrading: Account used for allocating large block orders.
+        SettlementTrading: For FX Settlement trading clients, this account type is used for the main trading account.
+        Collateral: Account used to hold collateral assets. Not used for trading.
+        Funding: Account used to transfer funds between client accounts. Not used for trading.
+        Commission: Booking account for comissions only. Not used for trading.
+        Interest: Booking account for interest only. Not used for trading.
+        Omnibus: Partner account used to execute and clear client trades.
+        Settlement: Used in connection with SettlementTrading accounts. SettlementTrading accounts is used on the actual trading account. Settlement accounts are used on the sub accounts. Not used for trading.
+        Tax: Retention account for accumulating or withholding taxes. Not used for trading.
+        AutoTradingLeader: Account Type for AutoTrading leader accounts.
+        AutoTradingFollower: Account Type for AutoTrading follower accounts.
+        TaxFavoredAccount: Tax favored account.
+        MarginLending: Margin Lending.
+        Pension: Pension account.
+        Other: Account type not mapped.
+    AccountResetRequest:
+      title: A parameter wrapper for Account Reset operations. queries
+      required:
+      - NewBalance
+      type: object
+      properties:
+        NewBalance:
+          title: The new balance. 0 is minimum and 10.000.000 is maximum.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        NewBalance: 50000000
+    AccountsRequest:
+      title: "Represents a request for one or more accounts.\n            At least one of the following must be specified."
+      type: object
+      properties:
+        AccountGroupKey:
+          title: The key of the account group to which the accounts belong.
+          minLength: 1
+          type: string
+          x-type-name: AccountGroupKey
+        AccountKey:
+          title: The key of the account to monitor.
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+        ClientKey:
+          title: 'Unique key identifying the client that owns the accounts. Default: Logged-in user''s client.'
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+      additionalProperties: false
+      example:
+        AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
     AccountsSubscriptionResponse:
       title: Public response contract returned after setting up a subscription on accounts for a client.
       type: object
@@ -1505,6 +1168,124 @@ components:
             UseCashPositionsAsMarginCollateral: false
         State: Active
         Tag: MyAccountRelatedSubscriptions
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
     ManagementType:
       title: Account Management Type
       enum:
@@ -1527,6 +1308,225 @@ components:
         SelfPeriodicInvestment: Client can schedule periodic investments on one or multiple Instruments
         Discretionary: The account is managed by partner. Client (beneficial owner of the account) cannot trade on this account but authorized dealers can. Client will not receive any trade notifications.
         Advisory: The account is managed by partner. Client (beneficial owner of the account) cannot trade on this account but authorized dealers can. However, client will get trade notifications.
+    AccountResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/port/....../?$top=1&$skip=1
+        Data:
+        - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountId: 192134INET
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountType: Normal
+          Active: true
+          CanUseCashPositionsAsMarginCollateral: false
+          CfdBorrowingCostsActive: false
+          ClientId: '654321'
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+          CreationDate: '2017-01-01T13:00:00Z'
+          Currency: EUR
+          CurrencyDecimals: 2
+          DirectMarketAccess: false
+          FractionalOrderEnabled: false
+          IndividualMargining: false
+          IsCurrencyConversionAtSettlementTime: false
+          IsMarginTradingAllowed: true
+          IsShareable: true
+          IsTrialAccount: false
+          LegalAssetTypes:
+          - FxSpot
+          - Stock
+          - ContractFutures
+          ManagementType: Client
+          MarginCalculationMethod: Default
+          MarginLendingEnabled: None
+          PortfolioBasedMarginEnabled: false
+          Sharing:
+          - TradingFloor
+          SupportsAccountValueProtectionLimit: false
+          UseCashPositionsAsMarginCollateral: false
+    MarginLendingEnabled:
+      title: Margin Lending Enabled.
+      enum:
+      - 'No'
+      - None
+      - 'Yes'
+      type: string
+      example: 'Yes'
+      x-enum-descriptions:
+        None: Default. Margin Lending is not applicable.
+        'Yes': Margin Lending is enabled.
+        'No': Margin Lending is disabled.
+    PortfolioMarginMethod:
+      title: Specifies the margin calculaion method for the given entity.
+      enum:
+      - Default
+      - JanusMarginReplication
+      - SpanForFutures
+      - SpanForFuturesAndOptions
+      type: string
+      example: SpanForFutures
+      x-enum-descriptions:
+        Default: Uses Saxo exposure based margin.
+        SpanForFutures: Uses rules-based SPAN methods to calculate margin on futures alone.
+        SpanForFuturesAndOptions: Uses rules-based SPAN methods to calculate margin on futures and options.
+        JanusMarginReplication: Uses rules-based the Janus methodology to calculate margin.
+    AccountResponseArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountResponse'
+      example:
+      - AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountId: 192134INET
+        AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+        AccountType: Normal
+        Active: true
+        CanUseCashPositionsAsMarginCollateral: false
+        CfdBorrowingCostsActive: false
+        ClientId: '654321'
+        ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        CreationDate: '2017-01-01T13:00:00Z'
+        Currency: EUR
+        CurrencyDecimals: 2
+        DirectMarketAccess: false
+        FractionalOrderEnabled: false
+        IndividualMargining: false
+        IsCurrencyConversionAtSettlementTime: false
+        IsMarginTradingAllowed: true
+        IsShareable: true
+        IsTrialAccount: false
+        LegalAssetTypes:
+        - FxSpot
+        - Stock
+        - ContractFutures
+        ManagementType: Client
+        MarginCalculationMethod: Default
+        MarginLendingEnabled: None
+        PortfolioBasedMarginEnabled: false
+        Sharing:
+        - TradingFloor
+        SupportsAccountValueProtectionLimit: false
+        UseCashPositionsAsMarginCollateral: false
+    AccountsSubscriptionRequest:
+      title: Public request contract for setting up a subscription on accounts for a client.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/AccountsRequest'
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        Arguments:
+          AccountGroupKey: LZTc7DdejXODf-WSl2aCyQ==
+          AccountKey: LZTc7DdejXODf-WSl2aCyQ==
+          ClientKey: 7m4I|vtYLUnEGg77o9uQhw==
+        ContextId: '20221030064905067'
+        Format: application/json
+        ReferenceId: A21312
+        RefreshRate: 500
+        Tag: MyAccountRelatedSubscriptions
+    AccountUpdateRequest:
+      title: A parameter wrapper for Account update operations.
+      type: object
+      properties:
+        AccountValueProtectionLimit:
+          title: "If set, this value shields the account value from going below the given limit by automatically triggering closing of positions should the limit be exceeded.\n            A limit of zero means there is no limit."
+          type: number
+          example: 10
+        BenchmarkInstrument:
+          title: Sets the instrument to be used as comparison then evaluating account performance.
+          allOf:
+          - $ref: '#/components/schemas/AccountBenchmarkInstrument'
+        DisplayName:
+          title: The nickname the client would like to give the account.
+          type: string
+          example: stringValue
+        UseCashPositionsAsMarginCollateral:
+          title: Enable/disable the use of cash positions for margin trading collateral.
+          type: boolean
+          example: true
+      additionalProperties: false
+      example:
+        DisplayName: Trading Account
+  responses:
+    ServiceUnavailable:
+      description: Service Unavailable.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -1480,271 +1480,38 @@ paths:
       summary: Trade leaders V3 get all trade leaders
       x-summary-source: derived
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    ServiceUnavailable:
-      description: Service Unavailable.
   schemas:
-    TradeActivity:
-      title: Defines a data contract for closed trades activity.
-      type: object
-      properties:
-        TradesPerDay:
-          title: The trades per day.
-          type: array
-          items:
-            $ref: '#/components/schemas/TradesPerDayItem'
-      additionalProperties: false
-    TradeLeaderPartnerOptions:
-      title: "Defines options specific for a Saxo Select strategy when configured for a partner hierarchy\n            values in Mits AutoTradingLeaderPartner table"
+    DisplayHintType:
+      title: Display Hint Type.
       enum:
-      - EntryGateTestRequired
-      - FeesAreExclusiveOfVat
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
       - None
-      - PositionsCloseOnDeactivation
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
       type: string
       x-enum-descriptions:
-        None: No special options should be used
-        PositionsCloseOnDeactivation: "When Follower stops should all positions be closed?\n            If set removes possibility for clients to keep positions"
-        FeesAreExclusiveOfVat: Fees i.e. service- and performancefee are exclusive of VAT
-        EntryGateTestRequired: if entry check is applicable for Trade Leader
-      x-type-warning: FlaggableEnum
-    SuitabilityLevel:
-      title: SuitabilityLevel - used by AutoTrading
-      enum:
-      - High
-      - Low
-      - Medium
-      - Unknown
-      - VeryHigh
-      type: string
-      x-enum-descriptions:
-        Unknown: Not specified
-        VeryHigh: '10: Very high risk / suitability required'
-        High: '20: High risk / suitability required'
-        Medium: '30: Medium risk / suitability required'
-        Low: '40: Low risk / suitability required'
-    StringStringKeyValuePair:
-      type: object
-      properties:
-        Key:
-          type: string
-        Value:
-          type: string
-      additionalProperties: false
-    TimeValuePair:
-      title: Implementation of a time and value pair.
-      type: object
-      properties:
-        Date:
-          title: Date and time of the occurrence.
-          type: string
-          format: date
-          x-type-name: Date
-        Value:
-          title: The value at the given date and time
-          type: number
-      additionalProperties: false
-    TimeWeightedPerformance:
-      title: OpenApi time weighted data contract
-      type: object
-      properties:
-        AccumulatedPerformanceSparklineImageLinks:
-          title: A collection of links to sparkline images for this performance calculatin.
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        AccumulatedTimeWeightedTimeSeries:
-          title: The accumulated time weighted time series.
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeValuePair'
-        MonthlyReturnTimeSeries:
-          title: The monthly return time series.
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeValuePair'
-        PerformanceFraction:
-          title: The accumulated performance fraction that is associated with the time series.
-          type: number
-        PerformanceKeyFigures:
-          title: Key performance figures for the account.
-          allOf:
-          - $ref: '#/components/schemas/PerformanceKeyFigures'
-        YearlyReturnTimeSeries:
-          title: The yearly time weighted return time series.
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeValuePair'
-      additionalProperties: false
-    PerformanceKeyFigures:
-      title: OpenApi time weighted data contract
-      type: object
-      properties:
-        ClosedTradesCount:
-          title: The number of closed trades for the period.
-          type: integer
-          format: int32
-        DrawdownReport:
-          title: The drawdown report for a time weighted time series.
-          allOf:
-          - $ref: '#/components/schemas/DrawdownReport'
-        LosingDaysFraction:
-          title: "The losing days fraction is the fraction of days with negative returns where\n              both realized and unrealized profits are taken into account."
-          type: number
-        MaxDrawDownFraction:
-          title: "The maximum draw down as fraction is the largest drop in the time series as a\n                fraction."
-          type: number
-        ReturnFraction:
-          title: The return fraction.
-          type: number
-        SampledStandardDeviation:
-          title: "The unbiased sampled standard deviation which means that the standard deviation\n                estimator has been corrected by applying the Bessel's correction."
-          type: number
-        SharpeRatio:
-          title: The sharpe ratio.
-          type: number
-        SortinoRatio:
-          title: The sortino ratio.
-          type: number
-        WinningFraction:
-          title: The fraction of closed positions that has been won.
-          type: number
-      additionalProperties: false
-    StandardPeriodType:
-      title: Defines types of standard periods.
-      enum:
-      - AllTime
-      - Month
-      - Quarter
-      - Year
-      type: string
-      x-enum-descriptions:
-        AllTime: "Defines a value for a (from, thru) request that maps to an all time account performance\n             request."
-        Year: "Defines a value a (from, thru) request that maps to the last year account performance\n                request."
-        Quarter: "Defines a value a (from, thru) request that maps to the last quater account performance\n            request."
-        Month: "Defines a value a (from, thru) request that maps to the last month account performance\n                request."
-    TradesPerDayItem:
-      title: Defines a data contract for closed trades count on a single day.
-      type: object
-      properties:
-        Date:
-          title: The date.
-          type: string
-          format: date
-          x-type-name: Date
-        TradeCount:
-          title: The trade count.
-          type: integer
-          format: int32
-      additionalProperties: false
-    BenchMark:
-      title: Class BenchMark.
-      type: object
-      properties:
-        AssetType:
-          title: The type of the asset.
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        Description:
-          title: Description of instrument.
-          type: string
-        DisplayHintType:
-          title: Display hint type of instrument
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        Uic:
-          title: The uic.
-          type: integer
-          format: int32
-      additionalProperties: false
-    Drawdown:
-      title: Drawdown
-      type: object
-      properties:
-        DaysCount:
-          title: Days Count
-          type: integer
-          format: int32
-        DepthInPercent:
-          title: Depth in Percnt
-          type: number
-        FromDate:
-          title: From Date
-          type: string
-          format: date
-          x-type-name: Date
-        RecoveryDaysCount:
-          title: Recovery Days Count
-          type: integer
-          format: int32
-        ThruDate:
-          title: Thru Date
-          type: string
-          format: date
-          x-type-name: Date
-      additionalProperties: false
-    PortfolioAllocationType:
-      title: Defines the type on which Portfolio composition is based
-      enum:
-      - Asset
-      - EtfCategory
-      - Instrument
-      type: string
-      x-enum-descriptions:
-        Asset: Asset Based Allocation Type
-        Instrument: Instrument based Allocation Type
-        EtfCategory: Etf Category based Allocation Type
-    AccountSummary:
-      title: "OpenApi account summary performance metrics. The summary is the performance metrics\n              that is related to closed positions over the entire lifespan of an account."
-      type: object
-      properties:
-        AverageTradeDurationInMinutes:
-          title: Average trade duration in minutes.
-          type: number
-        AverageTradesPerWeek:
-          title: The average trades per week.
-          type: number
-        NumberOfDaysTraded:
-          title: Number of days traded.
-          type: number
-        NumberOfLongTrades:
-          title: The number of long trades.
-          type: number
-        NumberOfShortTrades:
-          title: The number of short trades.
-          type: number
-        TopHoldings:
-          title: A list of top holdings with this account
-          type: array
-          items:
-            type: string
-        TopTradedInstruments:
-          title: "A list of the most traded instrument in an ordered list where the single most\n                traded instruments is located at index 0."
-          type: array
-          items:
-            type: string
-        TotalReturnFraction:
-          title: The total return fraction.
-          type: number
-        TradedInstruments:
-          title: A list of instruments traded with this account.
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetType'
-        TradesTotalCount:
-          title: Total trades.
-          type: number
-        TradesWonCount:
-          title: The total count of winning trades.
-          type: number
-        WinFraction:
-          title: The fraction of trades with positive profit/loss.
-          type: number
-      additionalProperties: false
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
     BalancePerformance:
       title: OpenApi balance performance data contract.
       type: object
@@ -1783,6 +1550,23 @@ components:
           items:
             $ref: '#/components/schemas/TimeValuePair'
       additionalProperties: false
+    StringStringKeyValuePair:
+      type: object
+      properties:
+        Key:
+          type: string
+        Value:
+          type: string
+      additionalProperties: false
+    CalculationBasis:
+      title: Defines the basis for percentage calculation
+      enum:
+      - MarketValue
+      - NumberOfTrades
+      type: string
+      x-enum-descriptions:
+        NumberOfTrades: Number of Trades
+        MarketValue: Market value
     TradesPerAssetType:
       title: "Defines a data contract for trades allocation where the trades are grouped by\n                the asset type of positions."
       type: object
@@ -1797,6 +1581,49 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AllocationItem'
+      additionalProperties: false
+    PositionOnSecurityAndProduct:
+      title: Details of Position on Securuty and Product
+      type: object
+      properties:
+        Description:
+          title: The product description.
+          type: string
+        ProductName:
+          title: The product name.
+          type: string
+        Symbol:
+          title: The symbol value.
+          type: string
+        Value:
+          title: Value
+          type: number
+      additionalProperties: false
+    Drawdown:
+      title: Drawdown
+      type: object
+      properties:
+        DaysCount:
+          title: Days Count
+          type: integer
+          format: int32
+        DepthInPercent:
+          title: Depth in Percnt
+          type: number
+        FromDate:
+          title: From Date
+          type: string
+          format: date
+          x-type-name: Date
+        RecoveryDaysCount:
+          title: Recovery Days Count
+          type: integer
+          format: int32
+        ThruDate:
+          title: Thru Date
+          type: string
+          format: date
+          x-type-name: Date
       additionalProperties: false
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
@@ -1915,15 +1742,51 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    CalculationDataType:
-      title: Defines the type of data on which portfolio composition is calculated
+    StandardPeriodType:
+      title: Defines types of standard periods.
       enum:
-      - ClosedPositions
-      - OpenPositions
+      - AllTime
+      - Month
+      - Quarter
+      - Year
       type: string
       x-enum-descriptions:
-        OpenPositions: Open Positions Data Type
-        ClosedPositions: Closed Positions Data Type
+        AllTime: "Defines a value for a (from, thru) request that maps to an all time account performance\n             request."
+        Year: "Defines a value a (from, thru) request that maps to the last year account performance\n                request."
+        Quarter: "Defines a value a (from, thru) request that maps to the last quater account performance\n            request."
+        Month: "Defines a value a (from, thru) request that maps to the last month account performance\n                request."
+    TradeLeaderContractListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeLeaderContract'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    TradeLeaderPartnerOptions:
+      title: "Defines options specific for a Saxo Select strategy when configured for a partner hierarchy\n            values in Mits AutoTradingLeaderPartner table"
+      enum:
+      - EntryGateTestRequired
+      - FeesAreExclusiveOfVat
+      - None
+      - PositionsCloseOnDeactivation
+      type: string
+      x-enum-descriptions:
+        None: No special options should be used
+        PositionsCloseOnDeactivation: "When Follower stops should all positions be closed?\n            If set removes possibility for clients to keep positions"
+        FeesAreExclusiveOfVat: Fees i.e. service- and performancefee are exclusive of VAT
+        EntryGateTestRequired: if entry check is applicable for Trade Leader
+      x-type-warning: FlaggableEnum
     TradeLeaderContract:
       title: Represents TradeLeader contract.
       type: object
@@ -2030,76 +1893,48 @@ components:
           allOf:
           - $ref: '#/components/schemas/TradeLeaderOptions'
       additionalProperties: false
-    PositionOnSecurityAndProduct:
-      title: Details of Position on Securuty and Product
+    Allocation:
+      title: Provides an overview of how performance is allocated across asset types and instruments.
       type: object
       properties:
-        Description:
-          title: The product description.
-          type: string
-        ProductName:
-          title: The product name.
-          type: string
-        Symbol:
-          title: The symbol value.
-          type: string
-        Value:
-          title: Value
-          type: number
+        TradesPerAssetType:
+          title: The allocation of trades grouped by trade asset type.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerAssetType'
+        TradesPerETFCategoryType:
+          title: 'The allocation trades grouped by ETF category type: Developed Equity, Emerging Equity etc.'
+          allOf:
+          - $ref: '#/components/schemas/TradesPerAssetType'
+        TradesPerInstrument:
+          title: The allocation trades grouped by instrument id.
+          allOf:
+          - $ref: '#/components/schemas/TradesPerInstrument'
       additionalProperties: false
-    RiskLevel:
-      title: Defines risk level.
-      enum:
-      - Aggressive
-      - Alpha
-      - Defensive
-      - Moderate
-      type: string
-      x-enum-descriptions:
-        Alpha: Alpha risk level
-        Defensive: Defensive risk level
-        Moderate: Moderate risk level
-        Aggressive: Aggressive risk level
-    ProductArea:
-      title: Product areas are groupings of asset types (products) areas as needed by Mifid classifications and client suitability evaluations.
-      enum:
-      - Bonds
-      - CFDs
-      - CfdCommodities
-      - ContractOptions
-      - FXForwards
-      - FXOptions
-      - FXSpot
-      - Futures
-      - MutualFunds
-      - Stocks
-      type: string
-      x-enum-descriptions:
-        FXSpot: Forex Spot. The Forex Spot product area includes the asset type FxSpot.
-        FXForwards: Forex Forwards. The FXForwards product area includes the asset type FxForwards.
-        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
-        Futures: Futures. The Futures product area includes the asset types FuturesStrategy and ContractFutures.
-        ContractOptions: Contract Options. The Contract Options product area includes the asset types FuturesOption, StockOption and StockIndexOption.
-        CFDs: CFDs. The CFDs product area includes the asset types CfdOnStock and CfdOnIndex.
-        Stocks: Stocks. The Stocks product area includes the asset type Stock.
-        Bonds: Bonds. The Bonds product area includes the asset type Bond.
-        MutualFunds: Mutual Funds. The Mutual Funds product area include the asset type MutualFund.
-        CfdCommodities: Cfds on Commodities. The Cfds on Commodities include the asset types CfdOnFutures and CfdOnIndex.
+    FileResult:
+      title: "Creates a IHttpActionResult from image file\n            See http://stackoverflow.com/questions/23768596/why-is-my-file-not-being-returned-by-a-get-request-from-my-web-api-function/23768883#23768883"
+      type: object
+      additionalProperties: false
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
-    Public.StandardPeriodType:
+    SuitabilityLevel:
+      title: SuitabilityLevel - used by AutoTrading
       enum:
-      - AllTime
-      - Invalid
-      - Month
-      - None
-      - Quarter
-      - Year
+      - High
+      - Low
+      - Medium
+      - Unknown
+      - VeryHigh
       type: string
+      x-enum-descriptions:
+        Unknown: Not specified
+        VeryHigh: '10: Very high risk / suitability required'
+        High: '20: High risk / suitability required'
+        Medium: '30: Medium risk / suitability required'
+        Low: '40: Low risk / suitability required'
     ETFCategoryType:
       title: ETF Category Type
       enum:
@@ -2115,33 +1950,6 @@ components:
         DevelopedEquity: Developed Equity
         EmergingEquity: Emerging Equity
         NonTraditional: Non-Traditional
-    FileResult:
-      title: "Creates a IHttpActionResult from image file\n            See http://stackoverflow.com/questions/23768596/why-is-my-file-not-being-returned-by-a-get-request-from-my-web-api-function/23768883#23768883"
-      type: object
-      additionalProperties: false
-    Link:
-      title: Represents a link to some web resource.
-      type: object
-      properties:
-        Relation:
-          title: The type of link. This adds semantic meaning to the link.
-          type: string
-        Type:
-          title: Corresponds to media type for HTTP.
-          type: string
-        Uri:
-          title: The URI to the resource.
-          type: string
-      additionalProperties: false
-    CalculationBasis:
-      title: Defines the basis for percentage calculation
-      enum:
-      - MarketValue
-      - NumberOfTrades
-      type: string
-      x-enum-descriptions:
-        NumberOfTrades: Number of Trades
-        MarketValue: Market value
     EsgType:
       title: ESG Type
       enum:
@@ -2159,22 +1967,37 @@ components:
         Governance: Only specific esg governance
         Any: any esg type
         All: should be all
-    Allocation:
-      title: Provides an overview of how performance is allocated across asset types and instruments.
+    TimeWeightedPerformance:
+      title: OpenApi time weighted data contract
       type: object
       properties:
-        TradesPerAssetType:
-          title: The allocation of trades grouped by trade asset type.
+        AccumulatedPerformanceSparklineImageLinks:
+          title: A collection of links to sparkline images for this performance calculatin.
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        AccumulatedTimeWeightedTimeSeries:
+          title: The accumulated time weighted time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        MonthlyReturnTimeSeries:
+          title: The monthly return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
+        PerformanceFraction:
+          title: The accumulated performance fraction that is associated with the time series.
+          type: number
+        PerformanceKeyFigures:
+          title: Key performance figures for the account.
           allOf:
-          - $ref: '#/components/schemas/TradesPerAssetType'
-        TradesPerETFCategoryType:
-          title: 'The allocation trades grouped by ETF category type: Developed Equity, Emerging Equity etc.'
-          allOf:
-          - $ref: '#/components/schemas/TradesPerAssetType'
-        TradesPerInstrument:
-          title: The allocation trades grouped by instrument id.
-          allOf:
-          - $ref: '#/components/schemas/TradesPerInstrument'
+          - $ref: '#/components/schemas/PerformanceKeyFigures'
+        YearlyReturnTimeSeries:
+          title: The yearly time weighted return time series.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeValuePair'
       additionalProperties: false
     AccountPerformance:
       title: Account performance data model.
@@ -2257,86 +2080,24 @@ components:
           allOf:
           - $ref: '#/components/schemas/TradeActivity'
       additionalProperties: false
-    DisplayHintType:
-      title: Display Hint Type.
+    CalculationDataType:
+      title: Defines the type of data on which portfolio composition is calculated
       enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
+      - ClosedPositions
+      - OpenPositions
       type: string
       x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
-    StringValuePair:
-      title: Dto used for storing string/decimal value pairs
+        OpenPositions: Open Positions Data Type
+        ClosedPositions: Closed Positions Data Type
+    TradeActivity:
+      title: Defines a data contract for closed trades activity.
       type: object
       properties:
-        StringValue:
-          title: The string value.
-          type: string
-        Value:
-          title: The decimal value
-          type: number
-      additionalProperties: false
-    EsgPriority:
-      enum:
-      - High
-      - Low
-      - Medium
-      type: string
-    TradesPerInstrument:
-      title: "Defines a data contract for trades allocation where the trades are grouped by\n               the instrument."
-      type: object
-      properties:
-        ClosedTradesAllocations:
-          title: The closed trades allocations
+        TradesPerDay:
+          title: The trades per day.
           type: array
           items:
-            $ref: '#/components/schemas/AllocationItem'
-        OpenTradesAllocations:
-          title: The Open trades allocations
-          type: array
-          items:
-            $ref: '#/components/schemas/AllocationItem'
-      additionalProperties: false
-    TradeLeaderContractListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradeLeaderContract'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
+            $ref: '#/components/schemas/TradesPerDayItem'
       additionalProperties: false
     TradeLeaderOptions:
       title: "Defines options specific for a Saxo Select strategy\n            values in Mits AutoTradingLeaders table"
@@ -2354,6 +2115,178 @@ components:
         JointExecutionModel: Trade Leader order is executed in the same block as followers
         UsExchanges: Access to US exchange instruments
       x-type-warning: FlaggableEnum
+    Public.StandardPeriodType:
+      enum:
+      - AllTime
+      - Invalid
+      - Month
+      - None
+      - Quarter
+      - Year
+      type: string
+    PortfolioAllocationType:
+      title: Defines the type on which Portfolio composition is based
+      enum:
+      - Asset
+      - EtfCategory
+      - Instrument
+      type: string
+      x-enum-descriptions:
+        Asset: Asset Based Allocation Type
+        Instrument: Instrument based Allocation Type
+        EtfCategory: Etf Category based Allocation Type
+    TradesPerDayItem:
+      title: Defines a data contract for closed trades count on a single day.
+      type: object
+      properties:
+        Date:
+          title: The date.
+          type: string
+          format: date
+          x-type-name: Date
+        TradeCount:
+          title: The trade count.
+          type: integer
+          format: int32
+      additionalProperties: false
+    PerformanceKeyFigures:
+      title: OpenApi time weighted data contract
+      type: object
+      properties:
+        ClosedTradesCount:
+          title: The number of closed trades for the period.
+          type: integer
+          format: int32
+        DrawdownReport:
+          title: The drawdown report for a time weighted time series.
+          allOf:
+          - $ref: '#/components/schemas/DrawdownReport'
+        LosingDaysFraction:
+          title: "The losing days fraction is the fraction of days with negative returns where\n              both realized and unrealized profits are taken into account."
+          type: number
+        MaxDrawDownFraction:
+          title: "The maximum draw down as fraction is the largest drop in the time series as a\n                fraction."
+          type: number
+        ReturnFraction:
+          title: The return fraction.
+          type: number
+        SampledStandardDeviation:
+          title: "The unbiased sampled standard deviation which means that the standard deviation\n                estimator has been corrected by applying the Bessel's correction."
+          type: number
+        SharpeRatio:
+          title: The sharpe ratio.
+          type: number
+        SortinoRatio:
+          title: The sortino ratio.
+          type: number
+        WinningFraction:
+          title: The fraction of closed positions that has been won.
+          type: number
+      additionalProperties: false
+    TimeValuePair:
+      title: Implementation of a time and value pair.
+      type: object
+      properties:
+        Date:
+          title: Date and time of the occurrence.
+          type: string
+          format: date
+          x-type-name: Date
+        Value:
+          title: The value at the given date and time
+          type: number
+      additionalProperties: false
+    RiskLevel:
+      title: Defines risk level.
+      enum:
+      - Aggressive
+      - Alpha
+      - Defensive
+      - Moderate
+      type: string
+      x-enum-descriptions:
+        Alpha: Alpha risk level
+        Defensive: Defensive risk level
+        Moderate: Moderate risk level
+        Aggressive: Aggressive risk level
+    StringValuePair:
+      title: Dto used for storing string/decimal value pairs
+      type: object
+      properties:
+        StringValue:
+          title: The string value.
+          type: string
+        Value:
+          title: The decimal value
+          type: number
+      additionalProperties: false
+    BenchMark:
+      title: Class BenchMark.
+      type: object
+      properties:
+        AssetType:
+          title: The type of the asset.
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        Description:
+          title: Description of instrument.
+          type: string
+        DisplayHintType:
+          title: Display hint type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        Uic:
+          title: The uic.
+          type: integer
+          format: int32
+      additionalProperties: false
+    AccountSummary:
+      title: "OpenApi account summary performance metrics. The summary is the performance metrics\n              that is related to closed positions over the entire lifespan of an account."
+      type: object
+      properties:
+        AverageTradeDurationInMinutes:
+          title: Average trade duration in minutes.
+          type: number
+        AverageTradesPerWeek:
+          title: The average trades per week.
+          type: number
+        NumberOfDaysTraded:
+          title: Number of days traded.
+          type: number
+        NumberOfLongTrades:
+          title: The number of long trades.
+          type: number
+        NumberOfShortTrades:
+          title: The number of short trades.
+          type: number
+        TopHoldings:
+          title: A list of top holdings with this account
+          type: array
+          items:
+            type: string
+        TopTradedInstruments:
+          title: "A list of the most traded instrument in an ordered list where the single most\n                traded instruments is located at index 0."
+          type: array
+          items:
+            type: string
+        TotalReturnFraction:
+          title: The total return fraction.
+          type: number
+        TradedInstruments:
+          title: A list of instruments traded with this account.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+        TradesTotalCount:
+          title: Total trades.
+          type: number
+        TradesWonCount:
+          title: The total count of winning trades.
+          type: number
+        WinFraction:
+          title: The fraction of trades with positive profit/loss.
+          type: number
+      additionalProperties: false
     AllocationItem:
       title: Defindes a model for an allocation item.
       type: object
@@ -2408,6 +2341,66 @@ components:
           title: Aggregated volume of trades.
           type: number
       additionalProperties: false
+    TradesPerInstrument:
+      title: "Defines a data contract for trades allocation where the trades are grouped by\n               the instrument."
+      type: object
+      properties:
+        ClosedTradesAllocations:
+          title: The closed trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+        OpenTradesAllocations:
+          title: The Open trades allocations
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationItem'
+      additionalProperties: false
+    Link:
+      title: Represents a link to some web resource.
+      type: object
+      properties:
+        Relation:
+          title: The type of link. This adds semantic meaning to the link.
+          type: string
+        Type:
+          title: Corresponds to media type for HTTP.
+          type: string
+        Uri:
+          title: The URI to the resource.
+          type: string
+      additionalProperties: false
+    EsgPriority:
+      enum:
+      - High
+      - Low
+      - Medium
+      type: string
+    ProductArea:
+      title: Product areas are groupings of asset types (products) areas as needed by Mifid classifications and client suitability evaluations.
+      enum:
+      - Bonds
+      - CFDs
+      - CfdCommodities
+      - ContractOptions
+      - FXForwards
+      - FXOptions
+      - FXSpot
+      - Futures
+      - MutualFunds
+      - Stocks
+      type: string
+      x-enum-descriptions:
+        FXSpot: Forex Spot. The Forex Spot product area includes the asset type FxSpot.
+        FXForwards: Forex Forwards. The FXForwards product area includes the asset type FxForwards.
+        FXOptions: "Forex Options. The Forex Options product area includes the asset types FxVanillaOption,\n            FxKnockInOption, FxKnockOutOption, FxBinaryOption, FxOneTouchOption and FxNoTouchOption."
+        Futures: Futures. The Futures product area includes the asset types FuturesStrategy and ContractFutures.
+        ContractOptions: Contract Options. The Contract Options product area includes the asset types FuturesOption, StockOption and StockIndexOption.
+        CFDs: CFDs. The CFDs product area includes the asset types CfdOnStock and CfdOnIndex.
+        Stocks: Stocks. The Stocks product area includes the asset type Stock.
+        Bonds: Bonds. The Bonds product area includes the asset type Bond.
+        MutualFunds: Mutual Funds. The Mutual Funds product area include the asset type MutualFund.
+        CfdCommodities: Cfds on Commodities. The Cfds on Commodities include the asset types CfdOnFutures and CfdOnIndex.
     DrawdownReport:
       title: Drawdown report
       type: object
@@ -2425,6 +2418,13 @@ components:
           type: integer
           format: int32
       additionalProperties: false
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
