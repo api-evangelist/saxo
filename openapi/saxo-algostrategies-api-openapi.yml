@@ -196,73 +196,6 @@ components:
           TradableInstrumentTypes:
           - CertificateDiscount
         MaxRows: 99
-    Strategy:
-      title: Represents Algo Strategy object
-      type: object
-      properties:
-        Description:
-          title: User-friendly description
-          type: string
-          example: stringValue
-        MinAmountUSD:
-          title: Min required amount to trade
-          type: number
-          example: 10
-        Name:
-          title: String identification
-          type: string
-          example: stringValue
-        Parameters:
-          title: Strategy's specific parameters
-          type: array
-          items:
-            $ref: '#/components/schemas/StrategyParameter'
-          example:
-          - DataType: 0
-            IsEditable: false
-            IsMandatory: false
-            UiDefaultValue: stringValue
-            UiOrderingIndex: 0
-            UiStepSize: 1.3
-        SupportedDurationTypes:
-          title: Supported duration types within this strategy
-          type: array
-          items:
-            $ref: '#/components/schemas/DurationType'
-          example:
-          - FillOrKill
-        SupportedOrderTypes:
-          title: Supported order types within this strategy
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderType'
-          example:
-          - Limit
-        TradableInstrumentTypes:
-          title: Instrument types which can be traded within this strategy
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetType'
-          example:
-          - FxKnockInOption
-      additionalProperties: false
-      example:
-        Description: stringValue
-        MinAmountUSD: 10
-        Name: stringValue
-        Parameters:
-        - DataType: 0
-          IsEditable: false
-          IsMandatory: false
-          UiDefaultValue: stringValue
-          UiOrderingIndex: 0
-          UiStepSize: 1.3
-        SupportedDurationTypes:
-        - GoodTillCancel
-        SupportedOrderTypes:
-        - None
-        TradableInstrumentTypes:
-        - CertificateUncappedCapitalProtection
     StrategyParameterDataType:
       title: Lists all possible strategy parameters'datatypes
       enum:
@@ -274,24 +207,12 @@ components:
       - UtcTimeStamp
       type: string
       example: Char
-    DurationType:
-      title: Possible algo orders' duration types.
-      enum:
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      type: string
-      example: DayOrder
-      x-enum-descriptions:
-        GoodTillCancel: Good till cancel
-        DayOrder: Day order
-        FillOrKill: Fill or kill
-        ImmediateOrCancel: Immediate or cancel
-        GoodTillDate: Good till date
-        GoodForPeriod: Good for period
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -410,66 +331,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    OrderType:
-      title: Order type definitions.
-      enum:
-      - Algorithmic
-      - BreakoutTrigger
-      - GuaranteedStop
-      - Limit
-      - LimitTrigger
-      - Market
-      - None
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - StopTrigger
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      type: string
-      example: Market
-      x-enum-descriptions:
-        None: None.
-        Market: Market.
-        Limit: Limit.
-        StopIfTraded: Stop if Traded.
-        Stop: Stop.
-        StopLimit: Stop Limit.
-        Algorithmic: Algorithmic.
-        Switch: Switch.
-        Traspaso: Traspaso.
-        TraspasoIn: A Traspaso In order initiated from an external trading system.
-        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
-        LimitTrigger: If the price moves above or below the trigger price, then place related order.
-        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
-        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
-        TrailingStop: Trailing Stop.
-        TrailingStopIfTraded: Trailing Stop if Traded.
-    StrategyParameterAllowedValue:
-      title: Represents strategy parameter allowed value
-      type: object
-      properties:
-        Name:
-          title: Paramater's value name
-          type: string
-          example: stringValue
-        Value:
-          title: Parameter value
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Name: stringValue
-        Value: stringValue
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     StrategyParameter:
       title: Strategy custom parameter object
       type: object
@@ -543,11 +404,150 @@ components:
         UiDefaultValue: stringValue
         UiOrderingIndex: 0
         UiStepSize: 1.3
+    Strategy:
+      title: Represents Algo Strategy object
+      type: object
+      properties:
+        Description:
+          title: User-friendly description
+          type: string
+          example: stringValue
+        MinAmountUSD:
+          title: Min required amount to trade
+          type: number
+          example: 10
+        Name:
+          title: String identification
+          type: string
+          example: stringValue
+        Parameters:
+          title: Strategy's specific parameters
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyParameter'
+          example:
+          - DataType: 0
+            IsEditable: false
+            IsMandatory: false
+            UiDefaultValue: stringValue
+            UiOrderingIndex: 0
+            UiStepSize: 1.3
+        SupportedDurationTypes:
+          title: Supported duration types within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/DurationType'
+          example:
+          - FillOrKill
+        SupportedOrderTypes:
+          title: Supported order types within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderType'
+          example:
+          - Limit
+        TradableInstrumentTypes:
+          title: Instrument types which can be traded within this strategy
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxKnockInOption
+      additionalProperties: false
+      example:
+        Description: stringValue
+        MinAmountUSD: 10
+        Name: stringValue
+        Parameters:
+        - DataType: 0
+          IsEditable: false
+          IsMandatory: false
+          UiDefaultValue: stringValue
+          UiOrderingIndex: 0
+          UiStepSize: 1.3
+        SupportedDurationTypes:
+        - GoodTillCancel
+        SupportedOrderTypes:
+        - None
+        TradableInstrumentTypes:
+        - CertificateUncappedCapitalProtection
+    DurationType:
+      title: Possible algo orders' duration types.
+      enum:
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      type: string
+      example: DayOrder
+      x-enum-descriptions:
+        GoodTillCancel: Good till cancel
+        DayOrder: Day order
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Immediate or cancel
+        GoodTillDate: Good till date
+        GoodForPeriod: Good for period
+    StrategyParameterAllowedValue:
+      title: Represents strategy parameter allowed value
+      type: object
+      properties:
+        Name:
+          title: Paramater's value name
+          type: string
+          example: stringValue
+        Value:
+          title: Parameter value
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Name: stringValue
+        Value: stringValue
+    OrderType:
+      title: Order type definitions.
+      enum:
+      - Algorithmic
+      - BreakoutTrigger
+      - GuaranteedStop
+      - Limit
+      - LimitTrigger
+      - Market
+      - None
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - StopTrigger
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      type: string
+      example: Market
+      x-enum-descriptions:
+        None: None.
+        Market: Market.
+        Limit: Limit.
+        StopIfTraded: Stop if Traded.
+        Stop: Stop.
+        StopLimit: Stop Limit.
+        Algorithmic: Algorithmic.
+        Switch: Switch.
+        Traspaso: Traspaso.
+        TraspasoIn: A Traspaso In order initiated from an external trading system.
+        GuaranteedStop: Guaranteed Stop. Stop at price - no slippage.
+        LimitTrigger: If the price moves above or below the trigger price, then place related order.
+        StopTrigger: If price falls below trigger price, a stop order with a trailing distance is placed. Similar to a trailing stop order.
+        BreakoutTrigger: If asset price goes above or below defined upper/lower limit (trigger) prices, then place related order.
+        TrailingStop: Trailing Stop.
+        TrailingStopIfTraded: Trailing Stop if Traded.
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:

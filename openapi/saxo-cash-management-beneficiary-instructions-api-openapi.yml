@@ -94,22 +94,100 @@ paths:
         confidential: Read
 components:
   schemas:
-    RegulatedBroker:
-      title: Regulated Broker
+    BeneficiaryDetails:
+      title: BeneficiaryDetails
       type: object
       properties:
         AccountNumber:
-          title: Regulated broker account.
+          title: Beneficiary local Bank Account Number
           type: string
           example: stringValue
-        Name:
-          title: Regulated broker name
+        BankAddress:
+          title: Beneficiary Bank address
+          type: string
+          example: stringValue
+        BankName:
+          title: Beneficiary Bank Name
+          type: string
+          example: stringValue
+        Bic:
+          title: Beneficiary Bank BIC (Swift Code)
+          type: string
+          example: stringValue
+        ClearingCode:
+          title: Beneficiary Bank local Clearing Code
+          type: string
+          example: stringValue
+        CountryCode:
+          title: Beneficiary Bank Country Code
+          type: string
+          example: stringValue
+        Iban:
+          title: Beneficiary International Bank Account Number
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AccountNumber: ZYA6312001
-        Name: EXT LTD CLIENTS ACCOUNT
+        AccountNumber: SSI#97935
+        BankAddress: HOLMENS KANAL 2-12
+        BankName: DANSKE BANK A/S
+        Bic: DABADKKKXXX
+        ClearingCode: AU016338
+        CountryCode: DKK
+        Iban: SSI#97935
+    BeneficiaryInstructionListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BeneficiaryInstruction'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __count: 2
+        Data:
+        - BeneficiaryDetails:
+            AccountNumber: SSI#97935
+            Bic: DBSSSGSGXXX
+            ClearingCode: AU016338
+            CountryCode: DKK
+          BeneficiaryInstructionId: '97935'
+          ClientId: '9319113'
+          Currency: DKK
+          IntermediaryBank:
+            AccountNumber: S672538819
+            Bic: CITIUS33
+          MessageType: MT202
+          Name: SSI#97935
+          RegulatedBroker:
+            AccountNumber: ZYA6312001
+            Name: EXT LTD CLIENTS ACCOUNT
+        - BeneficiaryDetails:
+            AccountNumber: SSI#97935
+            Bic: DBSSSGSGXXX
+            ClearingCode: AU016338
+            CountryCode: DKK
+          BeneficiaryInstructionId: '97935'
+          ClientId: '9319113'
+          Currency: DKK
+          IntermediaryBank:
+            AccountNumber: S672538819
+            Bic: CITIUS33
+          MessageType: MT202
+          Name: SSI#97935
+          RegulatedBroker:
+            AccountNumber: ZYA6312001
+            Name: EXT LTD CLIENTS ACCOUNT
     AccountWithInstitutionDetails:
       title: Account Wih Institution Details. This is the bank where the beneficiary holds the account.
       type: object
@@ -156,57 +234,6 @@ components:
       example:
         AccountNumber: S672538819
         Bic: CITIUS33
-    BeneficiaryDetails:
-      title: BeneficiaryDetails
-      type: object
-      properties:
-        AccountNumber:
-          title: Beneficiary local Bank Account Number
-          type: string
-          example: stringValue
-        BankAddress:
-          title: Beneficiary Bank address
-          type: string
-          example: stringValue
-        BankName:
-          title: Beneficiary Bank Name
-          type: string
-          example: stringValue
-        Bic:
-          title: Beneficiary Bank BIC (Swift Code)
-          type: string
-          example: stringValue
-        ClearingCode:
-          title: Beneficiary Bank local Clearing Code
-          type: string
-          example: stringValue
-        CountryCode:
-          title: Beneficiary Bank Country Code
-          type: string
-          example: stringValue
-        Iban:
-          title: Beneficiary International Bank Account Number
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AccountNumber: SSI#97935
-        BankAddress: HOLMENS KANAL 2-12
-        BankName: DANSKE BANK A/S
-        Bic: DABADKKKXXX
-        ClearingCode: AU016338
-        CountryCode: DKK
-        Iban: SSI#97935
-    MessageType:
-      title: Message Type
-      enum:
-      - MT103
-      - MT202
-      type: string
-      example: MT103
-      x-enum-descriptions:
-        MT202: MT202
-        MT103: MT103
     BeneficiaryInstruction:
       title: BeneficiaryInstructionsResponse
       type: object
@@ -279,64 +306,35 @@ components:
         type: array
         items:
           type: string
-    BeneficiaryInstructionListResult:
+    RegulatedBroker:
+      title: Regulated Broker
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BeneficiaryInstruction'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
+        AccountNumber:
+          title: Regulated broker account.
           type: string
-          description: The link for the next page of items in the feed.
+          example: stringValue
+        Name:
+          title: Regulated broker name
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        __count: 2
-        Data:
-        - BeneficiaryDetails:
-            AccountNumber: SSI#97935
-            Bic: DBSSSGSGXXX
-            ClearingCode: AU016338
-            CountryCode: DKK
-          BeneficiaryInstructionId: '97935'
-          ClientId: '9319113'
-          Currency: DKK
-          IntermediaryBank:
-            AccountNumber: S672538819
-            Bic: CITIUS33
-          MessageType: MT202
-          Name: SSI#97935
-          RegulatedBroker:
-            AccountNumber: ZYA6312001
-            Name: EXT LTD CLIENTS ACCOUNT
-        - BeneficiaryDetails:
-            AccountNumber: SSI#97935
-            Bic: DBSSSGSGXXX
-            ClearingCode: AU016338
-            CountryCode: DKK
-          BeneficiaryInstructionId: '97935'
-          ClientId: '9319113'
-          Currency: DKK
-          IntermediaryBank:
-            AccountNumber: S672538819
-            Bic: CITIUS33
-          MessageType: MT202
-          Name: SSI#97935
-          RegulatedBroker:
-            AccountNumber: ZYA6312001
-            Name: EXT LTD CLIENTS ACCOUNT
+        AccountNumber: ZYA6312001
+        Name: EXT LTD CLIENTS ACCOUNT
+    MessageType:
+      title: Message Type
+      enum:
+      - MT103
+      - MT202
+      type: string
+      example: MT103
+      x-enum-descriptions:
+        MT202: MT202
+        MT103: MT103
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -358,6 +356,8 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

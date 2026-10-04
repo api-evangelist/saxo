@@ -377,6 +377,34 @@ paths:
       x-required-permissions:
         personal: Read
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     PatchCapabilitiesRequest:
       title: Represents a request to change session capabilities.
@@ -389,37 +417,6 @@ components:
       additionalProperties: false
       example:
         TradeLevel: OrdersOnly
-    Domain.DataLevel:
-      title: Enumeration of allowed data levels for a user using a client application.
-      enum:
-      - Premium
-      - Standard
-      type: string
-      example: Standard
-      x-enum-descriptions:
-        Standard: Default trade level, where average prices are served.
-        Premium: Live up-to-date prices are served.
-    CapabilitiesResponse:
-      title: Response object holding current session capabilities.
-      type: object
-      properties:
-        AuthenticationLevel:
-          title: Determines the current level of authentication.
-          allOf:
-          - $ref: '#/components/schemas/AuthenticationLevel'
-        DataLevel:
-          title: Unused.
-          allOf:
-          - $ref: '#/components/schemas/DataLevel'
-        TradeLevel:
-          title: Determines ability to trade on quote and receive real time data.
-          allOf:
-          - $ref: '#/components/schemas/TradeLevel'
-      additionalProperties: false
-      example:
-        AuthenticationLevel: Authenticated
-        DataLevel: Standard
-        TradeLevel: OrdersOnly
     AuthenticationLevel:
       title: Represents levels of authentication
       enum:
@@ -430,26 +427,72 @@ components:
       x-enum-descriptions:
         Authenticated: Indicates that the user does not have elevated authentication.
         Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
-    DataLevel:
-      title: Enumeration of allowed data levels for a user using a client application.
-      enum:
-      - Premium
-      - Standard
-      type: string
-      example: Standard
-      x-enum-descriptions:
-        Standard: Default trade level, where average prices are served.
-        Premium: Live up-to-date prices are served.
-    Domain.TradeLevel:
-      title: Enumeration of allowed trade levels for a user using a client application.
-      enum:
-      - FullTradingAndChat
-      - OrdersOnly
-      type: string
-      example: OrdersOnly
-      x-enum-descriptions:
-        OrdersOnly: Orders only.
-        FullTradingAndChat: Full Trading.
+    SessionSubscriptionStreamedState:
+      title: Data class that cannot be serialized.
+      type: object
+      properties:
+        AuthenticationLevel:
+          title: Gets or sets the authentication level.
+          allOf:
+          - $ref: '#/components/schemas/Model.AuthenticationLevel'
+        DataLevel:
+          title: Gets or sets the data L evel.
+          allOf:
+          - $ref: '#/components/schemas/Domain.DataLevel'
+        TradeLevel:
+          title: Gets or sets the trade level.
+          allOf:
+          - $ref: '#/components/schemas/Domain.TradeLevel'
+      additionalProperties: false
+      example:
+        AuthenticationLevel: Elevated
+        DataLevel: Premium
+        TradeLevel: FullTradingAndChat
+    SessionSubscriptionRequest:
+      title: The request object required to setup a session wide subscription.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221029043400336'
+        ReferenceId: S37523
+        RefreshRate: 1000
+        Tag: PAGE1
     SessionSubscriptionResponse:
       title: Response returned when creating a new subscription for broken data.
       type: object
@@ -503,6 +546,32 @@ components:
           DataLevel: Standard
           TradeLevel: OrdersOnly
         State: Active
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
+    Domain.TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading.
     Model.AuthenticationLevel:
       title: Represents levels of authentication
       enum:
@@ -513,88 +582,6 @@ components:
       x-enum-descriptions:
         Authenticated: Indicates that the user is authenticated but does not have elevated authentication.
         Elevated: Indicates that step-up authentication applies to the user and that authentication is elevated.
-    SessionSubscriptionStreamedState:
-      title: Data class that cannot be serialized.
-      type: object
-      properties:
-        AuthenticationLevel:
-          title: Gets or sets the authentication level.
-          allOf:
-          - $ref: '#/components/schemas/Model.AuthenticationLevel'
-        DataLevel:
-          title: Gets or sets the data L evel.
-          allOf:
-          - $ref: '#/components/schemas/Domain.DataLevel'
-        TradeLevel:
-          title: Gets or sets the trade level.
-          allOf:
-          - $ref: '#/components/schemas/Domain.TradeLevel'
-      additionalProperties: false
-      example:
-        AuthenticationLevel: Elevated
-        DataLevel: Premium
-        TradeLevel: FullTradingAndChat
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    SessionSubscriptionRequest:
-      title: The request object required to setup a session wide subscription.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        ContextId: '20221029043400336'
-        ReferenceId: S37523
-        RefreshRate: 1000
-        Tag: PAGE1
-    TradeLevel:
-      title: Enumeration of allowed trade levels for a user using a client application.
-      enum:
-      - FullTradingAndChat
-      - OrdersOnly
-      type: string
-      example: OrdersOnly
-      x-enum-descriptions:
-        OrdersOnly: Orders only.
-        FullTradingAndChat: Full Trading and access to real time data.
     PutCapabilitiesRequest:
       title: Represents a request to set all session capabilities.
       type: object
@@ -606,34 +593,47 @@ components:
       additionalProperties: false
       example:
         TradeLevel: OrdersOnly
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
+    CapabilitiesResponse:
+      title: Response object holding current session capabilities.
+      type: object
+      properties:
+        AuthenticationLevel:
+          title: Determines the current level of authentication.
+          allOf:
+          - $ref: '#/components/schemas/AuthenticationLevel'
+        DataLevel:
+          title: Unused.
+          allOf:
+          - $ref: '#/components/schemas/DataLevel'
+        TradeLevel:
+          title: Determines ability to trade on quote and receive real time data.
+          allOf:
+          - $ref: '#/components/schemas/TradeLevel'
+      additionalProperties: false
+      example:
+        AuthenticationLevel: Authenticated
+        DataLevel: Standard
+        TradeLevel: OrdersOnly
+    TradeLevel:
+      title: Enumeration of allowed trade levels for a user using a client application.
+      enum:
+      - FullTradingAndChat
+      - OrdersOnly
+      type: string
+      example: OrdersOnly
+      x-enum-descriptions:
+        OrdersOnly: Orders only.
+        FullTradingAndChat: Full Trading and access to real time data.
+    Domain.DataLevel:
+      title: Enumeration of allowed data levels for a user using a client application.
+      enum:
+      - Premium
+      - Standard
+      type: string
+      example: Standard
+      x-enum-descriptions:
+        Standard: Default trade level, where average prices are served.
+        Premium: Live up-to-date prices are served.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

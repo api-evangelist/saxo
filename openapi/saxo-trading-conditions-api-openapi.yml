@@ -211,122 +211,24 @@ paths:
         personal: Read
 components:
   schemas:
-    ExposureLimitRuleType:
-      title: Type of Rule
+    BondType:
+      title: Describes the type of bond.
       enum:
-      - Amount
-      - Percentage
-      - Value
+      - Convertible
+      - DualCurrency
+      - FloatingRateNote
+      - InflationLinked
+      - NonInflationLinked
+      - Perpetual
       type: string
-      example: Amount
+      example: NonInflationLinked
       x-enum-descriptions:
-        Amount: Amount type
-        Value: Value type
-        Percentage: Percentage type
-    Models.ExitCost:
-      type: object
-      properties:
-        CostPct:
-          title: The exit cost.
-          type: number
-          example: 10
-        CostPerUnit:
-          title: Fee paid per unit for position exit in a fund.
-          type: number
-          example: 10
-        Currency:
-          title: Currency of exit cost.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CostPct: 10
-        CostPerUnit: 10
-        Currency: stringValue
-    OrderActions:
-      title: Order Actions.
-      enum:
-      - AlgorithmicOrder
-      - EtoAll
-      - EtoAssign
-      - EtoDelivery
-      - EtoExercise
-      - EtoExpiry
-      - ExecuteOrder
-      - SRDRollover
-      type: string
-      example: ExecuteOrder
-      x-enum-descriptions:
-        ExecuteOrder: On execute order.
-        AlgorithmicOrder: On execution of algorithmic order.
-        EtoExercise: EtoExercise
-        EtoAssign: EtoAssign
-        EtoDelivery: EtoDelivery
-        EtoExpiry: EtoExpiry
-        EtoAll: EtoAll
-        SRDRollover: SRD rollover fee
-    ForexPriceBand:
-      title: Priceband information
-      type: object
-      properties:
-        AutoExecuteEnabled:
-          title: Indicates if autoexecute is enabled.
-          type: boolean
-          example: true
-        AutoQuoteEnabled:
-          title: Indicates if autoquote is enabled
-          type: boolean
-          example: true
-        DisplayDecimals:
-          title: The number of decimals used for display.
-          type: integer
-          format: int32
-          example: 99
-        MaxBand:
-          title: The Maximum Band.
-          type: number
-          example: 10
-        MinBand:
-          title: The Minimum Band.
-          type: number
-          example: 10
-        Spread:
-          title: The spread.
-          type: number
-          example: 10
-        SpreadType:
-          title: The spread type.
-          allOf:
-          - $ref: '#/components/schemas/SpreadTypes'
-        UpperBandLimit:
-          title: The upper trade limit where the spread applies.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AutoExecuteEnabled: true
-        AutoQuoteEnabled: true
-        DisplayDecimals: 5
-        MaxBand: 100000
-        Spread: 1E-05
-        SpreadType: Variable
-        UpperBandLimit: 100000
-    Rule:
-      title: Rule
-      enum:
-      - DayTradingNotAllowed
-      - ExchangeFeeConstituents
-      - NoMoreBuyOnExchange
-      - NoMoreBuyOnInstrument
-      - OrderAmendmentNotAllowed
-      type: string
-      example: NoMoreBuyOnInstrument
-      x-enum-descriptions:
-        NoMoreBuyOnInstrument: Exchange does not permit BUY orders on this symbol for today.
-        NoMoreBuyOnExchange: No more BUY orders allowed in the market today as the market daily quota is completely used.
-        OrderAmendmentNotAllowed: This market does not permit amending orders which are accepted by market. So, please cancel and re-enter, if the original attributes of the order need to be changed.
-        DayTradingNotAllowed: This market does not permit selling on the same day of buying (day trading is not allowed).
-        ExchangeFeeConstituents: A cumulative exchange fee is applicable on all transactions. Following fees are applicable on market value, China Clear Transfer Fee 0.2 bp | HKSCC Transfer Fee 0.2 bp | CSRC Securities Management Fee 0.2 bp | Handling Fee 0.487 bp. Total fee will be 1.087 bp of market.
+        NonInflationLinked: Non Inflation Linked Bond.
+        InflationLinked: Inflation Linked Bond.
+        Convertible: Convertible Bond
+        Perpetual: Perpetual Bond
+        FloatingRateNote: FloatingRateNote Bond
+        DualCurrency: DualCurrency Bond
     Exposure:
       title: Exposure.
       type: object
@@ -357,185 +259,96 @@ components:
         Level: BaseContractNet
         RuleType: Amount
         Value: 200
-    Models.CarryingCost:
-      title: Carrying Cost.
+    MarginType:
+      title: Margin value type
+      enum:
+      - Absolute
+      - Percentage
+      type: string
+      example: Percentage
+      x-enum-descriptions:
+        Percentage: The margin is specified in percent.
+        Absolute: The margin is specified in an absolute value, in the instrument currency.
+    MarginScheduleTimeSlot:
+      title: Margin schedule time slot.
       type: object
       properties:
-        FixedRate:
-          title: A fixed or minimum monthly carrying cost.
-          type: number
-          example: 10
-        InterbankRate:
-          title: The interbank rate.
-          allOf:
-          - $ref: '#/components/schemas/InterbankRate'
-        MarkUpRate:
-          title: The carrying cost percentage markup on the Interbank rate.
-          type: number
-          example: 10
+        EndTime:
+          title: End time
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        StartTime:
+          title: Start time
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
       additionalProperties: false
       example:
-        FixedRate: 1
-        InterbankRate:
-          AskRate: 2
-          BidRate: 1
-          TradeDate: '2022-10-31'
-        MarkUpRate: 1.5
-    InstrumentMarginRequirement:
+        EndTime: '2022-12-20T01:39:13.4281250+00:00'
+        StartTime: '2022-11-05T01:39:13.4281250+00:00'
+    Models.ExitCost:
+      type: object
+      properties:
+        CostPct:
+          title: The exit cost.
+          type: number
+          example: 10
+        CostPerUnit:
+          title: Fee paid per unit for position exit in a fund.
+          type: number
+          example: 10
+        Currency:
+          title: Currency of exit cost.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CostPct: 10
+        CostPerUnit: 10
+        Currency: stringValue
+    ExchangeFeeRules:
+      title: Use to set configured exchange fee rule sets.
       type: object
       properties:
         Currency:
-          title: Margin Currency
+          title: Currency of fixed exchange fees
           type: string
           example: stringValue
-        ExtraWeek:
-          title: Extra Week Margin Requirement
+        Maximum:
+          title: Maxmimum fee value to be applied.
           type: number
           example: 10
-        Initial:
-          title: Intial Margin Requirement
+        Minimum:
+          title: Minimum fee value to be applied.
           type: number
           example: 10
-        IntraWeek:
-          title: Intra Week Margin Requirement
-          type: number
-          example: 10
-        MarginType:
-          title: Margin Requirement Type
+        OrderAction:
+          title: Determines the action basis which commission is applied.
           allOf:
-          - $ref: '#/components/schemas/MarginType'
-      additionalProperties: false
-      example:
-        ExtraWeek: 13200
-        Initial: 13200
-        IntraWeek: 13200
-        MarginType: Absolute
-    PortfolioBasedMargin:
-      type: object
-      properties:
-        ExtremeStressFactor:
-          title: Extreme Stress Factor
-          type: number
-          example: 10
-        Initial:
-          title: Intial Margin Requirement
-          type: number
-          example: 10
-        IntraWeek:
-          title: Intra Week Margin Requirement
-          type: number
-          example: 10
-        LiquidityThresholdAmount:
-          title: Liquidity Threshold Amount
-          type: number
-          example: 10
-        LiquidityThresholdCurrency:
-          title: Liquidity Threshold Currency
-          type: string
-          example: stringValue
-        VolatilityAddOn:
-          title: Volatility AddOn
-          type: number
-          example: 10
-        VolatilityStress:
-          title: Volatility Stress
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        ExtremeStressFactor: 15.6
-        Initial: 185.5
-        IntraWeek: 8.7
-        LiquidityThresholdAmount: 569987
-        LiquidityThresholdCurrency: USD
-        VolatilityAddOn: 1000.68
-        VolatilityStress: 100
-    SpreadTypes:
-      title: The spread types available.
-      enum:
-      - Target
-      - Variable
-      type: string
-      example: Variable
-      x-enum-descriptions:
-        Variable: Spread is variable
-        Target: Spread is a target spread
-    ScheduledTradingConditions:
-      type: object
-      properties:
-        ScheduledDate:
-          title: Scheduled date for changes
-          type: string
-          example: stringValue
-        TradingCondition:
-          title: Trading conditions
+          - $ref: '#/components/schemas/OrderActions'
+        Type:
+          title: Fee type.
           allOf:
-          - $ref: '#/components/schemas/ScheduledInstrumentTradingConditons'
-      additionalProperties: false
-      example:
-        ScheduledDate: '2022-11-05T01:39:13.4051086+00:00'
-        TradingCondition:
-          CollateralValue: 1500.5
-          InitialCollateralValue: 1212.7
-          InstrumentMarginRequirements:
-          - ExtraWeek: 13200
-            Initial: 13200
-            IntraWeek: 13200
-            MarginType: Absolute
-          InterestRateInstrumentMarginRequirement:
-            ExtraWeek: 13200
-            Initial: 13200
-            IntraWeek: 13200
-            MarginType: Absolute
-          MaintenanceCollateralValue: 100.2
-          MarginTierRequirement:
-            Entries:
-            - ExtraWeekMarginRate: 0.015
-              InitialMarginRate: 0.015
-              IntraWeekMarginRate: 0.015
-              TierLowerBound: 0
-            - ExtraWeekMarginRate: 0.065
-              InitialMarginRate: 0.055
-              IntraWeekMarginRate: 0.045
-              TierLowerBound: 1000000
-            - ExtraWeekMarginRate: 0.025
-              InitialMarginRate: 0.025
-              IntraWeekMarginRate: 0.025
-              TierLowerBound: 25000000
-            - ExtraWeekMarginRate: 0.003
-              InitialMarginRate: 0.003
-              IntraWeekMarginRate: 0.003
-              TierLowerBound: 50000000
-            - ExtraWeekMarginRate: 0.035
-              InitialMarginRate: 0.035
-              IntraWeekMarginRate: 0.035
-              TierLowerBound: 100000000
-            - ExtraWeekMarginRate: 0.045
-              InitialMarginRate: 0.045
-              IntraWeekMarginRate: 0.045
-              TierLowerBound: 150000000
-            - ExtraWeekMarginRate: 0.05
-              InitialMarginRate: 0.05
-              IntraWeekMarginRate: 0.05
-              TierLowerBound: 250000000
-            TierCurrency: USD
-          Rating: 2
-    Domain.LocalizedInfo:
-      title: Provides information about the localization.
-      type: object
-      properties:
-        Key:
-          title: Key identifier for the value.
-          type: string
-          example: stringValue
+          - $ref: '#/components/schemas/FeeTypes'
         Value:
-          title: "A string value that represents the localized text. If the key is not found in specific language, it will be text of default language.\n            If the key is not found at all in localization resources, then key will be used in value itself."
-          type: string
-          example: stringValue
+          title: Fee value.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        Key: stringValue
-        Value: stringValue
+        Currency: USD
+        Maximum: 999.99
+        Minimum: 1.99
+        OrderAction: ExecuteOrder
+        Type: PerLot
+        Value: 2.1
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     ScheduledInstrumentTradingConditons:
       type: object
       properties:
@@ -632,6 +445,49 @@ components:
           VolatilityAddOn: 1000.68
           VolatilityStress: 100
         Rating: 10
+    IndicativeSpread:
+      title: Indicative spread
+      type: object
+      properties:
+        CalculationTime:
+          title: The time of calculation
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        PipSize:
+          title: The Pip Size
+          type: number
+          example: 10
+        Tenors:
+          title: The tenors available
+          type: array
+          items:
+            $ref: '#/components/schemas/Tenor'
+          example:
+          - Period: 1W
+            Spread: 0.9
+      additionalProperties: false
+      example:
+        PipSize: 1E-06
+        Tenors:
+        - Period: 1W
+          Spread: 0.9
+        - Period: 2W
+          Spread: 1.3
+        - Period: 3W
+          Spread: 1.7
+        - Period: 1M
+          Spread: 2
+        - Period: 2M
+          Spread: 2.9
+        - Period: 3M
+          Spread: 3.7
+        - Period: 6M
+          Spread: 5.5
+        - Period: 9M
+          Spread: 6.9
+        - Period: 1Y
+          Spread: 8
     Models.EntryCost:
       type: object
       properties:
@@ -652,139 +508,16 @@ components:
         CostPct: 10
         CostPerUnit: 10
         Currency: stringValue
-    MarginType:
-      title: Margin value type
+    SpreadTypes:
+      title: The spread types available.
       enum:
-      - Absolute
-      - Percentage
+      - Target
+      - Variable
       type: string
-      example: Percentage
+      example: Variable
       x-enum-descriptions:
-        Percentage: The margin is specified in percent.
-        Absolute: The margin is specified in an absolute value, in the instrument currency.
-    MarginTierRequirement:
-      title: Margin tier requirement
-      type: object
-      properties:
-        Entries:
-          title: Margin tier entries.
-          type: array
-          items:
-            $ref: '#/components/schemas/MarginTierEntry'
-          example:
-          - ExtraWeekMarginRate: 0.015
-            InitialMarginRate: 0.015
-            IntraWeekMarginRate: 0.015
-            TierLowerBound: 0
-        TierCurrency:
-          title: Tier currency.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Entries:
-        - ExtraWeekMarginRate: 0.015
-          InitialMarginRate: 0.015
-          IntraWeekMarginRate: 0.015
-          TierLowerBound: 0
-        - ExtraWeekMarginRate: 0.065
-          InitialMarginRate: 0.055
-          IntraWeekMarginRate: 0.045
-          TierLowerBound: 1000000
-        - ExtraWeekMarginRate: 0.025
-          InitialMarginRate: 0.025
-          IntraWeekMarginRate: 0.025
-          TierLowerBound: 25000000
-        - ExtraWeekMarginRate: 0.003
-          InitialMarginRate: 0.003
-          IntraWeekMarginRate: 0.003
-          TierLowerBound: 50000000
-        - ExtraWeekMarginRate: 0.035
-          InitialMarginRate: 0.035
-          IntraWeekMarginRate: 0.035
-          TierLowerBound: 100000000
-        - ExtraWeekMarginRate: 0.045
-          InitialMarginRate: 0.045
-          IntraWeekMarginRate: 0.045
-          TierLowerBound: 150000000
-        - ExtraWeekMarginRate: 0.05
-          InitialMarginRate: 0.05
-          IntraWeekMarginRate: 0.05
-          TierLowerBound: 250000000
-        TierCurrency: USD
-    CalculationTriggerType:
-      title: Calculation Trigger Type
-      enum:
-      - Netted
-      - Normal
-      type: string
-      example: Normal
-      x-enum-descriptions:
-        Normal: Normal
-        Netted: Netted
-    TransactionCostCategory:
-      title: Tax Cost category
-      enum:
-      - AdditionalTransactionCost
-      - Tax
-      type: string
-      example: Tax
-      x-enum-descriptions:
-        Tax: Cost is of tax type
-        AdditionalTransactionCost: Cost is a additonal cost over transaction
-    MarginSchedule:
-      title: Margin schedule data.
-      type: object
-      properties:
-        CutoffTimeInMinutes:
-          title: Cut off time in minutes.
-          type: integer
-          format: int32
-          example: 99
-        IntradayMarginPct:
-          title: Intraday margin percentage.
-          type: number
-          example: 10
-        TimeSlots:
-          title: Time slots.
-          type: array
-          items:
-            $ref: '#/components/schemas/MarginScheduleTimeSlot'
-          example:
-          - EndTime: '2022-12-20T01:39:13.430126Z'
-            StartTime: '2022-11-05T01:39:13.430126Z'
-        TimeZoneAbbreviation:
-          title: The time zone abbreviation.
-          type: string
-          example: stringValue
-        TimeZoneOffset:
-          title: Time zone offset.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CutoffTimeInMinutes: 0
-        IntradayMarginPct: 0.03
-        TimeZoneAbbreviation: CET
-        TimeZoneOffset: 01:00:00
-    MarginScheduleTimeSlot:
-      title: Margin schedule time slot.
-      type: object
-      properties:
-        EndTime:
-          title: End time
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        StartTime:
-          title: Start time
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-      additionalProperties: false
-      example:
-        EndTime: '2022-12-20T01:39:13.4281250+00:00'
-        StartTime: '2022-11-05T01:39:13.4281250+00:00'
+        Variable: Spread is variable
+        Target: Spread is a target spread
     CouponFrequency:
       title: Coupon Frequency
       enum:
@@ -835,175 +568,75 @@ components:
         Every182Days: Every 182 days
         FrequencyEnd: Frequency End
         None: None
-    AssetType:
-      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
-      enum:
-      - Bond
-      - Cash
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CfdIndexOption
-      - CfdOnCompanyWarrant
-      - CfdOnEtc
-      - CfdOnEtf
-      - CfdOnEtn
-      - CfdOnFund
-      - CfdOnFutures
-      - CfdOnIndex
-      - CfdOnRights
-      - CfdOnStock
-      - CompanyWarrant
-      - ContractFutures
-      - Etc
-      - Etf
-      - Etn
-      - Fund
-      - FuturesOption
-      - FuturesStrategy
-      - FxBinaryOption
-      - FxForwards
-      - FxKnockInOption
-      - FxKnockOutOption
-      - FxNoTouchOption
-      - FxOneTouchOption
-      - FxSpot
-      - FxVanillaOption
-      - GuaranteeNote
-      - IpoOnStock
-      - ManagedFund
-      - MiniFuture
-      - MutualFund
-      - PortfolioNote
-      - Rights
-      - SrdOnEtf
-      - SrdOnStock
-      - Stock
-      - StockIndex
-      - StockIndexOption
-      - StockOption
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      example: FxForwards
-      x-enum-descriptions:
-        FxSpot: Forex Spot.
-        FxForwards: Forex Forward.
-        FxVanillaOption: Forex Vanilla Option.
-        FxKnockInOption: Forex Knock In Option.
-        FxKnockOutOption: Forex Knock Out Option.
-        FxBinaryOption: Forex Binary Option.
-        FxOneTouchOption: Forex One Touch Option.
-        FxNoTouchOption: Forex No Touch Option.
-        ContractFutures: Contract Futures.
-        FuturesStrategy: Futures Strategy.
-        Stock: Stock.
-        StockOption: Stock Option.
-        Bond: Bond.
-        FuturesOption: Futures Option.
-        StockIndexOption: Stock Index Option.
-        ManagedFund: 'Obsolete: Managed Fund.'
-        Cash: Cash. Not tradeable!
-        CfdOnStock: Cfd on Stock.
-        CfdOnIndex: Cfd on Stock Index.
-        CfdOnFutures: Cfd on Futures.
-        StockIndex: Stock Index.
-        MutualFund: Mutual Fund.
-        CfdIndexOption: Cfd Index Option.
-        CfdOnEtf: Cfd on Etf
-        CfdOnEtc: Cfd on Etc
-        CfdOnEtn: Cfd on Etn
-        CfdOnFund: Cfd on Fund
-        CfdOnRights: Cfd on Rights
-        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
-        Etf: Exchange traded fund.
-        Etc: Etc
-        Etn: Etn
-        Fund: Fund
-        Rights: Rights
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
-        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
-        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
-        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
-        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
-        IpoOnStock: IPO on Stock
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
-        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
-        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    Models.Tax:
-      title: Tax details.
+    MarginSchedule:
+      title: Margin schedule data.
       type: object
       properties:
-        BuySell:
-          title: "If absent, the tax applies to both the buy and the sell side. \n            If present, the value indicates what side of a trade the tax applies to."
-          allOf:
-          - $ref: '#/components/schemas/Enums.BuySell'
-        CalculationTriggerType:
-          title: Calculation trigger type of applied tax.
-          allOf:
-          - $ref: '#/components/schemas/CalculationTriggerType'
-        CalculationType:
-          title: Calculation type of applied tax.
-          allOf:
-          - $ref: '#/components/schemas/CalculationType'
-        CostCategory:
-          title: Cost category
-          allOf:
-          - $ref: '#/components/schemas/TransactionCostCategory'
-        CostDescription:
-          title: Additional cost description
-          type: string
-          example: stringValue
-        Currency:
-          title: Currency in which tax value is calculated.
-          type: string
-          example: stringValue
-        Description:
-          title: Type of applicable tax.
-          type: string
-          example: stringValue
-        MaxTradeValue:
-          title: Maximum trade value on which tax is applied.
+        CutoffTimeInMinutes:
+          title: Cut off time in minutes.
+          type: integer
+          format: int32
+          example: 99
+        IntradayMarginPct:
+          title: Intraday margin percentage.
           type: number
           example: 10
-        MinTradeValue:
-          title: Minimum trade value on which tax is applied.
-          type: number
-          example: 10
-        Value:
-          title: Value of tax applied based on CalculationType.
-          type: number
-          example: 10
+        TimeSlots:
+          title: Time slots.
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginScheduleTimeSlot'
+          example:
+          - EndTime: '2022-12-20T01:39:13.430126Z'
+            StartTime: '2022-11-05T01:39:13.430126Z'
+        TimeZoneAbbreviation:
+          title: The time zone abbreviation.
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: Time zone offset.
+          type: string
+          example: stringValue
       additionalProperties: false
       example:
-        BuySell: Buy
-        CalculationTriggerType: Normal
-        CalculationType: ValueFraction
-        Description: UK Stamp Duty
-        Value: 0.5
+        CutoffTimeInMinutes: 0
+        IntradayMarginPct: 0.03
+        TimeZoneAbbreviation: CET
+        TimeZoneOffset: 01:00:00
+    Financing:
+      title: Instrument financing conditions
+      type: object
+      properties:
+        AskMarkUp:
+          title: Percentage markup per year added to the Interbank interest rate for buy positions.
+          type: number
+          example: 10
+        BidMarkDown:
+          title: Percentage markup per year added to the Interbank interest rate for sell positions.
+          type: number
+          example: 10
+        FixedRateAsk:
+          title: A fixed financing rate for long positions.
+          type: number
+          example: 10
+        FixedRateBid:
+          title: A fixed financing rate for short positions.
+          type: number
+          example: 10
+        InterbankRate:
+          title: The interbank rate.
+          allOf:
+          - $ref: '#/components/schemas/InterbankRate'
+      additionalProperties: false
+      example:
+        AskMarkUp: 0.025
+        BidMarkDown: 0.03
+        FixedRateAsk: 2
+        FixedRateBid: 1
+        InterbankRate:
+          AskRate: 2
+          BidRate: 1
+          TradeDate: '2022-10-31'
     Models.HoldingFee:
       title: Holding Fee.
       type: object
@@ -1026,102 +659,218 @@ components:
       example:
         FromPeriodInDays: 120
         Value: 1.6
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Models.RolloverFee:
-      title: SRD rollover fee - Charged if position is rolled over
+    FeeRule:
+      title: Fee Rule.
       type: object
       properties:
         Currency:
-          title: Currency
+          title: Custody fee currency.
           type: string
           example: stringValue
-        MinRollover:
-          title: Minimum rollover fee applied
+        FeePct:
+          title: Custody fee as a percentage per year.
           type: number
           example: 10
-        RolloverPct:
-          title: Rollover fee for the rolled over position
+        MaxValue:
+          title: Commission applied only to trade amounts below this value.
           type: number
           example: 10
+        MinValue:
+          title: Commission applied only to trade amounts above this value.
+          type: number
+          example: 10
+        Ordering:
+          title: Ordering.
+          type: integer
+          format: int32
+          example: 99
       additionalProperties: false
       example:
-        Currency: EUR
-        MinRollover: 0.5
-        RolloverPct: 0.6
-    Models.CustodyFee:
-      title: Custody fee.
+        FeePct: 0.5
+    Models.CarryingCost:
+      title: Carrying Cost.
       type: object
       properties:
-        FeeCurrency:
-          title: Fee currency.
-          type: string
-          example: stringValue
-        FeeRules:
-          title: Fee rules.
-          type: array
-          items:
-            $ref: '#/components/schemas/FeeRule'
-          example:
-          - FeePct: 0.5
-        MaxFeeAmount:
-          title: Maximum monthly Custody fee that will be charged.
+        FixedRate:
+          title: A fixed or minimum monthly carrying cost.
           type: number
           example: 10
-        MinFeeAmount:
-          title: Minimum monthly custody fee that will be charged.
+        InterbankRate:
+          title: The interbank rate.
+          allOf:
+          - $ref: '#/components/schemas/InterbankRate'
+        MarkUpRate:
+          title: The carrying cost percentage markup on the Interbank rate.
           type: number
           example: 10
       additionalProperties: false
       example:
-        FeeCurrency: EUR
-        FeeRules:
-        - FeePct: 0.5
-        MinFeeAmount: 5
-    Fee:
-      title: Fee
-      type: object
-      properties:
-        CurrencyCode:
-          title: The currency of the Fee.
-          type: string
-          example: stringValue
-        Value:
-          title: Fee value.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        CurrencyCode: USD
-        Value: 1.51
-    FeeTypes:
-      title: Exchange fee types
+        FixedRate: 1
+        InterbankRate:
+          AskRate: 2
+          BidRate: 1
+          TradeDate: '2022-10-31'
+        MarkUpRate: 1.5
+    ExposureLevel:
+      title: The ExposureLevel
       enum:
-      - Absolute
-      - PerAction
-      - PerLot
+      - Asset
+      - BaseContractGross
+      - BaseContractNet
+      - Currency
+      - FxNOP
+      - Instrument
+      - Issuer
+      - Unknown
+      type: string
+      example: Unknown
+      x-enum-descriptions:
+        Unknown: Unknown
+        Currency: Exposure By Currency
+        Instrument: Exposure By instrument
+        Issuer: Exposure By issuer
+        Asset: Exposure By asset
+        BaseContractNet: Exposure By base contract net
+        BaseContractGross: Exposure By base contract gross
+        FxNOP: "FX Net Open Positions Value (combined negative \n            currency exposure across all currencies) the \n            client is limited to in a specified currency"
+    FinancingInterest:
+      type: object
+      properties:
+        InterbankRate:
+          title: The interbank rate.
+          allOf:
+          - $ref: '#/components/schemas/InterbankRate'
+        Markup:
+          title: Financing interest markup.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        InterbankRate:
+          AskRate: 1
+          BidRate: 2
+          TradeDate: '0001-01-01'
+        Markup: 10
+    Models.SwapPoints:
+      type: object
+      properties:
+        AskPoint:
+          title: Swap ask point.
+          type: number
+          example: 10
+        BidPoint:
+          title: TSwap bid point.
+          type: number
+          example: 10
+        Date:
+          title: Date on which swap point been calculated..
+          type: string
+          format: date
+          x-type-name: Date
+        Markup:
+          title: Interest markup.
+          type: number
+          example: 10
+        TimeZoneAbbreviation:
+          title: Time zone abbreviation.
+          type: string
+          example: stringValue
+        TimeZoneOffset:
+          title: Time zone offset.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        AskPoint: 1
+        BidPoint: 2
+        Date: '0001-01-01'
+        Markup: 1
+        TimeZoneAbbreviation: CTE
+        TimeZoneOffset: 00:00:00
+    MarginTierEntry:
+      title: Margin tier entry
+      type: object
+      properties:
+        ExtraWeekMarginRate:
+          title: "Rate of nominal value required on the client’s account in order to \n            hold a position in the instrument over weekends and holidays. \n            A rate of 0.2, means 20%."
+          type: number
+          example: 10
+        InitialMarginRate:
+          title: "Rate of nominal value required on the client’s account in order to\n            open a position in the instrument. \n            A rate of 0.2, means 20%."
+          type: number
+          example: 10
+        IntraWeekMarginRate:
+          title: "Rate of nominal value required on the client’s account in order to\n            hold a position in the instrument over the week. \n            A rate of 0.2, means 20%."
+          type: number
+          example: 10
+        TierLowerBound:
+          title: The tier lower band.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ExtraWeekMarginRate: 0.015
+        InitialMarginRate: 0.015
+        IntraWeekMarginRate: 0.015
+        TierLowerBound: 0
+    ForexPriceBand:
+      title: Priceband information
+      type: object
+      properties:
+        AutoExecuteEnabled:
+          title: Indicates if autoexecute is enabled.
+          type: boolean
+          example: true
+        AutoQuoteEnabled:
+          title: Indicates if autoquote is enabled
+          type: boolean
+          example: true
+        DisplayDecimals:
+          title: The number of decimals used for display.
+          type: integer
+          format: int32
+          example: 99
+        MaxBand:
+          title: The Maximum Band.
+          type: number
+          example: 10
+        MinBand:
+          title: The Minimum Band.
+          type: number
+          example: 10
+        Spread:
+          title: The spread.
+          type: number
+          example: 10
+        SpreadType:
+          title: The spread type.
+          allOf:
+          - $ref: '#/components/schemas/SpreadTypes'
+        UpperBandLimit:
+          title: The upper trade limit where the spread applies.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AutoExecuteEnabled: true
+        AutoQuoteEnabled: true
+        DisplayDecimals: 5
+        MaxBand: 100000
+        Spread: 1E-05
+        SpreadType: Variable
+        UpperBandLimit: 100000
+    ExposureLimitRuleType:
+      title: Type of Rule
+      enum:
+      - Amount
       - Percentage
+      - Value
       type: string
-      example: Absolute
+      example: Amount
       x-enum-descriptions:
-        Absolute: Absolute fee value
-        PerLot: Per lot fee value.
-        PerAction: Per action fee value.
-        Percentage: Percentage fee value.
-    Enums.BuySell:
-      title: Used to describe the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Tax rule is applied on a buy.
-        Sell: Tax rule is applied on a sell.
+        Amount: Amount type
+        Value: Value type
+        Percentage: Percentage type
     CommissionLimit:
       title: Contains comissions for a range of comission types
       type: object
@@ -1195,6 +944,66 @@ components:
         Currency: USD
         OrderAction: ExecuteOrder
         PerUnitRate: 6
+    Models.Tax:
+      title: Tax details.
+      type: object
+      properties:
+        BuySell:
+          title: "If absent, the tax applies to both the buy and the sell side. \n            If present, the value indicates what side of a trade the tax applies to."
+          allOf:
+          - $ref: '#/components/schemas/Enums.BuySell'
+        CalculationTriggerType:
+          title: Calculation trigger type of applied tax.
+          allOf:
+          - $ref: '#/components/schemas/CalculationTriggerType'
+        CalculationType:
+          title: Calculation type of applied tax.
+          allOf:
+          - $ref: '#/components/schemas/CalculationType'
+        CostCategory:
+          title: Cost category
+          allOf:
+          - $ref: '#/components/schemas/TransactionCostCategory'
+        CostDescription:
+          title: Additional cost description
+          type: string
+          example: stringValue
+        Currency:
+          title: Currency in which tax value is calculated.
+          type: string
+          example: stringValue
+        Description:
+          title: Type of applicable tax.
+          type: string
+          example: stringValue
+        MaxTradeValue:
+          title: Maximum trade value on which tax is applied.
+          type: number
+          example: 10
+        MinTradeValue:
+          title: Minimum trade value on which tax is applied.
+          type: number
+          example: 10
+        Value:
+          title: Value of tax applied based on CalculationType.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        BuySell: Buy
+        CalculationTriggerType: Normal
+        CalculationType: ValueFraction
+        Description: UK Stamp Duty
+        Value: 0.5
+    ScheduledTradingConditionsFieldGroup:
+      title: Enum ScheduledTradingConditionFieldGroup
+      enum:
+      - ScheduledTradingConditions
+      type: string
+      example: ScheduledTradingConditions
+      x-enum-descriptions:
+        ScheduledTradingConditions: Scheduled Trading Conditions
+      x-type-warning: FlaggableEnum
     CalculationType:
       title: Calculation type.
       enum:
@@ -1209,236 +1018,6 @@ components:
         CommissionFraction: Tax is calculated as percentage of commission.
         TradeAmountFraction: Tax is calculated as percentage of traded amount.
         ValueFraction: Tax is calculated as percentage of total value.
-    MarginTierEntry:
-      title: Margin tier entry
-      type: object
-      properties:
-        ExtraWeekMarginRate:
-          title: "Rate of nominal value required on the client’s account in order to \n            hold a position in the instrument over weekends and holidays. \n            A rate of 0.2, means 20%."
-          type: number
-          example: 10
-        InitialMarginRate:
-          title: "Rate of nominal value required on the client’s account in order to\n            open a position in the instrument. \n            A rate of 0.2, means 20%."
-          type: number
-          example: 10
-        IntraWeekMarginRate:
-          title: "Rate of nominal value required on the client’s account in order to\n            hold a position in the instrument over the week. \n            A rate of 0.2, means 20%."
-          type: number
-          example: 10
-        TierLowerBound:
-          title: The tier lower band.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        ExtraWeekMarginRate: 0.015
-        InitialMarginRate: 0.015
-        IntraWeekMarginRate: 0.015
-        TierLowerBound: 0
-    IndicativeSpread:
-      title: Indicative spread
-      type: object
-      properties:
-        CalculationTime:
-          title: The time of calculation
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        PipSize:
-          title: The Pip Size
-          type: number
-          example: 10
-        Tenors:
-          title: The tenors available
-          type: array
-          items:
-            $ref: '#/components/schemas/Tenor'
-          example:
-          - Period: 1W
-            Spread: 0.9
-      additionalProperties: false
-      example:
-        PipSize: 1E-06
-        Tenors:
-        - Period: 1W
-          Spread: 0.9
-        - Period: 2W
-          Spread: 1.3
-        - Period: 3W
-          Spread: 1.7
-        - Period: 1M
-          Spread: 2
-        - Period: 2M
-          Spread: 2.9
-        - Period: 3M
-          Spread: 3.7
-        - Period: 6M
-          Spread: 5.5
-        - Period: 9M
-          Spread: 6.9
-        - Period: 1Y
-          Spread: 8
-    Models.SwapPoints:
-      type: object
-      properties:
-        AskPoint:
-          title: Swap ask point.
-          type: number
-          example: 10
-        BidPoint:
-          title: TSwap bid point.
-          type: number
-          example: 10
-        Date:
-          title: Date on which swap point been calculated..
-          type: string
-          format: date
-          x-type-name: Date
-        Markup:
-          title: Interest markup.
-          type: number
-          example: 10
-        TimeZoneAbbreviation:
-          title: Time zone abbreviation.
-          type: string
-          example: stringValue
-        TimeZoneOffset:
-          title: Time zone offset.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        AskPoint: 1
-        BidPoint: 2
-        Date: '0001-01-01'
-        Markup: 1
-        TimeZoneAbbreviation: CTE
-        TimeZoneOffset: 00:00:00
-    FinancingInterest:
-      type: object
-      properties:
-        InterbankRate:
-          title: The interbank rate.
-          allOf:
-          - $ref: '#/components/schemas/InterbankRate'
-        Markup:
-          title: Financing interest markup.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        InterbankRate:
-          AskRate: 1
-          BidRate: 2
-          TradeDate: '0001-01-01'
-        Markup: 10
-    ScheduledTradingConditionsFieldGroup:
-      title: Enum ScheduledTradingConditionFieldGroup
-      enum:
-      - ScheduledTradingConditions
-      type: string
-      example: ScheduledTradingConditions
-      x-enum-descriptions:
-        ScheduledTradingConditions: Scheduled Trading Conditions
-      x-type-warning: FlaggableEnum
-    CurrencyConversion:
-      type: object
-      properties:
-        AskRate:
-          title: Gets or sets the ask.
-          type: number
-          example: 10
-        BidRate:
-          title: Gets or sets the bid.
-          type: number
-          example: 10
-        Markup:
-          title: Gets or sets the markup.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AskRate: 10
-        BidRate: 10
-        Markup: 10
-    Tenor:
-      title: Tenor
-      type: object
-      properties:
-        Period:
-          title: "Period, \n            example: 1W = 1 week\n                     1M = 1 month\n                     1Y = 1 year"
-          type: string
-          example: stringValue
-        Spread:
-          title: The spread
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Period: 1W
-        Spread: 0.9
-    InterbankRate:
-      title: The Interbank rate
-      type: object
-      properties:
-        AskRate:
-          title: Ask rate for interbank.
-          type: number
-          example: 10
-        BidRate:
-          title: Bid rate for interbank.
-          type: number
-          example: 10
-        TradeDate:
-          title: Trade date.
-          type: string
-          format: date
-          x-type-name: Date
-      additionalProperties: false
-      example:
-        AskRate: 1
-        BidRate: 2
-        TradeDate: '0001-01-01'
-    ExposureLevel:
-      title: The ExposureLevel
-      enum:
-      - Asset
-      - BaseContractGross
-      - BaseContractNet
-      - Currency
-      - FxNOP
-      - Instrument
-      - Issuer
-      - Unknown
-      type: string
-      example: Unknown
-      x-enum-descriptions:
-        Unknown: Unknown
-        Currency: Exposure By Currency
-        Instrument: Exposure By instrument
-        Issuer: Exposure By issuer
-        Asset: Exposure By asset
-        BaseContractNet: Exposure By base contract net
-        BaseContractGross: Exposure By base contract gross
-        FxNOP: "FX Net Open Positions Value (combined negative \n            currency exposure across all currencies) the \n            client is limited to in a specified currency"
-    LoanInterest:
-      type: object
-      properties:
-        InterbankRate:
-          title: Interbank rate.
-          allOf:
-          - $ref: '#/components/schemas/InterbankRate'
-        Markup:
-          title: Interest Markup.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        InterbankRate:
-          AskRate: 1
-          BidRate: 2
-          TradeDate: '0001-01-01'
-        Markup: 10
     TradingConditionsResponse:
       title: Contains trading conditions that apply to the instrument
       type: object
@@ -2001,6 +1580,177 @@ components:
           TimeZoneOffset: 00:00:00
         TicketFeeThreshold: 50000
         Uic: 21
+    BondsCouponType:
+      title: Type of bond coupons.
+      enum:
+      - CouponTypeFixed
+      - CouponTypeNone
+      - CouponTypeOther
+      - CouponTypeVariable
+      type: string
+      example: CouponTypeNone
+      x-enum-descriptions:
+        CouponTypeNone: Zero-coupon bonds are issued at deep discounts and pay full face value at maturity.
+        CouponTypeFixed: Bonds with fixed rate of interest.
+        CouponTypeVariable: Bonds with floating rate of interest.
+        CouponTypeOther: Other type of bond coupons.
+    CalculationTriggerType:
+      title: Calculation Trigger Type
+      enum:
+      - Netted
+      - Normal
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: Normal
+        Netted: Netted
+    Enums.BuySell:
+      title: Used to describe the direction of an order, action or trade.
+      enum:
+      - Buy
+      - Sell
+      type: string
+      example: Buy
+      x-enum-descriptions:
+        Buy: Tax rule is applied on a buy.
+        Sell: Tax rule is applied on a sell.
+    OrderActions:
+      title: Order Actions.
+      enum:
+      - AlgorithmicOrder
+      - EtoAll
+      - EtoAssign
+      - EtoDelivery
+      - EtoExercise
+      - EtoExpiry
+      - ExecuteOrder
+      - SRDRollover
+      type: string
+      example: ExecuteOrder
+      x-enum-descriptions:
+        ExecuteOrder: On execute order.
+        AlgorithmicOrder: On execution of algorithmic order.
+        EtoExercise: EtoExercise
+        EtoAssign: EtoAssign
+        EtoDelivery: EtoDelivery
+        EtoExpiry: EtoExpiry
+        EtoAll: EtoAll
+        SRDRollover: SRD rollover fee
+    Models.CustodyFee:
+      title: Custody fee.
+      type: object
+      properties:
+        FeeCurrency:
+          title: Fee currency.
+          type: string
+          example: stringValue
+        FeeRules:
+          title: Fee rules.
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeRule'
+          example:
+          - FeePct: 0.5
+        MaxFeeAmount:
+          title: Maximum monthly Custody fee that will be charged.
+          type: number
+          example: 10
+        MinFeeAmount:
+          title: Minimum monthly custody fee that will be charged.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        FeeCurrency: EUR
+        FeeRules:
+        - FeePct: 0.5
+        MinFeeAmount: 5
+    Fee:
+      title: Fee
+      type: object
+      properties:
+        CurrencyCode:
+          title: The currency of the Fee.
+          type: string
+          example: stringValue
+        Value:
+          title: Fee value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        CurrencyCode: USD
+        Value: 1.51
+    InstrumentMarginRequirement:
+      type: object
+      properties:
+        Currency:
+          title: Margin Currency
+          type: string
+          example: stringValue
+        ExtraWeek:
+          title: Extra Week Margin Requirement
+          type: number
+          example: 10
+        Initial:
+          title: Intial Margin Requirement
+          type: number
+          example: 10
+        IntraWeek:
+          title: Intra Week Margin Requirement
+          type: number
+          example: 10
+        MarginType:
+          title: Margin Requirement Type
+          allOf:
+          - $ref: '#/components/schemas/MarginType'
+      additionalProperties: false
+      example:
+        ExtraWeek: 13200
+        Initial: 13200
+        IntraWeek: 13200
+        MarginType: Absolute
+    Models.RolloverFee:
+      title: SRD rollover fee - Charged if position is rolled over
+      type: object
+      properties:
+        Currency:
+          title: Currency
+          type: string
+          example: stringValue
+        MinRollover:
+          title: Minimum rollover fee applied
+          type: number
+          example: 10
+        RolloverPct:
+          title: Rollover fee for the rolled over position
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: EUR
+        MinRollover: 0.5
+        RolloverPct: 0.6
+    CurrencyConversion:
+      type: object
+      properties:
+        AskRate:
+          title: Gets or sets the ask.
+          type: number
+          example: 10
+        BidRate:
+          title: Gets or sets the bid.
+          type: number
+          example: 10
+        Markup:
+          title: Gets or sets the markup.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AskRate: 10
+        BidRate: 10
+        Markup: 10
     InternalCosts:
       title: Internal Costs
       type: object
@@ -2052,139 +1802,387 @@ components:
         OneTimeRetrocessionPct: 0
         OngoingCostPct: 0.49
         RetrocessionPct: 0
-    BondsCouponType:
-      title: Type of bond coupons.
-      enum:
-      - CouponTypeFixed
-      - CouponTypeNone
-      - CouponTypeOther
-      - CouponTypeVariable
-      type: string
-      example: CouponTypeNone
-      x-enum-descriptions:
-        CouponTypeNone: Zero-coupon bonds are issued at deep discounts and pay full face value at maturity.
-        CouponTypeFixed: Bonds with fixed rate of interest.
-        CouponTypeVariable: Bonds with floating rate of interest.
-        CouponTypeOther: Other type of bond coupons.
-    FeeRule:
-      title: Fee Rule.
+    LoanInterest:
       type: object
       properties:
-        Currency:
-          title: Custody fee currency.
-          type: string
-          example: stringValue
-        FeePct:
-          title: Custody fee as a percentage per year.
-          type: number
-          example: 10
-        MaxValue:
-          title: Commission applied only to trade amounts below this value.
-          type: number
-          example: 10
-        MinValue:
-          title: Commission applied only to trade amounts above this value.
-          type: number
-          example: 10
-        Ordering:
-          title: Ordering.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        FeePct: 0.5
-    Financing:
-      title: Instrument financing conditions
-      type: object
-      properties:
-        AskMarkUp:
-          title: Percentage markup per year added to the Interbank interest rate for buy positions.
-          type: number
-          example: 10
-        BidMarkDown:
-          title: Percentage markup per year added to the Interbank interest rate for sell positions.
-          type: number
-          example: 10
-        FixedRateAsk:
-          title: A fixed financing rate for long positions.
-          type: number
-          example: 10
-        FixedRateBid:
-          title: A fixed financing rate for short positions.
-          type: number
-          example: 10
         InterbankRate:
-          title: The interbank rate.
+          title: Interbank rate.
           allOf:
           - $ref: '#/components/schemas/InterbankRate'
+        Markup:
+          title: Interest Markup.
+          type: number
+          example: 10
       additionalProperties: false
       example:
-        AskMarkUp: 0.025
-        BidMarkDown: 0.03
-        FixedRateAsk: 2
-        FixedRateBid: 1
         InterbankRate:
-          AskRate: 2
-          BidRate: 1
-          TradeDate: '2022-10-31'
-    BondType:
-      title: Describes the type of bond.
+          AskRate: 1
+          BidRate: 2
+          TradeDate: '0001-01-01'
+        Markup: 10
+    FeeTypes:
+      title: Exchange fee types
       enum:
-      - Convertible
-      - DualCurrency
-      - FloatingRateNote
-      - InflationLinked
-      - NonInflationLinked
-      - Perpetual
+      - Absolute
+      - PerAction
+      - PerLot
+      - Percentage
       type: string
-      example: NonInflationLinked
+      example: Absolute
       x-enum-descriptions:
-        NonInflationLinked: Non Inflation Linked Bond.
-        InflationLinked: Inflation Linked Bond.
-        Convertible: Convertible Bond
-        Perpetual: Perpetual Bond
-        FloatingRateNote: FloatingRateNote Bond
-        DualCurrency: DualCurrency Bond
-    ExchangeFeeRules:
-      title: Use to set configured exchange fee rule sets.
+        Absolute: Absolute fee value
+        PerLot: Per lot fee value.
+        PerAction: Per action fee value.
+        Percentage: Percentage fee value.
+    TransactionCostCategory:
+      title: Tax Cost category
+      enum:
+      - AdditionalTransactionCost
+      - Tax
+      type: string
+      example: Tax
+      x-enum-descriptions:
+        Tax: Cost is of tax type
+        AdditionalTransactionCost: Cost is a additonal cost over transaction
+    Domain.LocalizedInfo:
+      title: Provides information about the localization.
       type: object
       properties:
-        Currency:
-          title: Currency of fixed exchange fees
+        Key:
+          title: Key identifier for the value.
           type: string
           example: stringValue
-        Maximum:
-          title: Maxmimum fee value to be applied.
-          type: number
-          example: 10
-        Minimum:
-          title: Minimum fee value to be applied.
-          type: number
-          example: 10
-        OrderAction:
-          title: Determines the action basis which commission is applied.
-          allOf:
-          - $ref: '#/components/schemas/OrderActions'
-        Type:
-          title: Fee type.
-          allOf:
-          - $ref: '#/components/schemas/FeeTypes'
         Value:
-          title: Fee value.
+          title: "A string value that represents the localized text. If the key is not found in specific language, it will be text of default language.\n            If the key is not found at all in localization resources, then key will be used in value itself."
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Key: stringValue
+        Value: stringValue
+    Rule:
+      title: Rule
+      enum:
+      - DayTradingNotAllowed
+      - ExchangeFeeConstituents
+      - NoMoreBuyOnExchange
+      - NoMoreBuyOnInstrument
+      - OrderAmendmentNotAllowed
+      type: string
+      example: NoMoreBuyOnInstrument
+      x-enum-descriptions:
+        NoMoreBuyOnInstrument: Exchange does not permit BUY orders on this symbol for today.
+        NoMoreBuyOnExchange: No more BUY orders allowed in the market today as the market daily quota is completely used.
+        OrderAmendmentNotAllowed: This market does not permit amending orders which are accepted by market. So, please cancel and re-enter, if the original attributes of the order need to be changed.
+        DayTradingNotAllowed: This market does not permit selling on the same day of buying (day trading is not allowed).
+        ExchangeFeeConstituents: A cumulative exchange fee is applicable on all transactions. Following fees are applicable on market value, China Clear Transfer Fee 0.2 bp | HKSCC Transfer Fee 0.2 bp | CSRC Securities Management Fee 0.2 bp | Handling Fee 0.487 bp. Total fee will be 1.087 bp of market.
+    AssetType:
+      title: The possible AssetTypes for which you can get a quote or place an order or a trade.
+      enum:
+      - Bond
+      - Cash
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CfdIndexOption
+      - CfdOnCompanyWarrant
+      - CfdOnEtc
+      - CfdOnEtf
+      - CfdOnEtn
+      - CfdOnFund
+      - CfdOnFutures
+      - CfdOnIndex
+      - CfdOnRights
+      - CfdOnStock
+      - CompanyWarrant
+      - ContractFutures
+      - Etc
+      - Etf
+      - Etn
+      - Fund
+      - FuturesOption
+      - FuturesStrategy
+      - FxBinaryOption
+      - FxForwards
+      - FxKnockInOption
+      - FxKnockOutOption
+      - FxNoTouchOption
+      - FxOneTouchOption
+      - FxSpot
+      - FxVanillaOption
+      - GuaranteeNote
+      - IpoOnStock
+      - ManagedFund
+      - MiniFuture
+      - MutualFund
+      - PortfolioNote
+      - Rights
+      - SrdOnEtf
+      - SrdOnStock
+      - Stock
+      - StockIndex
+      - StockIndexOption
+      - StockOption
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      example: FxForwards
+      x-enum-descriptions:
+        FxSpot: Forex Spot.
+        FxForwards: Forex Forward.
+        FxVanillaOption: Forex Vanilla Option.
+        FxKnockInOption: Forex Knock In Option.
+        FxKnockOutOption: Forex Knock Out Option.
+        FxBinaryOption: Forex Binary Option.
+        FxOneTouchOption: Forex One Touch Option.
+        FxNoTouchOption: Forex No Touch Option.
+        ContractFutures: Contract Futures.
+        FuturesStrategy: Futures Strategy.
+        Stock: Stock.
+        StockOption: Stock Option.
+        Bond: Bond.
+        FuturesOption: Futures Option.
+        StockIndexOption: Stock Index Option.
+        ManagedFund: 'Obsolete: Managed Fund.'
+        Cash: Cash. Not tradeable!
+        CfdOnStock: Cfd on Stock.
+        CfdOnIndex: Cfd on Stock Index.
+        CfdOnFutures: Cfd on Futures.
+        StockIndex: Stock Index.
+        MutualFund: Mutual Fund.
+        CfdIndexOption: Cfd Index Option.
+        CfdOnEtf: Cfd on Etf
+        CfdOnEtc: Cfd on Etc
+        CfdOnEtn: Cfd on Etn
+        CfdOnFund: Cfd on Fund
+        CfdOnRights: Cfd on Rights
+        CfdOnCompanyWarrant: Cfd on unlisted warrant issued by a corporation.
+        Etf: Exchange traded fund.
+        Etc: Etc
+        Etn: Etn
+        Fund: Fund
+        Rights: Rights
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: Guarantees a percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateCappedCapitalProtected: Guarantees a capped percentage increase of the underlying asset's value above the issue price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection percentage.
+        CertificateDiscount: Yields a capped return if the underlying asset's value is above the specified cap level at expiry. If the underlying's value is below the strike at expiry, the investor received the underlying or equivalent value. Offers direct exposure in underlying at a lower price (discount) with a capped potential profit and limited loss.
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: A certificate that mirrors the price movement of the underlying instrument. Often used to trade movements in indicies. Movements can be a fixed ratio of the underlying and can be inverted for bearish/short speculation. Risk is equivalent to owning the underlying.
+        CertificateUncappedOutperformance: Provides leveraged returns when the underlying price exceeds the threshold strike price. The amount leverage is defined by the Participation %. When the underlying is below the strike price, the certificate mirrors the underlying price 1:1.
+        CertificateBonus: Mirrors the price movement of the underlying only if and when the underlying price exceeds the defined barrier. If the certificate expires below the barrier, it offers partial protection/return of investment.
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        SrdOnStock: SRD. (Service de Règlement Différé) on Stock.
+        SrdOnEtf: SRD. (Service de Règlement Différé) on Etf.
+        IpoOnStock: IPO on Stock
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
+        PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
+        GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    ScheduledTradingConditions:
+      type: object
+      properties:
+        ScheduledDate:
+          title: Scheduled date for changes
+          type: string
+          example: stringValue
+        TradingCondition:
+          title: Trading conditions
+          allOf:
+          - $ref: '#/components/schemas/ScheduledInstrumentTradingConditons'
+      additionalProperties: false
+      example:
+        ScheduledDate: '2022-11-05T01:39:13.4051086+00:00'
+        TradingCondition:
+          CollateralValue: 1500.5
+          InitialCollateralValue: 1212.7
+          InstrumentMarginRequirements:
+          - ExtraWeek: 13200
+            Initial: 13200
+            IntraWeek: 13200
+            MarginType: Absolute
+          InterestRateInstrumentMarginRequirement:
+            ExtraWeek: 13200
+            Initial: 13200
+            IntraWeek: 13200
+            MarginType: Absolute
+          MaintenanceCollateralValue: 100.2
+          MarginTierRequirement:
+            Entries:
+            - ExtraWeekMarginRate: 0.015
+              InitialMarginRate: 0.015
+              IntraWeekMarginRate: 0.015
+              TierLowerBound: 0
+            - ExtraWeekMarginRate: 0.065
+              InitialMarginRate: 0.055
+              IntraWeekMarginRate: 0.045
+              TierLowerBound: 1000000
+            - ExtraWeekMarginRate: 0.025
+              InitialMarginRate: 0.025
+              IntraWeekMarginRate: 0.025
+              TierLowerBound: 25000000
+            - ExtraWeekMarginRate: 0.003
+              InitialMarginRate: 0.003
+              IntraWeekMarginRate: 0.003
+              TierLowerBound: 50000000
+            - ExtraWeekMarginRate: 0.035
+              InitialMarginRate: 0.035
+              IntraWeekMarginRate: 0.035
+              TierLowerBound: 100000000
+            - ExtraWeekMarginRate: 0.045
+              InitialMarginRate: 0.045
+              IntraWeekMarginRate: 0.045
+              TierLowerBound: 150000000
+            - ExtraWeekMarginRate: 0.05
+              InitialMarginRate: 0.05
+              IntraWeekMarginRate: 0.05
+              TierLowerBound: 250000000
+            TierCurrency: USD
+          Rating: 2
+    Tenor:
+      title: Tenor
+      type: object
+      properties:
+        Period:
+          title: "Period, \n            example: 1W = 1 week\n                     1M = 1 month\n                     1Y = 1 year"
+          type: string
+          example: stringValue
+        Spread:
+          title: The spread
           type: number
           example: 10
       additionalProperties: false
       example:
-        Currency: USD
-        Maximum: 999.99
-        Minimum: 1.99
-        OrderAction: ExecuteOrder
-        Type: PerLot
-        Value: 2.1
+        Period: 1W
+        Spread: 0.9
+    PortfolioBasedMargin:
+      type: object
+      properties:
+        ExtremeStressFactor:
+          title: Extreme Stress Factor
+          type: number
+          example: 10
+        Initial:
+          title: Intial Margin Requirement
+          type: number
+          example: 10
+        IntraWeek:
+          title: Intra Week Margin Requirement
+          type: number
+          example: 10
+        LiquidityThresholdAmount:
+          title: Liquidity Threshold Amount
+          type: number
+          example: 10
+        LiquidityThresholdCurrency:
+          title: Liquidity Threshold Currency
+          type: string
+          example: stringValue
+        VolatilityAddOn:
+          title: Volatility AddOn
+          type: number
+          example: 10
+        VolatilityStress:
+          title: Volatility Stress
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        ExtremeStressFactor: 15.6
+        Initial: 185.5
+        IntraWeek: 8.7
+        LiquidityThresholdAmount: 569987
+        LiquidityThresholdCurrency: USD
+        VolatilityAddOn: 1000.68
+        VolatilityStress: 100
+    InterbankRate:
+      title: The Interbank rate
+      type: object
+      properties:
+        AskRate:
+          title: Ask rate for interbank.
+          type: number
+          example: 10
+        BidRate:
+          title: Bid rate for interbank.
+          type: number
+          example: 10
+        TradeDate:
+          title: Trade date.
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        AskRate: 1
+        BidRate: 2
+        TradeDate: '0001-01-01'
+    MarginTierRequirement:
+      title: Margin tier requirement
+      type: object
+      properties:
+        Entries:
+          title: Margin tier entries.
+          type: array
+          items:
+            $ref: '#/components/schemas/MarginTierEntry'
+          example:
+          - ExtraWeekMarginRate: 0.015
+            InitialMarginRate: 0.015
+            IntraWeekMarginRate: 0.015
+            TierLowerBound: 0
+        TierCurrency:
+          title: Tier currency.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Entries:
+        - ExtraWeekMarginRate: 0.015
+          InitialMarginRate: 0.015
+          IntraWeekMarginRate: 0.015
+          TierLowerBound: 0
+        - ExtraWeekMarginRate: 0.065
+          InitialMarginRate: 0.055
+          IntraWeekMarginRate: 0.045
+          TierLowerBound: 1000000
+        - ExtraWeekMarginRate: 0.025
+          InitialMarginRate: 0.025
+          IntraWeekMarginRate: 0.025
+          TierLowerBound: 25000000
+        - ExtraWeekMarginRate: 0.003
+          InitialMarginRate: 0.003
+          IntraWeekMarginRate: 0.003
+          TierLowerBound: 50000000
+        - ExtraWeekMarginRate: 0.035
+          InitialMarginRate: 0.035
+          IntraWeekMarginRate: 0.035
+          TierLowerBound: 100000000
+        - ExtraWeekMarginRate: 0.045
+          InitialMarginRate: 0.045
+          IntraWeekMarginRate: 0.045
+          TierLowerBound: 150000000
+        - ExtraWeekMarginRate: 0.05
+          InitialMarginRate: 0.05
+          IntraWeekMarginRate: 0.05
+          TierLowerBound: 250000000
+        TierCurrency: USD
   responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -2206,10 +2204,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

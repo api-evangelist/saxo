@@ -361,14 +361,14 @@ paths:
       summary: Partner cash transfer cash transfer
       x-summary-source: derived
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    TransferStatus:
-      enum:
-      - Failed
-      - Pending
-      - Successful
-      type: string
-      example: Failed
     PartnerCashTransferRequest:
       title: Transfer details needed for the partner cash transfer
       required:
@@ -423,6 +423,27 @@ components:
         FundingCheck: Enforce
         ToAccountKey: y3kFQWkqJYMgOgaxcoqshA==
         ValueDate: '2022-10-30T06:28:04.7940360+00:00'
+    PartnerCashTransferResponse:
+      title: Result of partner's initiated cash transfer.
+      type: object
+      properties:
+        FromAccountPositionId:
+          title: The id of the cash position created on the "from" account.
+          type: string
+          example: stringValue
+        ToAccountPositionId:
+          title: The id of the cash position created on the "to" account.
+          type: string
+          example: stringValue
+        TransactionId:
+          title: Id of the transaction done.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        FromAccountPositionId: '1267'
+        ToAccountPositionId: '1268'
+        TransactionId: '1269'
     TransferResultListResult:
       type: object
       properties:
@@ -456,16 +477,12 @@ components:
           TransferRequestedOn: '2022-10-30T06:28:04.817054Z'
           TransferStatus: Successful
           ValueDate: '0001-01-01T00:00:00Z'
-    FundingCheck:
-      title: Specifies if funding rules should be checked or not.
-      enum:
-      - Enforce
-      - Ignore
-      type: string
-      example: Enforce
-      x-enum-descriptions:
-        Enforce: Enforce funding checks
-        Ignore: Ignore funding checks
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     TransferResult:
       type: object
       properties:
@@ -540,40 +557,23 @@ components:
         TransferRequestedOn: '2022-10-30T06:28:04.8160530+00:00'
         TransferStatus: Successful
         ValueDate: '0001-01-01T00:00:00.0000000+00:00'
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    PartnerCashTransferResponse:
-      title: Result of partner's initiated cash transfer.
-      type: object
-      properties:
-        FromAccountPositionId:
-          title: The id of the cash position created on the "from" account.
-          type: string
-          example: stringValue
-        ToAccountPositionId:
-          title: The id of the cash position created on the "to" account.
-          type: string
-          example: stringValue
-        TransactionId:
-          title: Id of the transaction done.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        FromAccountPositionId: '1267'
-        ToAccountPositionId: '1268'
-        TransactionId: '1269'
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
+    TransferStatus:
+      enum:
+      - Failed
+      - Pending
+      - Successful
+      type: string
+      example: Failed
+    FundingCheck:
+      title: Specifies if funding rules should be checked or not.
+      enum:
+      - Enforce
+      - Ignore
+      type: string
+      example: Enforce
+      x-enum-descriptions:
+        Enforce: Enforce funding checks
+        Ignore: Ignore funding checks
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -213,37 +213,33 @@ paths:
       x-required-permissions:
         personal: Write
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    BookingStatus:
-      title: Bulk booking file validation status
-      enum:
-      - Failed
-      - Success
-      - Working
-      type: string
-      example: Working
-      x-enum-descriptions:
-        Working: Initial status
-        Failed: If any validation failed
-        Success: When all validation passed/succeeded
-    Enumerations.BookingPublishStatus:
-      title: Bulk booking file publish status from backoffice
-      enum:
-      - Active
-      - Cancelled
-      - Error
-      - Hold
-      - Pending
-      - Processed
-      type: string
-      example: Pending
-      x-enum-descriptions:
-        Pending: Receive the signal from Signal Topic
-        Hold: If any validation failed
-        Active: When all validation passed/succeeded
-        Processed: This status will be marked when all requests processed.
-        Error: This will be set once processing has been done with some errors.
-        Cancelled: Cancel the batch
     BookingValidationStatus:
       title: Model class for booking validation status.
       type: object
@@ -296,6 +292,41 @@ components:
         Errors:
         - stringValue
         Id: 99
+    Enumerations.BookingPublishStatus:
+      title: Bulk booking file publish status from backoffice
+      enum:
+      - Active
+      - Cancelled
+      - Error
+      - Hold
+      - Pending
+      - Processed
+      type: string
+      example: Pending
+      x-enum-descriptions:
+        Pending: Receive the signal from Signal Topic
+        Hold: If any validation failed
+        Active: When all validation passed/succeeded
+        Processed: This status will be marked when all requests processed.
+        Error: This will be set once processing has been done with some errors.
+        Cancelled: Cancel the batch
+    RegisteredBulkBooking:
+      type: object
+      properties:
+        BookingReference:
+          title: Request reference id generated for the uploaded file to get the booking status.
+          type: integer
+          format: int64
+          example: 37
+      additionalProperties: false
+      example:
+        BookingReference: 12345
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     BookingPublishStatus:
       title: Model class for booking publish status from backoffice.
       type: object
@@ -323,49 +354,18 @@ components:
         - Error info
         RequestReferenceNumber: 123456
         Status: Pending
-    RegisteredBulkBooking:
-      type: object
-      properties:
-        BookingReference:
-          title: Request reference id generated for the uploaded file to get the booking status.
-          type: integer
-          format: int64
-          example: 37
-      additionalProperties: false
-      example:
-        BookingReference: 12345
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
+    BookingStatus:
+      title: Bulk booking file validation status
+      enum:
+      - Failed
+      - Success
+      - Working
+      type: string
+      example: Working
+      x-enum-descriptions:
+        Working: Initial status
+        Failed: If any validation failed
+        Success: When all validation passed/succeeded
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

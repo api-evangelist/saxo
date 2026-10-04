@@ -83,12 +83,10 @@ paths:
         restricted: Read
 components:
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -110,6 +108,8 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     CurrencyPairDetails:
       title: Represents a currency pair.
@@ -150,12 +150,6 @@ components:
       example:
         CurrencyCode: stringValue
         Uic: 99
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     CurrencyPairDetailsListResult:
       type: object
       properties:
@@ -200,6 +194,12 @@ components:
             Uic: 32
           - CurrencyCode: USD
             Uic: 17764
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

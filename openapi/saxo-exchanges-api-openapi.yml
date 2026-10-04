@@ -140,130 +140,7 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
-  responses:
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
   schemas:
-    ExchangeDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExchangeDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - CountryCode: GB
-          Currency: GBP
-          ExchangeId: LME
-          Mic: XLME
-          Name: London Metal Exchange
-          TimeZone: 1
-          TimeZoneOffset: 00:00:00
-    ExchangeSessionState:
-      title: The different states an Exchange session can have
-      enum:
-      - Auction
-      - AutomatedTrading
-      - Break
-      - CallAuctionTrading
-      - Closed
-      - Halt
-      - OpeningAuction
-      - PitTrading
-      - PostAutomatedTrading
-      - PostMarket
-      - PostTrading
-      - PreAutomatedTrading
-      - PreMarket
-      - PreTrading
-      - Suspended
-      - TradingAtLast
-      - Undefined
-      type: string
-      example: AutomatedTrading
-      x-enum-descriptions:
-        Undefined: The state of the Exchange is unknown
-        AutomatedTrading: Normal trading
-        Closed: Exchange is closed
-        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        Break: Break in exchange opening hours
-        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
-        PostTrading: Extended trading session after normal opening hours
-        PreTrading: Extended trading session before normal opening hours
-        PostAutomatedTrading: Extended trading session after normal opening hours
-        PreAutomatedTrading: Extended trading session before normal opening hours
-        Suspended: Trading is suspended on the Exchange
-        Halt: Trading is halted on the Exchange
-        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
-        PreMarket: Extended trading session before normal opening hours
-        PostMarket: Extended trading session after normal opening hours
-        OpeningAuction: Opening auction exchange state
-        TradingAtLast: Orders collected at last price in absence of closing auction price
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    ExchangeSession:
-      title: Responsible for carrying information about an Exchange session.
-      type: object
-      properties:
-        EndTime:
-          title: UTC date and time of when the state ends
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        StartTime:
-          title: UTC date and time of when the state starts
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        State:
-          title: Gets the  for the specied  and
-          allOf:
-          - $ref: '#/components/schemas/ExchangeSessionState'
-      additionalProperties: false
-      example:
-        EndTime: '9999-12-31T23:59:59.9999990+00:00'
-        StartTime: '9999-12-31T23:59:59.9999990+00:00'
-        State: Undefined
     ExchangeDetails:
       title: Public data contract for an exchange.
       type: object
@@ -333,6 +210,129 @@ components:
         Name: London Metal Exchange
         TimeZone: 1
         TimeZoneOffset: 00:00:00
+    ExchangeSessionState:
+      title: The different states an Exchange session can have
+      enum:
+      - Auction
+      - AutomatedTrading
+      - Break
+      - CallAuctionTrading
+      - Closed
+      - Halt
+      - OpeningAuction
+      - PitTrading
+      - PostAutomatedTrading
+      - PostMarket
+      - PostTrading
+      - PreAutomatedTrading
+      - PreMarket
+      - PreTrading
+      - Suspended
+      - TradingAtLast
+      - Undefined
+      type: string
+      example: AutomatedTrading
+      x-enum-descriptions:
+        Undefined: The state of the Exchange is unknown
+        AutomatedTrading: Normal trading
+        Closed: Exchange is closed
+        CallAuctionTrading: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        Break: Break in exchange opening hours
+        PitTrading: Transactions are conducted in trading pits on the floor of the Exchange
+        PostTrading: Extended trading session after normal opening hours
+        PreTrading: Extended trading session before normal opening hours
+        PostAutomatedTrading: Extended trading session after normal opening hours
+        PreAutomatedTrading: Extended trading session before normal opening hours
+        Suspended: Trading is suspended on the Exchange
+        Halt: Trading is halted on the Exchange
+        Auction: "Participants place orders to buy or sell units at certain buying or selling prices.\n            Orders collected during an auction are matched to form a contract"
+        PreMarket: Extended trading session before normal opening hours
+        PostMarket: Extended trading session after normal opening hours
+        OpeningAuction: Opening auction exchange state
+        TradingAtLast: Orders collected at last price in absence of closing auction price
+    ExchangeSession:
+      title: Responsible for carrying information about an Exchange session.
+      type: object
+      properties:
+        EndTime:
+          title: UTC date and time of when the state ends
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        StartTime:
+          title: UTC date and time of when the state starts
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        State:
+          title: Gets the  for the specied  and
+          allOf:
+          - $ref: '#/components/schemas/ExchangeSessionState'
+      additionalProperties: false
+      example:
+        EndTime: '9999-12-31T23:59:59.9999990+00:00'
+        StartTime: '9999-12-31T23:59:59.9999990+00:00'
+        State: Undefined
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ExchangeDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - CountryCode: GB
+          Currency: GBP
+          ExchangeId: LME
+          Mic: XLME
+          Name: London Metal Exchange
+          TimeZone: 1
+          TimeZoneOffset: 00:00:00
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

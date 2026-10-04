@@ -310,52 +310,60 @@ paths:
         confidential: Write
 components:
   schemas:
-    SettlementInstruction:
-      title: Security Transfer Settlement Instructions
+    Broker:
+      title: Broker Information
+      required:
+      - CountryCode
+      - Name
+      - Contact
+      - Phone
+      - Email
       type: object
       properties:
-        AccountAtClearingAgent:
-          title: The safekeeping / Security account at the custody of the client
+        Contact:
+          title: Broker Contact
           type: string
           example: stringValue
-        AgentLocalAccount:
-          title: The agent local account
+        CountryCode:
+          title: Broker's Country Id
+          pattern: ^[A-Z]{2}$
+          type: string
+          x-type-name: CountryCode
+        Email:
+          title: Broker Email
           type: string
           example: stringValue
-        BuyerSellerCode:
-          title: The buyer seller code
+        Name:
+          title: Broker Name
           type: string
           example: stringValue
-        BuyerSellerCodeType:
-          title: The BIC Code / Local Code of the custody of the client with their counterpart
-          allOf:
-          - $ref: '#/components/schemas/BuyerSellerCodeType'
-        ClearingAgentCode:
-          title: The clearing agent code
-          type: string
-          example: stringValue
-        ClearingAgentCodeType:
-          title: The BIC / Local Code of the Exchange of the instrument. For example if client is trading in UK Share then the Clearing Agent would be the BIC / Local Code from UK
-          allOf:
-          - $ref: '#/components/schemas/ClearingAgentCodeType'
-        FreeText:
-          title: The information / remarks
-          type: string
-          example: stringValue
-        SettlementAgentAccount:
-          title: The settlement agent account
+        Phone:
+          title: Broker Phone Number
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        AccountAtClearingAgent: 0539633313
-        AgentLocalAccount: '6300772196'
-        BuyerSellerCode: B
-        BuyerSellerCodeType: Bic
-        ClearingAgentCode: '9200'
-        ClearingAgentCodeType: Bic
-        FreeText: NOTLXNO
-        SettlementAgentAccount: 1011248400G
+        Contact: Broker Contact 1
+        CountryCode: DK
+        Email: BrokerEmail1@email.com
+        Name: ABC Investment Bank
+        Phone: +45 12345678
+    BuyerSellerCodeType:
+      title: The possible BuyerSellerCodeTypes.
+      enum:
+      - Bic
+      - Cdident
+      - Local
+      - None
+      - Text
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: None
+        Bic: Bic
+        Local: Local
+        Text: Text
+        Cdident: Cdident
     TransferRequest:
       required:
       - ClientKey
@@ -473,215 +481,62 @@ components:
           SettlementAgentAccount: 1011248400G
         TradeDate: '2022-10-30'
         TransferDirection: TransferIn
-    TransferListResult:
+    SettlementInstruction:
+      title: Security Transfer Settlement Instructions
       type: object
       properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Transfer'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __count: 1
-        Data:
-        - AccountId: '3495867632'
-          AccountManager: ABC Investment Bank
-          AssetType: Stock
-          Broker:
-            Contact: Broker Contact 1
-            CountryCode: DK
-            Email: BrokerEmail1@email.com
-            Name: ABC Investment Bank
-            Phone: +45 12345678
-          ClientAccountAtBroker: 0539633313
-          Securities:
-          - Currency: EUR
-            Description: Apple Inc.
-            Exchange: NASDAQ
-            InstrumentSymbolCode: AAPL:xnas
-            IsinCode: US0378331005
-            Price: 194.82
-            PurchaseDate: '2020-06-20'
-            Quantity: 24
-            Uic: 211
-          - Currency: GBP
-            Description: ABB Ltd
-            Exchange: SSE
-            InstrumentSymbolCode: ABB:xome
-            IsinCode: CH0012221716
-            Price: 32.82
-            PurchaseDate: '2020-09-10'
-            Quantity: 7
-            Uic: 101
-          TradeDate: '2022-10-30'
-          TransferDirection: TransferIn
-          TransferId: '414'
-    Broker:
-      title: Broker Information
-      required:
-      - CountryCode
-      - Name
-      - Contact
-      - Phone
-      - Email
-      type: object
-      properties:
-        Contact:
-          title: Broker Contact
+        AccountAtClearingAgent:
+          title: The safekeeping / Security account at the custody of the client
           type: string
           example: stringValue
-        CountryCode:
-          title: Broker's Country Id
-          pattern: ^[A-Z]{2}$
-          type: string
-          x-type-name: CountryCode
-        Email:
-          title: Broker Email
+        AgentLocalAccount:
+          title: The agent local account
           type: string
           example: stringValue
-        Name:
-          title: Broker Name
+        BuyerSellerCode:
+          title: The buyer seller code
           type: string
           example: stringValue
-        Phone:
-          title: Broker Phone Number
+        BuyerSellerCodeType:
+          title: The BIC Code / Local Code of the custody of the client with their counterpart
+          allOf:
+          - $ref: '#/components/schemas/BuyerSellerCodeType'
+        ClearingAgentCode:
+          title: The clearing agent code
+          type: string
+          example: stringValue
+        ClearingAgentCodeType:
+          title: The BIC / Local Code of the Exchange of the instrument. For example if client is trading in UK Share then the Clearing Agent would be the BIC / Local Code from UK
+          allOf:
+          - $ref: '#/components/schemas/ClearingAgentCodeType'
+        FreeText:
+          title: The information / remarks
+          type: string
+          example: stringValue
+        SettlementAgentAccount:
+          title: The settlement agent account
           type: string
           example: stringValue
       additionalProperties: false
       example:
-        Contact: Broker Contact 1
-        CountryCode: DK
-        Email: BrokerEmail1@email.com
-        Name: ABC Investment Bank
-        Phone: +45 12345678
-    BuyerSellerCodeType:
-      title: The possible BuyerSellerCodeTypes.
+        AccountAtClearingAgent: 0539633313
+        AgentLocalAccount: '6300772196'
+        BuyerSellerCode: B
+        BuyerSellerCodeType: Bic
+        ClearingAgentCode: '9200'
+        ClearingAgentCodeType: Bic
+        FreeText: NOTLXNO
+        SettlementAgentAccount: 1011248400G
+    TransferDirection:
+      title: Which direction should the securites be transferred.
       enum:
-      - Bic
-      - Cdident
-      - Local
-      - None
-      - Text
+      - TransferIn
+      - TransferOut
       type: string
-      example: None
+      example: TransferIn
       x-enum-descriptions:
-        None: None
-        Bic: Bic
-        Local: Local
-        Text: Text
-        Cdident: Cdident
-    Security:
-      title: Details for one security to get transferred.
-      required:
-      - Price
-      - Quantity
-      - Uic
-      type: object
-      properties:
-        Currency:
-          title: The Currency of the security to be transferred.
-          type: string
-          example: stringValue
-        Description:
-          title: The Description of the security
-          type: string
-          example: stringValue
-        Exchange:
-          title: The Exchange where the security gets transferred.
-          type: string
-          example: stringValue
-        ExchangeText:
-          title: ExchangeText of the security.
-          type: string
-          example: stringValue
-        InstrumentSymbolCode:
-          title: The InstrumentSymbolCode of the security.
-          type: string
-          example: stringValue
-        IsinCode:
-          title: IsinCode of the security.
-          type: string
-          example: stringValue
-        Price:
-          title: The price per security
-          type: number
-          example: 10
-        PurchaseDate:
-          title: Purchase date of instrument
-          type: string
-          format: date
-          x-type-name: Date
-        Quantity:
-          title: Quantity of security to transfer
-          type: number
-          example: 10
-        Uic:
-          title: Uic of the security
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        Currency: EUR
-        Description: Apple Inc.
-        Exchange: NASDAQ
-        InstrumentSymbolCode: AAPL:xnas
-        IsinCode: US0378331005
-        Price: 194.82
-        PurchaseDate: '2020-06-20'
-        Quantity: 24
-        Uic: 211
-    TransferResponse:
-      title: Response for security transfer
-      type: object
-      properties:
-        TransferId:
-          title: Unique transaction id for the transfer
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        TransferId: 63HGCDS3E89DS
-    BrokerListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Broker'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - Contact: Broker Contact 1
-          CountryCode: DK
-          Email: BrokerEmail1@email.com
-          Name: ABC Investment Bank
-          Phone: +45 12345678
-        - Contact: Broker Contact 2
-          CountryCode: DK
-          Email: BrokerEmail2@email.com
-          Name: Alps Investment Bank
-          Phone: 555 212-639-9675
+        TransferIn: Transfer securities from external broker to Saxo Bank
+        TransferOut: Transfer securities Saxo Bank to external broker
     TransferableAssetType:
       title: The possible AssetTypes for which you can transfer in or out.
       enum:
@@ -722,12 +577,65 @@ components:
         CertificateUncappedOutperformance: CertificateUncappedOutperformance
         CertificateBonus: CertificateBonus
         CertificateConstantLeverage: CertificateConstantLeverage
+    BrokerListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Broker'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Contact: Broker Contact 1
+          CountryCode: DK
+          Email: BrokerEmail1@email.com
+          Name: ABC Investment Bank
+          Phone: +45 12345678
+        - Contact: Broker Contact 2
+          CountryCode: DK
+          Email: BrokerEmail2@email.com
+          Name: Alps Investment Bank
+          Phone: 555 212-639-9675
+    TransferResponse:
+      title: Response for security transfer
+      type: object
+      properties:
+        TransferId:
+          title: Unique transaction id for the transfer
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        TransferId: 63HGCDS3E89DS
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+    ClearingAgentCodeType:
+      title: The possible ClearingAgentCodeTypes.
+      enum:
+      - Bic
+      - Local
+      - None
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: None
+        Bic: Bic
+        Local: Local
     Transfer:
       required:
       - Securities
@@ -833,28 +741,120 @@ components:
         TradeDate: '2022-10-30'
         TransferDirection: TransferIn
         TransferId: '414'
-    TransferDirection:
-      title: Which direction should the securites be transferred.
-      enum:
-      - TransferIn
-      - TransferOut
-      type: string
-      example: TransferIn
-      x-enum-descriptions:
-        TransferIn: Transfer securities from external broker to Saxo Bank
-        TransferOut: Transfer securities Saxo Bank to external broker
-    ClearingAgentCodeType:
-      title: The possible ClearingAgentCodeTypes.
-      enum:
-      - Bic
-      - Local
-      - None
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: None
-        Bic: Bic
-        Local: Local
+    TransferListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transfer'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __count: 1
+        Data:
+        - AccountId: '3495867632'
+          AccountManager: ABC Investment Bank
+          AssetType: Stock
+          Broker:
+            Contact: Broker Contact 1
+            CountryCode: DK
+            Email: BrokerEmail1@email.com
+            Name: ABC Investment Bank
+            Phone: +45 12345678
+          ClientAccountAtBroker: 0539633313
+          Securities:
+          - Currency: EUR
+            Description: Apple Inc.
+            Exchange: NASDAQ
+            InstrumentSymbolCode: AAPL:xnas
+            IsinCode: US0378331005
+            Price: 194.82
+            PurchaseDate: '2020-06-20'
+            Quantity: 24
+            Uic: 211
+          - Currency: GBP
+            Description: ABB Ltd
+            Exchange: SSE
+            InstrumentSymbolCode: ABB:xome
+            IsinCode: CH0012221716
+            Price: 32.82
+            PurchaseDate: '2020-09-10'
+            Quantity: 7
+            Uic: 101
+          TradeDate: '2022-10-30'
+          TransferDirection: TransferIn
+          TransferId: '414'
+    Security:
+      title: Details for one security to get transferred.
+      required:
+      - Price
+      - Quantity
+      - Uic
+      type: object
+      properties:
+        Currency:
+          title: The Currency of the security to be transferred.
+          type: string
+          example: stringValue
+        Description:
+          title: The Description of the security
+          type: string
+          example: stringValue
+        Exchange:
+          title: The Exchange where the security gets transferred.
+          type: string
+          example: stringValue
+        ExchangeText:
+          title: ExchangeText of the security.
+          type: string
+          example: stringValue
+        InstrumentSymbolCode:
+          title: The InstrumentSymbolCode of the security.
+          type: string
+          example: stringValue
+        IsinCode:
+          title: IsinCode of the security.
+          type: string
+          example: stringValue
+        Price:
+          title: The price per security
+          type: number
+          example: 10
+        PurchaseDate:
+          title: Purchase date of instrument
+          type: string
+          format: date
+          x-type-name: Date
+        Quantity:
+          title: Quantity of security to transfer
+          type: number
+          example: 10
+        Uic:
+          title: Uic of the security
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        Currency: EUR
+        Description: Apple Inc.
+        Exchange: NASDAQ
+        InstrumentSymbolCode: AAPL:xnas
+        IsinCode: US0378331005
+        Price: 194.82
+        PurchaseDate: '2020-06-20'
+        Quantity: 24
+        Uic: 211
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.

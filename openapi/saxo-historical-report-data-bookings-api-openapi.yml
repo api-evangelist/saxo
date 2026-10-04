@@ -1055,51 +1055,237 @@ paths:
       summary: Booking get
       x-summary-source: derived
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    CostClass:
-      title: The cost class.
+    Booking:
+      title: The booking.
+      type: object
+      properties:
+        AccountCurrency:
+          title: Booking account amount currency
+          type: string
+          example: stringValue
+        AccountId:
+          title: AccountId
+          type: string
+          example: stringValue
+        Amount:
+          title: Booked Amount in Instrument currency
+          type: number
+          example: 10
+        AmountAccountCurrency:
+          title: Booked Amount in account currency
+          type: number
+          example: 10
+        AmountClass:
+          title: Cost Category
+          allOf:
+          - $ref: '#/components/schemas/AmountClass'
+        AmountClientCurrency:
+          title: Booked Amount in Client currency
+          type: number
+          example: 10
+        AmountSubClass:
+          title: Cost Sub Category
+          allOf:
+          - $ref: '#/components/schemas/AmountSubClass'
+        AmountUSD:
+          title: Booked Amount USD
+          type: number
+          example: 10
+        AssetType:
+          title: AssetType
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        BkAmountId:
+          title: Id of booked amount
+          type: string
+          example: stringValue
+        BkAmountType:
+          title: Denotes the amount type for the booking
+          type: string
+          example: stringValue
+        BkAmountTypeId:
+          title: ID of the booked amount type
+          type: string
+          example: stringValue
+        CaEventName:
+          title: if booking is related to a corporate action, denotes the name of the event
+          type: string
+          example: stringValue
+        CaMasterRecordId:
+          title: if booking is related to a corporate action, denotes the ID of the corporate action event
+          type: string
+          example: stringValue
+        ClientCurrency:
+          title: Booking client amount currency
+          type: string
+          example: stringValue
+        ConversionRate:
+          title: Conversion rate
+          type: number
+          example: 10
+        ConversionRateAccountCurrency:
+          title: the currency conversion cost in account currency when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        ConversionRateClientCurrency:
+          title: the currency conversion cost in client currency when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        ConversionRateUSD:
+          title: the currency conversion cost in USD when trading an instrument with a different base currency compared to the account it is traded on
+          type: number
+          example: 10
+        CostClass:
+          title: Cost Category
+          allOf:
+          - $ref: '#/components/schemas/CostClass'
+        CostSubClass:
+          title: Cost Sub Category
+          allOf:
+          - $ref: '#/components/schemas/CostSubClass'
+        Currency:
+          title: Booking amount currency
+          type: string
+          example: stringValue
+        Date:
+          title: Date
+          type: string
+          format: date
+          x-type-name: Date
+        InstrumentDescription:
+          title: Instrument
+          type: string
+          example: stringValue
+        InstrumentSectorName:
+          title: Sector name of the instrument
+          type: string
+          example: stringValue
+        InstrumentSectorTypeId:
+          title: Sector type Id of instrument
+          type: integer
+          format: int32
+          example: 99
+        InstrumentSubType:
+          title: sub type of instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        InstrumentSymbol:
+          title: The instrument code
+          type: string
+          example: stringValue
+        RelatedPositionId:
+          title: Related Position Id
+          type: string
+          example: stringValue
+        RelatedTradeId:
+          title: Related trade Id
+          type: string
+          example: stringValue
+        RootInstrumentSectorName:
+          title: Top Level Sector name of the instrument
+          type: string
+          example: stringValue
+        RootInstrumentSectorTypeId:
+          title: Top Level Sector Id of the instrument
+          type: integer
+          format: int32
+          example: 99
+        Uic:
+          title: Uic of instrument
+          type: integer
+          format: int32
+          example: 99
+        UnderlyingInstrumentAssetType:
+          title: Asset type of underlying instrument
+          allOf:
+          - $ref: '#/components/schemas/AssetType'
+        UnderlyingInstrumentDescription:
+          title: Description of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentSectorName:
+          title: Sector name of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentSubType:
+          title: sub type of underlying instrument
+          allOf:
+          - $ref: '#/components/schemas/DisplayHintType'
+        UnderlyingInstrumentSymbol:
+          title: Symbol of underlying instrument
+          type: string
+          example: stringValue
+        UnderlyingInstrumentUic:
+          title: Uic of underlying instrument
+          type: integer
+          format: int32
+          example: 99
+        ValueDate:
+          title: Booking value date
+          type: string
+          format: date
+          x-type-name: Date
+      additionalProperties: false
+      example:
+        AccountCurrency: stringValue
+        AccountId: stringValue
+        Amount: 10
+        AmountAccountCurrency: 10
+        AmountClass: OngoingPayment
+        AmountClientCurrency: 10
+        AmountSubClass: ManagementFee
+        AmountUSD: 10
+        AssetType: WarrantOpenEndKnockOut
+        BkAmountId: stringValue
+        BkAmountType: stringValue
+        BkAmountTypeId: stringValue
+        CaEventName: stringValue
+        CaMasterRecordId: stringValue
+        ClientCurrency: stringValue
+        ConversionRate: 10
+        ConversionRateAccountCurrency: 10
+        ConversionRateClientCurrency: 10
+        ConversionRateUSD: 10
+        CostClass: TransactionCosts
+        CostSubClass: ServiceCosts
+        Currency: stringValue
+        Date: '0001-01-01'
+        InstrumentDescription: stringValue
+        InstrumentSectorName: stringValue
+        InstrumentSectorTypeId: 99
+        InstrumentSubType: Etn
+        InstrumentSymbol: stringValue
+        RelatedPositionId: stringValue
+        RelatedTradeId: stringValue
+        RootInstrumentSectorName: stringValue
+        RootInstrumentSectorTypeId: 99
+        Uic: 99
+        UnderlyingInstrumentAssetType: WarrantDoubleKnockOut
+        UnderlyingInstrumentDescription: stringValue
+        UnderlyingInstrumentSectorName: stringValue
+        UnderlyingInstrumentSubType: Etc
+        UnderlyingInstrumentSymbol: stringValue
+        UnderlyingInstrumentUic: 99
+        ValueDate: '0001-01-01'
+    AmountSubClass:
+      title: The amount sub class.
       enum:
-      - AncillaryCosts
-      - IncidentalCosts
+      - ExternalCosts
+      - InstrumentRelated
+      - ManagementFee
+      - NonBookedCosts
+      - NonInstrumentRelated
       - NotAssigned
-      - OneOffCosts
-      - OngoingCosts
-      - ThirdPartyPayments
-      - TransactionCosts
       type: string
-      example: OngoingCosts
-    DisplayHintType:
-      title: Display Hint Type.
-      enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
-      type: string
-      example: None
-      x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
+      example: NonInstrumentRelated
     CostSubClass:
       title: The cost sub class.
       enum:
@@ -1109,6 +1295,26 @@ components:
       - ThirdpartyPayments
       type: string
       example: ProductCosts
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    BookingRequestType:
+      title: Request type, basis on which bookings are reterived
+      enum:
+      - BkAmountId
+      - BkAmountTypeId
+      - CaMasterRecordId
+      - RelatedTradeId
+      type: string
+      example: BkAmountId
+      x-enum-descriptions:
+        BkAmountId: Booking amount Id
+        CaMasterRecordId: Corporate action Id
+        RelatedTradeId: Related trade Id
+        BkAmountTypeId: SaxoInternal- Booking Amount type Id
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -1227,6 +1433,27 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    CostClass:
+      title: The cost class.
+      enum:
+      - AncillaryCosts
+      - IncidentalCosts
+      - NotAssigned
+      - OneOffCosts
+      - OngoingCosts
+      - ThirdPartyPayments
+      - TransactionCosts
+      type: string
+      example: OngoingCosts
+    AmountClass:
+      title: The amount class.
+      enum:
+      - NotAssigned
+      - OngoingCharges
+      - OngoingPayment
+      - TransactionCosts
+      type: string
+      example: TransactionCosts
     BookingListResult:
       type: object
       properties:
@@ -2160,265 +2387,38 @@ components:
           UnderlyingInstrumentSymbol: VIX.I
           UnderlyingInstrumentUic: 10606
           ValueDate: '2015-12-10'
-    Booking:
-      title: The booking.
-      type: object
-      properties:
-        AccountCurrency:
-          title: Booking account amount currency
-          type: string
-          example: stringValue
-        AccountId:
-          title: AccountId
-          type: string
-          example: stringValue
-        Amount:
-          title: Booked Amount in Instrument currency
-          type: number
-          example: 10
-        AmountAccountCurrency:
-          title: Booked Amount in account currency
-          type: number
-          example: 10
-        AmountClass:
-          title: Cost Category
-          allOf:
-          - $ref: '#/components/schemas/AmountClass'
-        AmountClientCurrency:
-          title: Booked Amount in Client currency
-          type: number
-          example: 10
-        AmountSubClass:
-          title: Cost Sub Category
-          allOf:
-          - $ref: '#/components/schemas/AmountSubClass'
-        AmountUSD:
-          title: Booked Amount USD
-          type: number
-          example: 10
-        AssetType:
-          title: AssetType
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        BkAmountId:
-          title: Id of booked amount
-          type: string
-          example: stringValue
-        BkAmountType:
-          title: Denotes the amount type for the booking
-          type: string
-          example: stringValue
-        BkAmountTypeId:
-          title: ID of the booked amount type
-          type: string
-          example: stringValue
-        CaEventName:
-          title: if booking is related to a corporate action, denotes the name of the event
-          type: string
-          example: stringValue
-        CaMasterRecordId:
-          title: if booking is related to a corporate action, denotes the ID of the corporate action event
-          type: string
-          example: stringValue
-        ClientCurrency:
-          title: Booking client amount currency
-          type: string
-          example: stringValue
-        ConversionRate:
-          title: Conversion rate
-          type: number
-          example: 10
-        ConversionRateAccountCurrency:
-          title: the currency conversion cost in account currency when trading an instrument with a different base currency compared to the account it is traded on
-          type: number
-          example: 10
-        ConversionRateClientCurrency:
-          title: the currency conversion cost in client currency when trading an instrument with a different base currency compared to the account it is traded on
-          type: number
-          example: 10
-        ConversionRateUSD:
-          title: the currency conversion cost in USD when trading an instrument with a different base currency compared to the account it is traded on
-          type: number
-          example: 10
-        CostClass:
-          title: Cost Category
-          allOf:
-          - $ref: '#/components/schemas/CostClass'
-        CostSubClass:
-          title: Cost Sub Category
-          allOf:
-          - $ref: '#/components/schemas/CostSubClass'
-        Currency:
-          title: Booking amount currency
-          type: string
-          example: stringValue
-        Date:
-          title: Date
-          type: string
-          format: date
-          x-type-name: Date
-        InstrumentDescription:
-          title: Instrument
-          type: string
-          example: stringValue
-        InstrumentSectorName:
-          title: Sector name of the instrument
-          type: string
-          example: stringValue
-        InstrumentSectorTypeId:
-          title: Sector type Id of instrument
-          type: integer
-          format: int32
-          example: 99
-        InstrumentSubType:
-          title: sub type of instrument
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        InstrumentSymbol:
-          title: The instrument code
-          type: string
-          example: stringValue
-        RelatedPositionId:
-          title: Related Position Id
-          type: string
-          example: stringValue
-        RelatedTradeId:
-          title: Related trade Id
-          type: string
-          example: stringValue
-        RootInstrumentSectorName:
-          title: Top Level Sector name of the instrument
-          type: string
-          example: stringValue
-        RootInstrumentSectorTypeId:
-          title: Top Level Sector Id of the instrument
-          type: integer
-          format: int32
-          example: 99
-        Uic:
-          title: Uic of instrument
-          type: integer
-          format: int32
-          example: 99
-        UnderlyingInstrumentAssetType:
-          title: Asset type of underlying instrument
-          allOf:
-          - $ref: '#/components/schemas/AssetType'
-        UnderlyingInstrumentDescription:
-          title: Description of underlying instrument
-          type: string
-          example: stringValue
-        UnderlyingInstrumentSectorName:
-          title: Sector name of underlying instrument
-          type: string
-          example: stringValue
-        UnderlyingInstrumentSubType:
-          title: sub type of underlying instrument
-          allOf:
-          - $ref: '#/components/schemas/DisplayHintType'
-        UnderlyingInstrumentSymbol:
-          title: Symbol of underlying instrument
-          type: string
-          example: stringValue
-        UnderlyingInstrumentUic:
-          title: Uic of underlying instrument
-          type: integer
-          format: int32
-          example: 99
-        ValueDate:
-          title: Booking value date
-          type: string
-          format: date
-          x-type-name: Date
-      additionalProperties: false
-      example:
-        AccountCurrency: stringValue
-        AccountId: stringValue
-        Amount: 10
-        AmountAccountCurrency: 10
-        AmountClass: OngoingPayment
-        AmountClientCurrency: 10
-        AmountSubClass: ManagementFee
-        AmountUSD: 10
-        AssetType: WarrantOpenEndKnockOut
-        BkAmountId: stringValue
-        BkAmountType: stringValue
-        BkAmountTypeId: stringValue
-        CaEventName: stringValue
-        CaMasterRecordId: stringValue
-        ClientCurrency: stringValue
-        ConversionRate: 10
-        ConversionRateAccountCurrency: 10
-        ConversionRateClientCurrency: 10
-        ConversionRateUSD: 10
-        CostClass: TransactionCosts
-        CostSubClass: ServiceCosts
-        Currency: stringValue
-        Date: '0001-01-01'
-        InstrumentDescription: stringValue
-        InstrumentSectorName: stringValue
-        InstrumentSectorTypeId: 99
-        InstrumentSubType: Etn
-        InstrumentSymbol: stringValue
-        RelatedPositionId: stringValue
-        RelatedTradeId: stringValue
-        RootInstrumentSectorName: stringValue
-        RootInstrumentSectorTypeId: 99
-        Uic: 99
-        UnderlyingInstrumentAssetType: WarrantDoubleKnockOut
-        UnderlyingInstrumentDescription: stringValue
-        UnderlyingInstrumentSectorName: stringValue
-        UnderlyingInstrumentSubType: Etc
-        UnderlyingInstrumentSymbol: stringValue
-        UnderlyingInstrumentUic: 99
-        ValueDate: '0001-01-01'
-    AmountSubClass:
-      title: The amount sub class.
+    DisplayHintType:
+      title: Display Hint Type.
       enum:
-      - ExternalCosts
-      - InstrumentRelated
-      - ManagementFee
-      - NonBookedCosts
-      - NonInstrumentRelated
-      - NotAssigned
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
+      - None
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
       type: string
-      example: NonInstrumentRelated
-    AmountClass:
-      title: The amount class.
-      enum:
-      - NotAssigned
-      - OngoingCharges
-      - OngoingPayment
-      - TransactionCosts
-      type: string
-      example: TransactionCosts
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    BookingRequestType:
-      title: Request type, basis on which bookings are reterived
-      enum:
-      - BkAmountId
-      - BkAmountTypeId
-      - CaMasterRecordId
-      - RelatedTradeId
-      type: string
-      example: BkAmountId
+      example: None
       x-enum-descriptions:
-        BkAmountId: Booking amount Id
-        CaMasterRecordId: Corporate action Id
-        RelatedTradeId: Related trade Id
-        BkAmountTypeId: SaxoInternal- Booking Amount type Id
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

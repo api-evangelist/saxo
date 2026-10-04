@@ -169,12 +169,6 @@ paths:
         community: Read
 components:
   schemas:
-    LongOrShortValue:
-      enum:
-      - Long
-      - Short
-      type: string
-      example: Short
     CorrelationType:
       title: Correlation Type
       enum:
@@ -252,38 +246,72 @@ components:
         InternallyFilledFractionalAmount: This is created internally to fill Fractional part ( No broker leg)
         ExternalDealCapture: This is used for capturing deal capture externally
       x-type-warning: FlaggableEnum
-    DisplayHintType:
-      title: Display Hint Type.
+    AccountPerformanceStandardPeriod:
+      title: Defines standard periods for account performance.
       enum:
-      - Continuous
-      - CryptoCurrencies
-      - Etc
-      - Etf
-      - Etn
-      - Forex
-      - Fund
-      - Interests
-      - None
-      - PreciousMetal
-      - Rights
-      - StockIndices
-      - Warrant
+      - AllTime
+      - Month
+      - Quarter
+      - Year
       type: string
-      example: None
+      example: AllTime
       x-enum-descriptions:
-        None: Indicates not special display hint is required.
-        PreciousMetal: Metals like XAUUSD.
-        Continuous: Used for the parent ContractFutures.
-        Etf: Exchange Traded Funds.
-        Etn: Exchange Traded Notes.
-        Etc: Exchange Traded Certificates/Currencies.
-        Rights: Rights.
-        Warrant: Warrants.
-        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
-        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
-        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
-        Fund: Fund.
-        CryptoCurrencies: Crypto currencies.
+        AllTime: All time account performance.
+        Year: The year standard account performance.
+        Quarter: The quarter standard account performance.
+        Month: The month standard account performance.
+    LongOrShortValue:
+      enum:
+      - Long
+      - Short
+      type: string
+      example: Short
+    IHistoricalPositionViewListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IHistoricalPositionView'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountId: 112209INET
+          Amount: -1
+          AmountAccountValueCloseRatio: '2:1'
+          AmountAccountValueOpenRatio: '2:1'
+          ClosingAssetType: CfdOnIndex
+          ClosingTradeDate: '2016-07-19'
+          ClosingValueDate: '2016-07-19'
+          CopiedFrom: '1'
+          CorrelationType: None
+          Decimals: 2
+          ExecutionTimeClose: '2016-07-19T07:25:37Z'
+          ExecutionTimeOpen: '2016-07-18T10:38:06Z'
+          InstrumentSymbol: GER30.I
+          LongShort:
+            PresentationValue: Short
+            Value: Short
+          OpeningAssetType: CfdOnIndex
+          OpeningTradeDate: '2016-07-18'
+          OpeningValueDate: '2016-07-18'
+          PriceClose: 9998
+          PriceGain: 0.004778021102926538
+          PriceOpen: 10046
+          PricePct: -0.4778021102926538
+          ProfitLoss: 52.87
+          ProfitLossAccountValueFraction: 0.00807437613761156
+          Uic: '1373'
     LongOrShort:
       type: object
       properties:
@@ -297,6 +325,12 @@ components:
       example:
         PresentationValue: Long
         Value: Long
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -415,6 +449,18 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
+    PutCall:
+      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+      enum:
+      - Call
+      - None
+      - Put
+      type: string
+      example: None
+      x-enum-descriptions:
+        None: Not specified.
+        Put: Put.
+        Call: Call.
     IHistoricalPositionView:
       title: Interface for defining the properties common to private and public views of historical positions.
       type: object
@@ -561,91 +607,43 @@ components:
           example: 10
       additionalProperties: false
       example: null
-    PutCall:
-      title: "Specifies type of option. \n             Note: The Put/Call numerical values are not the same as defined in the enum _ClmFeedPutCallTypes\n                   enum _ClmFeedPutCallTypes { ClmFeedCall = 1, ClmFeedPut = 2 } \n            \n             (This enum defines a none (unspecified) value that is not defined in _PutCallTypes)"
+    DisplayHintType:
+      title: Display Hint Type.
       enum:
-      - Call
+      - Continuous
+      - CryptoCurrencies
+      - Etc
+      - Etf
+      - Etn
+      - Forex
+      - Fund
+      - Interests
       - None
-      - Put
+      - PreciousMetal
+      - Rights
+      - StockIndices
+      - Warrant
       type: string
       example: None
       x-enum-descriptions:
-        None: Not specified.
-        Put: Put.
-        Call: Call.
-    IHistoricalPositionViewListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IHistoricalPositionView'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountId: 112209INET
-          Amount: -1
-          AmountAccountValueCloseRatio: '2:1'
-          AmountAccountValueOpenRatio: '2:1'
-          ClosingAssetType: CfdOnIndex
-          ClosingTradeDate: '2016-07-19'
-          ClosingValueDate: '2016-07-19'
-          CopiedFrom: '1'
-          CorrelationType: None
-          Decimals: 2
-          ExecutionTimeClose: '2016-07-19T07:25:37Z'
-          ExecutionTimeOpen: '2016-07-18T10:38:06Z'
-          InstrumentSymbol: GER30.I
-          LongShort:
-            PresentationValue: Short
-            Value: Short
-          OpeningAssetType: CfdOnIndex
-          OpeningTradeDate: '2016-07-18'
-          OpeningValueDate: '2016-07-18'
-          PriceClose: 9998
-          PriceGain: 0.004778021102926538
-          PriceOpen: 10046
-          PricePct: -0.4778021102926538
-          ProfitLoss: 52.87
-          ProfitLossAccountValueFraction: 0.00807437613761156
-          Uic: '1373'
-    AccountPerformanceStandardPeriod:
-      title: Defines standard periods for account performance.
-      enum:
-      - AllTime
-      - Month
-      - Quarter
-      - Year
-      type: string
-      example: AllTime
-      x-enum-descriptions:
-        AllTime: All time account performance.
-        Year: The year standard account performance.
-        Quarter: The quarter standard account performance.
-        Month: The month standard account performance.
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
+        None: Indicates not special display hint is required.
+        PreciousMetal: Metals like XAUUSD.
+        Continuous: Used for the parent ContractFutures.
+        Etf: Exchange Traded Funds.
+        Etn: Exchange Traded Notes.
+        Etc: Exchange Traded Certificates/Currencies.
+        Rights: Rights.
+        Warrant: Warrants.
+        Forex: Forex. Intended to be used for Cfds on Futures on Forex.
+        Interests: Interest rates. Intended to be used for Cfds on Futures on bonds.
+        StockIndices: Stock indices. Intended to be used for Cfds on Futures on stock indices.
+        Fund: Fund.
+        CryptoCurrencies: Crypto currencies.
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -667,6 +665,8 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -143,6 +143,34 @@ paths:
       summary: Update pricing update prices
       x-summary-source: derived
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     PriceDetail:
       title: Price detail info
@@ -215,6 +243,60 @@ components:
         LastUpdated: '9999-12-31T23:59:59.9999990+00:00'
         Price: 10
         Uic: 99
+    PriceUpdateRequest:
+      title: Class for price update request
+      type: object
+      properties:
+        PriceUpdates:
+          title: List of price update
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceUpdate'
+          example:
+          - AssetType: FxOneTouchOption
+            LastUpdated: '9999-12-31T23:59:59.999999Z'
+            Price: 10
+            Uic: 99
+      additionalProperties: false
+      example:
+        PriceUpdates:
+        - AssetType: Bond
+          LastUpdated: '2022-10-31T03:45:12.156462Z'
+          Price: 100
+          Uic: 211
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    PriceDetailListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceDetail'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        __next: /openapi/....../?$top=1&$skip=1
+        Data:
+        - AssetType: Stock
+          Currency: USD
+          Description: Apple Inc.
+          LastUpdated: '2022-10-31T03:45:12.167463Z'
+          Price: 10
+          Uic: 122
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -333,88 +415,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    PriceDetailListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceDetail'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        __next: /openapi/....../?$top=1&$skip=1
-        Data:
-        - AssetType: Stock
-          Currency: USD
-          Description: Apple Inc.
-          LastUpdated: '2022-10-31T03:45:12.167463Z'
-          Price: 10
-          Uic: 122
-    PriceUpdateRequest:
-      title: Class for price update request
-      type: object
-      properties:
-        PriceUpdates:
-          title: List of price update
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceUpdate'
-          example:
-          - AssetType: FxOneTouchOption
-            LastUpdated: '9999-12-31T23:59:59.999999Z'
-            Price: 10
-            Uic: 99
-      additionalProperties: false
-      example:
-        PriceUpdates:
-        - AssetType: Bond
-          LastUpdated: '2022-10-31T03:45:12.156462Z'
-          Price: 100
-          Uic: 211
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

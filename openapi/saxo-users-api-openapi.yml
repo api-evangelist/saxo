@@ -434,10 +434,10 @@ paths:
     - url: https://gateway.saxobank.com/sim/openapi
 components:
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:
@@ -462,16 +462,6 @@ components:
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    UserId:
-      minimum: 1
-      type: integer
-      format: int32
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     IBPasswordResetRequest:
       title: Properties for requesting a password reset token.
       required:
@@ -496,16 +486,51 @@ components:
         Email: user@domain.com
         Language: zh-cn
         UserId: 8235162
-    LoginStatus:
-      title: Used to describe the state of the last login attempt.
-      enum:
-      - Successful
-      - Unsuccessful
-      type: string
-      example: Successful
-      x-enum-descriptions:
-        Successful: The user logged in
-        Unsuccessful: The user recieved an access denied
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
+    UserResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+          Culture: en-GB
+          Language: en
+          LastLoginStatus: Successful
+          LastLoginTime: '2022-10-28T03:49:04.265885Z'
+          LegalAssetTypes:
+          - FxSpot
+          - Stock
+          - ContractFutures
+          MarketDataViaOpenApiTermsAccepted: false
+          Name: Mr. Anthony Test
+          TimeZoneId: 28
+          UserId: '654321'
+          UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        MaxRows: 99
     Entitlement:
       title: Contain asset types access information.
       type: object
@@ -539,6 +564,116 @@ components:
         - WarrantDoubleKnockOut
         RealTimeTopOfBook:
         - WarrantOpenEndKnockOut
+    EntitlementDetailsListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementDetails'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - Entitlements:
+          - Greeks:
+            - CertificateConstantLeverage
+            RealTimeFullBook:
+            - CertificateBonus
+            RealTimeTopOfBook:
+            - CertificateUncappedOutperformance
+          ExchangeId: stringValue
+        MaxRows: 99
+    LoginStatus:
+      title: Used to describe the state of the last login attempt.
+      enum:
+      - Successful
+      - Unsuccessful
+      type: string
+      example: Successful
+      x-enum-descriptions:
+        Successful: The user logged in
+        Unsuccessful: The user recieved an access denied
+    UserResponse:
+      title: Public data contract representing a user.
+      type: object
+      properties:
+        ClientKey:
+          title: Unique key identifying the client that owns the user.
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        Culture:
+          title: Selected culture for this user. Five letter language culture name. Fx. en-GB
+          type: string
+          example: stringValue
+        Language:
+          title: Selected language for this user. The two letter ISO 639-1 language code. See Reference Data Languages endpoint for supported languages.
+          type: string
+          example: stringValue
+        LastLoginStatus:
+          title: Status of last login or login attempt
+          allOf:
+          - $ref: '#/components/schemas/LoginStatus'
+        LastLoginTime:
+          title: Time of last login or login attempt
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        LegalAssetTypes:
+          title: Asset Types that can be traded on all accounts by this user.
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetType'
+          example:
+          - FxVanillaOption
+        MarketDataViaOpenApiTermsAccepted:
+          title: True if the user has accepted terms for market data via OpenApi access.
+          type: boolean
+          example: true
+        Name:
+          title: The name of the user.
+          type: string
+          example: stringValue
+        TimeZoneId:
+          title: Selected Time Zone for this user. See Reference Data TimeZones endpoint for supported time zones.
+          type: integer
+          format: int32
+          example: 99
+        UserId:
+          title: Unique ID of the user.
+          type: string
+          example: stringValue
+        UserKey:
+          title: The unique key for the user.
+          minLength: 1
+          type: string
+          x-type-name: UserKey
+      additionalProperties: false
+      example:
+        ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
+        Culture: en-GB
+        Language: en
+        LastLoginStatus: Successful
+        LastLoginTime: '2022-10-28T03:49:04.2658850+00:00'
+        LegalAssetTypes:
+        - FxSpot
+        - Stock
+        - ContractFutures
+        MarketDataViaOpenApiTermsAccepted: false
+        Name: Mr. Anthony Test
+        TimeZoneId: 28
+        UserId: '654321'
+        UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -657,35 +792,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    EntitlementDetailsListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntitlementDetails'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - Entitlements:
-          - Greeks:
-            - CertificateConstantLeverage
-            RealTimeFullBook:
-            - CertificateBonus
-            RealTimeTopOfBook:
-            - CertificateUncappedOutperformance
-          ExchangeId: stringValue
-        MaxRows: 99
     EntitlementDetails:
       title: Public data contract for an entitlement.
       type: object
@@ -716,77 +822,6 @@ components:
           RealTimeTopOfBook:
           - MiniFuture
         ExchangeId: stringValue
-    UserResponse:
-      title: Public data contract representing a user.
-      type: object
-      properties:
-        ClientKey:
-          title: Unique key identifying the client that owns the user.
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        Culture:
-          title: Selected culture for this user. Five letter language culture name. Fx. en-GB
-          type: string
-          example: stringValue
-        Language:
-          title: Selected language for this user. The two letter ISO 639-1 language code. See Reference Data Languages endpoint for supported languages.
-          type: string
-          example: stringValue
-        LastLoginStatus:
-          title: Status of last login or login attempt
-          allOf:
-          - $ref: '#/components/schemas/LoginStatus'
-        LastLoginTime:
-          title: Time of last login or login attempt
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        LegalAssetTypes:
-          title: Asset Types that can be traded on all accounts by this user.
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetType'
-          example:
-          - FxVanillaOption
-        MarketDataViaOpenApiTermsAccepted:
-          title: True if the user has accepted terms for market data via OpenApi access.
-          type: boolean
-          example: true
-        Name:
-          title: The name of the user.
-          type: string
-          example: stringValue
-        TimeZoneId:
-          title: Selected Time Zone for this user. See Reference Data TimeZones endpoint for supported time zones.
-          type: integer
-          format: int32
-          example: 99
-        UserId:
-          title: Unique ID of the user.
-          type: string
-          example: stringValue
-        UserKey:
-          title: The unique key for the user.
-          minLength: 1
-          type: string
-          x-type-name: UserKey
-      additionalProperties: false
-      example:
-        ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
-        Culture: en-GB
-        Language: en
-        LastLoginStatus: Successful
-        LastLoginTime: '2022-10-28T03:49:04.2658850+00:00'
-        LegalAssetTypes:
-        - FxSpot
-        - Stock
-        - ContractFutures
-        MarketDataViaOpenApiTermsAccepted: false
-        Name: Mr. Anthony Test
-        TimeZoneId: 28
-        UserId: '654321'
-        UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
     UserUpdateRequest:
       title: Public contract representing setting a user may change.
       type: object
@@ -805,41 +840,6 @@ components:
           format: int32
           example: 99
       additionalProperties: false
-    UserResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - ClientKey: V-B8jOk9SM8QdqN1u2Bjtw==
-          Culture: en-GB
-          Language: en
-          LastLoginStatus: Successful
-          LastLoginTime: '2022-10-28T03:49:04.265885Z'
-          LegalAssetTypes:
-          - FxSpot
-          - Stock
-          - ContractFutures
-          MarketDataViaOpenApiTermsAccepted: false
-          Name: Mr. Anthony Test
-          TimeZoneId: 28
-          UserId: '654321'
-          UserKey: V-B8jOk9SM8QdqN1u2Bjtw==
-        MaxRows: 99
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

@@ -113,33 +113,6 @@ paths:
       summary: Proxy voting get proxy voting events async
       x-summary-source: derived
 components:
-  responses:
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     ProxyVotingEventListResult:
       type: object
@@ -158,18 +131,6 @@ components:
         __next:
           type: string
           description: The link for the next page of items in the feed.
-      additionalProperties: false
-    ProxyVotingMaterial:
-      title: Material\document pertaining to a distribution
-      type: object
-      properties:
-        MaterialType:
-          title: Short description of what the material/document represents
-          allOf:
-          - $ref: '#/components/schemas/Models.CodeDescription'
-        Url:
-          title: Material/document url
-          type: string
       additionalProperties: false
     SortType:
       title: Sort type
@@ -245,23 +206,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/Models.CodeDescription'
       additionalProperties: false
-    Models.CodeDescription:
-      title: Code/Description
-      type: object
-      properties:
-        Code:
-          title: Code
-          type: string
-        Description:
-          title: Description
-          type: string
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     SortColumn:
       title: Sort columns for distribution api
       enum:
@@ -301,6 +245,62 @@ components:
         CutoffDate: Cutoff date
         Status: Status
         StatusDate: Status date
+    Models.CodeDescription:
+      title: Code/Description
+      type: object
+      properties:
+        Code:
+          title: Code
+          type: string
+        Description:
+          title: Description
+          type: string
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ProxyVotingMaterial:
+      title: Material\document pertaining to a distribution
+      type: object
+      properties:
+        MaterialType:
+          title: Short description of what the material/document represents
+          allOf:
+          - $ref: '#/components/schemas/Models.CodeDescription'
+        Url:
+          title: Material/document url
+          type: string
+      additionalProperties: false
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

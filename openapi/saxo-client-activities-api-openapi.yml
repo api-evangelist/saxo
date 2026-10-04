@@ -420,194 +420,76 @@ paths:
         $ref: '#/components/schemas/ActivityResponseDomainEvent'
 components:
   schemas:
-    OrderDuration:
-      title: "The time frame during which the order is valid.\n            If the DurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
-      type: object
-      properties:
-        DurationType:
-          title: The order duration type.
-          allOf:
-          - $ref: '#/components/schemas/OpenOrderDuration'
-        ExpirationDate:
-          title: The expiration date, should only be set if the duration type is GoodTillDate.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        ExpirationDateContainsTime:
-          title: The value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type and the time must be provided in the ExpirationDateTime.
-          type: boolean
-        ExpirationDateTime:
-          title: "The expiration date (and optionally time), should only be set if the duration type is GoodTillDate.\n            If the field contains the time, it must always be expressed in the exchange local time and the ExpirationDateContainsTime property must me set to true. \n            Time zone indication must never be added. The time part should be in the following format:\n            HH:mm, where HH is 24 hour clock. Seconds and milliseconds are not allowed."
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        ExpiryTimeOnExchange:
-          title: (Deprecated) Expiry time for GoodTillDate order, Format can be "HH:mm, where HH is 24 hour clock.".
-          type: string
-          description: The field has been obsoleted and has no effect. Use ExpirationDateTime and ExpirationDateContainsTime instead.
-          deprecated: true
-      additionalProperties: false
-    PlaceableOrderType:
-      title: Placeable order type
-      enum:
-      - Algorithmic
-      - DealCapture
-      - GuaranteedStop
-      - Limit
-      - Market
-      - PreviouslyQuoted
-      - Stop
-      - StopIfTraded
-      - StopLimit
-      - Switch
-      - TrailingStop
-      - TrailingStopIfTraded
-      - Traspaso
-      - TraspasoIn
-      - TriggerBreakout
-      - TriggerLimit
-      - TriggerStop
-      type: string
-      x-enum-descriptions:
-        Market: Market order type
-        Limit: Limit order type
-        StopIfTraded: StopIfTraded order type
-        Stop: Stop order type
-        StopLimit: StopLimit order type
-        TrailingStopIfTraded: TrailingStopIfTraded order type
-        TrailingStop: Trailingstop order type
-        Algorithmic: Algorithmic order type
-        Switch: Switch order type
-        Traspaso: Traspaso order type
-        TraspasoIn: TrasapasoIn order type
-        GuaranteedStop: GuaranteedStop order type
-        PreviouslyQuoted: Previously quoted order type
-        TriggerLimit: Similar to Limit order type but used only with Trigger orders
-        TriggerStop: Similar to Stop order type but used only with Trigger orders
-        TriggerBreakout: A Breakout Order (Trigger order with up and down prices)
-        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on\n            Exchange, into Saxo System. Currently supported for selected partners only."
-    ActivitySubscriptionResponse:
-      title: Represents client\account activities subscription response.
+    ActivitySubscriptionRequest:
+      title: Represent activity subscription request.
+      required:
+      - ContextId
+      - ReferenceId
       type: object
       properties:
         ContextId:
-          title: The streaming context id that this response is associated with.
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
           type: string
           x-display-order: 1
         ReferenceId:
-          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
           type: string
           x-display-order: 2
+        Arguments:
+          title: Arguments for the subscription request.
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionActivityRequest'
         Format:
-          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
           type: string
-        InactivityTimeout:
-          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
-          type: integer
-          format: int32
         RefreshRate:
-          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
           type: integer
           format: int32
-        Snapshot:
-          title: Snapshot of the current data on hand, when subscription was created.
-          allOf:
-          - $ref: '#/components/schemas/ActivityResponseListResult'
-        State:
-          title: The value "Active".
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
           type: string
-          description: This property is kept for backwards compatibility.
         Tag:
-          title: Client specified tag assigned to the subscription, if specified in the request.
+          title: Optional client specified tag used for grouping subscriptions.
           type: string
       additionalProperties: false
-    ActivityResponse:
-      title: Represents streaming data for activities subscription.
-      type: object
-      properties:
-        AccountId:
-          title: Identifies the account involved in the transaction.
-          type: string
-        AccountKey:
-          title: Identifies the account key involved in the transaction.
-          type: string
-        ActivityTime:
-          title: Represents activity time.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        ActivityType:
-          title: Represents type of data included in response.
-          allOf:
-          - $ref: '#/components/schemas/ActivityType'
-        ClientId:
-          title: Identifies the client involved in the transaction.
-          type: string
-        ClientKey:
-          title: Identifies the client key involved in the transaction.
-          type: string
-        SequenceId:
-          title: Unique number representing activity response.
-          type: string
-      additionalProperties: false
-    ActivityResponseDomainEvent:
-      type: object
-      properties:
-        Data:
-          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
-          allOf:
-          - $ref: '#/components/schemas/ActivityResponse'
-        PartitionNumber:
-          title: The partition number if this DomainEvent is a partition.
-          type: integer
-          format: int32
-        ReferenceId:
-          title: Client specified id, which is sent back to the client with every data update.
-          type: string
-        Timestamp:
-          title: The UTC date and time of the event.
-          type: string
-          format: date-time
-          x-type-name: UtcDateTime
-        TotalPartitions:
-          title: The total number of partitions if this DomainEvent is a partition.
-          type: integer
-          format: int32
-      additionalProperties: false
-    ActivityFieldGroup:
-      title: Specification of field group to include additional data in results.
+    PositionEventFilter:
+      title: Position event filter. Default value is All.
       enum:
-      - DisplayAndFormat
-      - ExchangeInfo
+      - All
+      - TradesOnly
       type: string
       x-enum-descriptions:
-        ExchangeInfo: Adds information about the instrument's exchange.
-        DisplayAndFormat: Display and Format.
-    OrderEventFilter:
-      title: Order event filter
-      type: object
-      properties:
-        Duration:
-          title: Order duration
-          allOf:
-          - $ref: '#/components/schemas/OrderDuration'
-        OrderStatuses:
-          title: List of order statuses.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderStatus'
-        OrderTypes:
-          title: List of order types.
-          type: array
-          items:
-            $ref: '#/components/schemas/PlaceableOrderType'
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
+        TradesOnly: Positions events related fills or allocations.
+        All: All positions events.
+    OpenOrderDuration:
+      title: Order durations
+      enum:
+      - AtTheClose
+      - AtTheOpening
+      - DayOrder
+      - FillOrKill
+      - GoodForPeriod
+      - GoodTillCancel
+      - GoodTillDate
+      - ImmediateOrCancel
+      - Unknown
+      type: string
+      x-enum-descriptions:
+        Unknown: Unspecified duration
+        GoodTillCancel: Good Till Cancel - working until explicitly cancelled
+        DayOrder: Day order - working in all session until trade date roll
+        FillOrKill: Fill or kill
+        ImmediateOrCancel: Fill or fill partially and cancel remaining
+        AtTheOpening: Working at the opening auction only
+        AtTheClose: Working at the closing auction only
+        GoodTillDate: Working untill specified date
+        GoodForPeriod: Working for specified period
     SubscriptionActivityRequest:
       title: Subscription request
       required:
@@ -682,25 +564,52 @@ components:
         Announcement: Corporate action announcement.
         Update: Corporate action update.
         Payment: Corporate action payment.
-    ActivityType:
-      title: Represents activity types supported by open-apis.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    OrderEventFilter:
+      title: Order event filter
+      type: object
+      properties:
+        Duration:
+          title: Order duration
+          allOf:
+          - $ref: '#/components/schemas/OrderDuration'
+        OrderStatuses:
+          title: List of order statuses.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderStatus'
+        OrderTypes:
+          title: List of order types.
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceableOrderType'
+      additionalProperties: false
+    OrderStatus:
+      title: Represents order status
       enum:
-      - AccountDepreciation
-      - AccountFundings
-      - CorporateActions
-      - MarginCalls
-      - Orders
-      - PositionDepreciation
-      - Positions
+      - Cancelled
+      - Changed
+      - DoneForDay
+      - Expired
+      - Fill
+      - FinalFill
+      - Placed
+      - TrailingStopOrderMove
       type: string
       x-enum-descriptions:
-        Orders: Order related information.
-        Positions: Position related information.
-        MarginCalls: Margin call information.
-        AccountFundings: Funding Information.
-        AccountDepreciation: Account depreciation information.
-        PositionDepreciation: Position Depreciation information.
-        CorporateActions: Corporate action information
+        Placed: Order placed.
+        Changed: Order changed.
+        Cancelled: Order cancelled.
+        Fill: Received fill on order.
+        FinalFill: Received final fill on order.
+        DoneForDay: Order is done for day.
+        Expired: Order expired.
+        TrailingStopOrderMove: Movement in trailing Stop Order
     ActivityResponseListResult:
       type: object
       properties:
@@ -729,100 +638,189 @@ components:
           items:
             $ref: '#/components/schemas/CANotificationType'
       additionalProperties: false
-    PositionEventFilter:
-      title: Position event filter. Default value is All.
+    ActivityFieldGroup:
+      title: Specification of field group to include additional data in results.
       enum:
-      - All
-      - TradesOnly
+      - DisplayAndFormat
+      - ExchangeInfo
       type: string
       x-enum-descriptions:
-        TradesOnly: Positions events related fills or allocations.
-        All: All positions events.
-    ActivitySubscriptionRequest:
-      title: Represent activity subscription request.
-      required:
-      - ContextId
-      - ReferenceId
+        ExchangeInfo: Adds information about the instrument's exchange.
+        DisplayAndFormat: Display and Format.
+    OrderDuration:
+      title: "The time frame during which the order is valid.\n            If the DurationType is GoodTillDate, then an ExpirationDateTime must also be provided."
+      type: object
+      properties:
+        DurationType:
+          title: The order duration type.
+          allOf:
+          - $ref: '#/components/schemas/OpenOrderDuration'
+        ExpirationDate:
+          title: The expiration date, should only be set if the duration type is GoodTillDate.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExpirationDateContainsTime:
+          title: The value indicating whether the ExpirationDateTime field contains the time. Notice, that the value can only be true for GoodTillDate duration type and the time must be provided in the ExpirationDateTime.
+          type: boolean
+        ExpirationDateTime:
+          title: "The expiration date (and optionally time), should only be set if the duration type is GoodTillDate.\n            If the field contains the time, it must always be expressed in the exchange local time and the ExpirationDateContainsTime property must me set to true. \n            Time zone indication must never be added. The time part should be in the following format:\n            HH:mm, where HH is 24 hour clock. Seconds and milliseconds are not allowed."
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ExpiryTimeOnExchange:
+          title: (Deprecated) Expiry time for GoodTillDate order, Format can be "HH:mm, where HH is 24 hour clock.".
+          type: string
+          description: The field has been obsoleted and has no effect. Use ExpirationDateTime and ExpirationDateContainsTime instead.
+          deprecated: true
+      additionalProperties: false
+    PlaceableOrderType:
+      title: Placeable order type
+      enum:
+      - Algorithmic
+      - DealCapture
+      - GuaranteedStop
+      - Limit
+      - Market
+      - PreviouslyQuoted
+      - Stop
+      - StopIfTraded
+      - StopLimit
+      - Switch
+      - TrailingStop
+      - TrailingStopIfTraded
+      - Traspaso
+      - TraspasoIn
+      - TriggerBreakout
+      - TriggerLimit
+      - TriggerStop
+      type: string
+      x-enum-descriptions:
+        Market: Market order type
+        Limit: Limit order type
+        StopIfTraded: StopIfTraded order type
+        Stop: Stop order type
+        StopLimit: StopLimit order type
+        TrailingStopIfTraded: TrailingStopIfTraded order type
+        TrailingStop: Trailingstop order type
+        Algorithmic: Algorithmic order type
+        Switch: Switch order type
+        Traspaso: Traspaso order type
+        TraspasoIn: TrasapasoIn order type
+        GuaranteedStop: GuaranteedStop order type
+        PreviouslyQuoted: Previously quoted order type
+        TriggerLimit: Similar to Limit order type but used only with Trigger orders
+        TriggerStop: Similar to Stop order type but used only with Trigger orders
+        TriggerBreakout: A Breakout Order (Trigger order with up and down prices)
+        DealCapture: "Deal Capture Order. Specify to capture trades, which are already registered on\n            Exchange, into Saxo System. Currently supported for selected partners only."
+    ActivityResponseDomainEvent:
+      type: object
+      properties:
+        Data:
+          title: The type of data transported by the DomainEvent instance (e.g. price update, position list update etc.).
+          allOf:
+          - $ref: '#/components/schemas/ActivityResponse'
+        PartitionNumber:
+          title: The partition number if this DomainEvent is a partition.
+          type: integer
+          format: int32
+        ReferenceId:
+          title: Client specified id, which is sent back to the client with every data update.
+          type: string
+        Timestamp:
+          title: The UTC date and time of the event.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        TotalPartitions:
+          title: The total number of partitions if this DomainEvent is a partition.
+          type: integer
+          format: int32
+      additionalProperties: false
+    ActivityResponse:
+      title: Represents streaming data for activities subscription.
+      type: object
+      properties:
+        AccountId:
+          title: Identifies the account involved in the transaction.
+          type: string
+        AccountKey:
+          title: Identifies the account key involved in the transaction.
+          type: string
+        ActivityTime:
+          title: Represents activity time.
+          type: string
+          format: date-time
+          x-type-name: UtcDateTime
+        ActivityType:
+          title: Represents type of data included in response.
+          allOf:
+          - $ref: '#/components/schemas/ActivityType'
+        ClientId:
+          title: Identifies the client involved in the transaction.
+          type: string
+        ClientKey:
+          title: Identifies the client key involved in the transaction.
+          type: string
+        SequenceId:
+          title: Unique number representing activity response.
+          type: string
+      additionalProperties: false
+    ActivitySubscriptionResponse:
+      title: Represents client\account activities subscription response.
       type: object
       properties:
         ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          title: The streaming context id that this response is associated with.
           type: string
           x-display-order: 1
         ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          title: The reference id that (along with streaming context id and session id) identifies the subscription (within the context of a specific service/subscription type)
           type: string
           x-display-order: 2
-        Arguments:
-          title: Arguments for the subscription request.
-          allOf:
-          - $ref: '#/components/schemas/SubscriptionActivityRequest'
         Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          title: The media type (RFC 2046), of the serialized data updates that are streamed to the client.
           type: string
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
+        InactivityTimeout:
+          title: The time (in seconds) that the client should accept the subscription to be inactive before considering it invalid.
           type: integer
           format: int32
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+        RefreshRate:
+          title: Actual refresh rate assigned to the subscription according to the customers SLA.
+          type: integer
+          format: int32
+        Snapshot:
+          title: Snapshot of the current data on hand, when subscription was created.
+          allOf:
+          - $ref: '#/components/schemas/ActivityResponseListResult'
+        State:
+          title: The value "Active".
           type: string
+          description: This property is kept for backwards compatibility.
         Tag:
-          title: Optional client specified tag used for grouping subscriptions.
+          title: Client specified tag assigned to the subscription, if specified in the request.
           type: string
       additionalProperties: false
-    OrderStatus:
-      title: Represents order status
+    ActivityType:
+      title: Represents activity types supported by open-apis.
       enum:
-      - Cancelled
-      - Changed
-      - DoneForDay
-      - Expired
-      - Fill
-      - FinalFill
-      - Placed
-      - TrailingStopOrderMove
+      - AccountDepreciation
+      - AccountFundings
+      - CorporateActions
+      - MarginCalls
+      - Orders
+      - PositionDepreciation
+      - Positions
       type: string
       x-enum-descriptions:
-        Placed: Order placed.
-        Changed: Order changed.
-        Cancelled: Order cancelled.
-        Fill: Received fill on order.
-        FinalFill: Received final fill on order.
-        DoneForDay: Order is done for day.
-        Expired: Order expired.
-        TrailingStopOrderMove: Movement in trailing Stop Order
-    OpenOrderDuration:
-      title: Order durations
-      enum:
-      - AtTheClose
-      - AtTheOpening
-      - DayOrder
-      - FillOrKill
-      - GoodForPeriod
-      - GoodTillCancel
-      - GoodTillDate
-      - ImmediateOrCancel
-      - Unknown
-      type: string
-      x-enum-descriptions:
-        Unknown: Unspecified duration
-        GoodTillCancel: Good Till Cancel - working until explicitly cancelled
-        DayOrder: Day order - working in all session until trade date roll
-        FillOrKill: Fill or kill
-        ImmediateOrCancel: Fill or fill partially and cancel remaining
-        AtTheOpening: Working at the opening auction only
-        AtTheClose: Working at the closing auction only
-        GoodTillDate: Working untill specified date
-        GoodForPeriod: Working for specified period
+        Orders: Order related information.
+        Positions: Position related information.
+        MarginCalls: Margin call information.
+        AccountFundings: Funding Information.
+        AccountDepreciation: Account depreciation information.
+        PositionDepreciation: Position Depreciation information.
+        CorporateActions: Corporate action information
   responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -843,10 +841,12 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

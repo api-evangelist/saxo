@@ -260,6 +260,127 @@ paths:
         confidential: Write
 components:
   schemas:
+    InstrumentDisplayAndFormat:
+      title: Instrument additional properties
+      type: object
+      properties:
+        Description:
+          title: Instrument description
+          type: string
+        IsinCode:
+          title: Instrument isin code
+          type: string
+        Symbol:
+          title: Instrument symbol
+          type: string
+      additionalProperties: false
+    StandingInstructionResponseListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StandingInstructionResponse'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+    StandingInstructionRequest:
+      title: Standing Instruction Request
+      required:
+      - ClientKey
+      - StandingInstructions
+      type: object
+      properties:
+        ClientKey:
+          title: Client identifier
+          minLength: 1
+          type: string
+          x-type-name: ClientKey
+        StandingInstructions:
+          title: Standing Instructions
+          type: array
+          items:
+            $ref: '#/components/schemas/Instruction'
+      additionalProperties: false
+    OptionType:
+      title: Option type indicator
+      enum:
+      - CASH
+      - SECU
+      type: string
+      x-enum-descriptions:
+        CASH: Cash
+        SECU: Security
+    SIErrorCode:
+      title: Error Codes
+      enum:
+      - ConflictingInstruction
+      - InvalidInstrumentDetail
+      - TradeFollowersCannotElect
+      type: string
+      x-enum-descriptions:
+        InvalidInstrumentDetail: Instruments details are invalid. Check UIC and Asset combination
+        ConflictingInstruction: Standing Instruction already exists.
+        TradeFollowersCannotElect: TradeFollowers are not allowed to Elect Standing Instructions.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    AssetType:
+      title: Allowed asset types for corporate actions.
+      enum:
+      - Bond
+      - CertificateBonus
+      - CertificateCappedBonus
+      - CertificateCappedCapitalProtected
+      - CertificateCappedOutperformance
+      - CertificateConstantLeverage
+      - CertificateDiscount
+      - CertificateExpress
+      - CertificateTracker
+      - CertificateUncappedCapitalProtection
+      - CertificateUncappedOutperformance
+      - CompanyWarrant
+      - MiniFuture
+      - MutualFund
+      - Stock
+      - Warrant
+      - WarrantDoubleKnockOut
+      - WarrantKnockOut
+      - WarrantOpenEndKnockOut
+      - WarrantSpread
+      type: string
+      x-enum-descriptions:
+        Stock: Stock.
+        Bond: Bond.
+        MutualFund: Mutual Fund.
+        Warrant: Warrant
+        MiniFuture: MiniFuture.
+        WarrantSpread: Warrant with built-in spread.
+        WarrantKnockOut: Warrant with a knock-out barrier.
+        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
+        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
+        CertificateUncappedCapitalProtection: "Guarantees a percentage increase of the underlying asset's value above the issue\n            price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection\n            percentage."
+        CertificateCappedCapitalProtected: "Guarantees a capped percentage increase of the underlying asset's value above\n            the issue price at expiry/maturity. Max loss is the amount invested multiplied\n            by the CapitalProtection percentage."
+        CertificateDiscount: "Yields a capped return if the underlying asset's value is above the specified\n            cap level at expiry. If the underlying's value is below the strike at expiry,\n            the investor received the underlying or equivalent value. Offers direct exposure\n            in underlying at a lower price (discount) with a capped potential profit and\n            limited loss."
+        CertificateCappedOutperformance: Capped Outperformance Certificate.
+        CertificateCappedBonus: Certificate Capped Bonus.
+        CertificateExpress: Certificate Express kick out.
+        CertificateTracker: "A certificate that mirrors the price movement of the underlying instrument. Often\n            used to trade movements in indicies. Movements can be a fixed ratio of the underlying\n            and can be inverted for bearish/short speculation. Risk is equivalent to owning\n            the underlying."
+        CertificateUncappedOutperformance: "Provides leveraged returns when the underlying price exceeds the threshold strike\n            price. The amount leverage is defined by the Participation %. When the underlying\n            is below the strike price, the certificate mirrors the underlying price 1:1."
+        CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\n            price exceeds the defined barrier. If the certificate expires below the barrier,\n            it offers partial protection/return of investment."
+        CertificateConstantLeverage: Certificate Constant Leverage.
+        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
     StandingInstruction:
       title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       type: object
@@ -298,26 +419,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    SIErrorCode:
-      title: Error Codes
-      enum:
-      - ConflictingInstruction
-      - InvalidInstrumentDetail
-      - TradeFollowersCannotElect
-      type: string
-      x-enum-descriptions:
-        InvalidInstrumentDetail: Instruments details are invalid. Check UIC and Asset combination
-        ConflictingInstruction: Standing Instruction already exists.
-        TradeFollowersCannotElect: TradeFollowers are not allowed to Elect Standing Instructions.
-    OptionType:
-      title: Option type indicator
-      enum:
-      - CASH
-      - SECU
-      type: string
-      x-enum-descriptions:
-        CASH: Cash
-        SECU: Security
     Instruction:
       title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       required:
@@ -461,51 +562,6 @@ components:
         CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
         PortfolioNote: Danish pooled investment scheme (“Pulje”). Not online tradeable.
         GuaranteeNote: Danish investment scheme (“Grantbevis”). Not online tradeable.
-    AssetType:
-      title: Allowed asset types for corporate actions.
-      enum:
-      - Bond
-      - CertificateBonus
-      - CertificateCappedBonus
-      - CertificateCappedCapitalProtected
-      - CertificateCappedOutperformance
-      - CertificateConstantLeverage
-      - CertificateDiscount
-      - CertificateExpress
-      - CertificateTracker
-      - CertificateUncappedCapitalProtection
-      - CertificateUncappedOutperformance
-      - CompanyWarrant
-      - MiniFuture
-      - MutualFund
-      - Stock
-      - Warrant
-      - WarrantDoubleKnockOut
-      - WarrantKnockOut
-      - WarrantOpenEndKnockOut
-      - WarrantSpread
-      type: string
-      x-enum-descriptions:
-        Stock: Stock.
-        Bond: Bond.
-        MutualFund: Mutual Fund.
-        Warrant: Warrant
-        MiniFuture: MiniFuture.
-        WarrantSpread: Warrant with built-in spread.
-        WarrantKnockOut: Warrant with a knock-out barrier.
-        WarrantOpenEndKnockOut: Knock-out Warrant with no expiry.
-        WarrantDoubleKnockOut: Warrant with two knock-out barriers.
-        CertificateUncappedCapitalProtection: "Guarantees a percentage increase of the underlying asset's value above the issue\n            price at expiry/maturity. Max loss is the amount invested multiplied by the CapitalProtection\n            percentage."
-        CertificateCappedCapitalProtected: "Guarantees a capped percentage increase of the underlying asset's value above\n            the issue price at expiry/maturity. Max loss is the amount invested multiplied\n            by the CapitalProtection percentage."
-        CertificateDiscount: "Yields a capped return if the underlying asset's value is above the specified\n            cap level at expiry. If the underlying's value is below the strike at expiry,\n            the investor received the underlying or equivalent value. Offers direct exposure\n            in underlying at a lower price (discount) with a capped potential profit and\n            limited loss."
-        CertificateCappedOutperformance: Capped Outperformance Certificate.
-        CertificateCappedBonus: Certificate Capped Bonus.
-        CertificateExpress: Certificate Express kick out.
-        CertificateTracker: "A certificate that mirrors the price movement of the underlying instrument. Often\n            used to trade movements in indicies. Movements can be a fixed ratio of the underlying\n            and can be inverted for bearish/short speculation. Risk is equivalent to owning\n            the underlying."
-        CertificateUncappedOutperformance: "Provides leveraged returns when the underlying price exceeds the threshold strike\n            price. The amount leverage is defined by the Participation %. When the underlying\n            is below the strike price, the certificate mirrors the underlying price 1:1."
-        CertificateBonus: "Mirrors the price movement of the underlying only if and when the underlying\n            price exceeds the defined barrier. If the certificate expires below the barrier,\n            it offers partial protection/return of investment."
-        CertificateConstantLeverage: Certificate Constant Leverage.
-        CompanyWarrant: Unlisted warrant issued by a corporation, often physically settled.
     StandingInstructionResponse:
       title: "A Standing instruction is a rule that defines how an election should be automatically performed.\n            Standing instruction only apply to Corporate action event of type DRIP or DVOP.\n            A standing instruction can specify that for positions in an account on a specific instrument, whenever a voluntary event occurs of type DRIP or DVOP, an election should automatically be made for either Cash or Securities."
       type: object
@@ -541,48 +597,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    StandingInstructionRequest:
-      title: Standing Instruction Request
-      required:
-      - ClientKey
-      - StandingInstructions
-      type: object
-      properties:
-        ClientKey:
-          title: Client identifier
-          minLength: 1
-          type: string
-          x-type-name: ClientKey
-        StandingInstructions:
-          title: Standing Instructions
-          type: array
-          items:
-            $ref: '#/components/schemas/Instruction'
-      additionalProperties: false
-    StandingInstructionResponseListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StandingInstructionResponse'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     StandingInstructionListResult:
       type: object
       properties:
@@ -601,25 +615,11 @@ components:
           type: string
           description: The link for the next page of items in the feed.
       additionalProperties: false
-    InstrumentDisplayAndFormat:
-      title: Instrument additional properties
-      type: object
-      properties:
-        Description:
-          title: Instrument description
-          type: string
-        IsinCode:
-          title: Instrument isin code
-          type: string
-        Symbol:
-          title: Instrument symbol
-          type: string
-      additionalProperties: false
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
     BadRequest:

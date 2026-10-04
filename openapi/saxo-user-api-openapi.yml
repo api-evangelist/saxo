@@ -53,12 +53,10 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -80,11 +78,9 @@ components:
                 type: string
               ModelState:
                 $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    UserId:
-      minimum: 1
-      type: integer
-      format: int32
     AccountAccessMode:
       title: Account access mode indicating the maximum aggregation level of data for accounts.
       enum:
@@ -194,6 +190,10 @@ components:
         CanTakeTradeSession: false
         CanTrade: true
         CanViewAnyClient: true
+    UserId:
+      minimum: 1
+      type: integer
+      format: int32
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

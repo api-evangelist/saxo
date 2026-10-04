@@ -495,6 +495,13 @@ paths:
       x-required-permissions:
         personal: Read
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     InstrumentDocumentDetails:
       title: Instrument documents related details.
@@ -524,31 +531,6 @@ components:
         DocumentRelationId: 99
         DocumentType: PHS
         LanguageCode: stringValue
-    InstrumentDocumentInformationResponse:
-      title: Instrument Document Information Response
-      type: object
-      properties:
-        DocumentDetails:
-          title: List of document details.
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentDocumentInformation'
-          example:
-          - DocumentDateTime: '2020-01-20T00:00:00Z'
-            DocumentRelationId: 1100
-            DocumentType: KIIDs
-            LanguageCode: en
-      additionalProperties: false
-      example:
-        DocumentDetails:
-        - DocumentDateTime: '2020-04-20T00:00:00Z'
-          DocumentRelationId: 1289
-          DocumentType: KIIDs
-          LanguageCode: en
-        - DocumentDateTime: '2019-09-20T00:00:00Z'
-          DocumentRelationId: 4028
-          DocumentType: PRIIP KIDs
-          LanguageCode: da
     InstrumentDocumentDetailsListResult:
       type: object
       properties:
@@ -577,6 +559,39 @@ components:
           DocumentRelationId: 4028
           DocumentType: PRIIPKIDs
           LanguageCode: da
+    DocumentTypes:
+      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
+      enum:
+      - AnnualFinancialStatement
+      - CommercialMemorandum
+      - FactSheet
+      - KFS
+      - KIIDs
+      - PHS
+      - PRIIP_KIDs
+      - Prospectus
+      - SemiAnnualFinancialStatement
+      - SimplifiedProspectus
+      type: string
+      example: PRIIP_KIDs
+      x-enum-descriptions:
+        KIIDs: Key Investor Information Document
+        PRIIP_KIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
+        FactSheet: Fact Sheet
+        AnnualFinancialStatement: Annual Financial Statement
+        CommercialMemorandum: Commercial Memorandum
+        Prospectus: Prospectus
+        PHS: Product Highlight Sheet
+        KFS: Key Fact Sheet
+        SimplifiedProspectus: Simplified Prospectus
+        SemiAnnualFinancialStatement: Semi Annual Financial Statement
+      x-type-warning: FlaggableEnum
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -723,33 +738,31 @@ components:
         DocumentRelationId: 1100
         DocumentType: KIIDs
         LanguageCode: en
-    DocumentTypes:
-      title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
-      enum:
-      - AnnualFinancialStatement
-      - CommercialMemorandum
-      - FactSheet
-      - KFS
-      - KIIDs
-      - PHS
-      - PRIIP_KIDs
-      - Prospectus
-      - SemiAnnualFinancialStatement
-      - SimplifiedProspectus
-      type: string
-      example: PRIIP_KIDs
-      x-enum-descriptions:
-        KIIDs: Key Investor Information Document
-        PRIIP_KIDs: Key Investor Information Document provided by PRIIP (Packaged Retail and Insurance-based Investment Products)
-        FactSheet: Fact Sheet
-        AnnualFinancialStatement: Annual Financial Statement
-        CommercialMemorandum: Commercial Memorandum
-        Prospectus: Prospectus
-        PHS: Product Highlight Sheet
-        KFS: Key Fact Sheet
-        SimplifiedProspectus: Simplified Prospectus
-        SemiAnnualFinancialStatement: Semi Annual Financial Statement
-      x-type-warning: FlaggableEnum
+    InstrumentDocumentInformationResponse:
+      title: Instrument Document Information Response
+      type: object
+      properties:
+        DocumentDetails:
+          title: List of document details.
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDocumentInformation'
+          example:
+          - DocumentDateTime: '2020-01-20T00:00:00Z'
+            DocumentRelationId: 1100
+            DocumentType: KIIDs
+            LanguageCode: en
+      additionalProperties: false
+      example:
+        DocumentDetails:
+        - DocumentDateTime: '2020-04-20T00:00:00Z'
+          DocumentRelationId: 1289
+          DocumentType: KIIDs
+          LanguageCode: en
+        - DocumentDateTime: '2019-09-20T00:00:00Z'
+          DocumentRelationId: 4028
+          DocumentType: PRIIP KIDs
+          LanguageCode: da
     DocumentType:
       title: "This Document Enum can be used to fetch multiple documents simultaneously\n            For single Document Pass DocumentType as KIIDs\n            For Multiple Documents Pass DocumentType as comma separated values in api endpoint: KIIDs,PRIIP_KIDs,FactSheet"
       enum:
@@ -777,19 +790,6 @@ components:
         SimplifiedProspectus: Simplified Prospectus
         SemiAnnualFinancialStatement: Semi Annual Financial Statement
       x-type-warning: FlaggableEnum
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

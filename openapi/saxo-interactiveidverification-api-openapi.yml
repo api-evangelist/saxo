@@ -328,13 +328,16 @@ paths:
       x-summary-source: derived
 components:
   responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    Object:
+      type: object
+      additionalProperties: false
     StringStringKeyValuePair:
       type: object
       properties:
@@ -348,9 +351,6 @@ components:
       example:
         Key: stringValue
         Value: stringValue
-    Object:
-      type: object
-      additionalProperties: false
     ModelStateDictionary:
       type: object
       additionalProperties:

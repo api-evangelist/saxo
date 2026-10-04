@@ -284,7 +284,29 @@ paths:
       x-required-permissions:
         confidential: Write
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    ServiceUnavailable:
+      description: Service Unavailable.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    BulkElectionResponse:
+      title: Bulk election response
+      type: object
+      properties:
+        AccountId:
+          title: Account id
+          type: string
+        Message:
+          title: Message
+          type: string
+        Status:
+          title: Status
+          allOf:
+          - $ref: '#/components/schemas/StatusCode'
+      additionalProperties: false
     BulkElectionResponseListResult:
       type: object
       properties:
@@ -303,53 +325,36 @@ components:
           type: string
           description: The link for the next page of items in the feed.
       additionalProperties: false
-    BulkElectionResponse:
-      title: Bulk election response
+    OptionInstruction:
+      title: Election instruction on option
+      required:
+      - OptionId
+      - Amount
       type: object
       properties:
-        AccountId:
-          title: Account id
+        Amount:
+          title: Quantity to be elected
+          type: number
+        OptionId:
+          title: Option on which election is to be made
+          pattern: ^\d*$
           type: string
-        Message:
-          title: Message
+        Remarks:
+          title: Remarks by client
           type: string
-        Status:
-          title: Status
-          allOf:
-          - $ref: '#/components/schemas/StatusCode'
       additionalProperties: false
-    ElectionRequest:
-      title: Election instruction
+    Account:
+      title: Account key wrapper
       required:
       - AccountKey
-      - EventId
-      - Options
       type: object
       properties:
         AccountKey:
-          title: Account on which elections are to be made
+          title: Account key
           minLength: 1
           type: string
           x-type-name: AccountKey
-        EventId:
-          title: Event on which election is to be made
-          pattern: ^\d*$
-          type: string
-        Options:
-          title: Instruction per option
-          type: array
-          items:
-            $ref: '#/components/schemas/OptionInstruction'
       additionalProperties: false
-    StatusCode:
-      title: Status
-      enum:
-      - Accepted
-      - Rejected
-      type: string
-      x-enum-descriptions:
-        Accepted: Accepted
-        Rejected: Rejected
     ModelStateDictionary:
       type: object
       additionalProperties:
@@ -394,43 +399,38 @@ components:
           pattern: ^\d*$
           type: string
       additionalProperties: false
-    Account:
-      title: Account key wrapper
+    StatusCode:
+      title: Status
+      enum:
+      - Accepted
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Accepted
+        Rejected: Rejected
+    ElectionRequest:
+      title: Election instruction
       required:
       - AccountKey
+      - EventId
+      - Options
       type: object
       properties:
         AccountKey:
-          title: Account key
+          title: Account on which elections are to be made
           minLength: 1
           type: string
           x-type-name: AccountKey
-      additionalProperties: false
-    OptionInstruction:
-      title: Election instruction on option
-      required:
-      - OptionId
-      - Amount
-      type: object
-      properties:
-        Amount:
-          title: Quantity to be elected
-          type: number
-        OptionId:
-          title: Option on which election is to be made
+        EventId:
+          title: Event on which election is to be made
           pattern: ^\d*$
           type: string
-        Remarks:
-          title: Remarks by client
-          type: string
+        Options:
+          title: Instruction per option
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionInstruction'
       additionalProperties: false
-  responses:
-    ServiceUnavailable:
-      description: Service Unavailable.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
