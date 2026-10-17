@@ -202,6 +202,29 @@ components:
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
+    CashWithdrawalLimitListResult:
+      type: object
+      properties:
+        Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashWithdrawalLimit'
+          description: The collection of entities for this feed.
+        MaxRows:
+          type: number
+          description: The maximum number of rows that can be returned (if applicable).
+        __count:
+          type: number
+          description: The total count of items in the feed.
+        __next:
+          type: string
+          description: The link for the next page of items in the feed.
+      additionalProperties: false
+      example:
+        Data:
+        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
+          ClientKey: W-CgwnsUEpETkiR8MPJalA==
+          MaxAllowedWithdrawalAmount: 100
     CashAccountWithdrawalLimit:
       title: Cash Account Withdrawal Limit
       type: object
@@ -254,29 +277,6 @@ components:
         type: array
         items:
           type: string
-    CashWithdrawalLimitListResult:
-      type: object
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashWithdrawalLimit'
-          description: The collection of entities for this feed.
-        MaxRows:
-          type: number
-          description: The maximum number of rows that can be returned (if applicable).
-        __count:
-          type: number
-          description: The total count of items in the feed.
-        __next:
-          type: string
-          description: The link for the next page of items in the feed.
-      additionalProperties: false
-      example:
-        Data:
-        - AccountKey: sUyiJbnf57ayjlcoNp1RkA==
-          ClientKey: W-CgwnsUEpETkiR8MPJalA==
-          MaxAllowedWithdrawalAmount: 100
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

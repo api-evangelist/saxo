@@ -213,63 +213,7 @@ paths:
       x-required-permissions:
         personal: Write
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
   schemas:
-    BookingValidationStatus:
-      title: Model class for booking validation status.
-      type: object
-      properties:
-        Errors:
-          title: List of error info
-          type: array
-          items:
-            $ref: '#/components/schemas/BookingError'
-          example:
-          - Errors:
-            - stringValue
-            Id: 99
-        RequestReferenceNumber:
-          title: RequestReferenceNo
-          type: integer
-          format: int64
-          example: 37
-        Status:
-          title: File processing status
-          allOf:
-          - $ref: '#/components/schemas/BookingStatus'
-      additionalProperties: false
-      example:
-        Errors:
-        - Errors:
-          - Error info
-          Id: 1
-        RequestReferenceNumber: 123456
-        Status: Failed
     BookingError:
       title: Booking error class.
       type: object
@@ -321,12 +265,48 @@ components:
       additionalProperties: false
       example:
         BookingReference: 12345
-    ModelStateDictionary:
+    BookingValidationStatus:
+      title: Model class for booking validation status.
       type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
+      properties:
+        Errors:
+          title: List of error info
+          type: array
+          items:
+            $ref: '#/components/schemas/BookingError'
+          example:
+          - Errors:
+            - stringValue
+            Id: 99
+        RequestReferenceNumber:
+          title: RequestReferenceNo
+          type: integer
+          format: int64
+          example: 37
+        Status:
+          title: File processing status
+          allOf:
+          - $ref: '#/components/schemas/BookingStatus'
+      additionalProperties: false
+      example:
+        Errors:
+        - Errors:
+          - Error info
+          Id: 1
+        RequestReferenceNumber: 123456
+        Status: Failed
+    BookingStatus:
+      title: Bulk booking file validation status
+      enum:
+      - Failed
+      - Success
+      - Working
+      type: string
+      example: Working
+      x-enum-descriptions:
+        Working: Initial status
+        Failed: If any validation failed
+        Success: When all validation passed/succeeded
     BookingPublishStatus:
       title: Model class for booking publish status from backoffice.
       type: object
@@ -354,18 +334,38 @@ components:
         - Error info
         RequestReferenceNumber: 123456
         Status: Pending
-    BookingStatus:
-      title: Bulk booking file validation status
-      enum:
-      - Failed
-      - Success
-      - Working
-      type: string
-      example: Working
-      x-enum-descriptions:
-        Working: Initial status
-        Failed: If any validation failed
-        Success: When all validation passed/succeeded
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

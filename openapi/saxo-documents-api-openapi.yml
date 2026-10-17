@@ -95,36 +95,11 @@ components:
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    Document:
-      title: Document details to be saved
-      required:
-      - DocumentType
-      - FileName
-      - Data
-      type: object
-      properties:
-        Data:
-          title: Document data in Base64 encoded string
-          type: string
-          example: stringValue
-        DocumentType:
-          title: Document type
-          allOf:
-          - $ref: '#/components/schemas/DocumentType'
-        FileName:
-          title: Document name with extension
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
-        DocumentType: TaxSavingAccount
-        FileName: TaxSavingAccount.pdf
     SaveDocumentRequest:
       title: Save document request
       required:
@@ -153,12 +128,31 @@ components:
         - Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
           DocumentType: TaxSavingAccount
           FileName: TaxSavingAccount.pdf
-    ModelStateDictionary:
+    Document:
+      title: Document details to be saved
+      required:
+      - DocumentType
+      - FileName
+      - Data
       type: object
-      additionalProperties:
-        type: array
-        items:
+      properties:
+        Data:
+          title: Document data in Base64 encoded string
           type: string
+          example: stringValue
+        DocumentType:
+          title: Document type
+          allOf:
+          - $ref: '#/components/schemas/DocumentType'
+        FileName:
+          title: Document name with extension
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        Data: iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+        DocumentType: TaxSavingAccount
+        FileName: TaxSavingAccount.pdf
     DocumentType:
       title: Document types available
       enum:
@@ -171,6 +165,12 @@ components:
         PensionTransferRequest: Document detailing Pension Transfer Request
         TaxSavingAccount: Document detailing Tax Saving Account
         TaxSavingAccountWithTransfer: Tax saving account with transfer
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

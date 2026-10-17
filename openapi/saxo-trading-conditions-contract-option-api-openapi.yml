@@ -149,66 +149,65 @@ paths:
       x-required-permissions:
         personal: Read
 components:
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    ContractOptionRootMarginRequirement:
+    Models.Tax:
+      title: Tax details.
       type: object
       properties:
-        MinimumAmount:
-          title: Minimum amount
-          type: number
-          example: 10
-        MinimumUnderlyingValue:
-          title: Minimum underlying value in percentage
-          type: number
-          example: 10
-        Premium:
-          title: Premium in percentage - 1 equivalent to 100%
-          type: number
-          example: 10
-        TradingProfile:
-          title: The trading profile
+        BuySell:
+          title: "If absent, the tax applies to both the buy and the sell side. \n            If present, the value indicates what side of a trade the tax applies to."
+          allOf:
+          - $ref: '#/components/schemas/Enums.BuySell'
+        CalculationTriggerType:
+          title: Calculation trigger type of applied tax.
+          allOf:
+          - $ref: '#/components/schemas/CalculationTriggerType'
+        CalculationType:
+          title: Calculation type of applied tax.
+          allOf:
+          - $ref: '#/components/schemas/CalculationType'
+        CostCategory:
+          title: Cost category
+          allOf:
+          - $ref: '#/components/schemas/TransactionCostCategory'
+        CostDescription:
+          title: Additional cost description
           type: string
           example: stringValue
-        UnderlyingValueOvernightExposure:
-          title: Underlying value overnight exposure in percentage
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        MinimumUnderlyingValue: 0.5
-        Premium: 1
-        TradingProfile: Basic
-        UnderlyingValueOvernightExposure: 1
-    Exposure:
-      title: Exposure.
-      type: object
-      properties:
         Currency:
-          title: Currency if the limit is a value.
+          title: Currency in which tax value is calculated.
           type: string
           example: stringValue
-        Identifier:
-          title: The exposure identifier.
+        Description:
+          title: Type of applicable tax.
           type: string
           example: stringValue
-        Level:
-          title: Value in number of units of the instrument (shares, lots, etc.).
-          allOf:
-          - $ref: '#/components/schemas/ExposureLevel'
-        RuleType:
-          title: Exposure limit rule type.
-          allOf:
-          - $ref: '#/components/schemas/ExposureLimitRuleType'
+        MaxTradeValue:
+          title: Maximum trade value on which tax is applied.
+          type: number
+          example: 10
+        MinTradeValue:
+          title: Minimum trade value on which tax is applied.
+          type: number
+          example: 10
         Value:
-          title: The exposure value.
+          title: Value of tax applied based on CalculationType.
           type: number
           example: 10
       additionalProperties: false
       example:
-        Identifier: CL
-        Level: BaseContractNet
-        RuleType: Amount
-        Value: 200
+        BuySell: Buy
+        CalculationTriggerType: Normal
+        CalculationType: ValueFraction
+        Description: UK Stamp Duty
+        Value: 0.5
     ContractOptionTradingConditions:
       type: object
       properties:
@@ -391,221 +390,16 @@ components:
           Description: UK Stamp Duty
           Value: 0.5
         Uic: 99
-    ExchangeFeeRules:
-      title: Use to set configured exchange fee rule sets.
-      type: object
-      properties:
-        Currency:
-          title: Currency of fixed exchange fees
-          type: string
-          example: stringValue
-        Maximum:
-          title: Maxmimum fee value to be applied.
-          type: number
-          example: 10
-        Minimum:
-          title: Minimum fee value to be applied.
-          type: number
-          example: 10
-        OrderAction:
-          title: Determines the action basis which commission is applied.
-          allOf:
-          - $ref: '#/components/schemas/OrderActions'
-        Type:
-          title: Fee type.
-          allOf:
-          - $ref: '#/components/schemas/FeeTypes'
-        Value:
-          title: Fee value.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Currency: USD
-        Maximum: 999.99
-        Minimum: 1.99
-        OrderAction: ExecuteOrder
-        Type: PerLot
-        Value: 2.1
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    SettlementStyle:
+    Enums.BuySell:
+      title: Used to describe the direction of an order, action or trade.
       enum:
-      - CashDelivery
-      - PhysicalDelivery
+      - Buy
+      - Sell
       type: string
-      example: CashDelivery
+      example: Buy
       x-enum-descriptions:
-        CashDelivery: Cash settled
-        PhysicalDelivery: Physical delivery.
-    Models.HoldingFee:
-      title: Holding Fee.
-      type: object
-      properties:
-        EndPeriodInDays:
-          title: Maximum days to hold the option before the Holding fee value applies.
-          type: integer
-          format: int32
-          example: 99
-        FromPeriodInDays:
-          title: Minimum days to hold the option before the Holding fee value applies
-          type: integer
-          format: int32
-          example: 99
-        Value:
-          title: Holding fee value.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        FromPeriodInDays: 120
-        Value: 1.6
-    Models.CarryingCost:
-      title: Carrying Cost.
-      type: object
-      properties:
-        FixedRate:
-          title: A fixed or minimum monthly carrying cost.
-          type: number
-          example: 10
-        InterbankRate:
-          title: The interbank rate.
-          allOf:
-          - $ref: '#/components/schemas/InterbankRate'
-        MarkUpRate:
-          title: The carrying cost percentage markup on the Interbank rate.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        FixedRate: 1
-        InterbankRate:
-          AskRate: 2
-          BidRate: 1
-          TradeDate: '2022-10-31'
-        MarkUpRate: 1.5
-    ExposureLevel:
-      title: The ExposureLevel
-      enum:
-      - Asset
-      - BaseContractGross
-      - BaseContractNet
-      - Currency
-      - FxNOP
-      - Instrument
-      - Issuer
-      - Unknown
-      type: string
-      example: Unknown
-      x-enum-descriptions:
-        Unknown: Unknown
-        Currency: Exposure By Currency
-        Instrument: Exposure By instrument
-        Issuer: Exposure By issuer
-        Asset: Exposure By asset
-        BaseContractNet: Exposure By base contract net
-        BaseContractGross: Exposure By base contract gross
-        FxNOP: "FX Net Open Positions Value (combined negative \n            currency exposure across all currencies) the \n            client is limited to in a specified currency"
-    ScheduledContractOptionTradingCondition:
-      type: object
-      properties:
-        ContractOptionTradingCondition:
-          title: Contract Option Trading Conditions
-          allOf:
-          - $ref: '#/components/schemas/ContractOptionTradingConditions'
-        ScheduledDate:
-          title: Scheduled date for changes
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        ContractOptionTradingCondition:
-          AccountCurrency: stringValue
-          AssetType: CertificateCappedCapitalProtected
-          CarryingCost:
-            FixedRate: 1
-            InterbankRate:
-              AskRate: 2
-              BidRate: 1
-              TradeDate: '2022-10-31'
-            MarkUpRate: 1.5
-          CommissionLimits:
-          - Currency: USD
-            OrderAction: ExecuteOrder
-            PerUnitRate: 6
-          CurrencyConversion:
-            AskRate: 10
-            BidRate: 10
-            Markup: 10
-          CurrentSpread: 10
-          ExchangeFeeRules:
-          - Currency: USD
-            Maximum: 999.99
-            Minimum: 1.99
-            OrderAction: ExecuteOrder
-            Type: PerLot
-            Value: 2.1
-          ExchangeFees:
-          - Currency: USD
-            MaximumAmount: 9999
-            OrderAction: ExecuteOrder
-            PerLot: 1.52
-          ExerciseCutoffTime: '9999-12-31T23:59:59.999999Z'
-          ExerciseCutOffTime: '00:00:00.0000078'
-          ExpirationTime: '00:00:00.0000018'
-          ExpiryTime: '9999-12-31T23:59:59.999999Z'
-          ExposureLimits:
-          - Identifier: CL
-            Level: BaseContractNet
-            RuleType: Amount
-            Value: 200
-          FinanceInterestMarkUp: 10
-          HoldingFee:
-            FromPeriodInDays: 120
-            Value: 1.6
-          InstrumentCurrency: stringValue
-          IsTradable: true
-          LoanInterestCharge: 10
-          MarginRequirement:
-            MinimumUnderlyingValue: 0.5
-            Premium: 1
-            TradingProfile: Basic
-            UnderlyingValueOvernightExposure: 1
-          PortfolioBasedMargin:
-            ExtremeStressFactor: 15.6
-            Initial: 185.5
-            IntraWeek: 8.7
-            LiquidityThresholdAmount: 569987
-            LiquidityThresholdCurrency: USD
-            VolatilityAddOn: 1000.68
-            VolatilityStress: 100
-          Rating: 10
-          SettlementStyle: CashDelivery
-          SwapInterestMarkUp: 10
-          Taxes:
-          - BuySell: Buy
-            CalculationTriggerType: Normal
-            CalculationType: ValueFraction
-            Description: UK Stamp Duty
-            Value: 0.5
-          Uic: 99
-        ScheduledDate: '2022-11-03T17:32:11.3048606'
-    ExposureLimitRuleType:
-      title: Type of Rule
-      enum:
-      - Amount
-      - Percentage
-      - Value
-      type: string
-      example: Amount
-      x-enum-descriptions:
-        Amount: Amount type
-        Value: Value type
-        Percentage: Percentage type
+        Buy: Tax rule is applied on a buy.
+        Sell: Tax rule is applied on a sell.
     ContractOptionTradingConditionsResponse:
       type: object
       properties:
@@ -852,239 +646,6 @@ components:
           Description: UK Stamp Duty
           Value: 0.5
         Uic: 0
-    CommissionLimit:
-      title: Contains comissions for a range of comission types
-      type: object
-      properties:
-        BaseCommission:
-          title: Fixed commmission that if present, will always be charged.
-          type: number
-          example: 10
-        Currency:
-          title: The currency of the commission.
-          type: string
-          example: stringValue
-        MaxAmount:
-          title: Commission applied only to trade amounts below this value.
-          type: number
-          example: 10
-        MaxCommission:
-          title: Maximum commission applied if other commissions are above than this value.
-          type: number
-          example: 10
-        MaxNumberOfContracts:
-          title: Commission applied only to trade sizes (number of shares or lots) below this value.
-          type: number
-          example: 10
-        MaxPrice:
-          title: Commission applied only if the asset price is below this value.
-          type: number
-          example: 10
-        MinAmount:
-          title: Commission (percentage, amount / share or fixed amount) if the value of the trade is below this value.
-          type: number
-          example: 10
-        MinCommission:
-          title: Minimum commission applied if other commissions are lower than this value.
-          type: number
-          example: 10
-        MinNumberOfContracts:
-          title: Commission applied only to trade sizes (number of shares or lots) above this value.
-          type: number
-          example: 10
-        MinPrice:
-          title: Commission applied only if the asset price is above this value.
-          type: number
-          example: 10
-        MinSpread:
-          title: The minimum bid/ask spread that can be seen for the instrument.
-          type: number
-          example: 10
-        OrderAction:
-          title: Indicates what action on an order the commission limit applies to.
-          allOf:
-          - $ref: '#/components/schemas/OrderActions'
-        PerUnitRate:
-          title: Commission per share (or lot).
-          type: number
-          example: 10
-        RateOnAmount:
-          title: Commission as a percentage of the amount traded.
-          type: number
-          example: 10
-        SpreadMarkup:
-          title: Spread in Price units(Markup)
-          type: number
-          example: 10
-        SpreadRate:
-          title: The  spread (min.) for spread based (non-FX) products.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        Currency: USD
-        OrderAction: ExecuteOrder
-        PerUnitRate: 6
-    Models.Tax:
-      title: Tax details.
-      type: object
-      properties:
-        BuySell:
-          title: "If absent, the tax applies to both the buy and the sell side. \n            If present, the value indicates what side of a trade the tax applies to."
-          allOf:
-          - $ref: '#/components/schemas/Enums.BuySell'
-        CalculationTriggerType:
-          title: Calculation trigger type of applied tax.
-          allOf:
-          - $ref: '#/components/schemas/CalculationTriggerType'
-        CalculationType:
-          title: Calculation type of applied tax.
-          allOf:
-          - $ref: '#/components/schemas/CalculationType'
-        CostCategory:
-          title: Cost category
-          allOf:
-          - $ref: '#/components/schemas/TransactionCostCategory'
-        CostDescription:
-          title: Additional cost description
-          type: string
-          example: stringValue
-        Currency:
-          title: Currency in which tax value is calculated.
-          type: string
-          example: stringValue
-        Description:
-          title: Type of applicable tax.
-          type: string
-          example: stringValue
-        MaxTradeValue:
-          title: Maximum trade value on which tax is applied.
-          type: number
-          example: 10
-        MinTradeValue:
-          title: Minimum trade value on which tax is applied.
-          type: number
-          example: 10
-        Value:
-          title: Value of tax applied based on CalculationType.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        BuySell: Buy
-        CalculationTriggerType: Normal
-        CalculationType: ValueFraction
-        Description: UK Stamp Duty
-        Value: 0.5
-    ScheduledTradingConditionsFieldGroup:
-      title: Enum ScheduledTradingConditionFieldGroup
-      enum:
-      - ScheduledTradingConditions
-      type: string
-      example: ScheduledTradingConditions
-      x-enum-descriptions:
-        ScheduledTradingConditions: Scheduled Trading Conditions
-      x-type-warning: FlaggableEnum
-    CalculationType:
-      title: Calculation type.
-      enum:
-      - CommissionFraction
-      - FixedAmount
-      - TradeAmountFraction
-      - ValueFraction
-      type: string
-      example: FixedAmount
-      x-enum-descriptions:
-        FixedAmount: Tax is charged as fixed amount.
-        CommissionFraction: Tax is calculated as percentage of commission.
-        TradeAmountFraction: Tax is calculated as percentage of traded amount.
-        ValueFraction: Tax is calculated as percentage of total value.
-    CalculationTriggerType:
-      title: Calculation Trigger Type
-      enum:
-      - Netted
-      - Normal
-      type: string
-      example: Normal
-      x-enum-descriptions:
-        Normal: Normal
-        Netted: Netted
-    Enums.BuySell:
-      title: Used to describe the direction of an order, action or trade.
-      enum:
-      - Buy
-      - Sell
-      type: string
-      example: Buy
-      x-enum-descriptions:
-        Buy: Tax rule is applied on a buy.
-        Sell: Tax rule is applied on a sell.
-    OrderActions:
-      title: Order Actions.
-      enum:
-      - AlgorithmicOrder
-      - EtoAll
-      - EtoAssign
-      - EtoDelivery
-      - EtoExercise
-      - EtoExpiry
-      - ExecuteOrder
-      - SRDRollover
-      type: string
-      example: ExecuteOrder
-      x-enum-descriptions:
-        ExecuteOrder: On execute order.
-        AlgorithmicOrder: On execution of algorithmic order.
-        EtoExercise: EtoExercise
-        EtoAssign: EtoAssign
-        EtoDelivery: EtoDelivery
-        EtoExpiry: EtoExpiry
-        EtoAll: EtoAll
-        SRDRollover: SRD rollover fee
-    CurrencyConversion:
-      type: object
-      properties:
-        AskRate:
-          title: Gets or sets the ask.
-          type: number
-          example: 10
-        BidRate:
-          title: Gets or sets the bid.
-          type: number
-          example: 10
-        Markup:
-          title: Gets or sets the markup.
-          type: number
-          example: 10
-      additionalProperties: false
-      example:
-        AskRate: 10
-        BidRate: 10
-        Markup: 10
-    TransactionCostCategory:
-      title: Tax Cost category
-      enum:
-      - AdditionalTransactionCost
-      - Tax
-      type: string
-      example: Tax
-      x-enum-descriptions:
-        Tax: Cost is of tax type
-        AdditionalTransactionCost: Cost is a additonal cost over transaction
-    FeeTypes:
-      title: Exchange fee types
-      enum:
-      - Absolute
-      - PerAction
-      - PerLot
-      - Percentage
-      type: string
-      example: Absolute
-      x-enum-descriptions:
-        Absolute: Absolute fee value
-        PerLot: Per lot fee value.
-        PerAction: Per action fee value.
-        Percentage: Percentage fee value.
     AssetType:
       title: The possible AssetTypes for which you can get a quote or place an order or a trade.
       enum:
@@ -1243,6 +804,243 @@ components:
         LiquidityThresholdCurrency: USD
         VolatilityAddOn: 1000.68
         VolatilityStress: 100
+    OrderActions:
+      title: Order Actions.
+      enum:
+      - AlgorithmicOrder
+      - EtoAll
+      - EtoAssign
+      - EtoDelivery
+      - EtoExercise
+      - EtoExpiry
+      - ExecuteOrder
+      - SRDRollover
+      type: string
+      example: ExecuteOrder
+      x-enum-descriptions:
+        ExecuteOrder: On execute order.
+        AlgorithmicOrder: On execution of algorithmic order.
+        EtoExercise: EtoExercise
+        EtoAssign: EtoAssign
+        EtoDelivery: EtoDelivery
+        EtoExpiry: EtoExpiry
+        EtoAll: EtoAll
+        SRDRollover: SRD rollover fee
+    ExchangeFeeRules:
+      title: Use to set configured exchange fee rule sets.
+      type: object
+      properties:
+        Currency:
+          title: Currency of fixed exchange fees
+          type: string
+          example: stringValue
+        Maximum:
+          title: Maxmimum fee value to be applied.
+          type: number
+          example: 10
+        Minimum:
+          title: Minimum fee value to be applied.
+          type: number
+          example: 10
+        OrderAction:
+          title: Determines the action basis which commission is applied.
+          allOf:
+          - $ref: '#/components/schemas/OrderActions'
+        Type:
+          title: Fee type.
+          allOf:
+          - $ref: '#/components/schemas/FeeTypes'
+        Value:
+          title: Fee value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: USD
+        Maximum: 999.99
+        Minimum: 1.99
+        OrderAction: ExecuteOrder
+        Type: PerLot
+        Value: 2.1
+    CalculationType:
+      title: Calculation type.
+      enum:
+      - CommissionFraction
+      - FixedAmount
+      - TradeAmountFraction
+      - ValueFraction
+      type: string
+      example: FixedAmount
+      x-enum-descriptions:
+        FixedAmount: Tax is charged as fixed amount.
+        CommissionFraction: Tax is calculated as percentage of commission.
+        TradeAmountFraction: Tax is calculated as percentage of traded amount.
+        ValueFraction: Tax is calculated as percentage of total value.
+    CalculationTriggerType:
+      title: Calculation Trigger Type
+      enum:
+      - Netted
+      - Normal
+      type: string
+      example: Normal
+      x-enum-descriptions:
+        Normal: Normal
+        Netted: Netted
+    TransactionCostCategory:
+      title: Tax Cost category
+      enum:
+      - AdditionalTransactionCost
+      - Tax
+      type: string
+      example: Tax
+      x-enum-descriptions:
+        Tax: Cost is of tax type
+        AdditionalTransactionCost: Cost is a additonal cost over transaction
+    FeeTypes:
+      title: Exchange fee types
+      enum:
+      - Absolute
+      - PerAction
+      - PerLot
+      - Percentage
+      type: string
+      example: Absolute
+      x-enum-descriptions:
+        Absolute: Absolute fee value
+        PerLot: Per lot fee value.
+        PerAction: Per action fee value.
+        Percentage: Percentage fee value.
+    ContractOptionRootMarginRequirement:
+      type: object
+      properties:
+        MinimumAmount:
+          title: Minimum amount
+          type: number
+          example: 10
+        MinimumUnderlyingValue:
+          title: Minimum underlying value in percentage
+          type: number
+          example: 10
+        Premium:
+          title: Premium in percentage - 1 equivalent to 100%
+          type: number
+          example: 10
+        TradingProfile:
+          title: The trading profile
+          type: string
+          example: stringValue
+        UnderlyingValueOvernightExposure:
+          title: Underlying value overnight exposure in percentage
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        MinimumUnderlyingValue: 0.5
+        Premium: 1
+        TradingProfile: Basic
+        UnderlyingValueOvernightExposure: 1
+    ScheduledTradingConditionsFieldGroup:
+      title: Enum ScheduledTradingConditionFieldGroup
+      enum:
+      - ScheduledTradingConditions
+      type: string
+      example: ScheduledTradingConditions
+      x-enum-descriptions:
+        ScheduledTradingConditions: Scheduled Trading Conditions
+      x-type-warning: FlaggableEnum
+    SettlementStyle:
+      enum:
+      - CashDelivery
+      - PhysicalDelivery
+      type: string
+      example: CashDelivery
+      x-enum-descriptions:
+        CashDelivery: Cash settled
+        PhysicalDelivery: Physical delivery.
+    ScheduledContractOptionTradingCondition:
+      type: object
+      properties:
+        ContractOptionTradingCondition:
+          title: Contract Option Trading Conditions
+          allOf:
+          - $ref: '#/components/schemas/ContractOptionTradingConditions'
+        ScheduledDate:
+          title: Scheduled date for changes
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        ContractOptionTradingCondition:
+          AccountCurrency: stringValue
+          AssetType: CertificateCappedCapitalProtected
+          CarryingCost:
+            FixedRate: 1
+            InterbankRate:
+              AskRate: 2
+              BidRate: 1
+              TradeDate: '2022-10-31'
+            MarkUpRate: 1.5
+          CommissionLimits:
+          - Currency: USD
+            OrderAction: ExecuteOrder
+            PerUnitRate: 6
+          CurrencyConversion:
+            AskRate: 10
+            BidRate: 10
+            Markup: 10
+          CurrentSpread: 10
+          ExchangeFeeRules:
+          - Currency: USD
+            Maximum: 999.99
+            Minimum: 1.99
+            OrderAction: ExecuteOrder
+            Type: PerLot
+            Value: 2.1
+          ExchangeFees:
+          - Currency: USD
+            MaximumAmount: 9999
+            OrderAction: ExecuteOrder
+            PerLot: 1.52
+          ExerciseCutoffTime: '9999-12-31T23:59:59.999999Z'
+          ExerciseCutOffTime: '00:00:00.0000078'
+          ExpirationTime: '00:00:00.0000018'
+          ExpiryTime: '9999-12-31T23:59:59.999999Z'
+          ExposureLimits:
+          - Identifier: CL
+            Level: BaseContractNet
+            RuleType: Amount
+            Value: 200
+          FinanceInterestMarkUp: 10
+          HoldingFee:
+            FromPeriodInDays: 120
+            Value: 1.6
+          InstrumentCurrency: stringValue
+          IsTradable: true
+          LoanInterestCharge: 10
+          MarginRequirement:
+            MinimumUnderlyingValue: 0.5
+            Premium: 1
+            TradingProfile: Basic
+            UnderlyingValueOvernightExposure: 1
+          PortfolioBasedMargin:
+            ExtremeStressFactor: 15.6
+            Initial: 185.5
+            IntraWeek: 8.7
+            LiquidityThresholdAmount: 569987
+            LiquidityThresholdCurrency: USD
+            VolatilityAddOn: 1000.68
+            VolatilityStress: 100
+          Rating: 10
+          SettlementStyle: CashDelivery
+          SwapInterestMarkUp: 10
+          Taxes:
+          - BuySell: Buy
+            CalculationTriggerType: Normal
+            CalculationType: ValueFraction
+            Description: UK Stamp Duty
+            Value: 0.5
+          Uic: 99
+        ScheduledDate: '2022-11-03T17:32:11.3048606'
     InterbankRate:
       title: The Interbank rate
       type: object
@@ -1265,13 +1063,215 @@ components:
         AskRate: 1
         BidRate: 2
         TradeDate: '0001-01-01'
-  responses:
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
+    Models.CarryingCost:
+      title: Carrying Cost.
+      type: object
+      properties:
+        FixedRate:
+          title: A fixed or minimum monthly carrying cost.
+          type: number
+          example: 10
+        InterbankRate:
+          title: The interbank rate.
+          allOf:
+          - $ref: '#/components/schemas/InterbankRate'
+        MarkUpRate:
+          title: The carrying cost percentage markup on the Interbank rate.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        FixedRate: 1
+        InterbankRate:
+          AskRate: 2
+          BidRate: 1
+          TradeDate: '2022-10-31'
+        MarkUpRate: 1.5
+    Exposure:
+      title: Exposure.
+      type: object
+      properties:
+        Currency:
+          title: Currency if the limit is a value.
+          type: string
+          example: stringValue
+        Identifier:
+          title: The exposure identifier.
+          type: string
+          example: stringValue
+        Level:
+          title: Value in number of units of the instrument (shares, lots, etc.).
+          allOf:
+          - $ref: '#/components/schemas/ExposureLevel'
+        RuleType:
+          title: Exposure limit rule type.
+          allOf:
+          - $ref: '#/components/schemas/ExposureLimitRuleType'
+        Value:
+          title: The exposure value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Identifier: CL
+        Level: BaseContractNet
+        RuleType: Amount
+        Value: 200
+    CommissionLimit:
+      title: Contains comissions for a range of comission types
+      type: object
+      properties:
+        BaseCommission:
+          title: Fixed commmission that if present, will always be charged.
+          type: number
+          example: 10
+        Currency:
+          title: The currency of the commission.
+          type: string
+          example: stringValue
+        MaxAmount:
+          title: Commission applied only to trade amounts below this value.
+          type: number
+          example: 10
+        MaxCommission:
+          title: Maximum commission applied if other commissions are above than this value.
+          type: number
+          example: 10
+        MaxNumberOfContracts:
+          title: Commission applied only to trade sizes (number of shares or lots) below this value.
+          type: number
+          example: 10
+        MaxPrice:
+          title: Commission applied only if the asset price is below this value.
+          type: number
+          example: 10
+        MinAmount:
+          title: Commission (percentage, amount / share or fixed amount) if the value of the trade is below this value.
+          type: number
+          example: 10
+        MinCommission:
+          title: Minimum commission applied if other commissions are lower than this value.
+          type: number
+          example: 10
+        MinNumberOfContracts:
+          title: Commission applied only to trade sizes (number of shares or lots) above this value.
+          type: number
+          example: 10
+        MinPrice:
+          title: Commission applied only if the asset price is above this value.
+          type: number
+          example: 10
+        MinSpread:
+          title: The minimum bid/ask spread that can be seen for the instrument.
+          type: number
+          example: 10
+        OrderAction:
+          title: Indicates what action on an order the commission limit applies to.
+          allOf:
+          - $ref: '#/components/schemas/OrderActions'
+        PerUnitRate:
+          title: Commission per share (or lot).
+          type: number
+          example: 10
+        RateOnAmount:
+          title: Commission as a percentage of the amount traded.
+          type: number
+          example: 10
+        SpreadMarkup:
+          title: Spread in Price units(Markup)
+          type: number
+          example: 10
+        SpreadRate:
+          title: The  spread (min.) for spread based (non-FX) products.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        Currency: USD
+        OrderAction: ExecuteOrder
+        PerUnitRate: 6
+    ExposureLevel:
+      title: The ExposureLevel
+      enum:
+      - Asset
+      - BaseContractGross
+      - BaseContractNet
+      - Currency
+      - FxNOP
+      - Instrument
+      - Issuer
+      - Unknown
+      type: string
+      example: Unknown
+      x-enum-descriptions:
+        Unknown: Unknown
+        Currency: Exposure By Currency
+        Instrument: Exposure By instrument
+        Issuer: Exposure By issuer
+        Asset: Exposure By asset
+        BaseContractNet: Exposure By base contract net
+        BaseContractGross: Exposure By base contract gross
+        FxNOP: "FX Net Open Positions Value (combined negative \n            currency exposure across all currencies) the \n            client is limited to in a specified currency"
+    ExposureLimitRuleType:
+      title: Type of Rule
+      enum:
+      - Amount
+      - Percentage
+      - Value
+      type: string
+      example: Amount
+      x-enum-descriptions:
+        Amount: Amount type
+        Value: Value type
+        Percentage: Percentage type
+    Models.HoldingFee:
+      title: Holding Fee.
+      type: object
+      properties:
+        EndPeriodInDays:
+          title: Maximum days to hold the option before the Holding fee value applies.
+          type: integer
+          format: int32
+          example: 99
+        FromPeriodInDays:
+          title: Minimum days to hold the option before the Holding fee value applies
+          type: integer
+          format: int32
+          example: 99
+        Value:
+          title: Holding fee value.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        FromPeriodInDays: 120
+        Value: 1.6
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CurrencyConversion:
+      type: object
+      properties:
+        AskRate:
+          title: Gets or sets the ask.
+          type: number
+          example: 10
+        BidRate:
+          title: Gets or sets the bid.
+          type: number
+          example: 10
+        Markup:
+          title: Gets or sets the markup.
+          type: number
+          example: 10
+      additionalProperties: false
+      example:
+        AskRate: 10
+        BidRate: 10
+        Markup: 10
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

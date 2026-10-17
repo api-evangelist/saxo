@@ -49,50 +49,10 @@ paths:
       - OpenApiJWTSecurityScheme: []
       x-required-permissions:
         personal: Read
-      summary: User info V1 user info
+      summary: User info V1User info
       x-summary-source: derived
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    AccountAccessMode:
-      title: Account access mode indicating the maximum aggregation level of data for accounts.
-      enum:
-      - All
-      - Restricted
-      - ViewAll
-      type: string
-      example: All
-      x-enum-descriptions:
-        All: "User has no explicit restriction for operating on accounts, which means\n            it may operate on all accounts under its client only depending on its roles and operations."
-        ViewAll: The user can view all accounts under its client, but have limited rights to interact with them.
-        Restricted: Some accounts are not visible to user.
     MyUserInfo:
       title: Information about current user.
       type: object
@@ -153,12 +113,6 @@ components:
         Roles:
         - OAPI.Roles.RetailClient
         UserId: 690261150
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     AccessRights:
       title: Defines access rights for a given user.
       type: object
@@ -194,6 +148,52 @@ components:
       minimum: 1
       type: integer
       format: int32
+    AccountAccessMode:
+      title: Account access mode indicating the maximum aggregation level of data for accounts.
+      enum:
+      - All
+      - Restricted
+      - ViewAll
+      type: string
+      example: All
+      x-enum-descriptions:
+        All: "User has no explicit restriction for operating on accounts, which means\n            it may operate on all accounts under its client only depending on its roles and operations."
+        ViewAll: The user can view all accounts under its client, but have limited rights to interact with them.
+        Restricted: Some accounts are not visible to user.
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

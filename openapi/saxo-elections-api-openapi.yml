@@ -284,29 +284,7 @@ paths:
       x-required-permissions:
         confidential: Write
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    BulkElectionResponse:
-      title: Bulk election response
-      type: object
-      properties:
-        AccountId:
-          title: Account id
-          type: string
-        Message:
-          title: Message
-          type: string
-        Status:
-          title: Status
-          allOf:
-          - $ref: '#/components/schemas/StatusCode'
-      additionalProperties: false
     BulkElectionResponseListResult:
       type: object
       properties:
@@ -325,6 +303,15 @@ components:
           type: string
           description: The link for the next page of items in the feed.
       additionalProperties: false
+    StatusCode:
+      title: Status
+      enum:
+      - Accepted
+      - Rejected
+      type: string
+      x-enum-descriptions:
+        Accepted: Accepted
+        Rejected: Rejected
     OptionInstruction:
       title: Election instruction on option
       required:
@@ -343,71 +330,6 @@ components:
           title: Remarks by client
           type: string
       additionalProperties: false
-    Account:
-      title: Account key wrapper
-      required:
-      - AccountKey
-      type: object
-      properties:
-        AccountKey:
-          title: Account key
-          minLength: 1
-          type: string
-          x-type-name: AccountKey
-      additionalProperties: false
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    BulkElectionRequest:
-      title: Bulk election instruction
-      required:
-      - Accounts
-      - EventId
-      - Options
-      type: object
-      properties:
-        Accounts:
-          title: Accounts on which elections are to be made
-          type: array
-          items:
-            $ref: '#/components/schemas/Account'
-        EventId:
-          title: Event on which election is to be made
-          pattern: ^\d*$
-          type: string
-        Options:
-          title: Instruction per option for bulk election
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkOptionInstruction'
-      additionalProperties: false
-    BulkOptionInstruction:
-      title: Election instruction on option for bulk election
-      required:
-      - OptionId
-      - AmountPct
-      type: object
-      properties:
-        AmountPct:
-          title: Quantity to be elected, in percentage
-          type: number
-        OptionId:
-          title: Option on which election is to be made
-          pattern: ^\d*$
-          type: string
-      additionalProperties: false
-    StatusCode:
-      title: Status
-      enum:
-      - Accepted
-      - Rejected
-      type: string
-      x-enum-descriptions:
-        Accepted: Accepted
-        Rejected: Rejected
     ElectionRequest:
       title: Election instruction
       required:
@@ -431,6 +353,84 @@ components:
           items:
             $ref: '#/components/schemas/OptionInstruction'
       additionalProperties: false
+    BulkElectionResponse:
+      title: Bulk election response
+      type: object
+      properties:
+        AccountId:
+          title: Account id
+          type: string
+        Message:
+          title: Message
+          type: string
+        Status:
+          title: Status
+          allOf:
+          - $ref: '#/components/schemas/StatusCode'
+      additionalProperties: false
+    BulkOptionInstruction:
+      title: Election instruction on option for bulk election
+      required:
+      - OptionId
+      - AmountPct
+      type: object
+      properties:
+        AmountPct:
+          title: Quantity to be elected, in percentage
+          type: number
+        OptionId:
+          title: Option on which election is to be made
+          pattern: ^\d*$
+          type: string
+      additionalProperties: false
+    BulkElectionRequest:
+      title: Bulk election instruction
+      required:
+      - Accounts
+      - EventId
+      - Options
+      type: object
+      properties:
+        Accounts:
+          title: Accounts on which elections are to be made
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        EventId:
+          title: Event on which election is to be made
+          pattern: ^\d*$
+          type: string
+        Options:
+          title: Instruction per option for bulk election
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkOptionInstruction'
+      additionalProperties: false
+    Account:
+      title: Account key wrapper
+      required:
+      - AccountKey
+      type: object
+      properties:
+        AccountKey:
+          title: Account key
+          minLength: 1
+          type: string
+          x-type-name: AccountKey
+      additionalProperties: false
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

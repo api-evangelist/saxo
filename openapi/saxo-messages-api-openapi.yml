@@ -445,34 +445,6 @@ paths:
       x-required-permissions:
         personal: Read
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
     TradeMessageResponseListResult:
       type: object
@@ -528,68 +500,6 @@ components:
           example: 99
       additionalProperties: false
       example: null
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    TradeMessageSubscriptionRequest:
-      title: Public request contract for setting up a subscription for trade messages.
-      required:
-      - ContextId
-      - ReferenceId
-      type: object
-      properties:
-        ContextId:
-          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9_-]{1,50}$
-          type: string
-          example: ContextId-1
-          x-display-order: 1
-        ReferenceId:
-          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReferenceId-1
-          x-display-order: 2
-        Format:
-          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
-          type: string
-          example: application/json
-        RefreshRate:
-          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
-          maximum: 2147483647
-          minimum: 0
-          type: integer
-          format: int32
-          example: 0
-        ReplaceReferenceId:
-          title: Reference id of the subscription that should be replaced.
-          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
-          type: string
-          example: ReplaceReferenceId-1
-        Tag:
-          title: Optional client specified tag used for grouping subscriptions.
-          type: string
-          example: ClientTag
-      additionalProperties: false
-      example:
-        ContextId: '20221030063404760'
-        Format: application/json
-        ReferenceId: TM42897
-        RefreshRate: 5
-        Tag: PAGE1
-    MessageDisplayType:
-      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
-      enum:
-      - Default
-      - Popup
-      type: string
-      example: Default
-      x-enum-descriptions:
-        Default: No message render method is set.
-        Popup: Message is to popup suggesting immediate attention
     TradeMessageSubscriptionResponse:
       title: Public response contract returned after setting up a subscription for trade messages.
       type: object
@@ -649,6 +559,74 @@ components:
             MessageType: PriceAlert
         State: Active
         Tag: PAGE1
+    TradeMessageType:
+      title: Enumeration of message types used by trade message subscriptions.
+      enum:
+      - AccountDepreciation
+      - MarginCall
+      - Mifid
+      - Notification
+      - PositionDepreciation
+      - PriceAlert
+      - ShareWorkspaceNotification
+      - TradeConfirmation
+      type: string
+      example: PriceAlert
+      x-enum-descriptions:
+        TradeConfirmation: "A very broad set of notifications related to orders and positions. For example:\n            \n\n*   An order has been placed\n*   An order has expired\n*   An order has been (partially) filled\n*   An order was cancelled\n*   A position was stopped out (due to insufficient margin)\n*   A position was placed"
+        MarginCall: A margin call is a message informing the client about loses affecting his ability fulfill the margin requirements of his positions in the market.
+        PriceAlert: A price alert has been triggered
+        Notification: Message from broker to end client
+        Mifid: A change has been made to the clients Mifid classification. Only sent for configured client segments.
+        PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
+        ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
+    TradeMessageSubscriptionRequest:
+      title: Public request contract for setting up a subscription for trade messages.
+      required:
+      - ContextId
+      - ReferenceId
+      type: object
+      properties:
+        ContextId:
+          title: "The streaming context id that this request is associated with.\n            This parameter must only contain letters (a-z) and numbers (0-9) as well as - (dash) and _ (underscore). It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9_-]{1,50}$
+          type: string
+          example: ContextId-1
+          x-display-order: 1
+        ReferenceId:
+          title: "Mandatory client specified reference id for the subscription.\n            This parameter must only contain alphanumberic characters as well as - (dash) and _ (underscore). Cannot start with _. It is case insensitive. Max length is 50 characters."
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReferenceId-1
+          x-display-order: 2
+        Format:
+          title: "Optional Media type (RFC 2046) of the serialized data updates that are streamed to the client.\n            Currently only application/json and application/x-protobuf is supported.\n            If an unrecognized format is specified, the subscription end point will return HTTP status code 400 - Bad format."
+          type: string
+          example: application/json
+        RefreshRate:
+          title: "Optional custom refresh rate, measured in milliseconds, between each data update.\n            Note that it is not possible to get a refresh rate lower than the rate specified in the\n            customer service level agreement (SLA)."
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+          example: 0
+        ReplaceReferenceId:
+          title: Reference id of the subscription that should be replaced.
+          pattern: ^[a-zA-Z0-9-][a-zA-Z0-9_-]{0,49}$
+          type: string
+          example: ReplaceReferenceId-1
+        Tag:
+          title: Optional client specified tag used for grouping subscriptions.
+          type: string
+          example: ClientTag
+      additionalProperties: false
+      example:
+        ContextId: '20221030063404760'
+        Format: application/json
+        ReferenceId: TM42897
+        RefreshRate: 5
+        Tag: PAGE1
     TradeMessageResponse:
       title: "Public data contract representing a message, which should be displayed to the user.\n            The text is formatted in the language specified in the request header."
       type: object
@@ -686,28 +664,50 @@ components:
         MessageHeader: Price Alert
         MessageId: '345322'
         MessageType: PriceAlert
-    TradeMessageType:
-      title: Enumeration of message types used by trade message subscriptions.
+    MessageDisplayType:
+      title: Indicates how a message is to be displayed in UI. Ie how much attention it is to demand.
       enum:
-      - AccountDepreciation
-      - MarginCall
-      - Mifid
-      - Notification
-      - PositionDepreciation
-      - PriceAlert
-      - ShareWorkspaceNotification
-      - TradeConfirmation
+      - Default
+      - Popup
       type: string
-      example: PriceAlert
+      example: Default
       x-enum-descriptions:
-        TradeConfirmation: "A very broad set of notifications related to orders and positions. For example:\n            \n\n*   An order has been placed\n*   An order has expired\n*   An order has been (partially) filled\n*   An order was cancelled\n*   A position was stopped out (due to insufficient margin)\n*   A position was placed"
-        MarginCall: A margin call is a message informing the client about loses affecting his ability fulfill the margin requirements of his positions in the market.
-        PriceAlert: A price alert has been triggered
-        Notification: Message from broker to end client
-        Mifid: A change has been made to the clients Mifid classification. Only sent for configured client segments.
-        PositionDepreciation: "Message to indicate that a position has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
-        AccountDepreciation: "Message to indicate that an account has depreciated beyond a limit as specified by MIFID II regulations.\n            Only sent for configured client segments."
-        ShareWorkspaceNotification: 'Platform Workspace Notification:  Share workspace notification'
+        Default: No message render method is set.
+        Popup: Message is to popup suggesting immediate attention
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

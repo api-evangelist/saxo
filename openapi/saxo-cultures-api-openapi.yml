@@ -47,8 +47,6 @@ components:
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -72,6 +70,8 @@ components:
                 $ref: '#/components/schemas/ModelStateDictionary'
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
     ModelStateDictionary:
       type: object
@@ -79,22 +79,6 @@ components:
         type: array
         items:
           type: string
-    CultureDetails:
-      title: Information about a culture in the format provided in Windows
-      type: object
-      properties:
-        CultureCode:
-          title: The culture code in the format {ll}-{cc}, where ll is the language and cc is the country.
-          type: string
-          example: stringValue
-        Name:
-          title: Description/Displayname.
-          type: string
-          example: stringValue
-      additionalProperties: false
-      example:
-        CultureCode: nl-NL
-        Name: Dutch (Netherlands)
     CultureDetailsListResult:
       type: object
       properties:
@@ -118,6 +102,22 @@ components:
         - CultureCode: nl-NL
           Name: Dutch (Netherlands)
         MaxRows: 99
+    CultureDetails:
+      title: Information about a culture in the format provided in Windows
+      type: object
+      properties:
+        CultureCode:
+          title: The culture code in the format {ll}-{cc}, where ll is the language and cc is the country.
+          type: string
+          example: stringValue
+        Name:
+          title: Description/Displayname.
+          type: string
+          example: stringValue
+      additionalProperties: false
+      example:
+        CultureCode: nl-NL
+        Name: Dutch (Netherlands)
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

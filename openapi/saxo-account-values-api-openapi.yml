@@ -75,8 +75,6 @@ components:
   responses:
     TooManyRequests:
       description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
     BadRequest:
       description: One or more of the provided parameters are invalid.
       content:
@@ -100,44 +98,9 @@ components:
                 $ref: '#/components/schemas/ModelStateDictionary'
     Unauthorized:
       description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   schemas:
-    StandardPeriodsAccountValues:
-      title: OpenApi data contract used to get the account values for standard periods.
-      type: object
-      properties:
-        AccountValue:
-          title: The account value on last reported trade date.
-          type: number
-          example: 10
-        AccountValueMonth:
-          title: The account value a calendar month ago.
-          type: number
-          example: 10
-        AccountValueYear:
-          title: The account value a calendar year ago.
-          type: number
-          example: 10
-        Key:
-          title: The key associated with these values (encrypted).
-          type: string
-          example: stringValue
-        KeyType:
-          title: The type of summary key (Client, Group or Account level).
-          allOf:
-          - $ref: '#/components/schemas/KeyType'
-      additionalProperties: false
-      example:
-        AccountValue: 10
-        AccountValueMonth: 10
-        AccountValueYear: 10
-        Key: stringValue
-        KeyType: Client
-    ModelStateDictionary:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
     StandardPeriodsAccountValuesListResult:
       type: object
       properties:
@@ -185,6 +148,43 @@ components:
         Client: Client.
         AccountGroup: AccountGroup.
         Account: Account.
+    StandardPeriodsAccountValues:
+      title: OpenApi data contract used to get the account values for standard periods.
+      type: object
+      properties:
+        AccountValue:
+          title: The account value on last reported trade date.
+          type: number
+          example: 10
+        AccountValueMonth:
+          title: The account value a calendar month ago.
+          type: number
+          example: 10
+        AccountValueYear:
+          title: The account value a calendar year ago.
+          type: number
+          example: 10
+        Key:
+          title: The key associated with these values (encrypted).
+          type: string
+          example: stringValue
+        KeyType:
+          title: The type of summary key (Client, Group or Account level).
+          allOf:
+          - $ref: '#/components/schemas/KeyType'
+      additionalProperties: false
+      example:
+        AccountValue: 10
+        AccountValueMonth: 10
+        AccountValueYear: 10
+        Key: stringValue
+        KeyType: Client
+    ModelStateDictionary:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http

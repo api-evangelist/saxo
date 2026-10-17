@@ -82,74 +82,7 @@ paths:
       x-required-permissions:
         restricted: Read
 components:
-  responses:
-    TooManyRequests:
-      description: The request was rejected due to rate limit being exceeded.
-    ServiceUnavailable:
-      description: Service Unavailable.
-    BadRequest:
-      description: One or more of the provided parameters are invalid.
-      content:
-        application/json:
-          schema:
-            required:
-            - ErrorCode
-            - Message
-            type: object
-            properties:
-              ErrorCode:
-                enum:
-                - InvalidRequest
-                type: string
-                example: None
-                x-enum-descriptions:
-                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
-              Message:
-                type: string
-              ModelState:
-                $ref: '#/components/schemas/ModelStateDictionary'
-    Unauthorized:
-      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
   schemas:
-    CurrencyPairDetails:
-      title: Represents a currency pair.
-      type: object
-      properties:
-        CurrencyCode:
-          title: Currency code.
-          type: string
-          example: stringValue
-        RelatedCurrencies:
-          title: List of related currencies to currency code
-          type: array
-          items:
-            $ref: '#/components/schemas/RelatedCurrency'
-          example:
-          - CurrencyCode: stringValue
-            Uic: 99
-      additionalProperties: false
-      example:
-        CurrencyCode: stringValue
-        RelatedCurrencies:
-        - CurrencyCode: stringValue
-          Uic: 99
-    RelatedCurrency:
-      title: Responsible for carrying information about a related currency code and the pairs Uic.
-      type: object
-      properties:
-        CurrencyCode:
-          title: CurrencyCode.
-          type: string
-          example: stringValue
-        Uic:
-          title: Uic.
-          type: integer
-          format: int32
-          example: 99
-      additionalProperties: false
-      example:
-        CurrencyCode: stringValue
-        Uic: 99
     CurrencyPairDetailsListResult:
       type: object
       properties:
@@ -194,12 +127,79 @@ components:
             Uic: 32
           - CurrencyCode: USD
             Uic: 17764
+    CurrencyPairDetails:
+      title: Represents a currency pair.
+      type: object
+      properties:
+        CurrencyCode:
+          title: Currency code.
+          type: string
+          example: stringValue
+        RelatedCurrencies:
+          title: List of related currencies to currency code
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedCurrency'
+          example:
+          - CurrencyCode: stringValue
+            Uic: 99
+      additionalProperties: false
+      example:
+        CurrencyCode: stringValue
+        RelatedCurrencies:
+        - CurrencyCode: stringValue
+          Uic: 99
+    RelatedCurrency:
+      title: Responsible for carrying information about a related currency code and the pairs Uic.
+      type: object
+      properties:
+        CurrencyCode:
+          title: CurrencyCode.
+          type: string
+          example: stringValue
+        Uic:
+          title: Uic.
+          type: integer
+          format: int32
+          example: 99
+      additionalProperties: false
+      example:
+        CurrencyCode: stringValue
+        Uic: 99
     ModelStateDictionary:
       type: object
       additionalProperties:
         type: array
         items:
           type: string
+  responses:
+    TooManyRequests:
+      description: The request was rejected due to rate limit being exceeded.
+    BadRequest:
+      description: One or more of the provided parameters are invalid.
+      content:
+        application/json:
+          schema:
+            required:
+            - ErrorCode
+            - Message
+            type: object
+            properties:
+              ErrorCode:
+                enum:
+                - InvalidRequest
+                type: string
+                example: None
+                x-enum-descriptions:
+                  InvalidRequest: Default error code returned when it cannot be determined which part of the request is malformed.
+              Message:
+                type: string
+              ModelState:
+                $ref: '#/components/schemas/ModelStateDictionary'
+    Unauthorized:
+      description: Indicates that the request was rejected because the 'Authorization' header was missing in the request or contained an invalid security token.
+    ServiceUnavailable:
+      description: Service Unavailable.
   securitySchemes:
     OpenApiJWTSecurityScheme:
       type: http
